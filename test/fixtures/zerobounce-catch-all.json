@@ -1,0 +1,14 @@
+{
+  "address": "controlled@example.test",
+  "status": "catch-all",
+  "sub_status": "accept_all",
+  "free_email": false,
+  "catchall_domain": true,
+  "did_you_mean": null,
+  "account": "controlled",
+  "domain": "example.test",
+  "domain_age_days": null,
+  "mx_found": "true",
+  "mx_record": "mx.example.test",
+  "processed_at": "2026-08-16 00:00:00"
+}

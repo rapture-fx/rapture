@@ -1,0 +1,18 @@
+{
+  "data": {
+    "status": "valid",
+    "score": 100,
+    "email": "controlled@example.test",
+    "regexp": true,
+    "gibberish": false,
+    "disposable": false,
+    "webmail": false,
+    "mx_records": true,
+    "smtp_server": true,
+    "smtp_check": true,
+    "accept_all": false,
+    "block": false,
+    "sources": []
+  },
+  "meta": { "params": { "email": "controlled@example.test" } }
+}

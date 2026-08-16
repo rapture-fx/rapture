@@ -1,0 +1,15 @@
+{
+  "result": "undeliverable",
+  "reason": "rejected_email",
+  "role": false,
+  "free": false,
+  "disposable": false,
+  "accept_all": false,
+  "did_you_mean": null,
+  "sendex": 0,
+  "email": "controlled@example.test",
+  "user": "controlled",
+  "domain": "example.test",
+  "success": true,
+  "message": null
+}
