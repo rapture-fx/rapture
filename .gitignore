@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.db
+*.db-*
+results/live/
+benchmark/results/
+*.log
+.DS_Store
+
