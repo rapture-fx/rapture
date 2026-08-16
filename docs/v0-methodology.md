@@ -51,6 +51,9 @@ Every provider call is an attempt and incurs its configured marginal cost unless
 the account's documented billing behavior says otherwise. Fallback is allowed
 only after failure or a non-decisive result and only within the remaining caller
 budget. No invisible retry of a potentially billable request is permitted.
+A durable intent is fsynced before each provider call, followed by an immutable
+completion record. An intent without a completion is an explicitly unresolved
+attempt after a crash or storage failure; it must be reconciled before replay.
 
 ## Frozen decisions
 

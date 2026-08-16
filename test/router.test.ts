@@ -97,6 +97,7 @@ describe("OperationRouter", () => {
       execution: { provider: "second", fallbackUsed: true },
     });
     expect(store.records).toHaveLength(2);
+    expect(store.intents).toHaveLength(2);
     expect(store.records[1]?.fallbackFromRecordId).toBe("record-1");
     expect(store.records.map((record) => record.costMicroUsd)).toEqual([
       "3",
@@ -145,6 +146,7 @@ describe("OperationRouter", () => {
 
   it("fails rather than claim success if paid-attempt persistence fails", async () => {
     const failedStore: ExecutionStore = {
+      beginAttempt: () => Effect.void,
       append: () => Effect.fail(new PersistenceFailure()),
     };
     const router = createOperationRouter({
@@ -168,6 +170,42 @@ describe("OperationRouter", () => {
     const exit = await Effect.runPromiseExit(router.verifyEmail(request));
     expect(Exit.isFailure(exit)).toBe(true);
     expect(String(exit)).toContain("persistence_failure");
+  });
+
+  it("does not call a provider when write-ahead intent persistence fails", async () => {
+    let providerCalled = false;
+    const failedStore: ExecutionStore = {
+      beginAttempt: () => Effect.fail(new PersistenceFailure()),
+      append: () => Effect.void,
+    };
+    const guardedAdapter: ProviderAdapter = {
+      id: "first",
+      configured: true,
+      costPerAttempt: microUsd(3n),
+      verify: () => {
+        providerCalled = true;
+        return Effect.succeed({
+          decision: "send",
+          confidence: "high",
+          evidence,
+          mappingCode: "valid",
+        });
+      },
+    };
+    const router = createOperationRouter({
+      adapters: [guardedAdapter],
+      profiles: [profile("first", 3n)],
+      policy: {
+        calibrationId: "fixture",
+        orderedProviderIds: ["first"],
+        minimumLatencySamples: 10,
+      },
+      store: failedStore,
+      clock: clock(),
+    });
+    const exit = await Effect.runPromiseExit(router.verifyEmail(request));
+    expect(Exit.isFailure(exit)).toBe(true);
+    expect(providerCalled).toBe(false);
   });
 
   it("short-circuits invalid syntax without a billable attempt", async () => {

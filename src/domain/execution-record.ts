@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 
 export const ExecutionRecordSchema = Schema.Struct({
+  recordType: Schema.Literal("execution"),
   id: Schema.String,
   operation: Schema.Literal("email_verification"),
   operationVersion: Schema.Literal(1),
@@ -35,3 +36,18 @@ export const ExecutionRecordSchema = Schema.Struct({
 });
 
 export type ExecutionRecord = typeof ExecutionRecordSchema.Type;
+
+export const AttemptIntentRecordSchema = Schema.Struct({
+  recordType: Schema.Literal("attempt_intent"),
+  id: Schema.String,
+  operation: Schema.Literal("email_verification"),
+  operationVersion: Schema.Literal(1),
+  requestFingerprint: Schema.String.pipe(Schema.pattern(/^[a-f0-9]{64}$/)),
+  providerId: Schema.String,
+  attempt: Schema.Int.pipe(Schema.positive()),
+  startedAt: Schema.String,
+  plannedCostMicroUsd: Schema.String.pipe(Schema.pattern(/^(0|[1-9][0-9]*)$/)),
+  fallbackFromRecordId: Schema.NullOr(Schema.String),
+});
+
+export type AttemptIntentRecord = typeof AttemptIntentRecordSchema.Type;

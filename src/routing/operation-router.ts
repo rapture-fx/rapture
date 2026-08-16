@@ -135,6 +135,25 @@ export const createOperationRouter = (options: {
           attempt += 1;
           const id = clock.recordId();
           const startedAt = clock.nowIso();
+          const fingerprint = requestFingerprint(request.email);
+          const intentPersisted = yield* Effect.either(
+            options.store.beginAttempt({
+              recordType: "attempt_intent",
+              id,
+              operation: "email_verification",
+              operationVersion: 1,
+              requestFingerprint: fingerprint,
+              providerId: adapter.id,
+              attempt,
+              startedAt,
+              plannedCostMicroUsd: serializeMoney(adapter.costPerAttempt),
+              fallbackFromRecordId,
+            }),
+          );
+          if (Either.isLeft(intentPersisted))
+            return yield* Effect.fail(
+              new RoutingFailure("persistence_failure"),
+            );
           const before = clock.nowMs();
           const execution = yield* Effect.either(adapter.verify(request));
           const latencyMs = Math.max(0, Math.round(clock.nowMs() - before));
@@ -143,10 +162,11 @@ export const createOperationRouter = (options: {
 
           if (Either.isLeft(execution)) {
             const record: ExecutionRecord = {
+              recordType: "execution",
               id,
               operation: "email_verification",
               operationVersion: 1,
-              requestFingerprint: requestFingerprint(request.email),
+              requestFingerprint: fingerprint,
               providerId: adapter.id,
               attempt,
               startedAt,
@@ -174,10 +194,11 @@ export const createOperationRouter = (options: {
             outcome.confidence,
           );
           const record: ExecutionRecord = {
+            recordType: "execution",
             id,
             operation: "email_verification",
             operationVersion: 1,
-            requestFingerprint: requestFingerprint(request.email),
+            requestFingerprint: fingerprint,
             providerId: adapter.id,
             attempt,
             startedAt,

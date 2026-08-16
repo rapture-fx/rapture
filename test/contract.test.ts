@@ -45,6 +45,7 @@ describe("email verification OperationContract", () => {
 describe("ExecutionRecord", () => {
   it("requires an immutable-safe normalized shape and exact serialized cost", () => {
     const record = Schema.decodeUnknownSync(ExecutionRecordSchema)({
+      recordType: "execution",
       id: "record-1",
       operation: "email_verification",
       operationVersion: 1,
