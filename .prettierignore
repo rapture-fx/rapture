@@ -3,3 +3,4 @@ node_modules/
 coverage/
 results/
 pnpm-lock.yaml
+.gitignore
