@@ -2,11 +2,32 @@ import * as Schema from "effect/Schema";
 import type { OperationContract } from "../../domain/operation-contract.js";
 import type { MicroUsd } from "../../domain/money.js";
 
-export const EvidenceValueSchema = Schema.Literal("valid", "invalid", "unknown");
-export const DomainEvidenceSchema = Schema.Literal("reachable", "unreachable", "unknown");
-export const MailboxEvidenceSchema = Schema.Literal("exists", "missing", "unknown");
-export const ConfidenceSchema = Schema.Literal("high", "medium", "low", "unknown");
-export const DecisionSchema = Schema.Literal("send", "do_not_send", "uncertain");
+export const EvidenceValueSchema = Schema.Literal(
+  "valid",
+  "invalid",
+  "unknown",
+);
+export const DomainEvidenceSchema = Schema.Literal(
+  "reachable",
+  "unreachable",
+  "unknown",
+);
+export const MailboxEvidenceSchema = Schema.Literal(
+  "exists",
+  "missing",
+  "unknown",
+);
+export const ConfidenceSchema = Schema.Literal(
+  "high",
+  "medium",
+  "low",
+  "unknown",
+);
+export const DecisionSchema = Schema.Literal(
+  "send",
+  "do_not_send",
+  "uncertain",
+);
 
 export type Confidence = typeof ConfidenceSchema.Type;
 export type Decision = typeof DecisionSchema.Type;
@@ -28,9 +49,13 @@ export const EmailVerificationRequestWireSchema = Schema.Struct({
   objective: Schema.Literal("safe_to_send"),
   constraints: Schema.optional(
     Schema.Struct({
-      maxCostMicroUsd: Schema.optional(Schema.String.pipe(Schema.pattern(/^(0|[1-9][0-9]*)$/))),
+      maxCostMicroUsd: Schema.optional(
+        Schema.String.pipe(Schema.pattern(/^(0|[1-9][0-9]*)$/)),
+      ),
       maxLatencyMs: Schema.optional(Schema.Int.pipe(Schema.positive())),
-      minimumConfidence: Schema.optional(Schema.Literal("high", "medium", "low")),
+      minimumConfidence: Schema.optional(
+        Schema.Literal("high", "medium", "low"),
+      ),
     }),
   ),
 });
@@ -51,7 +76,7 @@ export const EmailVerificationResultWireSchema = Schema.Struct({
   economics: Schema.Struct({
     costMicroUsd: Schema.String.pipe(Schema.pattern(/^(0|[1-9][0-9]*)$/)),
     latencyMs: Schema.Int.pipe(Schema.nonNegative()),
-    attempts: Schema.Int.pipe(Schema.positive()),
+    attempts: Schema.Int.pipe(Schema.nonNegative()),
   }),
   execution: Schema.Struct({
     provider: Schema.String,
@@ -60,7 +85,8 @@ export const EmailVerificationResultWireSchema = Schema.Struct({
 });
 
 export type CanonicalEvidence = typeof CanonicalEvidenceSchema.Type;
-export type EmailVerificationResultWire = typeof EmailVerificationResultWireSchema.Type;
+export type EmailVerificationResultWire =
+  typeof EmailVerificationResultWireSchema.Type;
 
 export const EmailVerificationContract: OperationContract<
   "email_verification",
@@ -72,4 +98,3 @@ export const EmailVerificationContract: OperationContract<
   validateRequest: Schema.decodeUnknownSync(EmailVerificationRequestWireSchema),
   validateResult: Schema.decodeUnknownSync(EmailVerificationResultWireSchema),
 };
-

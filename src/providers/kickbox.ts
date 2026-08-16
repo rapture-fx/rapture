@@ -1,7 +1,10 @@
 import * as Schema from "effect/Schema";
 import { Effect } from "effect";
 import type { MicroUsd } from "../domain/money.js";
-import type { NormalizedProviderOutcome, ProviderAdapter } from "../domain/provider-adapter.js";
+import type {
+  NormalizedProviderOutcome,
+  ProviderAdapter,
+} from "../domain/provider-adapter.js";
 import type { HttpClient } from "../http/http-client.js";
 import { decodeProviderResponse, unknownOutcome } from "./shared.js";
 
@@ -15,7 +18,9 @@ const KickboxResponseSchema = Schema.Struct({
 });
 export type KickboxResponse = typeof KickboxResponseSchema.Type;
 
-export const normalizeKickbox = (value: KickboxResponse): NormalizedProviderOutcome => {
+export const normalizeKickbox = (
+  value: KickboxResponse,
+): NormalizedProviderOutcome => {
   const syntaxInvalid = value.reason === "invalid_email";
   const domainInvalid = value.reason === "invalid_domain";
   const evidence = {
@@ -34,7 +39,12 @@ export const normalizeKickbox = (value: KickboxResponse): NormalizedProviderOutc
   if (!value.success) return unknownOutcome(`unsuccessful:${value.reason}`);
   switch (value.result) {
     case "deliverable":
-      return { decision: "send", confidence: "high", evidence, mappingCode: `deliverable:${value.reason}` };
+      return {
+        decision: "send",
+        confidence: "high",
+        evidence,
+        mappingCode: `deliverable:${value.reason}`,
+      };
     case "undeliverable":
       return {
         decision: "do_not_send",
@@ -43,7 +53,12 @@ export const normalizeKickbox = (value: KickboxResponse): NormalizedProviderOutc
         mappingCode: `undeliverable:${value.reason}`,
       };
     case "risky":
-      return { decision: "uncertain", confidence: "low", evidence, mappingCode: `risky:${value.reason}` };
+      return {
+        decision: "uncertain",
+        confidence: "low",
+        evidence,
+        mappingCode: `risky:${value.reason}`,
+      };
     case "unknown":
       return {
         decision: "uncertain",
@@ -78,9 +93,10 @@ export const createKickboxAdapter = (options: {
         allowedHost: "api.kickbox.com",
       })
       .pipe(
-        Effect.flatMap((body) => decodeProviderResponse("kickbox", KickboxResponseSchema, body)),
+        Effect.flatMap((body) =>
+          decodeProviderResponse("kickbox", KickboxResponseSchema, body),
+        ),
         Effect.map(normalizeKickbox),
       );
   },
 });
-

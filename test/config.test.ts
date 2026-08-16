@@ -9,7 +9,9 @@ describe("provider configuration", () => {
   });
 
   it("fails closed on a credential without exact account economics", async () => {
-    const exit = await Effect.runPromiseExit(loadRuntimeConfig({ HUNTER_API_KEY: "secret" }));
+    const exit = await Effect.runPromiseExit(
+      loadRuntimeConfig({ HUNTER_API_KEY: "secret" }),
+    );
     expect(Exit.isFailure(exit)).toBe(true);
     expect(String(exit)).toContain("HUNTER_COST_MICRO_USD");
     expect(String(exit)).not.toContain("secret");
@@ -17,7 +19,10 @@ describe("provider configuration", () => {
 
   it("parses configured economics exactly", async () => {
     const config = await Effect.runPromise(
-      loadRuntimeConfig({ HUNTER_API_KEY: "secret", HUNTER_COST_MICRO_USD: "1250" }),
+      loadRuntimeConfig({
+        HUNTER_API_KEY: "secret",
+        HUNTER_COST_MICRO_USD: "1250",
+      }),
     );
     expect(config.hunter?.costPerAttempt).toBe(1250n);
   });

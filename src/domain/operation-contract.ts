@@ -4,4 +4,3 @@ export interface OperationContract<Name extends string, Request, Result> {
   readonly validateRequest: (input: unknown) => Request;
   readonly validateResult: (input: unknown) => Result;
 }
-

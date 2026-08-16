@@ -43,4 +43,3 @@ export interface ProviderAdapter {
     request: EmailVerificationRequest,
   ) => Effect.Effect<NormalizedProviderOutcome, ProviderFailure>;
 }
-

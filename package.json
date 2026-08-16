@@ -10,9 +10,12 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "format:check": "prettier --check .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "benchmark": "tsx benchmark/run.ts"
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "22.20.1",
+    "prettier": "3.9.6",
     "tsx": "4.23.12",
     "typescript": "6.0.3",
     "vitest": "4.1.10"

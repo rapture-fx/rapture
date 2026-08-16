@@ -1,7 +1,10 @@
 import * as Schema from "effect/Schema";
 import { Effect } from "effect";
 import type { MicroUsd } from "../domain/money.js";
-import type { NormalizedProviderOutcome, ProviderAdapter } from "../domain/provider-adapter.js";
+import type {
+  NormalizedProviderOutcome,
+  ProviderAdapter,
+} from "../domain/provider-adapter.js";
 import type { HttpClient } from "../http/http-client.js";
 import { decodeProviderResponse, unknownOutcome } from "./shared.js";
 
@@ -13,11 +16,16 @@ const ZeroBounceResponseSchema = Schema.Struct({
 });
 export type ZeroBounceResponse = typeof ZeroBounceResponseSchema.Type;
 
-const zbBoolean = (value: boolean | "true" | "false"): boolean => value === true || value === "true";
+const zbBoolean = (value: boolean | "true" | "false"): boolean =>
+  value === true || value === "true";
 
-export const normalizeZeroBounce = (value: ZeroBounceResponse): NormalizedProviderOutcome => {
+export const normalizeZeroBounce = (
+  value: ZeroBounceResponse,
+): NormalizedProviderOutcome => {
   const syntaxInvalid = value.sub_status === "failed_syntax_check";
-  const domainInvalid = value.sub_status === "no_dns_entries" || value.sub_status === "does_not_accept_mail";
+  const domainInvalid =
+    value.sub_status === "no_dns_entries" ||
+    value.sub_status === "does_not_accept_mail";
   const evidence = {
     syntax: syntaxInvalid ? ("invalid" as const) : ("valid" as const),
     domain: domainInvalid
@@ -28,7 +36,11 @@ export const normalizeZeroBounce = (value: ZeroBounceResponse): NormalizedProvid
     mailbox: "unknown" as const,
     catchAll: value.catchall_domain,
     disposable: value.sub_status === "disposable" ? true : null,
-    roleBased: value.sub_status === "role_based" || value.sub_status === "role_based_catch_all" ? true : null,
+    roleBased:
+      value.sub_status === "role_based" ||
+      value.sub_status === "role_based_catch_all"
+        ? true
+        : null,
   };
   switch (value.status) {
     case "valid":
@@ -44,7 +56,8 @@ export const normalizeZeroBounce = (value: ZeroBounceResponse): NormalizedProvid
         confidence: "high",
         evidence: {
           ...evidence,
-          mailbox: value.sub_status === "mailbox_not_found" ? "missing" : "unknown",
+          mailbox:
+            value.sub_status === "mailbox_not_found" ? "missing" : "unknown",
         },
         mappingCode: `invalid:${value.sub_status || "none"}`,
       };
@@ -72,7 +85,9 @@ export const normalizeZeroBounce = (value: ZeroBounceResponse): NormalizedProvid
         mappingCode: `unknown:${value.sub_status || "none"}`,
       };
     default:
-      return unknownOutcome(`unmapped:${value.status}:${value.sub_status || "none"}`);
+      return unknownOutcome(
+        `unmapped:${value.status}:${value.sub_status || "none"}`,
+      );
   }
 };
 
@@ -97,9 +112,10 @@ export const createZeroBounceAdapter = (options: {
         allowedHost: "api.zerobounce.net",
       })
       .pipe(
-        Effect.flatMap((body) => decodeProviderResponse("zerobounce", ZeroBounceResponseSchema, body)),
+        Effect.flatMap((body) =>
+          decodeProviderResponse("zerobounce", ZeroBounceResponseSchema, body),
+        ),
         Effect.map(normalizeZeroBounce),
       );
   },
 });
-

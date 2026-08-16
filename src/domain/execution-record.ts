@@ -12,7 +12,9 @@ export const ExecutionRecordSchema = Schema.Struct({
   costMicroUsd: Schema.String.pipe(Schema.pattern(/^(0|[1-9][0-9]*)$/)),
   outcome: Schema.Literal("success", "failure"),
   decision: Schema.optional(Schema.Literal("send", "do_not_send", "uncertain")),
-  confidence: Schema.optional(Schema.Literal("high", "medium", "low", "unknown")),
+  confidence: Schema.optional(
+    Schema.Literal("high", "medium", "low", "unknown"),
+  ),
   mappingCode: Schema.optional(Schema.String),
   failureKind: Schema.optional(
     Schema.Literal(
@@ -33,4 +35,3 @@ export const ExecutionRecordSchema = Schema.Struct({
 });
 
 export type ExecutionRecord = typeof ExecutionRecordSchema.Type;
-

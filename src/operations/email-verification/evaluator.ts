@@ -17,7 +17,7 @@ export const evaluateOutcome = (
     decisive,
     useful: decisive && confidence === "high",
     ...(groundTruth === undefined ? {} : { groundTruth }),
-    correct: groundTruth === undefined || !decisive ? null : decision === groundTruth,
+    correct:
+      groundTruth === undefined || !decisive ? null : decision === groundTruth,
   };
 };
-

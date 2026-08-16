@@ -9,9 +9,9 @@ import {
 
 describe("exact money", () => {
   it("adds and serializes integer micro-USD without floating point", () => {
-    expect(serializeMoney(addMoney(microUsd("9007199254740993"), microUsd("7")))).toBe(
-      "9007199254741000",
-    );
+    expect(
+      serializeMoney(addMoney(microUsd("9007199254740993"), microUsd("7"))),
+    ).toBe("9007199254741000");
   });
 
   it("rejects invalid and negative amounts", () => {

@@ -1,5 +1,8 @@
 import { Effect } from "effect";
-import { ProviderFailure, type ProviderFailureKind } from "../domain/provider-adapter.js";
+import {
+  ProviderFailure,
+  type ProviderFailureKind,
+} from "../domain/provider-adapter.js";
 
 export interface HttpRequest {
   readonly providerId: string;
@@ -9,7 +12,9 @@ export interface HttpRequest {
 }
 
 export interface HttpClient {
-  readonly getJson: (request: HttpRequest) => Effect.Effect<unknown, ProviderFailure>;
+  readonly getJson: (
+    request: HttpRequest,
+  ) => Effect.Effect<unknown, ProviderFailure>;
 }
 
 const failureKindForStatus = (status: number): ProviderFailureKind => {
@@ -20,8 +25,13 @@ const failureKindForStatus = (status: number): ProviderFailureKind => {
 
 export const fetchHttpClient: HttpClient = {
   getJson: (request) => {
-    if (request.url.protocol !== "https:" || request.url.hostname !== request.allowedHost) {
-      return Effect.fail(new ProviderFailure(request.providerId, "transport_failure", false));
+    if (
+      request.url.protocol !== "https:" ||
+      request.url.hostname !== request.allowedHost
+    ) {
+      return Effect.fail(
+        new ProviderFailure(request.providerId, "transport_failure", false),
+      );
     }
     return Effect.tryPromise({
       try: async () => {
@@ -35,7 +45,9 @@ export const fetchHttpClient: HttpClient = {
             redirect: "error",
           });
           if (!response.ok) {
-            throw Object.assign(new Error("provider status"), { status: response.status });
+            throw Object.assign(new Error("provider status"), {
+              status: response.status,
+            });
           }
           return (await response.json()) as unknown;
         } finally {
@@ -48,15 +60,21 @@ export const fetchHttpClient: HttpClient = {
             ? Number(error.status)
             : undefined;
         const aborted =
-          typeof error === "object" && error !== null && "name" in error && error.name === "AbortError";
+          typeof error === "object" &&
+          error !== null &&
+          "name" in error &&
+          error.name === "AbortError";
         const kind = aborted
           ? "provider_timeout"
           : status === undefined
             ? "transport_failure"
             : failureKindForStatus(status);
-        return new ProviderFailure(request.providerId, kind, kind === "rate_limit" || kind === "provider_timeout");
+        return new ProviderFailure(
+          request.providerId,
+          kind,
+          kind === "rate_limit" || kind === "provider_timeout",
+        );
       },
     });
   },
 };
-

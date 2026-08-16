@@ -16,7 +16,10 @@ describe("email verification OperationContract", () => {
       }).objective,
     ).toBe("safe_to_send");
     expect(() =>
-      EmailVerificationContract.validateRequest({ email: "x@y", objective: "find_person" }),
+      EmailVerificationContract.validateRequest({
+        email: "x@y",
+        objective: "find_person",
+      }),
     ).toThrow();
   });
 
@@ -60,7 +63,10 @@ describe("ExecutionRecord", () => {
     });
     expect(record.costMicroUsd).toBe("42");
     expect(() =>
-      Schema.decodeUnknownSync(ExecutionRecordSchema)({ ...record, costMicroUsd: "0.1" }),
+      Schema.decodeUnknownSync(ExecutionRecordSchema)({
+        ...record,
+        costMicroUsd: "0.1",
+      }),
     ).toThrow();
   });
 });

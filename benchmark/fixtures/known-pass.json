@@ -1,0 +1,43 @@
+{
+  "live": true,
+  "mappingCoverageBasisPoints": 9800,
+  "callerLeakageBasisPoints": 100,
+  "meaningfulProviderHeterogeneity": true,
+  "oneProviderDominates": false,
+  "fallbackCostsEraseAdvantage": false,
+  "superiorQualityNearEqualCost": false,
+  "conditions": [
+    {
+      "condition": "FIXED_PROVIDER_A",
+      "totalSpendMicroUsd": "10000",
+      "requests": 100,
+      "highConfidenceDecisiveOutcomes": 50,
+      "controlledAccuracyBasisPoints": 9800,
+      "fallbackSpendMicroUsd": "0"
+    },
+    {
+      "condition": "FIXED_PROVIDER_B",
+      "totalSpendMicroUsd": "12000",
+      "requests": 100,
+      "highConfidenceDecisiveOutcomes": 70,
+      "controlledAccuracyBasisPoints": 9700,
+      "fallbackSpendMicroUsd": "0"
+    },
+    {
+      "condition": "FIXED_PROVIDER_C",
+      "totalSpendMicroUsd": "9000",
+      "requests": 100,
+      "highConfidenceDecisiveOutcomes": 40,
+      "controlledAccuracyBasisPoints": 9600,
+      "fallbackSpendMicroUsd": "0"
+    },
+    {
+      "condition": "OPERATION_ROUTER",
+      "totalSpendMicroUsd": "9000",
+      "requests": 100,
+      "highConfidenceDecisiveOutcomes": 70,
+      "controlledAccuracyBasisPoints": 9700,
+      "fallbackSpendMicroUsd": "1500"
+    }
+  ]
+}

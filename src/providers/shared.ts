@@ -1,8 +1,13 @@
 import * as Schema from "effect/Schema";
 import { Effect } from "effect";
-import { ProviderFailure, type NormalizedProviderOutcome } from "../domain/provider-adapter.js";
+import {
+  ProviderFailure,
+  type NormalizedProviderOutcome,
+} from "../domain/provider-adapter.js";
 
-export const unknownOutcome = (mappingCode: string): NormalizedProviderOutcome => ({
+export const unknownOutcome = (
+  mappingCode: string,
+): NormalizedProviderOutcome => ({
   decision: "uncertain",
   confidence: "unknown",
   evidence: {
@@ -22,6 +27,8 @@ export const decodeProviderResponse = <A, I>(
   input: unknown,
 ): Effect.Effect<A, ProviderFailure> =>
   Schema.decodeUnknown(schema)(input).pipe(
-    Effect.mapError(() => new ProviderFailure(providerId, "provider_malformed_response", false)),
+    Effect.mapError(
+      () =>
+        new ProviderFailure(providerId, "provider_malformed_response", false),
+    ),
   );
-
