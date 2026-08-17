@@ -6,6 +6,8 @@ import type { JsonValue } from "./models.js";
 export const eventTypes = [
   "experiment_started",
   "experiment_configuration_recorded",
+  "trial_started",
+  "trial_finished",
   "task_queued",
   "worker_started",
   "task_started",
@@ -18,6 +20,7 @@ export const eventTypes = [
   "integration_started",
   "integration_finished",
   "task_finished",
+  "task_failed",
   "worker_finished",
   "experiment_finished",
   "experiment_interrupted",

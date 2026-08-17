@@ -13,7 +13,7 @@ const outcomeSchema = z.object({
 });
 
 export interface ExperimentReport {
-  readonly schemaVersion: 1;
+  readonly schemaVersion: 2;
   readonly experimentId: string;
   readonly status: "completed" | "failed" | "interrupted" | "incomplete";
   readonly metrics: ExperimentMetrics;
@@ -33,7 +33,7 @@ export async function regenerateReport(experimentDirectory: string): Promise<Exp
     if (!(error instanceof Error && "code" in error && error.code === "ENOENT")) throw error;
   }
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     experimentId: manifest.experimentId,
     status,
     metrics: await deriveMetrics(join(directory, "events.jsonl")),
@@ -44,21 +44,49 @@ function number(value: number | null): string {
   return value === null ? "n/a" : value.toFixed(3);
 }
 
+function integer(value: number | null): string {
+  return value === null ? "n/a" : Math.round(value).toString();
+}
+
 export function formatReport(report: ExperimentReport): string {
   const lines = [`Rapture experiment ${report.experimentId} (${report.status})`];
+  lines.push("Trial results");
   lines.push(
-    "workers  accepted  tasks/hour  speedup  efficiency  validation-fail  integration-fail",
+    "trial                  accepted  tasks/hour  wall-ms  agent-ms  valid-ms  integ-ms  overhead  failures",
+  );
+  for (const trial of report.metrics.trialResults) {
+    lines.push(
+      [
+        trial.trialId.padEnd(22),
+        trial.acceptedTasks.toString().padStart(8),
+        number(trial.acceptedTasksPerHour).padStart(10),
+        integer(trial.totalWallTimeMs).padStart(7),
+        integer(trial.medianAgentExecutionMs).padStart(8),
+        integer(trial.medianValidationMs).padStart(8),
+        integer(trial.integrationMs).padStart(8),
+        integer(trial.medianRaptureOverheadMs).padStart(8),
+        (trial.validationFailures + trial.integrationFailures).toString().padStart(8),
+      ].join("  "),
+    );
+  }
+  lines.push("");
+  lines.push("Worker aggregates");
+  lines.push(
+    "workers  trials  accepted  median-tph  min-tph  max-tph  speedup  efficiency  validation-fail  integration-fail",
   );
   for (const row of report.metrics.workerResults) {
     lines.push(
       [
         row.workerCount.toString().padStart(7),
+        row.trialCount.toString().padStart(6),
         row.acceptedTasks.toString().padStart(8),
-        number(row.acceptedTasksPerHour).padStart(10),
+        number(row.medianAcceptedTasksPerHour).padStart(10),
+        number(row.minAcceptedTasksPerHour).padStart(7),
+        number(row.maxAcceptedTasksPerHour).padStart(7),
         number(row.speedup).padStart(7),
         number(row.parallelEfficiency).padStart(10),
-        number(row.validationFailureRate).padStart(15),
-        number(row.integrationFailureRate).padStart(16),
+        row.validationFailures.toString().padStart(15),
+        row.integrationFailures.toString().padStart(16),
       ].join("  "),
     );
   }
@@ -72,7 +100,17 @@ export interface ExperimentInspection {
   readonly manifest: string;
   readonly events: string;
   readonly outcome: string | null;
+  readonly trialManifests: readonly string[];
   readonly runResults: readonly string[];
+}
+
+async function listFiles(directory: string): Promise<readonly string[]> {
+  try {
+    return await readdir(directory);
+  } catch (error: unknown) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return [];
+    throw error;
+  }
 }
 
 export async function inspectExperiment(
@@ -80,14 +118,21 @@ export async function inspectExperiment(
 ): Promise<ExperimentInspection> {
   const directory = resolve(experimentDirectory);
   const report = await regenerateReport(directory);
-  const runsDirectory = join(directory, "runs");
-  let names: readonly string[] = [];
-  try {
-    names = await readdir(runsDirectory);
-  } catch (error: unknown) {
-    if (!(error instanceof Error && "code" in error && error.code === "ENOENT")) throw error;
+  const trialNames = await listFiles(join(directory, "trials"));
+  const trialManifests = trialNames
+    .map((name) => join(directory, "trials", name, "trial.json"))
+    .sort();
+  const runResults: string[] = [];
+  for (const trialName of trialNames) {
+    const runNames = await listFiles(join(directory, "trials", trialName, "runs"));
+    for (const runName of runNames) {
+      runResults.push(join(directory, "trials", trialName, "runs", runName, "result.json"));
+    }
   }
-  const runResults = names.map((name) => join(runsDirectory, name, "result.json")).sort();
+  const legacyRuns = await listFiles(join(directory, "runs"));
+  for (const runName of legacyRuns) {
+    runResults.push(join(directory, "runs", runName, "result.json"));
+  }
   return {
     experimentId: report.experimentId,
     status: report.status,
@@ -95,6 +140,7 @@ export async function inspectExperiment(
     manifest: join(directory, "manifest.json"),
     events: join(directory, "events.jsonl"),
     outcome: report.status === "incomplete" ? null : join(directory, "outcome.json"),
-    runResults,
+    trialManifests,
+    runResults: runResults.sort(),
   };
 }

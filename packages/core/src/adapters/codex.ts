@@ -41,6 +41,7 @@ export const codexAgentAdapter: AgentAdapter = {
     "--skip-git-repo-check",
     "--color",
     "never",
+    ...(input.model === null ? [] : ["--model", input.model]),
     prompt(input),
   ],
   run: async (input): Promise<AgentRunResult> => {

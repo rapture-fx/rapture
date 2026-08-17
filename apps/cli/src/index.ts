@@ -16,7 +16,10 @@ const runOptionsSchema = z.object({
   repo: z.string().min(1),
   tasks: z.string().min(1),
   workers: z.string().min(1),
+  repetitions: z.string().min(1),
+  seed: z.string().min(1),
   agent: z.enum(["fake", "codex"]),
+  agentModel: z.string().optional(),
   output: z.string().min(1),
   integration: z.boolean(),
   integrationValidation: z.array(z.string()),
@@ -47,9 +50,12 @@ program
   .requiredOption("--repo <path>", "local Git repository")
   .requiredOption("--tasks <path>", "task definition JSON")
   .requiredOption("--workers <counts>", "comma-separated worker counts")
+  .option("--repetitions <count>", "number of repeated trials per worker count", "1")
+  .option("--seed <integer>", "root experiment seed for deterministic task order", "0")
   .addOption(
     new Option("--agent <adapter>", "agent adapter").choices(["fake", "codex"]).default("fake"),
   )
+  .option("--agent-model <name>", "optional pinned provider model identifier")
   .requiredOption("--output <path>", "artifact output directory")
   .option("--integration", "attempt deterministic integration", false)
   .option(
@@ -65,7 +71,10 @@ program
       repository: options.repo,
       taskFile: options.tasks,
       workers: options.workers,
+      repetitions: options.repetitions,
+      seed: options.seed,
       agent: options.agent,
+      ...(options.agentModel === undefined ? {} : { agentModel: options.agentModel }),
       outputDirectory: options.output,
       integration: options.integration,
       integrationValidation: options.integrationValidation,
@@ -100,7 +109,9 @@ program
     else {
       process.stdout.write(
         `Rapture experiment ${inspection.experimentId} (${inspection.status})\n` +
-          `Artifacts: ${inspection.artifactDirectory}\nRuns: ${inspection.runResults.length}\n`,
+          `Artifacts: ${inspection.artifactDirectory}\n` +
+          `Trials: ${inspection.trialManifests.length}\n` +
+          `Runs: ${inspection.runResults.length}\n`,
       );
     }
   });

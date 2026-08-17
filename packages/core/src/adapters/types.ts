@@ -3,6 +3,9 @@ import type { JsonValue, ProcessResult, TaskDefinition } from "../models.js";
 export interface AgentRunInput {
   readonly task: TaskDefinition;
   readonly worktree: string;
+  readonly model: string | null;
+  readonly trialId: string;
+  readonly repetition: number;
 }
 
 export interface AgentRunResult {
