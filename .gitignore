@@ -6,3 +6,6 @@ coverage/
 !.env.example
 *.log
 .DS_Store
+runs/
+fixtures/repository/
+.turbo/
