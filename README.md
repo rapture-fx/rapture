@@ -103,10 +103,27 @@ rapture run \
   --output runs
 ```
 
+The first non-trivial real-agent suite is `fixtures/ledger-kit`: six independent TypeScript tasks with
+validators stored beside the task file. Create a clean Git copy, then run fake-agent preflight or an
+explicit Codex experiment:
+
+```sh
+node fixtures/ledger-kit/create.mjs /tmp/ledger-kit
+rapture run \
+  --repo /tmp/ledger-kit \
+  --tasks fixtures/ledger-kit/tasks.json \
+  --workers 1,2 \
+  --repetitions 3 \
+  --seed 20260817 \
+  --agent fake \
+  --output runs
+```
+
 The adapter tells Codex not to push, open PRs, deploy, or access secrets, and gives it a dedicated Git
 worktree. A Git worktree is an isolation boundary for repository state, not a complete operating-system
 sandbox; run real agents only against repositories and environments you are willing to expose to that
-local process.
+local process. See [docs/real-scale-2-report.md](docs/real-scale-2-report.md) for the first 1-vs-2
+attempt and its infrastructure block.
 
 ## Artifact layout
 
