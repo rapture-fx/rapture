@@ -1,7 +1,8 @@
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { access, readFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
 import { z } from "zod";
-import type { ExperimentConfig, TaskDefinition } from "./models.js";
+import type { ExperimentConfig, FakeAgentConfig, TaskDefinition } from "./models.js";
+import { parseCommand } from "./validation.js";
 
 const fakeAgentSchema = z
   .object({
@@ -10,6 +11,7 @@ const fakeAgentSchema = z
     delayMs: z.number().nonnegative().default(0),
     stdout: z.string().default("fake agent completed"),
     stderr: z.string().default(""),
+    failOnRepetition: z.number().int().positive().optional(),
   })
   .strict();
 
@@ -94,32 +96,127 @@ export function parseWorkerCounts(value: string): readonly number[] {
   return workers;
 }
 
+export function parseRepetitions(value: string): number {
+  if (!/^\d+$/.test(value.trim())) {
+    throw new ConfigurationError("repetitions must be a positive integer");
+  }
+  const repetitions = Number(value);
+  if (!Number.isSafeInteger(repetitions) || repetitions <= 0) {
+    throw new ConfigurationError("repetitions must be a positive safe integer");
+  }
+  return repetitions;
+}
+
+export function parseSeed(value: string): number {
+  if (!/^-?\d+$/.test(value.trim())) {
+    throw new ConfigurationError("seed must be an integer");
+  }
+  const seed = Number(value);
+  if (!Number.isSafeInteger(seed)) {
+    throw new ConfigurationError("seed must be a safe integer");
+  }
+  return seed;
+}
+
+function quoteArgv(args: readonly string[]): string {
+  return args
+    .map((arg) => (/^[A-Za-z0-9_./:@+=,-]+$/u.test(arg) ? arg : JSON.stringify(arg)))
+    .join(" ");
+}
+
+async function pathExists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch (error: unknown) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return false;
+    throw error;
+  }
+}
+
+export async function resolveValidationCommand(
+  command: string,
+  taskDirectory: string,
+): Promise<string> {
+  const args = parseCommand(command);
+  const resolved = await Promise.all(
+    args.map(async (arg) => {
+      if (arg.startsWith("-")) return arg;
+      const looksLikePath = arg.includes("/") || /\.[A-Za-z0-9]+$/u.test(arg);
+      if (!looksLikePath) return arg;
+      const candidate = resolve(taskDirectory, arg);
+      return (await pathExists(candidate)) ? candidate : arg;
+    }),
+  );
+  return quoteArgv(resolved);
+}
+
+function toFakeAgentConfig(fake: {
+  readonly files: Readonly<Record<string, string>>;
+  readonly exitCode: number;
+  readonly delayMs: number;
+  readonly stdout: string;
+  readonly stderr: string;
+  readonly failOnRepetition?: number | undefined;
+}): FakeAgentConfig {
+  const failOnRepetition = fake.failOnRepetition;
+  return failOnRepetition === undefined
+    ? {
+        files: fake.files,
+        exitCode: fake.exitCode,
+        delayMs: fake.delayMs,
+        stdout: fake.stdout,
+        stderr: fake.stderr,
+      }
+    : {
+        files: fake.files,
+        exitCode: fake.exitCode,
+        delayMs: fake.delayMs,
+        stdout: fake.stdout,
+        stderr: fake.stderr,
+        failOnRepetition,
+      };
+}
+
 export function parseTaskFile(value: unknown): readonly TaskDefinition[] {
   const result = taskFileSchema.safeParse(value);
   if (!result.success) {
     throw new ConfigurationError(z.prettifyError(result.error));
   }
   return result.data.tasks.map(({ fake, ...task }) =>
-    fake === undefined ? task : { ...task, fake },
+    fake === undefined ? task : { ...task, fake: toFakeAgentConfig(fake) },
   );
 }
 
 export async function loadTasks(path: string): Promise<readonly TaskDefinition[]> {
+  const resolvedPath = resolve(path);
   let value: unknown;
   try {
-    value = JSON.parse(await readFile(path, "utf8")) as unknown;
+    value = JSON.parse(await readFile(resolvedPath, "utf8")) as unknown;
   } catch (error: unknown) {
     const detail = error instanceof Error ? error.message : String(error);
     throw new ConfigurationError(`unable to read task file: ${detail}`);
   }
-  return parseTaskFile(value);
+  const taskDirectory = dirname(resolvedPath);
+  const tasks = parseTaskFile(value);
+  return Promise.all(
+    tasks.map(async (task) => ({
+      ...task,
+      validation: await Promise.all(
+        task.validation.map((command) => resolveValidationCommand(command, taskDirectory)),
+      ),
+    })),
+  );
 }
 
 export interface BuildConfigInput {
   readonly repository: string;
   readonly taskFile: string;
   readonly workers: string;
+  readonly repetitions?: string;
+  readonly seed?: string;
   readonly agent: "fake" | "codex";
+  readonly agentModel?: string;
   readonly outputDirectory: string;
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
@@ -129,16 +226,20 @@ export async function buildExperimentConfig(input: BuildConfigInput): Promise<Ex
   if (input.integration && input.integrationValidation.length === 0) {
     throw new ConfigurationError("integration requires explicit integration validation commands");
   }
-  const tasks = await loadTasks(resolve(input.taskFile));
+  const taskFile = resolve(input.taskFile);
+  const tasks = await loadTasks(taskFile);
   return {
     repository: resolve(input.repository),
-    taskFile: resolve(input.taskFile),
+    taskFile,
     tasks,
     workerCounts: parseWorkerCounts(input.workers),
+    repetitions: parseRepetitions(input.repetitions ?? "1"),
     agent: input.agent,
+    agentModel:
+      input.agentModel === undefined || input.agentModel.trim() === "" ? null : input.agentModel,
     outputDirectory: resolve(input.outputDirectory),
     budget: {},
-    seed: 0,
+    seed: parseSeed(input.seed ?? "0"),
     integration: input.integration,
     integrationValidation: input.integrationValidation,
   };

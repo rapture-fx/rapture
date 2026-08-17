@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { ConfigurationError, parseTaskFile, parseWorkerCounts } from "../src/config.js";
+import {
+  ConfigurationError,
+  parseRepetitions,
+  parseSeed,
+  parseTaskFile,
+  parseWorkerCounts,
+} from "../src/config.js";
 
 function task(id: string, dependsOn: readonly string[] = []): object {
   return {
@@ -41,5 +47,22 @@ describe("configuration", () => {
     expect(() => parseTaskFile({ tasks: [{ ...task("one"), validation: [] }] })).toThrow(
       /validation/u,
     );
+  });
+
+  it.each(["", "0", "-1", "1.5", "two"])("rejects invalid repetitions %s", (repetitions) => {
+    expect(() => parseRepetitions(repetitions)).toThrow(ConfigurationError);
+  });
+
+  it("parses a positive repetition count", () => {
+    expect(parseRepetitions("3")).toBe(3);
+  });
+
+  it("parses a safe integer seed including zero and negatives", () => {
+    expect(parseSeed("0")).toBe(0);
+    expect(parseSeed("-17")).toBe(-17);
+  });
+
+  it("rejects a non-integer seed", () => {
+    expect(() => parseSeed("1.2")).toThrow(ConfigurationError);
   });
 });

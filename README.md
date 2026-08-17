@@ -55,13 +55,15 @@ are:
 
 ```sh
 rapture validate --tasks ./tasks.json
-rapture run --repo ./fixture --tasks ./tasks.json --workers 1,2,4 --agent fake --output ./runs
+rapture run --repo ./fixture --tasks ./tasks.json --workers 1,2 --repetitions 3 --seed 20260817 --agent fake --output ./runs
 rapture report ./runs/<experiment-id>
 rapture inspect ./runs/<experiment-id>
 ```
 
-Add `--json` to `run`, `report`, or `inspect` for machine-readable output. `report` re-derives its
-metrics from `events.jsonl`; it does not rerun agents or overwrite raw artifacts.
+`--repetitions` defaults to 1. `--seed` defaults to 0. The same repetition index always receives the
+same seeded task order at every worker count. Add `--json` to `run`, `report`, or `inspect` for
+machine-readable output. `report` re-derives trial and worker metrics from `events.jsonl`; it does
+not rerun agents or overwrite raw artifacts.
 
 ## Task definition
 
@@ -109,8 +111,10 @@ local process.
 ## Artifact layout
 
 Each experiment contains immutable `manifest.json`, append-only `events.jsonl`, final `outcome.json`,
-and one `runs/<run-id>/` directory per task attempt. Run artifacts include separate redacted stdout and
-stderr logs, validation evidence, a Git patch, content hashes, and `result.json`. Interrupted experiments
-retain whatever events and run artifacts were durably written before interruption.
+and one `trials/<trial-id>/` directory per worker-count/repetition pair. Each trial stores
+`trial.json`, `trial-outcome.json`, and `runs/<run-id>/` artifacts. Run artifacts include separate
+redacted stdout and stderr logs, validation evidence, a Git patch, content hashes, phase timings, and
+`result.json`. Interrupted experiments retain whatever events and run artifacts were durably written
+before interruption.
 
 See [docs/research-method.md](docs/research-method.md) for methodology and validity limits.
