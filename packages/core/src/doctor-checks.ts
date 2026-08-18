@@ -449,14 +449,14 @@ export async function checkAgentBinary(adapter: AgentAdapter | null): Promise<Do
   });
 }
 
-export function checkAgentAuth(
+export async function checkAgentAuth(
   adapter: AgentAdapter | null,
   env: Readonly<Record<string, string | undefined>>,
-): DoctorCheck {
+): Promise<DoctorCheck> {
   if (adapter === null) {
     return check("AGENT_AUTH", "WARNING", "No coding-agent adapter was selected.", { agent: null });
   }
-  const probe = adapter.probeCredentials(env);
+  const probe = await adapter.probeCredentials(env);
   if (!probe.required) {
     return check("AGENT_AUTH", "PASS", `${adapter.name()} does not require provider credentials.`, {
       agent: adapter.name(),
@@ -479,7 +479,7 @@ export function checkAgentAuth(
         method: null,
         supportedEnvVars: [...probe.supportedEnvVars],
       },
-      "Configure one supported credential in the execution environment: OPENAI_API_KEY, CODEX_API_KEY, or CODEX_ACCESS_TOKEN.",
+      "Run `codex login` and complete ChatGPT sign-in, or configure OPENAI_API_KEY, CODEX_API_KEY, or CODEX_ACCESS_TOKEN.",
     );
   }
   return check("AGENT_AUTH", "PASS", "A supported credential mechanism is present.", {
