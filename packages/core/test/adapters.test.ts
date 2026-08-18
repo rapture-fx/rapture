@@ -7,4 +7,5 @@ it("implements a provider-neutral deterministic adapter", async () => {
   expect(adapter.name()).toBe("fake");
   await expect(adapter.version()).resolves.toBe("1");
   await expect(adapter.isAvailable()).resolves.toMatchObject({ available: true });
+  expect(adapter.probeCredentials({})).toMatchObject({ required: false, present: true });
 });
