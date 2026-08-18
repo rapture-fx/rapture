@@ -50,19 +50,24 @@ node apps/cli/dist/index.js run \
   --integration-validation "node -e \"Promise.all([import('./add.mjs'), import('./multiply.mjs'), import('./divide.mjs'), import('./modulo.mjs')])\""
 ```
 
-The built package also exposes the `rapture` binary when linked or installed. The four CLI commands
-are:
+The built package also exposes the `rapture` binary when linked or installed. The CLI commands are:
 
 ```sh
 rapture validate --tasks ./tasks.json
+rapture doctor --config experiments/real-scale-2.frozen.json --json
 rapture run --repo ./fixture --tasks ./tasks.json --workers 1,2 --repetitions 3 --seed 20260817 --agent fake --output ./runs
 rapture report ./runs/<experiment-id>
 rapture inspect ./runs/<experiment-id>
 ```
 
+`rapture doctor` inspects whether the current environment can execute an experiment. It never starts
+task workers or paid inference. `--write-dir` persists `doctor.json` and `runner-fingerprint.json`.
+Doctor exit `0` means required checks passed (warnings allowed), `2` means the environment is blocked,
+`3` means the experiment definition is invalid, and `4` is an internal doctor failure.
+
 `--repetitions` defaults to 1. `--seed` defaults to 0. The same repetition index always receives the
-same seeded task order at every worker count. Add `--json` to `run`, `report`, or `inspect` for
-machine-readable output. `report` re-derives trial and worker metrics from `events.jsonl`; it does
+same seeded task order at every worker count. Add `--json` to `run`, `report`, `inspect`, or `doctor`
+for machine-readable output. `report` re-derives trial and worker metrics from `events.jsonl`; it does
 not rerun agents or overwrite raw artifacts.
 
 ## Task definition
@@ -133,13 +138,13 @@ spend Codex quota or read the secrets.
 
 1. Create the GitHub Environment `real-scale-2` (or use repository secrets).
 2. Set `OPENAI_API_KEY` or `CODEX_API_KEY`, or `CODEX_ACCESS_TOKEN`.
-3. Run the **real-scale-2 Codex** workflow.
-4. Download the `real-scale-2-<run-id>` artifact. It is the entire `experiments/real-scale-2/`
-   directory, including `runner-fingerprint.json`.
+3. Dispatch **real-scale-2 Codex**. Use `preflight_only=true` to run doctor, fixture probes, and fingerprinting without Codex inference.
+4. Download the `real-scale-2-<run-id>` artifact. It includes `doctor.json` and `runner-fingerprint.json`.
 
-If those secrets are missing or blank, the workflow fails with `REAL_SCALE_2_CREDENTIALS_MISSING`
-before `rapture run`. It never substitutes `--agent fake`. Toolchain pins are Node `22.14.0`,
-pnpm `10.12.1`, and `@openai/codex@0.147.0`. The Rapture command remains
+`rapture doctor` runs before `rapture run`. If secrets are missing on the real path, the job fails with
+`REAL_SCALE_2_CREDENTIALS_MISSING` and never substitutes `--agent fake`. Preflight-only mode records
+that same blocker as an expected diagnostic and does not start inference. Toolchain pins are Node
+`22.14.0`, pnpm `10.12.1`, and `@openai/codex@0.147.0`. The Rapture command remains
 `--workers 1,2 --repetitions 3 --seed 20260817 --agent codex`. Do not pool GitHub-hosted results
 with other environment fingerprints.
 

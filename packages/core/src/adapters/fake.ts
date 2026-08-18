@@ -2,6 +2,7 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { ProcessResult } from "../models.js";
 import { runProcess } from "../process.js";
+import { fakeCredentialProbe } from "./auth.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
 
 const workerScript = `
@@ -65,4 +66,5 @@ export const fakeAgentAdapter: AgentAdapter = {
     };
   },
   extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  probeCredentials: () => fakeCredentialProbe(),
 };

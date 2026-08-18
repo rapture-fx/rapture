@@ -13,12 +13,14 @@ import {
   authenticateCodex,
   buildRaptureArgv,
   CiError,
+  doctorArgv,
   EXPECTED_FROZEN_CONFIGURATION,
   fakeAgentRefusalMessage,
   loadFrozen,
   loginArgs,
   missingCredentialMessage,
   PINNED,
+  preflightOnlyAllowsSuccess,
   publicCredentialRecord,
   raptureChildEnv,
   resolveCredentials,
@@ -225,9 +227,39 @@ describe("workflow pins", () => {
     assert.match(workflow, /secrets\.OPENAI_API_KEY/u);
     assert.match(workflow, /secrets\.CODEX_API_KEY/u);
     assert.match(workflow, /secrets\.CODEX_ACCESS_TOKEN/u);
-    assert.match(workflow, /scripts\/real-scale-2\/ci\.mjs preflight/u);
+    assert.match(workflow, /scripts\/real-scale-2\/ci\.mjs doctor/u);
     assert.match(workflow, /scripts\/real-scale-2\/ci\.mjs run/u);
+    assert.match(workflow, /preflight_only/u);
     assert.match(workflow, /experiments\/real-scale-2/u);
     assert.match(workflow, /persist-credentials: false/u);
+  });
+
+  it("builds a doctor argv that never starts inference or fake workers", () => {
+    const argv = doctorArgv();
+    assert.equal(argv[0], "doctor");
+    assert.equal(argv.includes("run"), false);
+    assert.equal(argv.includes("fake"), false);
+    assert.equal(argv.includes("codex"), true);
+  });
+
+  it("treats missing auth as an allowed preflight-only blocker", () => {
+    assert.equal(
+      preflightOnlyAllowsSuccess({
+        checks: [
+          { id: "NODE_RUNTIME", status: "PASS" },
+          { id: "AGENT_AUTH", status: "BLOCKED" },
+        ],
+      }),
+      true,
+    );
+    assert.equal(
+      preflightOnlyAllowsSuccess({
+        checks: [
+          { id: "GIT_RUNTIME", status: "BLOCKED" },
+          { id: "AGENT_AUTH", status: "BLOCKED" },
+        ],
+      }),
+      false,
+    );
   });
 });

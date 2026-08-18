@@ -2,8 +2,8 @@
 
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { copyFile, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { cpus, homedir, platform, release } from "node:os";
+import { appendFile, copyFile, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cpus, homedir, type as osType, platform, release, totalmem } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -267,10 +267,12 @@ export async function collectFingerprint(env, frozen) {
   const taskBytes = await readFile(join(REPO_ROOT, TASK_FILE));
   const workflowBytes = await readFile(join(REPO_ROOT, ".github/workflows/real-scale-2-codex.yml"));
   const codexHome = nonemptySecret(env.CODEX_HOME) ?? join(homedir(), ".codex");
+  const cpuModel = cpus()[0]?.model ?? null;
   return {
     schemaVersion: 1,
     experimentName: "real-scale-2",
     recordedAt: new Date().toISOString(),
+    timestamp: new Date().toISOString(),
     pinned: PINNED,
     frozen: {
       path: "experiments/real-scale-2.frozen.json",
@@ -294,6 +296,9 @@ export async function collectFingerprint(env, frozen) {
       imageVersion: env.ImageVersion ?? null,
       operatingSystemRelease: release(),
       cpuCount: cpus().length,
+      cpuModel,
+      memoryBytes: totalmem(),
+      kernel: `${osType()} ${release()}`,
     },
     github: {
       repository: env.GITHUB_REPOSITORY ?? null,
@@ -313,13 +318,31 @@ export async function collectFingerprint(env, frozen) {
       codex: codex.stdout || codex.stderr || null,
       codexPackage: PINNED.codexPackage,
       raptureCli: "apps/cli/dist/index.js",
+      raptureCommit: env.GITHUB_SHA ?? null,
     },
     agent: {
       name: "codex",
       modelPinnedByRapture: frozen.configuration.agentModel ?? null,
       modelFromCodexConfig: await readDefaultModel(codexHome),
+      reasoningConfiguration: null,
       credential: credentials,
     },
+    runnerOs: env.RUNNER_OS ?? platform(),
+    runnerArchitecture: env.RUNNER_ARCH ?? process.arch,
+    cpuCount: cpus().length,
+    cpuModel,
+    memoryBytes: totalmem(),
+    kernel: `${osType()} ${release()}`,
+    nodeVersion: node.stdout || process.version,
+    pnpmVersion: pnpm.stdout || null,
+    gitVersion: git.stdout || git.stderr || null,
+    raptureCommit: env.GITHUB_SHA ?? null,
+    codexBinaryVersion: codex.stdout || codex.stderr || null,
+    modelConfiguration: frozen.configuration.agentModel ?? null,
+    reasoningConfiguration: null,
+    githubRunId: env.GITHUB_RUN_ID ?? null,
+    githubRunnerImage: env.ImageOS ?? null,
+    githubImageVersion: env.ImageVersion ?? null,
   };
 }
 
@@ -401,6 +424,119 @@ export async function assertCodexLoginStatus() {
   }
 }
 
+export function doctorArgv() {
+  const argv = [
+    "doctor",
+    "--config",
+    "experiments/real-scale-2.frozen.json",
+    "--agent",
+    "codex",
+    "--output",
+    OUTPUT_DIRECTORY,
+    "--write-dir",
+    OUTPUT_DIRECTORY,
+    "--json",
+  ];
+  if (argv.includes("fake") || argv.includes("run")) {
+    throw new CiError("REAL_SCALE_2_FAKE_AGENT_REFUSED", fakeAgentRefusalMessage());
+  }
+  return argv;
+}
+
+export function preflightOnlyAllowsSuccess(result) {
+  const blocked = result.checks.filter((item) => item.status === "BLOCKED").map((item) => item.id);
+  if (blocked.length === 0) return true;
+  return blocked.every((id) => id === "AGENT_AUTH");
+}
+
+export function formatDoctorJobSummary(result) {
+  const lines = [
+    `## Rapture doctor: ${result.status}`,
+    "",
+    `Experiment: \`${result.experiment ?? "none"}\``,
+    "",
+    "This is infrastructure preflight. It is not a coding-agent scaling result.",
+    "",
+    "| Check | Status | Message |",
+    "| --- | --- | --- |",
+  ];
+  for (const item of result.checks) {
+    lines.push(`| ${item.id} | ${item.status} | ${item.message.replaceAll("|", "\\|")} |`);
+  }
+  const auth = result.checks.find((item) => item.id === "AGENT_AUTH");
+  if (auth?.details?.code === "REAL_SCALE_2_CREDENTIALS_MISSING") {
+    lines.push("", "`REAL_SCALE_2_CREDENTIALS_MISSING`");
+  }
+  lines.push("");
+  return lines.join("\n");
+}
+
+export async function runRaptureDoctor(env, options = {}) {
+  const preflightOnly = options.preflightOnly === true;
+  const frozen = await loadFrozen();
+  assertFrozenCodexExperiment(frozen);
+  const output = join(REPO_ROOT, OUTPUT_DIRECTORY);
+  await mkdir(output, { recursive: true });
+  const rapture = join(REPO_ROOT, "apps/cli/dist/index.js");
+  const spawned = await spawnProcess(process.execPath, [rapture, ...doctorArgv()], {
+    cwd: REPO_ROOT,
+    env: raptureChildEnv(env),
+    stdio: "inherit",
+  });
+  const doctorPath = join(output, "doctor.json");
+  let result;
+  try {
+    result = JSON.parse(await readFile(doctorPath, "utf8"));
+  } catch {
+    throw new CiError(
+      "REAL_SCALE_2_DOCTOR_FAILED",
+      `rapture doctor did not write ${doctorPath} (exit ${spawned.exitCode})`,
+    );
+  }
+  assertNoSecretMaterial(JSON.stringify(result), env);
+  if (result.scalingConclusion !== null) {
+    throw new CiError(
+      "REAL_SCALE_2_DOCTOR_FAILED",
+      "doctor output attempted to report a scaling conclusion; refusing to continue",
+    );
+  }
+  const summaryPath = env.GITHUB_STEP_SUMMARY;
+  if (typeof summaryPath === "string" && summaryPath.trim() !== "") {
+    await appendFile(summaryPath, `${formatDoctorJobSummary(result)}\n`);
+  }
+  const authBlocked = result.checks.some(
+    (item) =>
+      item.id === "AGENT_AUTH" &&
+      item.status === "BLOCKED" &&
+      item.details?.code === "REAL_SCALE_2_CREDENTIALS_MISSING",
+  );
+  if (preflightOnly) {
+    if (!preflightOnlyAllowsSuccess(result)) {
+      throw new CiError(
+        "REAL_SCALE_2_PREFLIGHT_BLOCKED",
+        "preflight-only doctor found a blocker other than missing Codex authentication",
+      );
+    }
+    process.stdout.write(
+      "preflight-only complete. Missing Codex authentication is an expected blocker and is not a workflow implementation failure. No inference was started.\n",
+    );
+    return result;
+  }
+  if (authBlocked || result.status === "BLOCKED") {
+    if (authBlocked) {
+      throw new CiError("REAL_SCALE_2_CREDENTIALS_MISSING", missingCredentialMessage());
+    }
+    throw new CiError(
+      "REAL_SCALE_2_DOCTOR_BLOCKED",
+      "rapture doctor is BLOCKED; refusing to start the frozen Codex experiment",
+    );
+  }
+  if (spawned.exitCode !== 0) {
+    throw new CiError("REAL_SCALE_2_DOCTOR_FAILED", `rapture doctor exited ${spawned.exitCode}`);
+  }
+  return result;
+}
+
 export async function runFrozenExperiment(env) {
   const frozen = await loadFrozen();
   assertCodexCredentials(env);
@@ -454,6 +590,12 @@ async function main(argv, env) {
       );
       return;
     }
+    if (command === "doctor") {
+      await runRaptureDoctor(env, {
+        preflightOnly: env.RAPTURE_PREFLIGHT_ONLY === "1" || env.RAPTURE_PREFLIGHT_ONLY === "true",
+      });
+      return;
+    }
     if (command === "authenticate") {
       await authenticateCodex(env);
       await assertCodexLoginStatus();
@@ -473,7 +615,7 @@ async function main(argv, env) {
     }
     throw new CiError(
       "REAL_SCALE_2_USAGE",
-      "usage: node scripts/real-scale-2/ci.mjs <preflight|authenticate|fingerprint|run>",
+      "usage: node scripts/real-scale-2/ci.mjs <preflight|doctor|authenticate|fingerprint|run>",
     );
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);

@@ -251,14 +251,14 @@ missing, no credentials in the environment, no Codex MCP server.
 
 ## Recommendation: scale to 4 workers, investigate a bottleneck, improve methodology, or stop
 
-Do not scale to 4 workers. Do not optimize Rapture. Re-run the frozen 1-vs-2
-Codex configuration on a machine where the same Codex version is installed and
-already authenticated, or use the GitHub Actions workflow
-`.github/workflows/real-scale-2-codex.yml` with an Environment/repository
-secret. Keep seed `20260817`, the same six tasks, and three repetitions. Only
-after those six real trials exist should efficiency, variance, or a 4-worker
-follow-up be discussed. GitHub-hosted fingerprints must not be pooled with
-other environments.
+Do not scale to 4 workers. Do not optimize Rapture. Run `rapture doctor --config
+experiments/real-scale-2.frozen.json` or the GitHub Actions workflow with
+`preflight_only=true` until authentication is READY. Then re-run the frozen
+1-vs-2 Codex configuration on an authenticated host (GitHub Actions Environment
+`real-scale-2` or equivalent). Keep seed `20260817`, the same six tasks, and
+three repetitions. Only after those six real trials exist should efficiency,
+variance, or a 4-worker follow-up be discussed. GitHub-hosted fingerprints must
+not be pooled with other environments.
 
 ## Required trial table
 

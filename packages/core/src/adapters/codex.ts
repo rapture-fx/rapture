@@ -1,5 +1,6 @@
 import type { ProcessResult } from "../models.js";
 import { runProcess } from "../process.js";
+import { detectCodexCredentialPresence } from "./auth.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
 
 function prompt(input: AgentRunInput): string {
@@ -62,4 +63,5 @@ export const codexAgentAdapter: AgentAdapter = {
   },
   // Codex's human-readable terminal output is not a stable usage contract.
   extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  probeCredentials: (env) => detectCodexCredentialPresence(env),
 };

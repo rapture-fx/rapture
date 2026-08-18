@@ -3,10 +3,15 @@
 import {
   buildExperimentConfig,
   ConfigurationError,
+  DoctorError,
+  doctorExitCode,
+  formatDoctor,
   formatReport,
   inspectExperiment,
   loadTasks,
+  persistDoctorArtifacts,
   regenerateReport,
+  runDoctor,
   runExperiment,
 } from "@rapture/core";
 import { Command, InvalidArgumentError, Option } from "commander";
@@ -42,6 +47,65 @@ program
   .action(async (options: { readonly tasks: string }) => {
     const tasks = await loadTasks(options.tasks);
     process.stdout.write(`valid: ${tasks.length} task(s)\n`);
+  });
+
+const doctorOptionsSchema = z.object({
+  config: z.string().optional(),
+  agent: z.enum(["fake", "codex"]).optional(),
+  agentModel: z.string().optional(),
+  repo: z.string().optional(),
+  tasks: z.string().optional(),
+  output: z.string().optional(),
+  writeDir: z.string().optional(),
+  json: z.boolean(),
+});
+
+program
+  .command("doctor")
+  .description("inspect whether this environment can execute a Rapture experiment")
+  .option("--config <path>", "frozen experiment JSON")
+  .addOption(new Option("--agent <adapter>", "agent adapter").choices(["fake", "codex"]))
+  .option("--agent-model <name>", "optional pinned provider model identifier")
+  .option("--repo <path>", "local Git repository")
+  .option("--tasks <path>", "task definition JSON")
+  .option("--output <path>", "experiment output directory")
+  .option("--write-dir <path>", "write doctor.json and runner-fingerprint.json")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (rawOptions: unknown) => {
+    const options = doctorOptionsSchema.parse(rawOptions);
+    try {
+      const result = await runDoctor({
+        workspaceRoot: process.cwd(),
+        env: process.env,
+        ...(options.repo === undefined ? {} : { repository: options.repo }),
+        ...(options.tasks === undefined ? {} : { taskFile: options.tasks }),
+        ...(options.output === undefined ? {} : { outputDirectory: options.output }),
+        ...(options.agent === undefined ? {} : { agent: options.agent }),
+        ...(options.agentModel === undefined ? {} : { agentModel: options.agentModel }),
+        ...(options.config === undefined ? {} : { configPath: options.config }),
+      });
+      const writeDir = options.writeDir ?? options.output;
+      if (writeDir !== undefined) {
+        await persistDoctorArtifacts(writeDir, result, process.env);
+      }
+      if (options.json) printJson(result);
+      else process.stdout.write(`${formatDoctor(result)}\n`);
+      process.exitCode = doctorExitCode(result.status);
+    } catch (error: unknown) {
+      if (error instanceof ConfigurationError || error instanceof z.ZodError) {
+        process.stderr.write(`configuration error: ${error.message}\n`);
+        process.exitCode = 3;
+        return;
+      }
+      if (error instanceof DoctorError) {
+        process.stderr.write(`${error.message}\n`);
+        process.exitCode = error.exitCode;
+        return;
+      }
+      const detail = error instanceof Error ? error.message : String(error);
+      process.stderr.write(`doctor internal failure: ${detail}\n`);
+      process.exitCode = 4;
+    }
   });
 
 program
@@ -123,7 +187,10 @@ program.configureOutput({
 try {
   await program.parseAsync(process.argv);
 } catch (error: unknown) {
-  if (error instanceof ConfigurationError || error instanceof z.ZodError) {
+  if (error instanceof DoctorError) {
+    process.stderr.write(`${error.message}\n`);
+    process.exitCode = error.exitCode;
+  } else if (error instanceof ConfigurationError || error instanceof z.ZodError) {
     process.stderr.write(`configuration error: ${error.message}\n`);
     process.exitCode = 2;
   } else if (error instanceof InvalidArgumentError) {

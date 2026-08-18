@@ -1,4 +1,5 @@
 import type { JsonValue, ProcessResult, TaskDefinition } from "../models.js";
+import type { AgentCredentialProbe } from "./auth.js";
 
 export interface AgentRunInput {
   readonly task: TaskDefinition;
@@ -26,4 +27,7 @@ export interface AgentAdapter {
     readonly tokenUsage: number | null;
     readonly providerCost: number | null;
   };
+  readonly probeCredentials: (
+    env: Readonly<Record<string, string | undefined>>,
+  ) => AgentCredentialProbe;
 }
