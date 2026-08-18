@@ -29,5 +29,5 @@ export interface AgentAdapter {
   };
   readonly probeCredentials: (
     env: Readonly<Record<string, string | undefined>>,
-  ) => AgentCredentialProbe;
+  ) => AgentCredentialProbe | Promise<AgentCredentialProbe>;
 }
