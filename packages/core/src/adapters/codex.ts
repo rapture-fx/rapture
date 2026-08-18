@@ -63,5 +63,25 @@ export const codexAgentAdapter: AgentAdapter = {
   },
   // Codex's human-readable terminal output is not a stable usage contract.
   extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
-  probeCredentials: (env) => detectCodexCredentialPresence(env),
+  probeCredentials: async (env) => {
+    const environmentProbe = detectCodexCredentialPresence(env);
+    if (environmentProbe.present) return environmentProbe;
+
+    try {
+      const childEnv = Object.fromEntries(
+        Object.entries(env).filter((entry): entry is [string, string] => entry[1] !== undefined),
+      );
+      const status = await runProcess("codex", ["login", "status"], {
+        cwd: process.cwd(),
+        timeoutMs: 30_000,
+        env: childEnv,
+      });
+      if (status.exitCode === 0) {
+        return { ...environmentProbe, present: true, method: "chatgpt" };
+      }
+    } catch {
+      // The doctor reports the same credential remediation for a missing CLI or failed status probe.
+    }
+    return environmentProbe;
+  },
 };
