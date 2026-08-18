@@ -180,12 +180,14 @@ describe("doctor integration", () => {
   });
 
   it("blocks on missing Codex auth without leaking secrets", async () => {
+    const codexHome = await mkdtemp(join(tmpdir(), "rapture-codex-home-"));
     const result = await runDoctor({
       workspaceRoot,
       agent: "codex",
       env: {
         PATH: process.env.PATH,
         HOME: process.env.HOME,
+        CODEX_HOME: codexHome,
         OPENAI_API_KEY: "",
         CODEX_API_KEY: "",
         CODEX_ACCESS_TOKEN: "",
@@ -269,6 +271,7 @@ describe("doctor integration", () => {
 
   it("diagnoses the frozen Codex experiment without running inference", async () => {
     const output = join(await mkdtemp(join(tmpdir(), "rapture-doctor-frozen-")), "out");
+    const codexHome = await mkdtemp(join(tmpdir(), "rapture-codex-home-"));
     const result = await runDoctor({
       workspaceRoot,
       configPath: join(workspaceRoot, "experiments/real-scale-2.frozen.json"),
@@ -276,6 +279,7 @@ describe("doctor integration", () => {
       env: {
         PATH: process.env.PATH,
         HOME: process.env.HOME,
+        CODEX_HOME: codexHome,
         OPENAI_API_KEY: "",
         CODEX_API_KEY: "",
         CODEX_ACCESS_TOKEN: "",
