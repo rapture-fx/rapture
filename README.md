@@ -125,6 +125,24 @@ sandbox; run real agents only against repositories and environments you are will
 local process. See [docs/real-scale-2-report.md](docs/real-scale-2-report.md) for the first 1-vs-2
 attempt and its infrastructure block.
 
+## GitHub Actions (frozen Codex 1-vs-2)
+
+The frozen real-agent matrix runs on a single GitHub-hosted `ubuntu-24.04` runner via
+`.github/workflows/real-scale-2-codex.yml`. It is `workflow_dispatch` only so pull requests cannot
+spend Codex quota or read the secrets.
+
+1. Create the GitHub Environment `real-scale-2` (or use repository secrets).
+2. Set `OPENAI_API_KEY` or `CODEX_API_KEY`, or `CODEX_ACCESS_TOKEN`.
+3. Run the **real-scale-2 Codex** workflow.
+4. Download the `real-scale-2-<run-id>` artifact. It is the entire `experiments/real-scale-2/`
+   directory, including `runner-fingerprint.json`.
+
+If those secrets are missing or blank, the workflow fails with `REAL_SCALE_2_CREDENTIALS_MISSING`
+before `rapture run`. It never substitutes `--agent fake`. Toolchain pins are Node `22.14.0`,
+pnpm `10.12.1`, and `@openai/codex@0.147.0`. The Rapture command remains
+`--workers 1,2 --repetitions 3 --seed 20260817 --agent codex`. Do not pool GitHub-hosted results
+with other environment fingerprints.
+
 ## Artifact layout
 
 Each experiment contains immutable `manifest.json`, append-only `events.jsonl`, final `outcome.json`,

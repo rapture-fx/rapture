@@ -7,5 +7,7 @@ coverage/
 *.log
 .DS_Store
 runs/
+experiments/real-scale-2/
+.tmp/
 fixtures/repository/
 .turbo/

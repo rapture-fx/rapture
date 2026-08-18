@@ -1,0 +1,91 @@
+# Frozen real-agent Codex 1-vs-2 experiment.
+# Manual only: this job spends Codex quota and must not run on pull_request.
+#
+# Secrets (repository or GitHub Environment `real-scale-2`):
+#   OPENAI_API_KEY or CODEX_API_KEY, or CODEX_ACCESS_TOKEN
+# Missing credentials fail the job before Rapture starts. There is no fake-agent fallback.
+
+name: real-scale-2 Codex
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: real-scale-2-codex
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  real-scale-2:
+    name: Frozen Codex 1-vs-2 × 3
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    environment: real-scale-2
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CODEX_API_KEY: ${{ secrets.CODEX_API_KEY }}
+      CODEX_ACCESS_TOKEN: ${{ secrets.CODEX_ACCESS_TOKEN }}
+      CODEX_HOME: ${{ runner.temp }}/codex-home
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Fail closed if Codex credentials are absent
+        run: |
+          set -eu
+          if [ -z "${OPENAI_API_KEY:-}" ] && [ -z "${CODEX_API_KEY:-}" ] && [ -z "${CODEX_ACCESS_TOKEN:-}" ]; then
+            echo "REAL_SCALE_2_CREDENTIALS_MISSING" >&2
+            echo "Set repository or environment secret OPENAI_API_KEY, CODEX_API_KEY, or CODEX_ACCESS_TOKEN." >&2
+            echo "Refusing to execute. This workflow never falls back to the fake adapter." >&2
+            exit 1
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        with:
+          version: 10.12.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: "22.14.0"
+          cache: pnpm
+
+      - name: Frozen-config and credential preflight
+        run: node scripts/real-scale-2/ci.mjs preflight
+
+      - name: Install Rapture
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Rapture
+        run: pnpm build
+
+      - name: Install pinned Codex CLI
+        run: npm install -g @openai/codex@0.147.0
+
+      - name: Authenticate Codex CLI
+        run: |
+          mkdir -p "$CODEX_HOME"
+          node scripts/real-scale-2/ci.mjs authenticate
+
+      - name: Record runner and toolchain fingerprint
+        run: node scripts/real-scale-2/ci.mjs fingerprint
+
+      - name: Run frozen Codex 1-vs-2 experiment
+        id: experiment
+        run: node scripts/real-scale-2/ci.mjs run
+
+      - name: Upload experiment directory
+        if: always() && steps.experiment.outcome != 'skipped'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: real-scale-2-${{ github.run_id }}
+          path: experiments/real-scale-2
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
