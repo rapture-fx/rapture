@@ -12,7 +12,7 @@ export interface AgentCredentialProbe {
   readonly required: boolean;
   readonly present: boolean;
   readonly envVar: string | null;
-  readonly method: "api-key" | "access-token" | null;
+  readonly method: "api-key" | "access-token" | "chatgpt" | null;
   readonly supportedEnvVars: readonly string[];
 }
 
