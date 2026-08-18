@@ -368,7 +368,7 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
     checks.push(await checkRepositoryState(repository, requireClean));
     checks.push(await checkWorktreeState(repository));
     checks.push(await checkAgentBinary(adapter));
-    checks.push(checkAgentAuth(adapter, env));
+    checks.push(await checkAgentAuth(adapter, env));
     checks.push(checkModelConfig(agent, agentModel));
     checks.push(await checkOutputPath(outputDirectory));
   } catch (error: unknown) {
