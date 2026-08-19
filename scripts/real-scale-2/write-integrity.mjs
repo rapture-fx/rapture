@@ -5,9 +5,10 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+const experimentName = process.argv[2] ?? "real-scale-2";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const roots = [
-  "experiments/real-scale-2.frozen.json",
+  `experiments/${experimentName}.frozen.json`,
   "fixtures/ledger-kit/tasks.json",
   "fixtures/ledger-kit/create.mjs",
   "fixtures/ledger-kit/package.json",
@@ -41,10 +42,10 @@ for (const file of files) {
 }
 const payload = {
   schemaVersion: 1,
-  experimentName: "real-scale-2",
+  experimentName,
   files: hashes,
   aggregateSha256: createHash("sha256").update(lines.join("\n")).digest("hex"),
 };
-const destination = join(root, "experiments/real-scale-2.integrity.json");
+const destination = join(root, `experiments/${experimentName}.integrity.json`);
 await writeFile(destination, `${JSON.stringify(payload, null, 2)}\n`);
 process.stdout.write(`${destination}\n${payload.aggregateSha256}\n`);

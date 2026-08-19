@@ -5,15 +5,11 @@ import { REAL_SCALE_2_CREDENTIALS_MISSING } from "./adapters/auth.js";
 import type { AgentAdapter } from "./adapters/types.js";
 import { loadTasks } from "./config.js";
 import type { DoctorCheck, DoctorCheckStatus, JsonDetails } from "./doctor.js";
-import {
-  type FrozenExperiment,
-  frozenSemanticMismatches,
-  REAL_SCALE_2_EXPECTED,
-} from "./frozen.js";
+import { type FrozenExperiment, frozenSemanticMismatches } from "./frozen.js";
 import { currentCommit, repositoryFingerprint, resolveCommit, runGit } from "./git.js";
 import {
   computeFrozenIntegrity,
-  FROZEN_INTEGRITY_PATH,
+  frozenIntegrityPath,
   integrityDrift,
   loadExpectedIntegrity,
 } from "./integrity.js";
@@ -251,10 +247,7 @@ export function evaluateExperimentConfig(
       taskFile: frozen.configuration.taskFile,
     });
   }
-  const mismatches =
-    frozen.experimentName === REAL_SCALE_2_EXPECTED.experimentName
-      ? frozenSemanticMismatches(frozen)
-      : [];
+  const mismatches = frozenSemanticMismatches(frozen);
   if (mismatches.length > 0) {
     return check(
       "EXPERIMENT_CONFIG",
@@ -582,14 +575,17 @@ export async function checkOutputPath(outputDirectory: string | null): Promise<D
   });
 }
 
-export async function checkFrozenIntegrity(workspaceRoot: string): Promise<DoctorCheck> {
-  const actual = await computeFrozenIntegrity(workspaceRoot);
-  const expected = await loadExpectedIntegrity(workspaceRoot);
+export async function checkFrozenIntegrity(
+  workspaceRoot: string,
+  experimentName = "real-scale-2",
+): Promise<DoctorCheck> {
+  const actual = await computeFrozenIntegrity(workspaceRoot, experimentName);
+  const expected = await loadExpectedIntegrity(workspaceRoot, experimentName);
   if (expected === null) {
     return check(
       "EXPERIMENT_CONFIG",
       "WARNING",
-      `Frozen integrity sidecar is missing (${FROZEN_INTEGRITY_PATH}).`,
+      `Frozen integrity sidecar is missing (${frozenIntegrityPath(experimentName)}).`,
       { actual: actual.aggregateSha256 },
     );
   }

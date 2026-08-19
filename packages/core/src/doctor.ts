@@ -23,7 +23,12 @@ import {
   createLedgerKitCopy,
   evaluateExperimentConfig,
 } from "./doctor-checks.js";
-import { type FrozenExperiment, loadFrozenExperiment, REAL_SCALE_2_EXPECTED } from "./frozen.js";
+import {
+  type FrozenExperiment,
+  isLedgerKitExperiment,
+  loadFrozenExperiment,
+  REAL_SCALE_2_EXPECTED,
+} from "./frozen.js";
 import { runGit } from "./git.js";
 import { computeFrozenIntegrity } from "./integrity.js";
 import type { JsonValue } from "./models.js";
@@ -322,9 +327,10 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
     let configCheck = evaluateExperimentConfig(frozen, hasTaskFile ? taskFile : null);
     if (
       configCheck.status === "PASS" &&
-      frozen?.experimentName === REAL_SCALE_2_EXPECTED.experimentName
+      frozen !== null &&
+      isLedgerKitExperiment(frozen.experimentName)
     ) {
-      const integrityCheck = await checkFrozenIntegrity(workspaceRoot);
+      const integrityCheck = await checkFrozenIntegrity(workspaceRoot, frozen.experimentName);
       if (integrityCheck.status !== "PASS") configCheck = integrityCheck;
       else {
         configCheck = {
@@ -339,14 +345,14 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
       await checkTaskIntegrity(
         hasTaskFile ? taskFile : null,
         frozen?.configuration.taskIds ??
-          (frozen?.experimentName === REAL_SCALE_2_EXPECTED.experimentName
+          (frozen !== null && isLedgerKitExperiment(frozen.experimentName)
             ? REAL_SCALE_2_EXPECTED.taskIds
             : null),
       ),
     );
 
     const needsFixture =
-      frozen?.experimentName === REAL_SCALE_2_EXPECTED.experimentName ||
+      (frozen !== null && isLedgerKitExperiment(frozen.experimentName)) ||
       (hasTaskFile && taskFile.endsWith("fixtures/ledger-kit/tasks.json"));
     if (needsFixture) {
       const createError = await createLedgerKitCopy(workspaceRoot, fixtureDestination);
@@ -384,8 +390,8 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
   }
 
   const integrity =
-    frozen?.experimentName === REAL_SCALE_2_EXPECTED.experimentName
-      ? await computeFrozenIntegrity(workspaceRoot)
+    frozen !== null && isLedgerKitExperiment(frozen.experimentName)
+      ? await computeFrozenIntegrity(workspaceRoot, frozen.experimentName)
       : null;
   const runnerFingerprint = await collectRunnerFingerprint({
     workspaceRoot,
