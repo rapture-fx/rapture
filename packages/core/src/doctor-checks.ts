@@ -432,7 +432,9 @@ export async function checkAgentBinary(adapter: AgentAdapter | null): Promise<Do
       { binary: adapter.name(), detail: availability.detail, version },
       adapter.name() === "codex"
         ? "Install the pinned Codex CLI (@openai/codex@0.147.0) on PATH."
-        : "Install the configured agent binary.",
+        : adapter.name() === "opencode"
+          ? "Install OpenCode (e.g. `curl -fsSL https://opencode.ai/install | bash` or `npm i -g opencode-ai`) and put `opencode` on PATH."
+          : "Install the configured agent binary.",
     );
   }
   return check("AGENT_BINARY", "PASS", `${adapter.name()} is available.`, {
@@ -486,7 +488,7 @@ export async function checkAgentAuth(
 }
 
 export function checkModelConfig(
-  agent: "fake" | "codex" | null,
+  agent: "fake" | "codex" | "opencode" | null,
   model: string | null,
 ): DoctorCheck {
   if (agent === null) {
@@ -518,7 +520,7 @@ export function checkModelConfig(
   return check(
     "MODEL_CONFIG",
     "WARNING",
-    "Model is not pinned; the Codex adapter will use the provider default. Reasoning is also not pinned.",
+    "Model is not pinned; the agent adapter will use the provider default. Reasoning is also not pinned.",
     {
       agent,
       modelPinned: false,

@@ -1,10 +1,12 @@
 export type { AgentCredentialProbe } from "./adapters/auth.js";
 export {
   detectCodexCredentialPresence,
+  detectOpenCodeCredentialPresence,
   REAL_SCALE_2_CREDENTIALS_MISSING,
 } from "./adapters/auth.js";
 export { codexAgentAdapter } from "./adapters/codex.js";
 export { fakeAgentAdapter } from "./adapters/fake.js";
+export { OPENCODE_MODEL, opencodeAgentAdapter } from "./adapters/opencode.js";
 export type { AgentAdapter, AgentRunInput, AgentRunResult } from "./adapters/types.js";
 export {
   buildExperimentConfig,
@@ -45,6 +47,7 @@ export {
   frozenSemanticMismatches,
   isLedgerKitExperiment,
   loadFrozenExperiment,
+  OPENCODE_SCALE_4_EXPECTED,
   REAL_SCALE_2_EXPECTED,
   REAL_SCALE_4_EXPECTED,
 } from "./frozen.js";

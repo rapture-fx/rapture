@@ -5,6 +5,7 @@ import { z } from "zod";
 import { credentialValuesForLeakCheck } from "./adapters/auth.js";
 import { codexAgentAdapter } from "./adapters/codex.js";
 import { fakeAgentAdapter } from "./adapters/fake.js";
+import { opencodeAgentAdapter } from "./adapters/opencode.js";
 import type { AgentAdapter } from "./adapters/types.js";
 import { sha256 } from "./artifacts.js";
 import {
@@ -87,7 +88,7 @@ export interface DoctorResult {
   readonly schemaVersion: 1;
   readonly status: DoctorStatus;
   readonly experiment: string | null;
-  readonly agent: "fake" | "codex" | null;
+  readonly agent: "fake" | "codex" | "opencode" | null;
   readonly checks: readonly DoctorCheck[];
   readonly integrity: Awaited<ReturnType<typeof computeFrozenIntegrity>> | null;
   readonly runnerFingerprint: RunnerFingerprint;
@@ -117,7 +118,7 @@ export const doctorResultSchema = z.object({
   schemaVersion: z.literal(1),
   status: z.enum(["READY", "BLOCKED", "WARNING"]),
   experiment: z.string().nullable(),
-  agent: z.enum(["fake", "codex"]).nullable(),
+  agent: z.enum(["fake", "codex", "opencode"]).nullable(),
   checks: z.array(doctorCheckSchema),
   integrity: z.unknown().nullable(),
   runnerFingerprint: z.object({
@@ -161,8 +162,12 @@ export function preflightOnlyAllowsSuccess(result: DoctorResult): boolean {
   return blocked.every((id) => id === "AGENT_AUTH");
 }
 
-export function adapterFor(agent: "fake" | "codex"): AgentAdapter {
-  return agent === "fake" ? fakeAgentAdapter : codexAgentAdapter;
+export type AgentName = "fake" | "codex" | "opencode";
+
+export function adapterFor(agent: AgentName): AgentAdapter {
+  if (agent === "fake") return fakeAgentAdapter;
+  if (agent === "opencode") return opencodeAgentAdapter;
+  return codexAgentAdapter;
 }
 
 export interface DoctorOptions {
@@ -170,7 +175,7 @@ export interface DoctorOptions {
   readonly repository?: string;
   readonly taskFile?: string;
   readonly outputDirectory?: string;
-  readonly agent?: "fake" | "codex";
+  readonly agent?: AgentName;
   readonly agentModel?: string | null;
   readonly configPath?: string;
   readonly env?: Readonly<Record<string, string | undefined>>;

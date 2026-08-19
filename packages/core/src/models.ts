@@ -37,7 +37,7 @@ export interface ExperimentConfig {
   readonly tasks: readonly TaskDefinition[];
   readonly workerCounts: readonly number[];
   readonly repetitions: number;
-  readonly agent: "fake" | "codex";
+  readonly agent: "fake" | "codex" | "opencode";
   readonly agentModel: string | null;
   readonly outputDirectory: string;
   readonly budget: ExperimentBudget;

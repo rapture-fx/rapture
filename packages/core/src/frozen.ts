@@ -38,12 +38,26 @@ export const REAL_SCALE_4_EXPECTED = Object.freeze({
   integration: false,
 });
 
+export const OPENCODE_SCALE_4_EXPECTED = Object.freeze({
+  experimentName: "opencode-scale-4",
+  agent: "opencode" as const,
+  agentModel: "opencode/deepseek-v4-flash-free",
+  workerCounts: [1, 2, 4],
+  repetitions: 3,
+  seed: 20260817,
+  taskFile: "fixtures/ledger-kit/tasks.json",
+  taskCount: 6,
+  taskIds: LEDGER_KIT_TASK_IDS,
+  timeoutSecondsPerTask: 180,
+  integration: false,
+});
+
 const frozenExperimentSchema = z
   .object({
     experimentName: z.string().min(1),
     configuration: z
       .object({
-        agent: z.enum(["fake", "codex"]),
+        agent: z.enum(["fake", "codex", "opencode"]),
         agentVersion: z.string().nullable().optional(),
         agentModel: z.string().nullable().optional(),
         workerCounts: z.array(z.number().int().positive()).min(1),
@@ -79,7 +93,8 @@ export async function loadFrozenExperiment(path: string): Promise<FrozenExperime
 
 type ExpectedFrozenExperiment = {
   readonly experimentName: string;
-  readonly agent: "codex";
+  readonly agent: "codex" | "opencode";
+  readonly agentModel?: string;
   readonly workerCounts: readonly number[];
   readonly repetitions: number;
   readonly seed: number;
@@ -93,6 +108,7 @@ type ExpectedFrozenExperiment = {
 function expectedForExperiment(experimentName: string): ExpectedFrozenExperiment | null {
   if (experimentName === REAL_SCALE_2_EXPECTED.experimentName) return REAL_SCALE_2_EXPECTED;
   if (experimentName === REAL_SCALE_4_EXPECTED.experimentName) return REAL_SCALE_4_EXPECTED;
+  if (experimentName === OPENCODE_SCALE_4_EXPECTED.experimentName) return OPENCODE_SCALE_4_EXPECTED;
   return null;
 }
 
@@ -102,6 +118,9 @@ export function frozenSemanticMismatches(frozen: FrozenExperiment): readonly str
   const configuration = frozen.configuration;
   const mismatches: string[] = [];
   if (configuration.agent !== expected.agent) mismatches.push("agent");
+  if (expected.agentModel !== undefined && configuration.agentModel !== expected.agentModel) {
+    mismatches.push("agentModel");
+  }
   if (JSON.stringify(configuration.workerCounts) !== JSON.stringify(expected.workerCounts)) {
     mismatches.push("workerCounts");
   }

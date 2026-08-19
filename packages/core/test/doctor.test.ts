@@ -3,7 +3,10 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { detectCodexCredentialPresence } from "../src/adapters/auth.js";
+import {
+  detectCodexCredentialPresence,
+  detectOpenCodeCredentialPresence,
+} from "../src/adapters/auth.js";
 import { fakeAgentAdapter } from "../src/adapters/fake.js";
 import type { AgentAdapter } from "../src/adapters/types.js";
 import {
@@ -18,7 +21,9 @@ import {
 import { evaluateNodeRuntime } from "../src/doctor-checks.js";
 import {
   frozenSemanticMismatches,
+  isLedgerKitExperiment,
   loadFrozenExperiment,
+  OPENCODE_SCALE_4_EXPECTED,
   REAL_SCALE_4_EXPECTED,
 } from "../src/frozen.js";
 import { computeFrozenIntegrity } from "../src/integrity.js";
@@ -73,6 +78,15 @@ describe("credential probing", () => {
     expect(present.envVar).toBe("OPENAI_API_KEY");
     expect(JSON.stringify(present)).not.toContain("sk-live-secret-value");
   });
+
+  it("detects missing OpenCode auth without retaining secret values", () => {
+    const missing = detectOpenCodeCredentialPresence({ OPENCODE_API_KEY: "" });
+    expect(missing.present).toBe(false);
+    const present = detectOpenCodeCredentialPresence({ OPENCODE_API_KEY: "op-live-secret" });
+    expect(present.present).toBe(true);
+    expect(present.envVar).toBe("OPENCODE_API_KEY");
+    expect(JSON.stringify(present)).not.toContain("op-live-secret");
+  });
 });
 
 describe("frozen config and integrity", () => {
@@ -118,6 +132,32 @@ describe("frozen config and integrity", () => {
         configuration: { ...frozen.configuration, workerCounts: [1, 2] },
       }),
     ).toContain("workerCounts");
+  });
+
+  it("accepts the frozen opencode-scale-4 semantics", async () => {
+    const frozen = {
+      experimentName: "opencode-scale-4",
+      configuration: {
+        agent: OPENCODE_SCALE_4_EXPECTED.agent,
+        agentModel: OPENCODE_SCALE_4_EXPECTED.agentModel,
+        workerCounts: [1, 2, 4],
+        repetitions: 3,
+        seed: 20260817,
+        taskFile: "fixtures/ledger-kit/tasks.json",
+        taskCount: 6,
+        taskIds: [...OPENCODE_SCALE_4_EXPECTED.taskIds],
+        timeoutSecondsPerTask: 180,
+        integration: false,
+      },
+    };
+    expect(frozenSemanticMismatches(frozen)).toEqual([]);
+    expect(isLedgerKitExperiment("opencode-scale-4")).toBe(true);
+    expect(
+      frozenSemanticMismatches({
+        ...frozen,
+        configuration: { ...frozen.configuration, agentModel: "opencode/deepseek-v4-flash" },
+      }),
+    ).toContain("agentModel");
   });
 
   it("detects frozen input drift", async () => {
@@ -204,6 +244,105 @@ describe("doctor integration", () => {
       env: { PATH: process.env.PATH, HOME: process.env.HOME },
     });
     expect(result.checks.find((item) => item.id === "AGENT_BINARY")?.status).toBe("BLOCKED");
+    expect(result.status).toBe("BLOCKED");
+  });
+
+  it("blocks on a missing OpenCode binary", async () => {
+    const adapter: AgentAdapter = {
+      ...fakeAgentAdapter,
+      name: () => "opencode",
+      isAvailable: async () => ({ available: false, detail: "opencode: not found" }),
+      version: async () => null,
+      probeCredentials: fakeAgentAdapter.probeCredentials,
+    };
+    const result = await runDoctor({
+      workspaceRoot,
+      agent: "opencode",
+      adapter,
+      env: { PATH: process.env.PATH, HOME: process.env.HOME },
+    });
+    expect(result.checks.find((item) => item.id === "AGENT_BINARY")?.status).toBe("BLOCKED");
+    expect(result.status).toBe("BLOCKED");
+  });
+
+  it("reports READY for OpenCode with a test-double adapter", async () => {
+    const adapter: AgentAdapter = {
+      ...fakeAgentAdapter,
+      name: () => "opencode",
+      isAvailable: async () => ({ available: true, detail: "opencode 1.18.18" }),
+      version: async () => "1.18.18",
+      probeCredentials: async () => ({
+        required: true,
+        present: true,
+        envVar: null,
+        method: "opencode",
+        supportedEnvVars: [],
+      }),
+    };
+    const root = await mkdtemp(join(tmpdir(), "rapture-doctor-opencode-"));
+    const repository = await createGitRepository(root);
+    const taskFile = await writeTaskFile(root, [
+      fakeTask("one", "one.txt", "one\n", "node -e \"require('node:fs').accessSync('one.txt')\""),
+    ]);
+    const output = join(root, "out");
+    const configPath = join(root, "experiment.json");
+    await writeFile(
+      configPath,
+      JSON.stringify({
+        experimentName: "local-fake",
+        configuration: {
+          agent: "opencode",
+          agentModel: "opencode/deepseek-v4-flash-free",
+          workerCounts: [1],
+          repetitions: 1,
+          seed: 0,
+          taskFile,
+          taskCount: 1,
+          integration: false,
+        },
+      }),
+      "utf8",
+    );
+    const result = await runDoctor({
+      workspaceRoot,
+      repository,
+      taskFile,
+      outputDirectory: output,
+      agent: "opencode",
+      agentModel: "opencode/deepseek-v4-flash-free",
+      adapter,
+      configPath,
+      env: { PATH: process.env.PATH, HOME: process.env.HOME },
+    });
+    expect(result.agent).toBe("opencode");
+    expect(result.checks.find((item) => item.id === "AGENT_BINARY")?.status).toBe("PASS");
+    expect(result.checks.find((item) => item.id === "AGENT_AUTH")?.status).toBe("PASS");
+    expect(result.checks.find((item) => item.id === "MODEL_CONFIG")?.status).toBe("PASS");
+    expect(result.status).toBe("READY");
+  });
+
+  it("blocks OpenCode auth when no credential mechanism exists", async () => {
+    const adapter: AgentAdapter = {
+      ...fakeAgentAdapter,
+      name: () => "opencode",
+      isAvailable: async () => ({ available: true, detail: "opencode 1.18.18" }),
+      version: async () => "1.18.18",
+      probeCredentials: async () => ({
+        required: true,
+        present: false,
+        envVar: null,
+        method: null,
+        supportedEnvVars: ["OPENCODE_API_KEY"],
+      }),
+    };
+    const result = await runDoctor({
+      workspaceRoot,
+      agent: "opencode",
+      agentModel: "opencode/deepseek-v4-flash-free",
+      adapter,
+      env: { PATH: process.env.PATH, HOME: process.env.HOME },
+    });
+    expect(result.checks.find((item) => item.id === "AGENT_AUTH")?.status).toBe("BLOCKED");
     expect(result.status).toBe("BLOCKED");
   });
 
