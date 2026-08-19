@@ -55,6 +55,8 @@ export const opencodeAgentAdapter: AgentAdapter = {
   command: (input) => [
     "opencode",
     "run",
+    "--dir",
+    input.worktree,
     "--model",
     input.model === null ? OPENCODE_MODEL : input.model,
     "--agent",

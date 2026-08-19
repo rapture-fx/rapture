@@ -50,6 +50,8 @@ it("reports OpenCode identity and builds an explicit non-interactive argv", () =
   });
   expect(command[0]).toBe("opencode");
   expect(command).toContain("run");
+  expect(command).toContain("--dir");
+  expect(command).toContain("/tmp/worktree");
   expect(command).toContain("--model");
   expect(command).toContain(OPENCODE_MODEL);
   expect(command).toContain("--format");
