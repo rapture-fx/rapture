@@ -9,6 +9,7 @@ coverage/
 runs/
 experiments/real-scale-2/
 experiments/real-scale-4/
+experiments/opencode-scale-4/
 .tmp/
 fixtures/repository/
 .turbo/
