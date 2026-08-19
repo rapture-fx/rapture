@@ -16,7 +16,11 @@ import {
   runDoctor,
 } from "../src/doctor.js";
 import { evaluateNodeRuntime } from "../src/doctor-checks.js";
-import { frozenSemanticMismatches, loadFrozenExperiment } from "../src/frozen.js";
+import {
+  frozenSemanticMismatches,
+  loadFrozenExperiment,
+  REAL_SCALE_4_EXPECTED,
+} from "../src/frozen.js";
 import { computeFrozenIntegrity } from "../src/integrity.js";
 import { createGitRepository, fakeTask, writeTaskFile } from "./helpers.js";
 
@@ -90,6 +94,30 @@ describe("frozen config and integrity", () => {
     expect(first.files["fixtures/ledger-kit/tasks.json"]).toBeDefined();
     expect(first.files["fixtures/ledger-kit/validation/money.ts"]).toBeDefined();
     expect(first.files["fixtures/ledger-kit/src/money.ts"]).toBeDefined();
+  });
+
+  it("accepts the frozen real-scale-4 semantics", async () => {
+    const frozen = {
+      experimentName: "real-scale-4",
+      configuration: {
+        agent: REAL_SCALE_4_EXPECTED.agent,
+        workerCounts: [1, 2, 4],
+        repetitions: 3,
+        seed: 20260817,
+        taskFile: "fixtures/ledger-kit/tasks.json",
+        taskCount: 6,
+        taskIds: [...REAL_SCALE_4_EXPECTED.taskIds],
+        timeoutSecondsPerTask: 180,
+        integration: false,
+      },
+    };
+    expect(frozenSemanticMismatches(frozen)).toEqual([]);
+    expect(
+      frozenSemanticMismatches({
+        ...frozen,
+        configuration: { ...frozen.configuration, workerCounts: [1, 2] },
+      }),
+    ).toContain("workerCounts");
   });
 
   it("detects frozen input drift", async () => {

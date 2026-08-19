@@ -3,6 +3,15 @@ import { resolve } from "node:path";
 import { z } from "zod";
 import { ConfigurationError } from "./config.js";
 
+const LEDGER_KIT_TASK_IDS = Object.freeze([
+  "fix-parse-money",
+  "add-volume-discount",
+  "validate-sku",
+  "one-based-pagination",
+  "extract-normalize-email",
+  "parse-config-comments",
+]);
+
 export const REAL_SCALE_2_EXPECTED = Object.freeze({
   experimentName: "real-scale-2",
   agent: "codex" as const,
@@ -11,14 +20,20 @@ export const REAL_SCALE_2_EXPECTED = Object.freeze({
   seed: 20260817,
   taskFile: "fixtures/ledger-kit/tasks.json",
   taskCount: 6,
-  taskIds: [
-    "fix-parse-money",
-    "add-volume-discount",
-    "validate-sku",
-    "one-based-pagination",
-    "extract-normalize-email",
-    "parse-config-comments",
-  ],
+  taskIds: LEDGER_KIT_TASK_IDS,
+  timeoutSecondsPerTask: 180,
+  integration: false,
+});
+
+export const REAL_SCALE_4_EXPECTED = Object.freeze({
+  experimentName: "real-scale-4",
+  agent: "codex" as const,
+  workerCounts: [1, 2, 4],
+  repetitions: 3,
+  seed: 20260817,
+  taskFile: "fixtures/ledger-kit/tasks.json",
+  taskCount: 6,
+  taskIds: LEDGER_KIT_TASK_IDS,
   timeoutSecondsPerTask: 180,
   integration: false,
 });
@@ -62,10 +77,29 @@ export async function loadFrozenExperiment(path: string): Promise<FrozenExperime
   return parsed.data;
 }
 
+type ExpectedFrozenExperiment = {
+  readonly experimentName: string;
+  readonly agent: "codex";
+  readonly workerCounts: readonly number[];
+  readonly repetitions: number;
+  readonly seed: number;
+  readonly taskFile: string;
+  readonly taskCount: number;
+  readonly taskIds: readonly string[];
+  readonly timeoutSecondsPerTask: number;
+  readonly integration: boolean;
+};
+
+function expectedForExperiment(experimentName: string): ExpectedFrozenExperiment | null {
+  if (experimentName === REAL_SCALE_2_EXPECTED.experimentName) return REAL_SCALE_2_EXPECTED;
+  if (experimentName === REAL_SCALE_4_EXPECTED.experimentName) return REAL_SCALE_4_EXPECTED;
+  return null;
+}
+
 export function frozenSemanticMismatches(frozen: FrozenExperiment): readonly string[] {
-  if (frozen.experimentName !== REAL_SCALE_2_EXPECTED.experimentName) return [];
+  const expected = expectedForExperiment(frozen.experimentName);
+  if (expected === null) return [];
   const configuration = frozen.configuration;
-  const expected = REAL_SCALE_2_EXPECTED;
   const mismatches: string[] = [];
   if (configuration.agent !== expected.agent) mismatches.push("agent");
   if (JSON.stringify(configuration.workerCounts) !== JSON.stringify(expected.workerCounts)) {
@@ -86,4 +120,8 @@ export function frozenSemanticMismatches(frozen: FrozenExperiment): readonly str
   }
   if (configuration.integration !== expected.integration) mismatches.push("integration");
   return mismatches;
+}
+
+export function isLedgerKitExperiment(experimentName: string): boolean {
+  return expectedForExperiment(experimentName) !== null;
 }

@@ -41,8 +41,18 @@ export {
 export { evaluateNodeRuntime, nodeMajor } from "./doctor-checks.js";
 export { readEvents } from "./events.js";
 export { runExperiment } from "./experiment.js";
-export { frozenSemanticMismatches, loadFrozenExperiment, REAL_SCALE_2_EXPECTED } from "./frozen.js";
-export { computeFrozenIntegrity, loadExpectedIntegrity } from "./integrity.js";
+export {
+  frozenSemanticMismatches,
+  isLedgerKitExperiment,
+  loadFrozenExperiment,
+  REAL_SCALE_2_EXPECTED,
+  REAL_SCALE_4_EXPECTED,
+} from "./frozen.js";
+export {
+  computeFrozenIntegrity,
+  frozenIntegrityPath,
+  loadExpectedIntegrity,
+} from "./integrity.js";
 export { deriveMetrics, median, percentile } from "./metrics.js";
 export type {
   EngineeringTaskRun,
