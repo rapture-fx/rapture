@@ -5,6 +5,7 @@ import { join, relative } from "node:path";
 import { performance } from "node:perf_hooks";
 import { codexAgentAdapter } from "./adapters/codex.js";
 import { fakeAgentAdapter } from "./adapters/fake.js";
+import { opencodeAgentAdapter } from "./adapters/opencode.js";
 import type { AgentAdapter } from "./adapters/types.js";
 import {
   redactSecrets,
@@ -42,7 +43,9 @@ import { runBounded } from "./worker.js";
 import { createWorktreeManager, type WorktreeManager } from "./worktree.js";
 
 function adapterFor(name: ExperimentConfig["agent"]): AgentAdapter {
-  return name === "fake" ? fakeAgentAdapter : codexAgentAdapter;
+  if (name === "fake") return fakeAgentAdapter;
+  if (name === "opencode") return opencodeAgentAdapter;
+  return codexAgentAdapter;
 }
 
 function commandGroups(commands: readonly (readonly string[])[]): {

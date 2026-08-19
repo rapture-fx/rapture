@@ -215,7 +215,7 @@ export interface BuildConfigInput {
   readonly workers: string;
   readonly repetitions?: string;
   readonly seed?: string;
-  readonly agent: "fake" | "codex";
+  readonly agent: "fake" | "codex" | "opencode";
   readonly agentModel?: string;
   readonly outputDirectory: string;
   readonly integration: boolean;

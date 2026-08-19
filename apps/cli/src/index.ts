@@ -23,7 +23,7 @@ const runOptionsSchema = z.object({
   workers: z.string().min(1),
   repetitions: z.string().min(1),
   seed: z.string().min(1),
-  agent: z.enum(["fake", "codex"]),
+  agent: z.enum(["fake", "codex", "opencode"]),
   agentModel: z.string().optional(),
   output: z.string().min(1),
   integration: z.boolean(),
@@ -51,7 +51,7 @@ program
 
 const doctorOptionsSchema = z.object({
   config: z.string().optional(),
-  agent: z.enum(["fake", "codex"]).optional(),
+  agent: z.enum(["fake", "codex", "opencode"]).optional(),
   agentModel: z.string().optional(),
   repo: z.string().optional(),
   tasks: z.string().optional(),
@@ -64,7 +64,9 @@ program
   .command("doctor")
   .description("inspect whether this environment can execute a Rapture experiment")
   .option("--config <path>", "frozen experiment JSON")
-  .addOption(new Option("--agent <adapter>", "agent adapter").choices(["fake", "codex"]))
+  .addOption(
+    new Option("--agent <adapter>", "agent adapter").choices(["fake", "codex", "opencode"]),
+  )
   .option("--agent-model <name>", "optional pinned provider model identifier")
   .option("--repo <path>", "local Git repository")
   .option("--tasks <path>", "task definition JSON")
@@ -117,7 +119,9 @@ program
   .option("--repetitions <count>", "number of repeated trials per worker count", "1")
   .option("--seed <integer>", "root experiment seed for deterministic task order", "0")
   .addOption(
-    new Option("--agent <adapter>", "agent adapter").choices(["fake", "codex"]).default("fake"),
+    new Option("--agent <adapter>", "agent adapter")
+      .choices(["fake", "codex", "opencode"])
+      .default("fake"),
   )
   .option("--agent-model <name>", "optional pinned provider model identifier")
   .requiredOption("--output <path>", "artifact output directory")
