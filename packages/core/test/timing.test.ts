@@ -15,13 +15,16 @@ describe("phase timing", () => {
   it("serializes complete phase timings without inferring missing work", () => {
     const timings: PhaseTimings = {
       worktreeSetupMs: 10,
+      queueWaitMs: 4,
       agentExecutionMs: 40,
       validationMs: 15,
+      artifactPersistenceMs: 3,
       integrationMs: null,
       worktreeCleanupMs: 5,
+      otherOrchestrationMs: null,
       totalRunMs: 80,
     };
-    expect(raptureOverheadMs(timings)).toBe(25);
+    expect(raptureOverheadMs(timings)).toBe(3);
   });
 
   it("treats incomplete agent or validation phases as missing overhead", () => {
@@ -35,12 +38,15 @@ describe("phase timing", () => {
   it("does not convert a missing integration phase into invented agent time", () => {
     const timings: PhaseTimings = {
       worktreeSetupMs: 4,
+      queueWaitMs: 2,
       agentExecutionMs: 10,
       validationMs: 6,
+      artifactPersistenceMs: 1,
       integrationMs: null,
       worktreeCleanupMs: 3,
+      otherOrchestrationMs: null,
       totalRunMs: 24,
     };
-    expect(raptureOverheadMs(timings)).toBe(8);
+    expect(raptureOverheadMs(timings)).toBe(0);
   });
 });
