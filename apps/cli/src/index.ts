@@ -11,6 +11,7 @@ import {
   loadTasks,
   persistDoctorArtifacts,
   regenerateReport,
+  resumeExperiment,
   runDoctor,
   runExperiment,
 } from "@rapture/core";
@@ -164,6 +165,20 @@ program
     const report = await regenerateReport(experiment);
     if (options.json) printJson(report);
     else process.stdout.write(`${formatReport(report)}\n`);
+  });
+
+program
+  .command("resume")
+  .description("resume a previously interrupted experiment")
+  .argument("<experiment>", "experiment artifact directory")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (experiment: string, options: { readonly json: boolean }) => {
+    const execution = await resumeExperiment(experiment);
+    const report = await regenerateReport(execution.directory);
+    if (options.json) printJson(report);
+    else {
+      process.stdout.write(`${formatReport(report)}\nArtifacts: ${execution.directory}\n`);
+    }
   });
 
 program
