@@ -12,10 +12,13 @@ export async function timePhase<T>(
 export function incompletePhaseTimings(totalRunMs: number): PhaseTimings {
   return {
     worktreeSetupMs: null,
+    queueWaitMs: null,
     agentExecutionMs: null,
     validationMs: null,
+    artifactPersistenceMs: null,
     integrationMs: null,
     worktreeCleanupMs: null,
+    otherOrchestrationMs: null,
     totalRunMs,
   };
 }
@@ -25,8 +28,22 @@ export function raptureOverheadMs(timings: PhaseTimings): number | null {
     return null;
   }
   const integrationMs = timings.integrationMs ?? 0;
-  return Math.max(
-    0,
-    timings.totalRunMs - timings.agentExecutionMs - timings.validationMs - integrationMs,
-  );
+  const accountedFor =
+    (timings.worktreeSetupMs ?? 0) +
+    (timings.queueWaitMs ?? 0) +
+    timings.agentExecutionMs +
+    timings.validationMs +
+    (timings.artifactPersistenceMs ?? 0) +
+    integrationMs +
+    (timings.worktreeCleanupMs ?? 0);
+  return Math.max(0, timings.totalRunMs - accountedFor);
+}
+
+export function phaseOverheadMs(timings: PhaseTimings): number | null {
+  if (timings.agentExecutionMs === null || timings.validationMs === null) {
+    return null;
+  }
+  const rapture = raptureOverheadMs(timings);
+  if (rapture === null) return null;
+  return rapture + (timings.worktreeSetupMs ?? 0) + (timings.queueWaitMs ?? 0);
 }
