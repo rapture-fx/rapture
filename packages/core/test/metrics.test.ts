@@ -19,10 +19,13 @@ function event(sequence: number, eventType: string, timestamp: string, data: obj
 function phaseTimings(agentMs: number, validationMs: number, totalMs: number) {
   return {
     worktreeSetupMs: 5,
+    queueWaitMs: 2,
     agentExecutionMs: agentMs,
     validationMs,
+    artifactPersistenceMs: 1,
     integrationMs: null,
     worktreeCleanupMs: 5,
+    otherOrchestrationMs: 3,
     totalRunMs: totalMs,
   };
 }
