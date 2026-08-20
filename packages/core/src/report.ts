@@ -2,7 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { z } from "zod";
 import { deriveMetrics } from "./metrics.js";
-import type { ExperimentMetrics } from "./models.js";
+import type { ExperimentMetrics, MatrixCompletion } from "./models.js";
 
 const manifestSchema = z.object({
   experimentId: z.string().min(1),
@@ -10,6 +10,23 @@ const manifestSchema = z.object({
 
 const outcomeSchema = z.object({
   status: z.enum(["completed", "failed", "interrupted"]),
+  completion: z
+    .object({
+      schemaVersion: z.literal(1),
+      status: z.enum(["completed", "blocked", "interrupted", "incomplete"]),
+      expectedLogicalRuns: z.number(),
+      completedLogicalRuns: z.number(),
+      acceptedRuns: z.number(),
+      rejectedRuns: z.number(),
+      timedOutRuns: z.number(),
+      providerBlockedRuns: z.number(),
+      infrastructureFailedRuns: z.number(),
+      interruptedRuns: z.number(),
+      outstandingRuns: z.number(),
+      completedTrials: z.number(),
+      totalTrials: z.number(),
+    })
+    .optional(),
 });
 
 export interface ExperimentReport {
@@ -17,6 +34,7 @@ export interface ExperimentReport {
   readonly experimentId: string;
   readonly status: "completed" | "failed" | "interrupted" | "incomplete";
   readonly metrics: ExperimentMetrics;
+  readonly completion: MatrixCompletion | null;
 }
 
 async function readJson(path: string): Promise<unknown> {
@@ -27,8 +45,11 @@ export async function regenerateReport(experimentDirectory: string): Promise<Exp
   const directory = resolve(experimentDirectory);
   const manifest = manifestSchema.parse(await readJson(join(directory, "manifest.json")));
   let status: ExperimentReport["status"] = "incomplete";
+  let completion: MatrixCompletion | null = null;
   try {
-    status = outcomeSchema.parse(await readJson(join(directory, "outcome.json"))).status;
+    const outcome = outcomeSchema.parse(await readJson(join(directory, "outcome.json")));
+    status = outcome.status;
+    completion = outcome.completion ?? null;
   } catch (error: unknown) {
     if (!(error instanceof Error && "code" in error && error.code === "ENOENT")) throw error;
   }
@@ -36,6 +57,7 @@ export async function regenerateReport(experimentDirectory: string): Promise<Exp
     schemaVersion: 2,
     experimentId: manifest.experimentId,
     status,
+    completion,
     metrics: await deriveMetrics(join(directory, "events.jsonl")),
   };
 }
@@ -49,7 +71,11 @@ function integer(value: number | null): string {
 }
 
 export function formatReport(report: ExperimentReport): string {
-  const lines = [`Rapture experiment ${report.experimentId} (${report.status})`];
+  const completion =
+    report.completion === null
+      ? ""
+      : ` (matrix ${report.completion.status}: ${report.completion.completedLogicalRuns}/${report.completion.expectedLogicalRuns})`;
+  const lines = [`Rapture experiment ${report.experimentId} (${report.status}${completion})`];
   lines.push("Trial results");
   lines.push(
     "trial                  accepted  tasks/hour  wall-ms  agent-ms  valid-ms  integ-ms  overhead  failures",
