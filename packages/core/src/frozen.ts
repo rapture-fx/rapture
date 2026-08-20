@@ -52,6 +52,20 @@ export const OPENCODE_SCALE_4_EXPECTED = Object.freeze({
   integration: false,
 });
 
+export const OPENCODE_SCALE_4_DIAGNOSTIC_EXPECTED = Object.freeze({
+  experimentName: "opencode-scale-4-diagnostic",
+  agent: "opencode" as const,
+  agentModel: "opencode/deepseek-v4-flash-free",
+  workerCounts: [1, 2, 4],
+  repetitions: 3,
+  seed: 20260817,
+  taskFile: "fixtures/ledger-kit/tasks.json",
+  taskCount: 6,
+  taskIds: LEDGER_KIT_TASK_IDS,
+  timeoutSecondsPerTask: 180,
+  integration: false,
+});
+
 const frozenExperimentSchema = z
   .object({
     experimentName: z.string().min(1),
@@ -109,6 +123,9 @@ function expectedForExperiment(experimentName: string): ExpectedFrozenExperiment
   if (experimentName === REAL_SCALE_2_EXPECTED.experimentName) return REAL_SCALE_2_EXPECTED;
   if (experimentName === REAL_SCALE_4_EXPECTED.experimentName) return REAL_SCALE_4_EXPECTED;
   if (experimentName === OPENCODE_SCALE_4_EXPECTED.experimentName) return OPENCODE_SCALE_4_EXPECTED;
+  if (experimentName === OPENCODE_SCALE_4_DIAGNOSTIC_EXPECTED.experimentName) {
+    return OPENCODE_SCALE_4_DIAGNOSTIC_EXPECTED;
+  }
   return null;
 }
 
