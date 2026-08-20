@@ -61,9 +61,9 @@ it("reports OpenCode identity and builds an explicit non-interactive argv", () =
   );
 });
 
-it("detects OpenCode API-key credential presence without retaining the secret", () => {
+it("detects OpenCode API-key credential presence without retaining the secret", async () => {
   const probe = opencodeAgentAdapter.probeCredentials({ OPENCODE_API_KEY: "op-live-secret" });
-  expect(Promise.resolve(probe)).resolves.toMatchObject({
+  await expect(Promise.resolve(probe)).resolves.toMatchObject({
     present: true,
     method: "api-key",
     envVar: "OPENCODE_API_KEY",
@@ -148,7 +148,7 @@ it("runs the OpenCode adapter against a deterministic executable test double", a
 it("honors the OpenCode adapter timeout", async () => {
   const root = await mkdtemp(join(tmpdir(), "rapture-opencode-timeout-"));
   const executable = join(root, "opencode");
-  await writeFile(executable, "#!/bin/sh\nsleep 30\n", "utf8");
+  await writeFile(executable, "#!/bin/sh\nexec sleep 30\n", "utf8");
   await chmod(executable, 0o755);
   const worktree = await mkdtemp(join(tmpdir(), "rapture-opencode-timeout-worktree-"));
 
