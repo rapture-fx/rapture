@@ -7,10 +7,13 @@ import { trialIdFor } from "./trial.js";
 const commandSchema = z.array(z.string());
 const phaseTimingsSchema = z.object({
   worktreeSetupMs: z.number().nonnegative().nullable(),
+  queueWaitMs: z.number().nonnegative().nullable(),
   agentExecutionMs: z.number().nonnegative().nullable(),
   validationMs: z.number().nonnegative().nullable(),
+  artifactPersistenceMs: z.number().nonnegative().nullable(),
   integrationMs: z.number().nonnegative().nullable(),
   worktreeCleanupMs: z.number().nonnegative().nullable(),
+  otherOrchestrationMs: z.number().nonnegative().nullable(),
   totalRunMs: z.number().nonnegative(),
 });
 
@@ -19,6 +22,18 @@ const taskFinishedSchema = z.object({
   repetition: z.number().int().positive().optional(),
   workerCount: z.number().int().positive(),
   accepted: z.boolean(),
+  runState: z
+    .enum([
+      "pending",
+      "running",
+      "accepted",
+      "rejected",
+      "timed_out",
+      "provider_blocked",
+      "infrastructure_failed",
+      "interrupted",
+    ])
+    .optional(),
   durationMs: z.number().nonnegative(),
   validationResult: z.enum(["passed", "failed", "not_run"]),
   commands: z.array(commandSchema),
@@ -56,6 +71,16 @@ interface TaskRecord {
   readonly trialId: string;
   readonly workerCount: number;
   readonly accepted: boolean;
+  readonly runState:
+    | "pending"
+    | "running"
+    | "accepted"
+    | "rejected"
+    | "timed_out"
+    | "provider_blocked"
+    | "infrastructure_failed"
+    | "interrupted"
+    | null;
   readonly durationMs: number;
   readonly validationResult: "passed" | "failed" | "not_run";
   readonly commands: readonly (readonly string[])[];
@@ -64,6 +89,13 @@ interface TaskRecord {
   readonly tokenUsage: number | null;
   readonly providerCost: number | null;
   readonly phaseTimings: PhaseTimings | null;
+}
+
+function isGenuineFailure(run: TaskRecord): boolean {
+  if (run.runState === "provider_blocked" || run.runState === "infrastructure_failed") {
+    return false;
+  }
+  return run.validationResult !== "passed";
 }
 
 interface TrialRecord {
@@ -160,7 +192,7 @@ function trialMetricsFrom(
     medianValidationMs: median(validationTimes),
     integrationMs: integration?.durationMs ?? null,
     medianRaptureOverheadMs: median(overheadTimes),
-    validationFailures: runs.filter((run) => run.validationResult !== "passed").length,
+    validationFailures: runs.filter((run) => isGenuineFailure(run)).length,
     integrationFailures: integration === undefined ? 0 : integration.status === "passed" ? 0 : 1,
     tokenUsage,
     providerCost,
@@ -209,6 +241,7 @@ export async function deriveMetrics(eventsPath: string): Promise<ExperimentMetri
         trialId,
         workerCount: data.workerCount,
         accepted: data.accepted,
+        runState: data.runState ?? null,
         durationMs: data.durationMs,
         validationResult: data.validationResult,
         commands: data.commands,
