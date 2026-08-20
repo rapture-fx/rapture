@@ -42,11 +42,12 @@ export {
 } from "./doctor.js";
 export { evaluateNodeRuntime, nodeMajor } from "./doctor-checks.js";
 export { readEvents } from "./events.js";
-export { runExperiment } from "./experiment.js";
+export { resumeExperiment, runExperiment } from "./experiment.js";
 export {
   frozenSemanticMismatches,
   isLedgerKitExperiment,
   loadFrozenExperiment,
+  OPENCODE_SCALE_4_DIAGNOSTIC_EXPECTED,
   OPENCODE_SCALE_4_EXPECTED,
   REAL_SCALE_2_EXPECTED,
   REAL_SCALE_4_EXPECTED,
