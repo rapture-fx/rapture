@@ -24,6 +24,15 @@ export const eventTypes = [
   "worker_finished",
   "experiment_finished",
   "experiment_interrupted",
+  "continuation_started",
+  "continuation_finished",
+  "telemetry_sample",
+  "telemetry_error",
+  "run_skipped",
+  "provider_blocked",
+  "infrastructure_failed",
+  "run_interrupted",
+  "matrix_completion",
 ] as const;
 
 export type EventType = (typeof eventTypes)[number];
@@ -59,14 +68,33 @@ const eventSchema = z.object({
 
 export interface EventWriter {
   readonly emit: (eventType: EventType, data?: object) => Promise<ExperimentEvent>;
+  readonly nextSequence: () => number;
 }
 
-export async function createEventWriter(path: string, experimentId: string): Promise<EventWriter> {
+export interface CreateEventWriterOptions {
+  readonly append?: boolean;
+}
+
+export async function createEventWriter(
+  path: string,
+  experimentId: string,
+  options: CreateEventWriterOptions = {},
+): Promise<EventWriter> {
+  if (options.append === true) {
+    const existing = await readEvents(path).catch(() => []);
+    const baseSequence = existing.length;
+    return appendEventWriter(path, experimentId, baseSequence);
+  }
   const handle = await open(path, "wx");
   await handle.close();
+  return appendEventWriter(path, experimentId, 0);
+}
+
+function appendEventWriter(path: string, experimentId: string, baseSequence: number): EventWriter {
   const serialize = pLimit(1);
-  let sequence = 0;
+  let sequence = baseSequence;
   return {
+    nextSequence: () => sequence,
     emit: (eventType, data = {}) =>
       serialize(async () => {
         sequence += 1;
