@@ -59,18 +59,25 @@ export interface ProcessResult {
 
 export type ValidationResult = "passed" | "failed" | "not_run";
 export type IntegrationResult = "passed" | "failed" | "conflict" | "not_requested";
+export type RunState = import("./logical-run.js").LogicalRunState;
 
 export interface PhaseTimings {
   readonly worktreeSetupMs: number | null;
+  readonly queueWaitMs: number | null;
   readonly agentExecutionMs: number | null;
   readonly validationMs: number | null;
+  readonly artifactPersistenceMs: number | null;
   readonly integrationMs: number | null;
   readonly worktreeCleanupMs: number | null;
+  readonly otherOrchestrationMs: number | null;
   readonly totalRunMs: number;
 }
 
 export interface EngineeringTaskRun {
   readonly runId: string;
+  readonly logicalRunId: string;
+  readonly attemptId: string;
+  readonly runState: RunState;
   readonly experimentId: string;
   readonly trialId: string;
   readonly repetition: number;
@@ -80,6 +87,8 @@ export interface EngineeringTaskRun {
   readonly baseTreeHash: string;
   readonly workerId: string;
   readonly workerCount: number;
+  readonly activeAgentsAtStart: number;
+  readonly activeAgentsAtEnd: number;
   readonly agentProvider: string;
   readonly agentModel: string | null;
   readonly agentVersion: string | null;
@@ -176,4 +185,64 @@ export interface ExperimentMetrics {
   readonly schemaVersion: 2;
   readonly workerResults: readonly WorkerMetrics[];
   readonly trialResults: readonly TrialMetrics[];
+}
+
+export type MatrixCompletionStatus = "completed" | "blocked" | "interrupted" | "incomplete";
+
+export interface MatrixCompletion {
+  readonly schemaVersion: 1;
+  readonly expectedLogicalRuns: number;
+  readonly completedLogicalRuns: number;
+  readonly acceptedRuns: number;
+  readonly rejectedRuns: number;
+  readonly timedOutRuns: number;
+  readonly providerBlockedRuns: number;
+  readonly infrastructureFailedRuns: number;
+  readonly interruptedRuns: number;
+  readonly outstandingRuns: number;
+  readonly status: MatrixCompletionStatus;
+  readonly completedTrials: number;
+  readonly totalTrials: number;
+}
+
+export interface HostTelemetrySample {
+  readonly timestamp: string;
+  readonly elapsedMs: number;
+  readonly totalCpuUtilization: number | null;
+  readonly perCoreCpuUtilization: readonly (number | null)[];
+  readonly loadAverage1m: number | null;
+  readonly totalMemoryBytes: number;
+  readonly freeMemoryBytes: number;
+  readonly parentRssBytes: number;
+  readonly activeAgentWorkers: number;
+  readonly eventLoopLagMs: number | null;
+}
+
+export interface ContinuationRecord {
+  readonly schemaVersion: 1;
+  readonly continuationSessionId: string;
+  readonly startedAt: string;
+  readonly finishedAt: string | null;
+  readonly experimentDirectory: string;
+  readonly experimentFingerprintHash: string | null;
+  readonly environmentFingerprint: Readonly<Record<string, string | number | null>>;
+  readonly previousContinuationSessionId: string | null;
+  readonly resumedRuns: number;
+  readonly skippedCompletedRuns: number;
+  readonly providerBlockedRuns: number;
+  readonly infrastructureFailedRuns: number;
+  readonly interruptedRuns: number;
+  readonly newOutstandingRuns: number;
+}
+
+export interface RunStateSummary {
+  readonly logicalRunId: string;
+  readonly attemptId: string | null;
+  readonly state: RunState;
+  readonly trialId: string;
+  readonly workerCount: number;
+  readonly repetition: number;
+  readonly taskId: string;
+  readonly attemptedAt: string | null;
+  readonly attemptCount: number;
 }
