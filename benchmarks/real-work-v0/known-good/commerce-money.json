@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "src/money.mjs": "export function parseAmountToCents(value) {\n  const match = String(value).trim().match(/^(-?)(\\d+)(?:\\.(\\d{1,2}))?$/u);\n  if (match === null) throw new TypeError(\"amount must have at most two decimal places\");\n  const [, sign, whole = \"0\", fraction = \"\"] = match;\n  const cents = Number(whole) * 100 + Number(fraction.padEnd(2, \"0\"));\n  if (!Number.isSafeInteger(cents)) throw new RangeError(\"amount is outside the safe range\");\n  return sign === \"-\" ? -cents : cents;\n}\n"
+  }
+}

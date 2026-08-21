@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "src/orders.mjs": "export function normalizeOrder(input) {\n  const errors = [];\n  if (typeof input.customerId !== \"string\" || input.customerId.trim() === \"\") errors.push({ path: \"customerId\", code: \"required\" });\n  if (!Array.isArray(input.lines)) errors.push({ path: \"lines\", code: \"array_required\" });\n  const lines = Array.isArray(input.lines) ? input.lines : [];\n  lines.forEach((line, index) => {\n    if (typeof line.sku !== \"string\" || line.sku.trim() === \"\") errors.push({ path: `lines.${index}.sku`, code: \"required\" });\n    if (!Number.isSafeInteger(line.quantity) || line.quantity <= 0) errors.push({ path: `lines.${index}.quantity`, code: \"positive_integer_required\" });\n  });\n  if (errors.length > 0) return { ok: false, errors };\n  return { ok: true, value: { customerId: input.customerId.trim(), lines: lines.map((line) => ({ sku: line.sku.trim(), quantity: line.quantity })) } };\n}\n"
+  }
+}

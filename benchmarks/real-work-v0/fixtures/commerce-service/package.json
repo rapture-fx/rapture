@@ -1,0 +1,9 @@
+{
+  "name": "@rapture-benchmark/commerce-service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/money.mjs && node --check src/discount.mjs && node --check src/idempotency.mjs && node --check src/orders.mjs"
+  }
+}
