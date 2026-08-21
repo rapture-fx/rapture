@@ -1,0 +1,276 @@
+{
+  "id": "rapture-real-work-v0",
+  "version": "0.1.0",
+  "description": "Deterministic minimized Node.js repository tasks for Rapture performance research substrate validation.",
+  "repositories": [
+    {
+      "id": "commerce-service",
+      "source": {
+        "type": "vendored",
+        "upstreamUrl": "https://github.com/wiramahendra/rapture",
+        "upstreamRevision": "b220650159389a1e12fd219712f371465b139b7e",
+        "fixturePath": "fixtures/commerce-service"
+      },
+      "license": { "spdx": "MIT", "path": "LICENSE" },
+      "baseRevision": "941c7457279fa1894fef6c592d70334d767ab4ba",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "1c2558856319844a51da83bcbe538f78c481d256a0ca433bb5d38fc1cd157f77",
+        "commitTimestamp": "2026-08-21T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        ["node", "--check", "src/money.mjs"],
+        ["node", "--check", "src/orders.mjs"]
+      ],
+      "size": { "fileCount": 7, "checkoutBytes": 2627 }
+    },
+    {
+      "id": "config-toolkit",
+      "source": {
+        "type": "vendored",
+        "upstreamUrl": "https://github.com/wiramahendra/rapture",
+        "upstreamRevision": "b220650159389a1e12fd219712f371465b139b7e",
+        "fixturePath": "fixtures/config-toolkit"
+      },
+      "license": { "spdx": "MIT", "path": "LICENSE" },
+      "baseRevision": "21626db5b6c15d5d65733766855487385ab9ab90",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "bbcb012d6846735097fb008b0c8019053b939f19b3943768bac2cf02426f6fc3",
+        "commitTimestamp": "2026-08-21T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        ["node", "--check", "src/parser.mjs"],
+        ["node", "--check", "src/load.mjs"]
+      ],
+      "size": { "fileCount": 8, "checkoutBytes": 2711 }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "commerce-precise-money",
+      "repositoryId": "commerce-service",
+      "class": "bug_fix",
+      "title": "Make decimal money parsing exact",
+      "prompt": "Fix parseAmountToCents so ordinary decimal strings are converted exactly, invalid formats are rejected, and safe integer bounds are preserved.",
+      "baseRevision": "941c7457279fa1894fef6c592d70334d767ab4ba",
+      "editableScope": ["src/money.mjs"],
+      "validator": {
+        "path": "validators/commerce-money.mjs",
+        "sha256": "2d012c746a6a5382e5eecd5a62ee71205194a12c019681fbbe2daca482ad6773",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 300,
+      "knownGoodPatch": {
+        "path": "known-good/commerce-money.json",
+        "sha256": "f096f940d6cd8b2ae358f5a70a72ddd17473f2486fe7b6902c1bc37ec32eb8c7"
+      },
+      "metadata": {
+        "representativeReason": "Exact money parsing is a common boundary bug with correctness and safety implications.",
+        "expectedAreas": ["src/money.mjs"],
+        "validatorEstablishes": "Decimal semantics, rejected ambiguous formats, negative values, and safe range behavior.",
+        "limitations": "Does not cover currencies or arbitrary precision beyond safe integer cents.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "commerce-tiered-discount",
+      "repositoryId": "commerce-service",
+      "class": "small_feature",
+      "title": "Add deterministic tiered discounts",
+      "prompt": "Extend priceAfterDiscount with threshold tiers, stable integer rounding, policy validation, and no mutation of caller data.",
+      "baseRevision": "941c7457279fa1894fef6c592d70334d767ab4ba",
+      "editableScope": ["src/discount.mjs"],
+      "validator": {
+        "path": "validators/commerce-discount.mjs",
+        "sha256": "f07633af81951d35d353a66f6f3f3b032e0a99809e497bc975920089f57aeaad",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 300,
+      "knownGoodPatch": {
+        "path": "known-good/commerce-discount.json",
+        "sha256": "e17f5290d5edb3cc1e39c058bedd74e75783a3c10d7d3b1f3af71f5f8d4e1290"
+      },
+      "metadata": {
+        "representativeReason": "Small pricing features combine specification interpretation, validation, and integer arithmetic.",
+        "expectedAreas": ["src/discount.mjs"],
+        "validatorEstablishes": "Tier selection at boundaries, fallback policy, input validation, and immutability.",
+        "limitations": "Only integer percentage tiers are represented.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "commerce-concurrent-idempotency",
+      "repositoryId": "commerce-service",
+      "class": "test_repair",
+      "title": "Deduplicate concurrent idempotent operations",
+      "prompt": "Repair IdempotencyRegistry so concurrent calls for one key share one in-flight operation while failures remain retryable.",
+      "baseRevision": "941c7457279fa1894fef6c592d70334d767ab4ba",
+      "editableScope": ["src/idempotency.mjs"],
+      "validator": {
+        "path": "validators/commerce-idempotency.mjs",
+        "sha256": "141726c22c8c2439b72fdf39cb66361e4721e15975301ec0591b7ce19c107674",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 420,
+      "knownGoodPatch": {
+        "path": "known-good/commerce-idempotency.json",
+        "sha256": "b0f5b899283a17cd795664d68ee7969073fbe80118017ba5d758271e5162bb23"
+      },
+      "metadata": {
+        "representativeReason": "Concurrency repair exercises race reasoning and retry safety in ordinary service code.",
+        "expectedAreas": ["src/idempotency.mjs"],
+        "validatorEstablishes": "Concurrent same-key calls execute once and return the same result.",
+        "limitations": "The registry is process-local and does not prove durable external idempotency.",
+        "baselineValidatorRuntimeMs": 150,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "commerce-order-normalization",
+      "repositoryId": "commerce-service",
+      "class": "refactor",
+      "title": "Refactor order normalization into explicit results",
+      "prompt": "Refactor normalizeOrder to avoid input mutation and return deterministic structured success or validation errors.",
+      "baseRevision": "941c7457279fa1894fef6c592d70334d767ab4ba",
+      "editableScope": ["src/orders.mjs"],
+      "validator": {
+        "path": "validators/commerce-orders.mjs",
+        "sha256": "fa8aa4fca1ae316d7a2f4df70e86a9fe89051b86d07a1550b66e19d39708b200",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 360,
+      "knownGoodPatch": {
+        "path": "known-good/commerce-orders.json",
+        "sha256": "b014d0e19744e86cf5e7a39a8f31177776fc68a6b02e4697b2a3be092f29bf1b"
+      },
+      "metadata": {
+        "representativeReason": "This is a contract-preserving refactor with error-shape and immutability requirements.",
+        "expectedAreas": ["src/orders.mjs"],
+        "validatorEstablishes": "Normalized success values, ordered error records, and caller-input immutability.",
+        "limitations": "It validates a compact order model rather than a full API schema.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "config-quoted-comments",
+      "repositoryId": "config-toolkit",
+      "class": "bug_fix",
+      "title": "Preserve comment markers inside quoted values",
+      "prompt": "Fix parseConfig so # starts a comment only outside quoted strings while malformed lines still fail.",
+      "baseRevision": "21626db5b6c15d5d65733766855487385ab9ab90",
+      "editableScope": ["src/parser.mjs"],
+      "validator": {
+        "path": "validators/config-parser.mjs",
+        "sha256": "0532edce0648d6b8029d0db402efe4c9a3188fb8c7408b08c9a0df5e055d08f4",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 300,
+      "knownGoodPatch": {
+        "path": "known-good/config-parser.json",
+        "sha256": "113f14c41a9c8f3aa744ad075cb227d3d08dad70243c4200f8fcd2ab2097f6c6"
+      },
+      "metadata": {
+        "representativeReason": "Parser edge cases require local algorithm repair and careful malformed-input behavior.",
+        "expectedAreas": ["src/parser.mjs"],
+        "validatorEstablishes": "Quoted # preservation, trailing comments, ordinary parsing, and malformed-line rejection.",
+        "limitations": "Escaped quote syntax is outside this minimized format.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "config-deep-merge",
+      "repositoryId": "config-toolkit",
+      "class": "small_feature",
+      "title": "Implement immutable recursive configuration merge",
+      "prompt": "Implement recursive object merge, array replacement, and deep immutability for base and override inputs.",
+      "baseRevision": "21626db5b6c15d5d65733766855487385ab9ab90",
+      "editableScope": ["src/merge.mjs"],
+      "validator": {
+        "path": "validators/config-merge.mjs",
+        "sha256": "7495cbd9c442e3d35eea9e13ff0e34a66559bf7b18fb1f2368c9cdc96d8f380a",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 360,
+      "knownGoodPatch": {
+        "path": "known-good/config-merge.json",
+        "sha256": "d44dc67ad93c459957948fbb8a4aa10beba4dff560d87dd403a6dadeb58e6147"
+      },
+      "metadata": {
+        "representativeReason": "Deep merge is a small feature whose aliasing and collection semantics often cause regressions.",
+        "expectedAreas": ["src/merge.mjs"],
+        "validatorEstablishes": "Recursive objects, array replacement, and absence of mutable aliases to inputs.",
+        "limitations": "Special objects and cyclic graphs are not supported.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "config-precedence-chain",
+      "repositoryId": "config-toolkit",
+      "class": "repository_exploration",
+      "title": "Correct configuration source precedence",
+      "prompt": "Trace the configuration loader and correct precedence to defaults < file < environment < CLI without changing merge semantics.",
+      "baseRevision": "21626db5b6c15d5d65733766855487385ab9ab90",
+      "editableScope": ["src/load.mjs"],
+      "validator": {
+        "path": "validators/config-precedence.mjs",
+        "sha256": "f8c664e9647b128d6a25435e83680b306b612bd14e641d4d41e95e84cc714bcd",
+        "timeoutMs": 10000
+      },
+      "timeoutHintSeconds": 360,
+      "knownGoodPatch": {
+        "path": "known-good/config-precedence.json",
+        "sha256": "a7f07e00fa3404b0af6c24a4062b90773c83173daee7fb8e81cac21bb1084bc5"
+      },
+      "metadata": {
+        "representativeReason": "The task requires following imports and understanding a repository-level policy rather than editing a named arithmetic function.",
+        "expectedAreas": ["src/load.mjs", "src/merge.mjs"],
+        "validatorEstablishes": "The documented four-source precedence chain for overlapping and retained keys.",
+        "limitations": "Only the loader order is accepted; environment coercion is not represented.",
+        "baselineValidatorRuntimeMs": 100,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "config-public-types",
+      "repositoryId": "config-toolkit",
+      "class": "build_or_typecheck_heavy",
+      "title": "Repair public TypeScript declarations",
+      "prompt": "Align the package declaration file with the JavaScript runtime so strict TypeScript consumers can pass numeric timeouts and receive a typed endpoint object.",
+      "baseRevision": "21626db5b6c15d5d65733766855487385ab9ab90",
+      "editableScope": ["types/index.d.ts"],
+      "validator": {
+        "path": "validators/config-types.mjs",
+        "sha256": "d7e49a13886d6981fe6fc01ffc56edd647ce81a67cb1e67e194f5b30c65b31f3",
+        "timeoutMs": 30000
+      },
+      "timeoutHintSeconds": 420,
+      "knownGoodPatch": {
+        "path": "known-good/config-types.json",
+        "sha256": "ac2903f372fae8d7d23cb0a62fb010f87e23cee7ebbac61c4e05f59a48b27d1b"
+      },
+      "metadata": {
+        "representativeReason": "Declaration/runtime drift is a common library maintenance task requiring build-tool feedback.",
+        "expectedAreas": ["types/index.d.ts", "src/index.mjs", "package.json"],
+        "validatorEstablishes": "A strict consumer program typechecks against the declared input and output contracts.",
+        "limitations": "The compact fixture does not measure a large compiler graph.",
+        "baselineValidatorRuntimeMs": 2500,
+        "cachePolicy": "reset"
+      }
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "protectedAssets": {
+      "validators/lib.mjs": "9f6ad50aab2f7b7abbcb7e5ac29ff23b52bd8c497c22623933ab210ec62299db"
+    },
+    "suiteSha256": "03a31c39c477efd60ba2e0070f188949c7799db86ea27660c651d036f6f403d3"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "src/parser.mjs": "export function parseConfig(text) {\n  const output = {};\n  for (const rawLine of text.split(/\\r?\\n/u)) {\n    let quote = null;\n    let visible = \"\";\n    for (const character of rawLine) {\n      if ((character === \"'\" || character === '\"') && (quote === null || quote === character)) quote = quote === null ? character : null;\n      if (character === \"#\" && quote === null) break;\n      visible += character;\n    }\n    const line = visible.trim();\n    if (line === \"\") continue;\n    const separator = line.indexOf(\"=\");\n    if (separator < 1) throw new SyntaxError(`invalid config line: ${rawLine}`);\n    const key = line.slice(0, separator).trim();\n    const rawValue = line.slice(separator + 1).trim();\n    const quoted = (rawValue.startsWith('\\\"') && rawValue.endsWith('\\\"')) || (rawValue.startsWith(\"'\") && rawValue.endsWith(\"'\"));\n    output[key] = quoted ? rawValue.slice(1, -1) : rawValue;\n  }\n  return output;\n}\n"
+  }
+}
