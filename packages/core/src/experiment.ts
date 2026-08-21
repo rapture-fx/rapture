@@ -24,6 +24,7 @@ import {
   createContinuationProvenance,
   environmentFingerprintDiffers,
 } from "./continuation.js";
+import type { PricingContext } from "./economics.js";
 import { createEventWriter, type EventWriter } from "./events.js";
 import {
   changedFiles,
@@ -233,6 +234,7 @@ interface ResumeManifest {
     readonly repositoryIds: readonly string[];
     readonly taskClasses: readonly string[];
   };
+  readonly pricing?: PricingContext | null;
 }
 
 async function resumeConfigFromManifest(
@@ -254,6 +256,7 @@ async function resumeConfigFromManifest(
     integration: manifest.integration,
     integrationValidation: manifest.integrationValidation,
     executionOrder: manifest.executionOrder,
+    pricing: manifest.pricing ?? null,
   };
 }
 
@@ -281,6 +284,9 @@ function assertConfigMatchesManifest(config: ExperimentConfig, manifest: ResumeM
   const manifestOrder = manifest.executionOrder ?? "repetition-major";
   if ((config.executionOrder ?? "repetition-major") !== manifestOrder) {
     throw new ConfigurationError("resume executionOrder mismatch with the recorded manifest");
+  }
+  if (JSON.stringify(config.pricing ?? null) !== JSON.stringify(manifest.pricing ?? null)) {
+    throw new ConfigurationError("resume pricing context mismatch with the recorded manifest");
   }
 }
 
@@ -425,6 +431,7 @@ export async function runExperiment(
       budget: effectiveConfig.budget,
       seed: effectiveConfig.seed,
       startedAt,
+      pricing: effectiveConfig.pricing ?? null,
       reproduction: [
         "rapture run",
         `--repo ${effectiveConfig.repository}`,
@@ -978,6 +985,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
           buildInvocations: [],
           tokenUsage: agent.value.tokenUsage,
           providerCost: agent.value.providerCost,
+          usage: agent.value.usage,
           validationResult: "not_run",
           integrationResult: "not_requested",
           failureClassification: "provider_blocked",
@@ -1130,6 +1138,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         buildInvocations: groups.builds,
         tokenUsage: agent.value.tokenUsage,
         providerCost: agent.value.providerCost,
+        usage: agent.value.usage,
         validationResult: validation.value.passed ? "passed" : "failed",
         integrationResult: "not_requested",
         failureClassification,
