@@ -6,6 +6,19 @@ export type JsonValue =
   | readonly JsonValue[]
   | { readonly [key: string]: JsonValue };
 
+export type UsageSource = import("./economics.js").UsageSource;
+export type AgentUsage = import("./economics.js").AgentUsage;
+export type PricingContext = import("./economics.js").PricingContext;
+
+export interface FakeUsageConfig {
+  readonly inputTokens?: number | null | undefined;
+  readonly outputTokens?: number | null | undefined;
+  readonly cachedInputTokens?: number | null | undefined;
+  readonly reasoningTokens?: number | null | undefined;
+  readonly providerReportedCost?: number | null | undefined;
+  readonly currency?: string | null | undefined;
+}
+
 export interface FakeAgentConfig {
   readonly files: Readonly<Record<string, string>>;
   readonly exitCode: number;
@@ -13,6 +26,7 @@ export interface FakeAgentConfig {
   readonly stdout: string;
   readonly stderr: string;
   readonly failOnRepetition?: number;
+  readonly usage?: FakeUsageConfig;
 }
 
 export interface TaskDefinition {
@@ -44,6 +58,7 @@ export interface ExperimentConfig {
   readonly seed: number;
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
+  readonly pricing?: PricingContext | null;
 }
 
 export interface ProcessResult {
@@ -107,6 +122,7 @@ export interface EngineeringTaskRun {
   readonly buildInvocations: readonly (readonly string[])[];
   readonly tokenUsage: number | null;
   readonly providerCost: number | null;
+  readonly usage: AgentUsage | null;
   readonly validationResult: ValidationResult;
   readonly integrationResult: IntegrationResult;
   readonly failureClassification: string | null;

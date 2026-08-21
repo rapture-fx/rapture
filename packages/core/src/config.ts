@@ -1,8 +1,30 @@
 import { access, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { z } from "zod";
-import type { ExperimentConfig, FakeAgentConfig, TaskDefinition } from "./models.js";
+import { loadPricingContext } from "./economics.js";
+import type {
+  ExperimentConfig,
+  FakeAgentConfig,
+  FakeUsageConfig,
+  TaskDefinition,
+} from "./models.js";
 import { parseCommand } from "./validation.js";
+
+const fakeUsageSchema = z
+  .object({
+    inputTokens: z.number().nonnegative().nullable().optional(),
+    outputTokens: z.number().nonnegative().nullable().optional(),
+    cachedInputTokens: z.number().nonnegative().nullable().optional(),
+    reasoningTokens: z.number().nonnegative().nullable().optional(),
+    providerReportedCost: z.number().nonnegative().nullable().optional(),
+    currency: z
+      .string()
+      .trim()
+      .regex(/^[A-Za-z]{3}$/u)
+      .nullable()
+      .optional(),
+  })
+  .strict();
 
 const fakeAgentSchema = z
   .object({
@@ -12,6 +34,7 @@ const fakeAgentSchema = z
     stdout: z.string().default("fake agent completed"),
     stderr: z.string().default(""),
     failOnRepetition: z.number().int().positive().optional(),
+    usage: fakeUsageSchema.optional(),
   })
   .strict();
 
@@ -158,24 +181,18 @@ function toFakeAgentConfig(fake: {
   readonly stdout: string;
   readonly stderr: string;
   readonly failOnRepetition?: number | undefined;
+  readonly usage?: FakeUsageConfig | undefined;
 }): FakeAgentConfig {
   const failOnRepetition = fake.failOnRepetition;
-  return failOnRepetition === undefined
-    ? {
-        files: fake.files,
-        exitCode: fake.exitCode,
-        delayMs: fake.delayMs,
-        stdout: fake.stdout,
-        stderr: fake.stderr,
-      }
-    : {
-        files: fake.files,
-        exitCode: fake.exitCode,
-        delayMs: fake.delayMs,
-        stdout: fake.stdout,
-        stderr: fake.stderr,
-        failOnRepetition,
-      };
+  const base = {
+    files: fake.files,
+    exitCode: fake.exitCode,
+    delayMs: fake.delayMs,
+    stdout: fake.stdout,
+    stderr: fake.stderr,
+    ...(fake.usage === undefined ? {} : { usage: fake.usage }),
+  };
+  return failOnRepetition === undefined ? base : { ...base, failOnRepetition };
 }
 
 export function parseTaskFile(value: unknown): readonly TaskDefinition[] {
@@ -220,6 +237,7 @@ export interface BuildConfigInput {
   readonly outputDirectory: string;
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
+  readonly pricingPath?: string;
 }
 
 export async function buildExperimentConfig(input: BuildConfigInput): Promise<ExperimentConfig> {
@@ -228,6 +246,8 @@ export async function buildExperimentConfig(input: BuildConfigInput): Promise<Ex
   }
   const taskFile = resolve(input.taskFile);
   const tasks = await loadTasks(taskFile);
+  const pricing =
+    input.pricingPath === undefined ? null : await loadPricingContext(input.pricingPath);
   return {
     repository: resolve(input.repository),
     taskFile,
@@ -242,5 +262,6 @@ export async function buildExperimentConfig(input: BuildConfigInput): Promise<Ex
     seed: parseSeed(input.seed ?? "0"),
     integration: input.integration,
     integrationValidation: input.integrationValidation,
+    pricing,
   };
 }

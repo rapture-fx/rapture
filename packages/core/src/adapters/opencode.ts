@@ -4,6 +4,7 @@ import { join } from "node:path";
 import type { ProcessResult } from "../models.js";
 import { runProcess } from "../process.js";
 import { detectOpenCodeCredentialPresence } from "./auth.js";
+import { parseOpenCodeUsage } from "./opencode-usage.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
 
 function prompt(input: AgentRunInput): string {
@@ -81,9 +82,13 @@ export const opencodeAgentAdapter: AgentAdapter = {
       observedCommands: null,
     };
   },
-  // OpenCode's JSON event stream is a stable session contract, not a billing
-  // scrape; token/cost fields are left null unless a documented source exists.
-  extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  // OpenCode's `--format json` event stream is a stable session contract.
+  // Usage is parsed only from well-formed step_finish events; anything else
+  // leaves usage null so unstable output can never fabricate economics data.
+  extractUsageMetadata: (result: ProcessResult) => {
+    const parsed = parseOpenCodeUsage(result.stdout);
+    return { tokenUsage: null, providerCost: null, usage: parsed.usage };
+  },
   probeCredentials: async (env) => {
     const environmentProbe = detectOpenCodeCredentialPresence(env);
     if (environmentProbe.present) return environmentProbe;
