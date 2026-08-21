@@ -220,6 +220,15 @@ export interface BuildConfigInput {
   readonly outputDirectory: string;
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
+  readonly order?: string;
+}
+
+export function parseExecutionOrder(value: string | undefined) {
+  if (value === undefined || value === "") return undefined;
+  if (value === "repetition-major" || value === "worker-major") return value;
+  throw new ConfigurationError(
+    `invalid execution order "${value}": expected repetition-major or worker-major`,
+  );
 }
 
 export async function buildExperimentConfig(input: BuildConfigInput): Promise<ExperimentConfig> {
@@ -242,5 +251,6 @@ export async function buildExperimentConfig(input: BuildConfigInput): Promise<Ex
     seed: parseSeed(input.seed ?? "0"),
     integration: input.integration,
     integrationValidation: input.integrationValidation,
+    executionOrder: parseExecutionOrder(input.order),
   };
 }
