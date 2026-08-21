@@ -24,6 +24,21 @@ export interface TaskDefinition {
   readonly independent: boolean;
   readonly dependsOn: readonly string[];
   readonly fake?: FakeAgentConfig;
+  readonly benchmark?: BenchmarkTaskProvenance;
+}
+
+export interface BenchmarkTaskProvenance {
+  readonly suiteId: string;
+  readonly suiteVersion: string;
+  readonly repositoryId: string;
+  readonly editableScope: readonly string[];
+  readonly taskClass:
+    | "bug_fix"
+    | "small_feature"
+    | "refactor"
+    | "test_repair"
+    | "repository_exploration"
+    | "build_or_typecheck_heavy";
 }
 
 export interface ExperimentBudget {
@@ -83,6 +98,9 @@ export interface EngineeringTaskRun {
   readonly repetition: number;
   readonly taskId: string;
   readonly repositoryId: string;
+  readonly benchmarkSuiteId: string | null;
+  readonly benchmarkSuiteVersion: string | null;
+  readonly benchmarkTaskClass: BenchmarkTaskProvenance["taskClass"] | null;
   readonly baseCommit: string;
   readonly baseTreeHash: string;
   readonly workerId: string;

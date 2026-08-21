@@ -224,6 +224,12 @@ interface ResumeManifest {
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
   readonly environment: Readonly<Record<string, unknown>>;
+  readonly benchmark?: {
+    readonly suiteIds: readonly string[];
+    readonly suiteVersions: readonly string[];
+    readonly repositoryIds: readonly string[];
+    readonly taskClasses: readonly string[];
+  };
 }
 
 async function resumeConfigFromManifest(
@@ -390,6 +396,20 @@ export async function runExperiment(
       trialIds: trialPlan,
       agent: { name: adapter.name(), version: agentVersion, model: effectiveConfig.agentModel },
       environment: await environmentFingerprintValue(),
+      benchmark: {
+        suiteIds: [
+          ...new Set(effectiveConfig.tasks.flatMap((task) => task.benchmark?.suiteId ?? [])),
+        ].sort(),
+        suiteVersions: [
+          ...new Set(effectiveConfig.tasks.flatMap((task) => task.benchmark?.suiteVersion ?? [])),
+        ].sort(),
+        repositoryIds: [
+          ...new Set(effectiveConfig.tasks.flatMap((task) => task.benchmark?.repositoryId ?? [])),
+        ].sort(),
+        taskClasses: [
+          ...new Set(effectiveConfig.tasks.flatMap((task) => task.benchmark?.taskClass ?? [])),
+        ].sort(),
+      },
       integration: effectiveConfig.integration,
       integrationValidation: effectiveConfig.integrationValidation,
       budget: effectiveConfig.budget,
@@ -883,7 +903,10 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
           trialId: input.trialId,
           repetition: input.repetition,
           taskId: input.task.id,
-          repositoryId: sha256(input.config.repository),
+          repositoryId: input.task.benchmark?.repositoryId ?? sha256(input.config.repository),
+          benchmarkSuiteId: input.task.benchmark?.suiteId ?? null,
+          benchmarkSuiteVersion: input.task.benchmark?.suiteVersion ?? null,
+          benchmarkTaskClass: input.task.benchmark?.taskClass ?? null,
           baseCommit,
           baseTreeHash,
           workerId: input.workerId,
@@ -967,6 +990,15 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
 
       const finalTreeHash = await workingTreeHash(worktree);
       const filesChanged = await changedFiles(worktree);
+      const outOfScopeFiles =
+        input.task.benchmark === undefined
+          ? []
+          : filesChanged.filter(
+              (file) =>
+                !input.task.benchmark?.editableScope.some(
+                  (scope) => file === scope || file.startsWith(`${scope}/`),
+                ),
+            );
       const patch = await stagedPatch(worktree);
       const patchHash = await writeRawTextArtifact(patchPath, patch);
       const finalCommit = await currentCommit(worktree);
@@ -983,19 +1015,33 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
       const commands = [agent.value.process.command, ...validationCommands];
       const groups = commandGroups(validationCommands);
       const timedOut = agent.value.process.timedOut;
-      const runState: LogicalRunState = validation.value.passed
-        ? "accepted"
-        : timedOut
-          ? "timed_out"
-          : "rejected";
+      const validatorInfrastructureFailed =
+        input.task.benchmark !== undefined &&
+        validation.value.results.some(
+          (result) =>
+            result.timedOut ||
+            result.exitCode === null ||
+            (result.exitCode !== null && result.exitCode > 1),
+        );
+      const runState: LogicalRunState = validatorInfrastructureFailed
+        ? "infrastructure_failed"
+        : validation.value.passed && outOfScopeFiles.length === 0
+          ? "accepted"
+          : timedOut
+            ? "timed_out"
+            : "rejected";
       const failureClassification =
         runState === "accepted"
           ? agent.value.process.exitCode !== 0
             ? "agent_exit_nonzero_validation_passed"
             : null
-          : runState === "timed_out"
-            ? "agent_timeout"
-            : "validation_failed";
+          : validatorInfrastructureFailed
+            ? "validator_infrastructure_failure"
+            : outOfScopeFiles.length > 0
+              ? `editable_scope_violation:${outOfScopeFiles.join(",")}`
+              : runState === "timed_out"
+                ? "agent_timeout"
+                : "validation_failed";
       const cleanup = await timePhase(() => input.worktrees.remove(attemptId));
       worktreeCleanupMs = cleanup.durationMs;
       created = false;
@@ -1009,7 +1055,10 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         trialId: input.trialId,
         repetition: input.repetition,
         taskId: input.task.id,
-        repositoryId: sha256(input.config.repository),
+        repositoryId: input.task.benchmark?.repositoryId ?? sha256(input.config.repository),
+        benchmarkSuiteId: input.task.benchmark?.suiteId ?? null,
+        benchmarkSuiteVersion: input.task.benchmark?.suiteVersion ?? null,
+        benchmarkTaskClass: input.task.benchmark?.taskClass ?? null,
         baseCommit,
         baseTreeHash,
         workerId: input.workerId,
@@ -1037,7 +1086,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         validationResult: validation.value.passed ? "passed" : "failed",
         integrationResult: "not_requested",
         failureClassification,
-        accepted: validation.value.passed,
+        accepted: runState === "accepted",
         artifacts: {
           stdout: relative(input.directory, stdoutPath),
           stdoutSha256: stdoutHash,
