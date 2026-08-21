@@ -17,6 +17,7 @@ import {
   writeRawTextArtifact,
   writeTextArtifact,
 } from "./artifacts.js";
+import { appendObservedOutcomes, persistStepPredictions } from "./capacity-report.js";
 import { ConfigurationError, loadTasks } from "./config.js";
 import {
   collectEnvironmentFingerprint,
@@ -34,6 +35,7 @@ import {
   treeHash,
   workingTreeHash,
 } from "./git.js";
+import { persistHostStateSnapshot } from "./host-state.js";
 import { type IntegrationOutcome, integratePatches } from "./integration.js";
 import { createRunLedger, type RunLedger } from "./ledger.js";
 import {
@@ -223,6 +225,7 @@ interface ResumeManifest {
   };
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
+  readonly executionOrder?: "repetition-major" | "worker-major";
   readonly environment: Readonly<Record<string, unknown>>;
 }
 
@@ -244,6 +247,7 @@ async function resumeConfigFromManifest(
     seed: manifest.seed,
     integration: manifest.integration,
     integrationValidation: manifest.integrationValidation,
+    executionOrder: manifest.executionOrder,
   };
 }
 
@@ -266,7 +270,11 @@ function assertConfigMatchesManifest(config: ExperimentConfig, manifest: ResumeM
     throw new ConfigurationError("resume agent mismatch with the recorded manifest");
   }
   if (config.integration !== manifest.integration) {
-    throw new ConfigurationError("resume integration mismatch with the recorded manifest");
+    throw new ConfigurationError("resume agent integration mismatch with the recorded manifest");
+  }
+  const manifestOrder = manifest.executionOrder ?? "repetition-major";
+  if ((config.executionOrder ?? "repetition-major") !== manifestOrder) {
+    throw new ConfigurationError("resume executionOrder mismatch with the recorded manifest");
   }
 }
 
@@ -375,6 +383,7 @@ export async function runExperiment(
     );
   }
 
+  const executionOrder = effectiveConfig.executionOrder ?? "repetition-major";
   if (manifest === null) {
     manifest = {
       schemaVersion: 2,
@@ -392,6 +401,7 @@ export async function runExperiment(
       environment: await environmentFingerprintValue(),
       integration: effectiveConfig.integration,
       integrationValidation: effectiveConfig.integrationValidation,
+      executionOrder,
       budget: effectiveConfig.budget,
       seed: effectiveConfig.seed,
       startedAt,
@@ -434,6 +444,13 @@ export async function runExperiment(
   const activity = createAgentActivity();
   const agentActivity = activity;
   let telemetryError: unknown = null;
+  try {
+    // Clean-host protocol: persist a preflight host-state snapshot with the
+    // experiment provenance (exclusive create; resume keeps the original).
+    await persistHostStateSnapshot(directory);
+  } catch {
+    // host provenance is best-effort and must never block execution
+  }
   const sampler = createHostTelemetrySampler(telemetrySink, {
     intervalMs: 1_000,
     activeAgentWorkers: () => agentActivity.active,
@@ -450,88 +467,111 @@ export async function runExperiment(
   let skippedCompletedRuns = 0;
 
   try {
-    for (let repetition = 1; repetition <= effectiveConfig.repetitions; repetition += 1) {
+    const executeTrialGroup = async (workerCount: number, repetition: number): Promise<void> => {
       const trialSeed = deriveTrialSeed(effectiveConfig.seed, repetition);
       const orderedTasks = orderTasks(effectiveConfig.tasks, trialSeed);
-      for (const workerCount of effectiveConfig.workerCounts) {
-        const trialId = trialIdFor(workerCount, repetition);
-        const trialEntries = plan.logicalRuns.filter((entry) => entry.trialId === trialId);
-        for (const entry of trialEntries) {
-          const recorded = ledger.get(entry.logicalRunId);
-          if (recorded !== null && isTerminalRunState(recorded.state)) {
-            skippedCompletedRuns += 1;
-            void events.emit("run_skipped", {
+      const trialId = trialIdFor(workerCount, repetition);
+      const trialEntries = plan.logicalRuns.filter((entry) => entry.trialId === trialId);
+      for (const entry of trialEntries) {
+        const recorded = ledger.get(entry.logicalRunId);
+        if (recorded !== null && isTerminalRunState(recorded.state)) {
+          skippedCompletedRuns += 1;
+          void events.emit("run_skipped", {
+            trialId,
+            taskId: entry.taskId,
+            workerCount,
+            repetition,
+            logicalRunId: entry.logicalRunId,
+            state: recorded.state,
+          });
+        }
+      }
+      const pending = trialEntries.filter((entry) => {
+        const recorded = ledger.get(entry.logicalRunId);
+        const state = recorded?.state ?? "pending";
+        return !isTerminalRunState(state);
+      });
+      resumedRuns += pending.filter((entry) =>
+        isRerunEligibleState(ledger.get(entry.logicalRunId)?.state ?? "pending"),
+      ).length;
+      if (pending.length === 0) {
+        return;
+      }
+      try {
+        const runs = await runTrial({
+          config: effectiveConfig,
+          adapter,
+          agentVersion,
+          experimentIdentityHash: plan.experimentIdentityHash,
+          experimentId,
+          directory,
+          events,
+          worktrees,
+          ledger,
+          workerCount,
+          repetition,
+          trialSeed,
+          tasks: orderedTasks,
+          pendingEntries: pending,
+          activity: agentActivity,
+        });
+        if (effectiveConfig.integration) {
+          const commits = new Set(runs.map((run) => run.baseCommit));
+          if (commits.size !== 1) {
+            throw new ConfigurationError("integration requires one common base commit per matrix");
+          }
+          const baseCommit = commits.values().next().value;
+          if (baseCommit === undefined) throw new Error("integration matrix has no runs");
+          integrationOutcomes.push(
+            await integratePatches({
+              worktrees,
               trialId,
-              taskId: entry.taskId,
               workerCount,
               repetition,
-              logicalRunId: entry.logicalRunId,
-              state: recorded.state,
-            });
-          }
+              baseCommit,
+              patches: runs
+                .filter((run) => run.accepted)
+                .map((run) => join(directory, run.artifacts.patch ?? "")),
+              validation: effectiveConfig.integrationValidation,
+              events,
+            }),
+          );
         }
-        const pending = trialEntries.filter((entry) => {
-          const recorded = ledger.get(entry.logicalRunId);
-          const state = recorded?.state ?? "pending";
-          return !isTerminalRunState(state);
+      } catch (error: unknown) {
+        trialFailures.push(error);
+        status = error instanceof Error && error.name === "AbortError" ? "interrupted" : "failed";
+        await events.emit("experiment_interrupted", {
+          trialId,
+          workerCount,
+          repetition,
+          reason: error instanceof Error ? error.name : "UnknownError",
         });
-        resumedRuns += pending.filter((entry) =>
-          isRerunEligibleState(ledger.get(entry.logicalRunId)?.state ?? "pending"),
-        ).length;
-        if (pending.length === 0) {
-          continue;
+      }
+    };
+    if (executionOrder === "worker-major") {
+      const sortedWorkerCounts = [...effectiveConfig.workerCounts].sort(
+        (left, right) => left - right,
+      );
+      for (const workerCount of sortedWorkerCounts) {
+        for (
+          let repetition = 1;
+          repetition <= effectiveConfig.repetitions && status === "completed";
+          repetition += 1
+        ) {
+          await executeTrialGroup(workerCount, repetition);
         }
-        try {
-          const runs = await runTrial({
-            config: effectiveConfig,
-            adapter,
-            agentVersion,
-            experimentIdentityHash: plan.experimentIdentityHash,
-            experimentId,
-            directory,
-            events,
-            worktrees,
-            ledger,
-            workerCount,
-            repetition,
-            trialSeed,
-            tasks: orderedTasks,
-            pendingEntries: pending,
-            activity: agentActivity,
-          });
-          if (effectiveConfig.integration) {
-            const commits = new Set(runs.map((run) => run.baseCommit));
-            if (commits.size !== 1) {
-              throw new ConfigurationError(
-                "integration requires one common base commit per matrix",
-              );
-            }
-            const baseCommit = commits.values().next().value;
-            if (baseCommit === undefined) throw new Error("integration matrix has no runs");
-            integrationOutcomes.push(
-              await integratePatches({
-                worktrees,
-                trialId,
-                workerCount,
-                repetition,
-                baseCommit,
-                patches: runs
-                  .filter((run) => run.accepted)
-                  .map((run) => join(directory, run.artifacts.patch ?? "")),
-                validation: effectiveConfig.integrationValidation,
-                events,
-              }),
-            );
-          }
-        } catch (error: unknown) {
-          trialFailures.push(error);
-          status = error instanceof Error && error.name === "AbortError" ? "interrupted" : "failed";
-          await events.emit("experiment_interrupted", {
-            trialId,
-            workerCount,
-            repetition,
-            reason: error instanceof Error ? error.name : "UnknownError",
-          });
+        if (status === "completed") {
+          // Persist next-step predictions BEFORE any trial of the next worker
+          // count executes (capacity-prediction chronology).
+          await persistStepPredictions(directory, workerCount, effectiveConfig.repetitions).catch(
+            () => undefined,
+          );
+        }
+      }
+    } else {
+      for (let repetition = 1; repetition <= effectiveConfig.repetitions; repetition += 1) {
+        for (const workerCount of effectiveConfig.workerCounts) {
+          await executeTrialGroup(workerCount, repetition);
         }
       }
     }
@@ -546,6 +586,13 @@ export async function runExperiment(
     await sampler.stop();
     const completion = await computeMatrixCompletion(directory, plan);
     const metrics = await deriveMetrics(join(directory, "events.jsonl"));
+    try {
+      // Append observed held-out outcomes for persisted predictions. Existing
+      // records are never rewritten.
+      await appendObservedOutcomes(directory);
+    } catch {
+      // prediction chronology must not fail experiment finalization
+    }
     await writeJsonArtifactOverwrite(join(directory, "outcome.json"), {
       schemaVersion: 2,
       experimentId,

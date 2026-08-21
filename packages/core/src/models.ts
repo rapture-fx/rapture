@@ -31,6 +31,8 @@ export interface ExperimentBudget {
   readonly maxProviderCost?: number;
 }
 
+export type ExecutionOrder = "repetition-major" | "worker-major";
+
 export interface ExperimentConfig {
   readonly repository: string;
   readonly taskFile: string;
@@ -44,6 +46,14 @@ export interface ExperimentConfig {
   readonly seed: number;
   readonly integration: boolean;
   readonly integrationValidation: readonly string[];
+  /**
+   * Trial execution order. "worker-major" completes every trial of a worker
+   * count before the next worker count starts, which is required for the
+   * capacity-prediction chronology (predictions are persisted for the next
+   * worker count before any of its trials execute). Defaults to
+   * "repetition-major" to preserve historical execution semantics.
+   */
+  readonly executionOrder?: ExecutionOrder | undefined;
 }
 
 export interface ProcessResult {

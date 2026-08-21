@@ -1,19 +1,28 @@
 #!/usr/bin/env node
 
+import type { CapacityContext } from "@rapture/core";
 import {
   buildExperimentConfig,
   ConfigurationError,
+  createPredictionStore,
   DoctorError,
+  detectCapacityKnee,
   doctorExitCode,
+  evaluateStoredPredictions,
   formatDoctor,
+  formatFactor,
   formatReport,
   inspectExperiment,
+  loadCapacityContext,
   loadTasks,
+  observeOutcomes,
   persistDoctorArtifacts,
   regenerateReport,
+  regenerateStepPredictions,
   resumeExperiment,
   runDoctor,
   runExperiment,
+  simulateControllerStop,
 } from "@rapture/core";
 import { Command, InvalidArgumentError, Option } from "commander";
 import { z } from "zod";
@@ -29,6 +38,7 @@ const runOptionsSchema = z.object({
   output: z.string().min(1),
   integration: z.boolean(),
   integrationValidation: z.array(z.string()),
+  order: z.enum(["repetition-major", "worker-major"]),
   json: z.boolean(),
 });
 
@@ -133,6 +143,11 @@ program
     (value: string, previous: readonly string[]) => [...previous, value],
     [],
   )
+  .addOption(
+    new Option("--order <mode>", "trial execution order")
+      .choices(["repetition-major", "worker-major"])
+      .default("repetition-major"),
+  )
   .option("--json", "emit machine-readable output", false)
   .action(async (rawOptions: unknown) => {
     const options = runOptionsSchema.parse(rawOptions);
@@ -147,6 +162,7 @@ program
       outputDirectory: options.output,
       integration: options.integration,
       integrationValidation: options.integrationValidation,
+      order: options.order,
     });
     const execution = await runExperiment(config);
     const report = await regenerateReport(execution.directory);
@@ -166,6 +182,205 @@ program
     if (options.json) printJson(report);
     else process.stdout.write(`${formatReport(report)}\n`);
   });
+
+program
+  .command("capacity")
+  .description(
+    "build the capacity curve, knee detection, prediction chronology, baselines, and retrospective simulation from persisted evidence",
+  )
+  .argument("<experiment>", "experiment artifact directory")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (experiment: string, options: { readonly json: boolean }) => {
+    const context: CapacityContext = await loadCapacityContext(experiment);
+    const knee = detectCapacityKnee(context.curve);
+    const store = await createPredictionStore(
+      `${experiment}/predictions.jsonl`.replace(/\/+/g, "/"),
+    );
+    const stored = await store.read();
+    const workerCounts = context.curve.points
+      .map((point) => point.workerCount)
+      .sort((a, b) => a - b);
+    const regenerated = regenerateStepPredictions(context, workerCounts, 0);
+    const outcomes = observeOutcomes(
+      context,
+      stored.predictions.map((prediction) => prediction.targetWorkerCount),
+    );
+    const evaluations = evaluateStoredPredictions(
+      stored.predictions.map((prediction) => ({
+        predictorId: prediction.predictorId,
+        targetWorkerCount: prediction.targetWorkerCount,
+        predictedState: prediction.predictedState,
+      })),
+      outcomes,
+    );
+    const simulation =
+      knee.candidateKnee === null
+        ? null
+        : simulateControllerStop(
+            context.curve,
+            knee.candidateKnee,
+            context.metrics.workerResults.reduce((total, row) => total + row.acceptedTasks, 0),
+          );
+    if (options.json) {
+      printJson({
+        experimentId: context.experimentId,
+        curve: context.curve,
+        knee,
+        predictions: stored.predictions,
+        outcomes: stored.outcomes,
+        regeneratedMatchesStored: verifyRegenerated(regenerated, stored.predictions),
+        evaluations,
+        simulation,
+      });
+      return;
+    }
+    process.stdout.write(
+      formatCapacityText(context, knee, stored, regenerated, evaluations, simulation),
+    );
+  });
+
+function pct(value: number | null): string {
+  return value === null ? "n/a" : `${(value * 100).toFixed(1)}%`;
+}
+
+function ms(value: number | null): string {
+  return value === null ? "n/a" : Math.round(value).toString();
+}
+
+function verifyRegenerated(
+  regenerated: ReturnType<typeof regenerateStepPredictions>,
+  stored: readonly { predictorId: string; targetWorkerCount: number; predictedState: string }[],
+): boolean {
+  for (const step of regenerated) {
+    for (const prediction of step.predictions) {
+      const match = stored.some(
+        (item) =>
+          item.predictorId === prediction.predictor.id &&
+          item.targetWorkerCount === prediction.targetWorkerCount &&
+          item.predictedState === prediction.predictedState,
+      );
+      if (!match) return false;
+    }
+  }
+  return true;
+}
+
+function formatCapacityText(
+  context: CapacityContext,
+  knee: ReturnType<typeof detectCapacityKnee>,
+  stored: Awaited<ReturnType<Awaited<ReturnType<typeof createPredictionStore>>["read"]>>,
+  regenerated: ReturnType<typeof regenerateStepPredictions>,
+  evaluations: ReturnType<typeof evaluateStoredPredictions>,
+  simulation: ReturnType<typeof simulateControllerStop> | null,
+): string {
+  const lines: string[] = [];
+  lines.push(`Rapture capacity curve ${context.experimentId}`);
+  lines.push("");
+  lines.push("Capacity curve");
+  lines.push(
+    "workers  accepted  accept-rate  median-tph  min-tph  max-tph  speedup  efficiency  agent-ms  infl-vs-1  cpu-mean  mem-used  load-p95",
+  );
+  for (const point of context.curve.points) {
+    lines.push(
+      [
+        point.workerCount.toString().padStart(7),
+        point.acceptedTasks.toString().padStart(8),
+        pct(point.acceptanceRate).padStart(11),
+        (point.medianTasksPerHour === null ? "n/a" : point.medianTasksPerHour.toFixed(2)).padStart(
+          10,
+        ),
+        (point.minTasksPerHour === null ? "n/a" : point.minTasksPerHour.toFixed(2)).padStart(8),
+        (point.maxTasksPerHour === null ? "n/a" : point.maxTasksPerHour.toFixed(2)).padStart(8),
+        formatFactor(point.speedup).padStart(8),
+        formatFactor(point.parallelEfficiency).padStart(11),
+        ms(point.medianAgentExecutionMs).padStart(9),
+        formatFactor(point.agentLatencyInflationVsBaseline).padStart(10),
+        pct(point.resources?.cpuUtilizationMean ?? null).padStart(9),
+        pct(point.resources?.memoryUsedFractionMean ?? null).padStart(9),
+        (point.resources?.loadAverage1mP95 === null || point.resources === null
+          ? "n/a"
+          : point.resources.loadAverage1mP95.toFixed(1)
+        ).padStart(8),
+      ].join("  "),
+    );
+  }
+  lines.push("");
+  lines.push("Adjacent marginal yield");
+  lines.push("step   gain-tph  gain-%   yield/worker  incr-eff  latency-infl");
+  for (const step of context.curve.adjacentSteps) {
+    lines.push(
+      [
+        `T(${step.toWorkerCount})-T(${step.fromWorkerCount})`,
+        (step.marginalThroughputGain === null
+          ? "n/a"
+          : step.marginalThroughputGain.toFixed(2)
+        ).padStart(8),
+        pct(step.marginalThroughputGainFraction).padStart(7),
+        (step.marginalWorkerYield === null ? "n/a" : step.marginalWorkerYield.toFixed(2)).padStart(
+          13,
+        ),
+        formatFactor(step.incrementalWorkerEfficiency).padStart(9),
+        formatFactor(step.agentLatencyInflation).padStart(12),
+      ].join("  "),
+    );
+  }
+  lines.push("");
+  lines.push(
+    `Candidate knee: ${knee.status}${knee.candidateKnee === null ? "" : ` at N=${knee.candidateKnee} (confidence ${knee.confidence})`}`,
+  );
+  for (const reason of knee.reasons) lines.push(`  - ${reason}`);
+  lines.push("");
+  lines.push("Prediction chronology (persisted before held-out results)");
+  const sortedPredictions = [...stored.predictions].sort(
+    (a, b) =>
+      a.targetWorkerCount - b.targetWorkerCount || a.persistedAt.localeCompare(b.persistedAt),
+  );
+  for (const prediction of sortedPredictions) {
+    lines.push(
+      `  [${prediction.persistedAt}] ${prediction.predictorId} observed=${prediction.observedWorkerCounts.join(",")} -> N=${prediction.targetWorkerCount}: ${prediction.predictedState} (${prediction.confidence})`,
+    );
+  }
+  for (const outcome of stored.outcomes) {
+    lines.push(
+      `  [${outcome.recordedAt}] observed outcome N=${outcome.targetWorkerCount}: ${JSON.stringify(outcome.observedOutcome)}`,
+    );
+  }
+  lines.push("");
+  lines.push(
+    `Predictions reproducible from persisted restricted evidence: ${verifyRegenerated(regenerated, stored.predictions) ? "yes" : "no"}`,
+  );
+  lines.push("");
+  lines.push("Predictor vs held-out outcomes (descriptive agreement only)");
+  lines.push("predictor           steps  correct  agreement");
+  for (const evaluation of evaluations) {
+    lines.push(
+      [
+        evaluation.predictorId.padEnd(19),
+        evaluation.evaluableSteps.toString().padStart(5),
+        evaluation.correctSteps.toString().padStart(8),
+        (evaluation.agreementFraction === null
+          ? "n/a"
+          : pct(evaluation.agreementFraction)
+        ).padStart(10),
+      ].join("  "),
+    );
+  }
+  if (simulation !== null) {
+    lines.push("");
+    lines.push("Retrospective controller simulation (NOT a live adaptive controller)");
+    lines.push(
+      `stop-at N=${simulation.stopAtWorkers}: tph=${simulation.throughputAtStopWorkers?.toFixed(2) ?? "n/a"} wall=${simulation.estimatedWallHoursAtStopWorkers?.toFixed(2) ?? "n/a"}h occupancy=${pct(simulation.workerOccupancyAtStopWorkers)}`,
+    );
+    lines.push(
+      `max N=${simulation.maxWorkers}: tph=${simulation.throughputAtMaxWorkers?.toFixed(2) ?? "n/a"} wall=${simulation.estimatedWallHoursAtMaxWorkers?.toFixed(2) ?? "n/a"}h occupancy=${pct(simulation.workerOccupancyAtMaxWorkers)}`,
+    );
+    lines.push(`wall-time delta (stop-vs-max): ${pct(simulation.wallTimeReductionFraction)}`);
+  } else {
+    lines.push("");
+    lines.push("Retrospective controller simulation: unavailable (no candidate knee detected)");
+  }
+  return lines.join("\n");
+}
 
 program
   .command("resume")
