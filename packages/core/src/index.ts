@@ -9,30 +9,6 @@ export { fakeAgentAdapter } from "./adapters/fake.js";
 export { OPENCODE_MODEL, opencodeAgentAdapter } from "./adapters/opencode.js";
 export type { AgentAdapter, AgentRunInput, AgentRunResult } from "./adapters/types.js";
 export type {
-  AdjacentCapacityStep,
-  CapacityCurve,
-  CapacityPoint,
-  CapacityPointInput,
-  CapacityResourceAggregate,
-} from "./capacity.js";
-export {
-  agentLatencyInflation,
-  aggregateTelemetry,
-  buildCapacityCurve,
-  formatFactor,
-  marginalThroughputGain,
-  marginalWorkerYield,
-} from "./capacity.js";
-export type { CapacityContext } from "./capacity-report.js";
-export {
-  appendObservedOutcomes,
-  evaluateStoredPredictions,
-  loadCapacityContext,
-  observeOutcomes,
-  persistStepPredictions,
-  regenerateStepPredictions,
-} from "./capacity-report.js";
-export type {
   BenchmarkDoctorCheck,
   BenchmarkDoctorResult,
   BenchmarkRepository,
@@ -57,7 +33,30 @@ export {
   runBenchmarkValidator,
   verifyBenchmarkAssets,
 } from "./benchmark.js";
->>>>>>> ed235b0 (feat(benchmark): add real-work schema and integrity model)
+export type {
+  AdjacentCapacityStep,
+  CapacityCurve,
+  CapacityPoint,
+  CapacityPointInput,
+  CapacityResourceAggregate,
+} from "./capacity.js";
+export {
+  agentLatencyInflation,
+  aggregateTelemetry,
+  buildCapacityCurve,
+  formatFactor,
+  marginalThroughputGain,
+  marginalWorkerYield,
+} from "./capacity.js";
+export type { CapacityContext } from "./capacity-report.js";
+export {
+  appendObservedOutcomes,
+  evaluateStoredPredictions,
+  loadCapacityContext,
+  observeOutcomes,
+  persistStepPredictions,
+  regenerateStepPredictions,
+} from "./capacity-report.js";
 export {
   buildExperimentConfig,
   ConfigurationError,
