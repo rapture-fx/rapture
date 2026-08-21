@@ -29,6 +29,7 @@ const runOptionsSchema = z.object({
   output: z.string().min(1),
   integration: z.boolean(),
   integrationValidation: z.array(z.string()),
+  pricing: z.string().optional(),
   json: z.boolean(),
 });
 
@@ -57,6 +58,7 @@ const doctorOptionsSchema = z.object({
   repo: z.string().optional(),
   tasks: z.string().optional(),
   output: z.string().optional(),
+  pricing: z.string().optional(),
   writeDir: z.string().optional(),
   json: z.boolean(),
 });
@@ -72,6 +74,7 @@ program
   .option("--repo <path>", "local Git repository")
   .option("--tasks <path>", "task definition JSON")
   .option("--output <path>", "experiment output directory")
+  .option("--pricing <path>", "versioned pricing context JSON; enables derived monetary economics")
   .option("--write-dir <path>", "write doctor.json and runner-fingerprint.json")
   .option("--json", "emit machine-readable output", false)
   .action(async (rawOptions: unknown) => {
@@ -86,6 +89,7 @@ program
         ...(options.agent === undefined ? {} : { agent: options.agent }),
         ...(options.agentModel === undefined ? {} : { agentModel: options.agentModel }),
         ...(options.config === undefined ? {} : { configPath: options.config }),
+        ...(options.pricing === undefined ? {} : { pricingPath: options.pricing }),
       });
       const writeDir = options.writeDir ?? options.output;
       if (writeDir !== undefined) {
@@ -133,6 +137,7 @@ program
     (value: string, previous: readonly string[]) => [...previous, value],
     [],
   )
+  .option("--pricing <path>", "versioned pricing context JSON; enables derived monetary economics")
   .option("--json", "emit machine-readable output", false)
   .action(async (rawOptions: unknown) => {
     const options = runOptionsSchema.parse(rawOptions);
@@ -147,6 +152,7 @@ program
       outputDirectory: options.output,
       integration: options.integration,
       integrationValidation: options.integrationValidation,
+      ...(options.pricing === undefined ? {} : { pricingPath: options.pricing }),
     });
     const execution = await runExperiment(config);
     const report = await regenerateReport(execution.directory);
