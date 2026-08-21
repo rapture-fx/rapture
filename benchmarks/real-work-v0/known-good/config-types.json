@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "types/index.d.ts": "export interface EndpointOptions {\n  url?: string;\n  timeoutMs?: number;\n}\n\nexport interface Endpoint {\n  url: string;\n  timeoutMs: number;\n}\n\nexport declare function loadEndpoint(input?: EndpointOptions): Endpoint;\n"
+  }
+}

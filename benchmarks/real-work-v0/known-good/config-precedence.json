@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "src/load.mjs": "import { mergeConfig } from \"./merge.mjs\";\n\nexport function loadConfiguration({ defaults, file, environment, cli }) {\n  return mergeConfig(mergeConfig(mergeConfig(defaults, file), environment), cli);\n}\n"
+  }
+}
