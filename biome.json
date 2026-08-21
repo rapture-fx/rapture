@@ -12,7 +12,8 @@
       "!!experiments/real-scale-4",
       "!!experiments/opencode-scale-4",
       "!!experiments/*.frozen.json",
-      "!!experiments/*.integrity.json"
+      "!!experiments/*.integrity.json",
+      "!!experiments/derived"
     ]
   },
   "formatter": {
