@@ -32,6 +32,32 @@ export {
   persistStepPredictions,
   regenerateStepPredictions,
 } from "./capacity-report.js";
+export type {
+  BenchmarkDoctorCheck,
+  BenchmarkDoctorResult,
+  BenchmarkRepository,
+  BenchmarkSuite,
+  BenchmarkTask,
+  BenchmarkTaskClass,
+  BenchmarkValidatorClassification,
+  BenchmarkValidatorResult,
+} from "./benchmark.js";
+export {
+  applyKnownGoodPatch,
+  BenchmarkIntegrityError,
+  benchmarkFingerprint,
+  benchmarkSuiteSchema,
+  benchmarkTaskClasses,
+  benchmarkTasksForRepository,
+  directoryFingerprint,
+  loadBenchmarkSuite,
+  materializeBenchmarkRepository,
+  parseBenchmarkSuite,
+  runBenchmarkDoctor,
+  runBenchmarkValidator,
+  verifyBenchmarkAssets,
+} from "./benchmark.js";
+>>>>>>> ed235b0 (feat(benchmark): add real-work schema and integrity model)
 export {
   buildExperimentConfig,
   ConfigurationError,
@@ -100,6 +126,7 @@ export type {
 export { DEFAULT_KNEE_THRESHOLDS, detectCapacityKnee } from "./knee.js";
 export { deriveMetrics, median, percentile } from "./metrics.js";
 export type {
+  BenchmarkTaskProvenance,
   EngineeringTaskRun,
   ExecutionOrder,
   ExperimentConfig,
