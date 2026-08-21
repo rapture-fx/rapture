@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-3",
+  "experimentId": "exp-2026-08-21-6105ee2f-efd",
+  "workerCount": 1,
+  "repetition": 3,
+  "trialSeed": 280629220,
+  "taskOrder": [
+    "add-volume-discount",
+    "extract-normalize-email",
+    "validate-sku",
+    "fix-parse-money",
+    "parse-config-comments",
+    "one-based-pagination"
+  ],
+  "startedAt": "2026-08-21T11:57:08.802Z"
+}

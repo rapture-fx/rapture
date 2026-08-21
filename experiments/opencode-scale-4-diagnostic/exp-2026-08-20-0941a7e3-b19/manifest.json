@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-20-0941a7e3-b19",
+  "experimentIdentityHash": "554b7b90df0dd1063429a653a7f98b90df27cadcea4ec0101972cfc07c7498d6",
+  "repository": "/private/tmp/rapture-opencode-scale-4-diagnostic/ledger-kit",
+  "repositoryHead": "78f2b0b3005805b239596b59bd063307aff7b55e",
+  "repositoryFingerprint": "e1212f35a93fe14b5fa0bff1ebe52c63793d4157d240dda557833ac1a408c8ad",
+  "taskFile": "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/tasks.json",
+  "taskSetHash": "db3006a82912854977b3cc37f8e7196fd6796fbfc7c7b9f6c848c816043baa01",
+  "workerCounts": [
+    1,
+    2,
+    4
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3",
+    "workers-2-trial-1",
+    "workers-2-trial-2",
+    "workers-2-trial-3",
+    "workers-4-trial-1",
+    "workers-4-trial-2",
+    "workers-4-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.18",
+    "model": "opencode/deepseek-v4-flash-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.39.2 (Apple Git-143)",
+    "pnpmVersion": null
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "budget": {},
+  "seed": 20260817,
+  "startedAt": "2026-08-20T14:28:30.905Z",
+  "reproduction": "rapture run --repo /private/tmp/rapture-opencode-scale-4-diagnostic/ledger-kit --tasks /Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/tasks.json --workers 1,2,4 --repetitions 3 --seed 20260817 --agent opencode --agent-model opencode/deepseek-v4-flash-free --output /Users/wira/Documents/rapture/rapture/experiments/opencode-scale-4-diagnostic"
+}

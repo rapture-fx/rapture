@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-21-6105ee2f-efd",
+  "experimentIdentityHash": "ead322a05e39f9399623c047ccdadc4dd51c2c9f724f9a9a0badc0e54cf635de",
+  "repository": "/private/tmp/rapture-opencode-capacity-curve/ledger-kit",
+  "repositoryHead": "0f0cb0b2d70449352ae500c4c516aa2c891b764b",
+  "repositoryFingerprint": "39fe900bd814cc3871a34c002e08e871bc582a7ff090912d028ca224223060d2",
+  "taskFile": "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/tasks.json",
+  "taskSetHash": "db3006a82912854977b3cc37f8e7196fd6796fbfc7c7b9f6c848c816043baa01",
+  "workerCounts": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3",
+    "workers-2-trial-1",
+    "workers-2-trial-2",
+    "workers-2-trial-3",
+    "workers-3-trial-1",
+    "workers-3-trial-2",
+    "workers-3-trial-3",
+    "workers-4-trial-1",
+    "workers-4-trial-2",
+    "workers-4-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.20",
+    "model": "opencode/deepseek-v4-flash-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "worker-major",
+  "budget": {},
+  "seed": 20260817,
+  "startedAt": "2026-08-21T11:55:08.521Z",
+  "reproduction": "rapture run --repo /private/tmp/rapture-opencode-capacity-curve/ledger-kit --tasks /Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/tasks.json --workers 1,2,3,4 --repetitions 3 --seed 20260817 --agent opencode --agent-model opencode/deepseek-v4-flash-free --output /Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve"
+}
