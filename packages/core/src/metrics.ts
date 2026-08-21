@@ -42,6 +42,7 @@ const taskFinishedSchema = z.object({
   tokenUsage: z.number().nonnegative().nullable(),
   providerCost: z.number().nonnegative().nullable(),
   phaseTimings: phaseTimingsSchema.optional(),
+  usage: z.unknown().nullable().optional(),
 });
 
 const taskBoundarySchema = z.object({
