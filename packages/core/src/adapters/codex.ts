@@ -62,7 +62,11 @@ export const codexAgentAdapter: AgentAdapter = {
     };
   },
   // Codex's human-readable terminal output is not a stable usage contract.
-  extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  extractUsageMetadata: (_result: ProcessResult) => ({
+    tokenUsage: null,
+    providerCost: null,
+    usage: null,
+  }),
   probeCredentials: async (env) => {
     const environmentProbe = detectCodexCredentialPresence(env);
     if (environmentProbe.present) return environmentProbe;

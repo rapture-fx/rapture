@@ -18,12 +18,14 @@ import {
   checkNodeRuntime,
   checkOutputPath,
   checkPnpmRuntime,
+  checkPricingConfig,
   checkRepositoryState,
   checkTaskIntegrity,
   checkWorktreeState,
   createLedgerKitCopy,
   evaluateExperimentConfig,
 } from "./doctor-checks.js";
+import { loadPricingContext } from "./economics.js";
 import {
   type FrozenExperiment,
   isLedgerKitExperiment,
@@ -47,6 +49,7 @@ export const doctorCheckIds = [
   "AGENT_BINARY",
   "AGENT_AUTH",
   "MODEL_CONFIG",
+  "PRICING_CONFIG",
   "OUTPUT_PATH",
 ] as const;
 
@@ -178,6 +181,8 @@ export interface DoctorOptions {
   readonly agent?: AgentName;
   readonly agentModel?: string | null;
   readonly configPath?: string;
+  readonly pricingPath?: string;
+  readonly pricing?: unknown;
   readonly env?: Readonly<Record<string, string | undefined>>;
   readonly adapter?: AgentAdapter;
   readonly requireCleanRepository?: boolean;
@@ -381,6 +386,11 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
     checks.push(await checkAgentBinary(adapter));
     checks.push(await checkAgentAuth(adapter, env));
     checks.push(checkModelConfig(agent, agentModel));
+    let pricing: unknown = options.pricing ?? null;
+    if (pricing === null && options.pricingPath !== undefined) {
+      pricing = await loadPricingContext(options.pricingPath);
+    }
+    checks.push(checkPricingConfig(pricing, { agentProvider: agent, agentModel }));
     checks.push(await checkOutputPath(outputDirectory));
   } catch (error: unknown) {
     throw new DoctorError(

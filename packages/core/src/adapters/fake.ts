@@ -1,6 +1,6 @@
 import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { ProcessResult } from "../models.js";
+import type { AgentUsage, FakeAgentConfig, ProcessResult } from "../models.js";
 import { runProcess } from "../process.js";
 import { fakeCredentialProbe } from "./auth.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
@@ -29,6 +29,18 @@ setTimeout(() => {
 
 function configPath(input: AgentRunInput): string {
   return join(input.worktree, ".rapture-fake-agent.json");
+}
+
+function deterministicUsage(config: NonNullable<FakeAgentConfig["usage"]>): AgentUsage {
+  return {
+    inputTokens: config.inputTokens ?? null,
+    outputTokens: config.outputTokens ?? null,
+    cachedInputTokens: config.cachedInputTokens ?? null,
+    reasoningTokens: config.reasoningTokens ?? null,
+    providerReportedCost: config.providerReportedCost ?? null,
+    currency: config.currency ?? null,
+    usageSource: "cli_structured",
+  };
 }
 
 export const fakeAgentAdapter: AgentAdapter = {
@@ -61,10 +73,15 @@ export const fakeAgentAdapter: AgentAdapter = {
       process: processResult,
       tokenUsage: null,
       providerCost: null,
+      usage: input.task.fake.usage === undefined ? null : deterministicUsage(input.task.fake.usage),
       toolCalls: null,
       observedCommands: null,
     };
   },
-  extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  extractUsageMetadata: (_result: ProcessResult) => ({
+    tokenUsage: null,
+    providerCost: null,
+    usage: null,
+  }),
   probeCredentials: () => fakeCredentialProbe(),
 };

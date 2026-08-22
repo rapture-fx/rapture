@@ -5,6 +5,7 @@ import { REAL_SCALE_2_CREDENTIALS_MISSING } from "./adapters/auth.js";
 import type { AgentAdapter } from "./adapters/types.js";
 import { loadTasks } from "./config.js";
 import type { DoctorCheck, DoctorCheckStatus, JsonDetails } from "./doctor.js";
+import { pricingContextSchema, validatePricingContext } from "./economics.js";
 import { type FrozenExperiment, frozenSemanticMismatches } from "./frozen.js";
 import { currentCommit, repositoryFingerprint, resolveCommit, runGit } from "./git.js";
 import {
@@ -533,6 +534,72 @@ export function checkModelConfig(
 }
 
 const prohibitedOutputPrefixes = ["/etc", "/usr", "/bin", "/sbin"];
+
+export function checkPricingConfig(
+  pricing: unknown,
+  context: { readonly agentProvider?: string | null; readonly agentModel?: string | null } = {},
+): DoctorCheck {
+  if (pricing === null || pricing === undefined) {
+    return check(
+      "PRICING_CONFIG",
+      "PASS",
+      "No pricing context supplied; monetary economics metrics will remain null.",
+      { supplied: false },
+    );
+  }
+  const validation = validatePricingContext(pricing);
+  if (!validation.valid) {
+    return check(
+      "PRICING_CONFIG",
+      "WARNING",
+      `Supplied pricing context is invalid; derived monetary metrics are disabled. ${validation.detail}`,
+      { supplied: true, valid: false },
+      "Fix the versioned pricing JSON so derived provider cost can be computed.",
+    );
+  }
+  const result = pricingContextSchema.safeParse(pricing);
+  const parsed = result.success ? result.data : null;
+  if (parsed === null) {
+    return check("PRICING_CONFIG", "WARNING", "Supplied pricing context could not be re-read.", {
+      supplied: true,
+    });
+  }
+  const details = {
+    supplied: true,
+    valid: true,
+    provider: parsed.provider,
+    model: parsed.model,
+    currency: parsed.currency,
+    machineCostPerHour: parsed.machineCostPerHour,
+    pricingEffectiveDate: parsed.pricingEffectiveDate,
+  };
+  if (parsed.machineCostPerHour !== null && parsed.machineCostPerHour < 0) {
+    return check(
+      "PRICING_CONFIG",
+      "WARNING",
+      "machineCostPerHour must be non-negative; machine-cost metrics are disabled.",
+      details,
+    );
+  }
+  if (
+    (context.agentModel ?? null) !== null &&
+    context.agentModel !== parsed.model &&
+    context.agentProvider === parsed.provider
+  ) {
+    return check(
+      "PRICING_CONFIG",
+      "WARNING",
+      `Pricing model ${parsed.model} does not match the configured agent model ${context.agentModel}; derived costs may not apply.`,
+      details,
+    );
+  }
+  return check(
+    "PRICING_CONFIG",
+    "PASS",
+    `Pricing context is valid (${parsed.provider}/${parsed.model} in ${parsed.currency}).`,
+    details,
+  );
+}
 
 export async function checkOutputPath(outputDirectory: string | null): Promise<DoctorCheck> {
   if (outputDirectory === null) {
