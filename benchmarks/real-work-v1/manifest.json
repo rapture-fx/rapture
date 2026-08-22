@@ -1,0 +1,195 @@
+{
+  "id": "rapture-real-work-v1",
+  "version": "0.2.0",
+  "description": "Upstream-derived Node.js benchmark repository (npm/node-semver v7.8.5, minimized) with deterministic offline engineering tasks for Rapture external-validity research.",
+  "repositories": [
+    {
+      "id": "semver-core",
+      "source": {
+        "type": "upstream_derived",
+        "upstreamUrl": "https://github.com/npm/node-semver",
+        "upstreamRevision": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+        "upstreamRef": "v7.8.5",
+        "acquiredAt": "2026-08-22T00:00:00Z",
+        "snapshot": "minimized_derived_snapshot",
+        "upstreamSourceSha256": "e597146565fd4e3d094c1d8fa42c87de6d320d973d05ab5ab656a5c02b194339",
+        "provenancePath": "provenance.json",
+        "fixturePath": "fixtures/semver-core"
+      },
+      "license": {
+        "spdx": "ISC",
+        "path": "LICENSE"
+      },
+      "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "cfff12db42869d27c37b7822ada4ea39fbbe23c9a6e4039d5be5c67d818b74dd",
+        "commitTimestamp": "2026-08-22T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        [
+          "node",
+          "--check",
+          "index.js"
+        ],
+        [
+          "node",
+          "--check",
+          "classes/range.js"
+        ],
+        [
+          "node",
+          "-e",
+          "require('./index.js')"
+        ]
+      ],
+      "size": {
+        "fileCount": 53,
+        "checkoutBytes": 95073
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "semver-diff-release-type",
+      "repositoryId": "semver-core",
+      "class": "bug_fix",
+      "title": "Restore prerelease-aware release-type diffing",
+      "prompt": "`semver.diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.",
+      "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+      "editableScope": [
+        "functions/diff.js"
+      ],
+      "validator": {
+        "path": "validators/semver-diff.mjs",
+        "sha256": "815951f395a82a2b9802dd523941851885567003d74e365b42696955e77d87cb",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/semver-diff.json",
+        "sha256": "32ce7d7439bc1624a14676742a41ca13aa375bf9a84baf59a627a63a3e511cf3"
+      },
+      "metadata": {
+        "representativeReason": "Release-type classification across prerelease boundaries is real upstream logic that has been the subject of multiple upstream bug reports; it requires reasoning about SemVer.compare and compareMain rather than editing one expression.",
+        "expectedAreas": [
+          "functions/diff.js"
+        ],
+        "validatorEstablishes": "A 22-pair release-type table covering equality, build metadata, ordinary steps, pre-prefixed steps, prerelease-to-prerelease, and every prerelease-to-release shape, asserted in both argument orders, plus TypeError on invalid input.",
+        "limitations": "Does not cover loose parsing, the includePrerelease option, or versions outside the safe integer range.",
+        "baselineValidatorRuntimeMs": 200,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "semver-coerce-options",
+      "repositoryId": "semver-core",
+      "class": "small_feature",
+      "title": "Add rtl and includePrerelease coercion options",
+      "prompt": "`semver.coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including SemVer passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.",
+      "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+      "editableScope": [
+        "functions/coerce.js"
+      ],
+      "validator": {
+        "path": "validators/semver-coerce.mjs",
+        "sha256": "3451cbe4de1d7a5a00bef62fdb3686f1c9cd5a49fcd9fff87108b21b7dfd14c8",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/semver-coerce.json",
+        "sha256": "f00cd03e695f23a1998a18a9a028732f31bf94227beae232b4add0d875b567e3"
+      },
+      "metadata": {
+        "representativeReason": "Adding documented option handling to an existing public function is ordinary library feature work, and the right-to-left variant cannot be written without reading the shared regular-expression table in another file.",
+        "expectedAreas": [
+          "functions/coerce.js"
+        ],
+        "validatorEstablishes": "Preserved no-option coercion, right-to-left coercion, prerelease and build capture, both options combined, and call-to-call stability of the stateful regular expression.",
+        "limitations": "Does not cover the loose option, coercion of ranges, or upstream's full COERCE token surface beyond the asserted cases.",
+        "baselineValidatorRuntimeMs": 200,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "semver-lru-cache-eviction",
+      "repositoryId": "semver-core",
+      "class": "refactor",
+      "title": "Make the internal parse cache a bounded LRU",
+      "prompt": "`internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.",
+      "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+      "editableScope": [
+        "internal/lrucache.js"
+      ],
+      "validator": {
+        "path": "validators/semver-lru-cache.mjs",
+        "sha256": "0ab6da0ae4b2918a8e5a3e3816685067aa6953e7203b43a0a18223c85ab6f3cd",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/semver-lru-cache.json",
+        "sha256": "a165ab1755c01aea328d7a8cd2717e0f3134caf539df74420aa485f9e9c5f542"
+      },
+      "metadata": {
+        "representativeReason": "Replacing a degenerate data structure with a correct one while holding an existing interface fixed, and proving the wider library still behaves, is a common maintenance refactor.",
+        "expectedAreas": [
+          "internal/lrucache.js"
+        ],
+        "validatorEstablishes": "Interface preservation, undefined-value handling, eviction at capacity, recency promotion on read, a hard retention bound under 3x churn, and unchanged satisfies/validRange answers across 1500 distinct ranges.",
+        "limitations": "Does not assert re-setting an existing key, where upstream behaviour is idiosyncratic, and does not measure memory directly.",
+        "baselineValidatorRuntimeMs": 900,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "semver-range-test-repair",
+      "repositoryId": "semver-core",
+      "class": "test_repair",
+      "title": "Repair the stale range test suite",
+      "prompt": "`test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.",
+      "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+      "editableScope": [
+        "test/range.test.js"
+      ],
+      "validator": {
+        "path": "validators/semver-range-tests.mjs",
+        "sha256": "5442e948bb3a43b3aba7b9cb0aedc82233f7f26548c60375d0ca30ba9f32366f",
+        "timeoutMs": 180000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/semver-range-tests.json",
+        "sha256": "55f731b657598d4a3f142f8fdf55e1ff2d5b489ab33435855a8d9c7be4f4435b"
+      },
+      "metadata": {
+        "representativeReason": "Repairing a stale test suite without letting it rot into a suite that asserts nothing is routine maintenance, and it is only decidable with an external check.",
+        "expectedAreas": [
+          "test/range.test.js"
+        ],
+        "validatorEstablishes": "The suite passes against the unmodified library and still fails against four appended behavioural mutants of Range.prototype.test and Range.prototype.intersects, so assertions cannot be deleted or trivialised.",
+        "limitations": "Mutation coverage is limited to four Range mutants; it does not measure line coverage or guarantee the suite would catch unrelated regressions.",
+        "baselineValidatorRuntimeMs": 6000,
+        "cachePolicy": "disabled"
+      }
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "protectedAssets": {
+      "known-good/semver-coerce.json": "f00cd03e695f23a1998a18a9a028732f31bf94227beae232b4add0d875b567e3",
+      "known-good/semver-diff.json": "32ce7d7439bc1624a14676742a41ca13aa375bf9a84baf59a627a63a3e511cf3",
+      "known-good/semver-lru-cache.json": "a165ab1755c01aea328d7a8cd2717e0f3134caf539df74420aa485f9e9c5f542",
+      "known-good/semver-range-tests.json": "55f731b657598d4a3f142f8fdf55e1ff2d5b489ab33435855a8d9c7be4f4435b",
+      "provenance.json": "e56e5edfdada9f8182a74e398a3a09398cc918dd6a687f56abba9f12ed7f99fb",
+      "validators/lib.mjs": "3d19c459a8ad82027ebb2780807c516657ca217d0f79435976017830000ed58f",
+      "validators/semver-coerce.mjs": "3451cbe4de1d7a5a00bef62fdb3686f1c9cd5a49fcd9fff87108b21b7dfd14c8",
+      "validators/semver-diff.mjs": "815951f395a82a2b9802dd523941851885567003d74e365b42696955e77d87cb",
+      "validators/semver-lru-cache.mjs": "0ab6da0ae4b2918a8e5a3e3816685067aa6953e7203b43a0a18223c85ab6f3cd",
+      "validators/semver-range-tests.mjs": "5442e948bb3a43b3aba7b9cb0aedc82233f7f26548c60375d0ca30ba9f32366f"
+    },
+    "suiteSha256": "35ed9af7971992a704b45b6d5c4508f9a71231fa7f08fa4d1c7a02a787a80c83"
+  }
+}
