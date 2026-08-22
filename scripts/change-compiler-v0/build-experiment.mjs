@@ -69,7 +69,12 @@ const summary = [];
 for (const [repositoryId, selections] of [...byRepository.entries()].sort()) {
   const checkout = join(checkoutRoot, repositoryId);
   await rm(checkout, { recursive: true, force: true });
-  await materializeBenchmarkRepository({ manifestPath, suite, repositoryId, destination: checkout });
+  await materializeBenchmarkRepository({
+    manifestPath,
+    suite,
+    repositoryId,
+    destination: checkout,
+  });
   const repository = suite.repositories.find((item) => item.id === repositoryId);
   const definitions = benchmarkTasksForRepository({ manifestPath, suite, repositoryId });
 
@@ -127,13 +132,21 @@ for (const [repositoryId, selections] of [...byRepository.entries()].sort()) {
       contractBytes: serialized.length,
     });
   }
-  await writeFile(join(tasksOut, `${repositoryId}.json`), `${JSON.stringify({ tasks }, null, 2)}\n`, "utf8");
+  await writeFile(
+    join(tasksOut, `${repositoryId}.json`),
+    `${JSON.stringify({ tasks }, null, 2)}\n`,
+    "utf8",
+  );
 }
 
-process.stdout.write(`${"task".padEnd(28)}${"repo".padEnd(20)}prior  files  unknown  bytes  contract\n`);
+process.stdout.write(
+  `${"task".padEnd(28)}${"repo".padEnd(20)}prior  files  unknown  bytes  contract\n`,
+);
 for (const row of summary) {
   process.stdout.write(
     `${row.task.padEnd(28)}${row.repository.padEnd(20)}${row.priorAcceptance.padEnd(7)}${String(row.relevantFiles).padStart(5)}${String(row.unknowns).padStart(9)}${String(row.contractBytes).padStart(7)}  ${row.contractSha256.slice(0, 12)}\n`,
   );
 }
-process.stdout.write(`\n${summary.length} task(s) x 2 conditions x 3 repetitions = ${summary.length * 6} logical runs\n`);
+process.stdout.write(
+  `\n${summary.length} task(s) x 2 conditions x 3 repetitions = ${summary.length * 6} logical runs\n`,
+);
