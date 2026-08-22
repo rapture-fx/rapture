@@ -156,7 +156,15 @@ export interface EngineeringTaskRun {
   readonly failureClassification: string | null;
   readonly accepted: boolean;
   readonly artifacts: Readonly<Record<string, string>>;
+  /**
+   * Provider/runtime boundary observability derived from the agent's
+   * structured output stream. Absent or null for adapters without structured
+   * events and for historical run records produced before this field existed.
+   */
+  readonly runtimeObservability?: RuntimeObservability | null;
 }
+
+export type RuntimeObservability = import("./provider-events.js").RuntimeObservability;
 
 export interface ScalingExperiment {
   readonly experimentId: string;

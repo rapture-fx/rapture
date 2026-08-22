@@ -36,7 +36,7 @@ import {
   treeHash,
   workingTreeHash,
 } from "./git.js";
-import { persistHostStateSnapshot } from "./host-state.js";
+import { detectAgentEnvironmentVariables, persistHostStateSnapshot } from "./host-state.js";
 import { type IntegrationOutcome, integratePatches } from "./integration.js";
 import { createRunLedger, type RunLedger } from "./ledger.js";
 import {
@@ -57,6 +57,12 @@ import type {
   PhaseTimings,
   TaskDefinition,
 } from "./models.js";
+import {
+  createProcessTelemetryFileSink,
+  createProcessTelemetrySampler,
+} from "./process-telemetry.js";
+import { extractRuntimeObservability, type RuntimeObservability } from "./provider-events.js";
+import { persistRuntimeFingerprint, platformSummary } from "./runtime-fingerprint.js";
 import { createHostTelemetrySampler, type TelemetrySink } from "./telemetry.js";
 import { timePhase } from "./timing.js";
 import { deriveTrialSeed, orderTasks, trialIdFor } from "./trial.js";
@@ -364,6 +370,9 @@ export async function runExperiment(
   );
   const ledger = await createRunLedger(join(directory, "logical-runs.jsonl"));
   const telemetrySink = createTelemetryFileSink(join(directory, "telemetry.jsonl"));
+  const processTelemetrySink = createProcessTelemetryFileSink(
+    join(directory, "process-telemetry.jsonl"),
+  );
   const continuation = await createContinuationProvenance(join(directory, "continuations.jsonl"));
   const startedAt = new Date().toISOString();
   const trialPlan = effectiveConfig.workerCounts.flatMap((workerCount) =>
@@ -478,6 +487,28 @@ export async function runExperiment(
   } catch {
     // host provenance is best-effort and must never block execution
   }
+  try {
+    // Provider/runtime capability fingerprint (exclusive create).
+    await persistRuntimeFingerprint(directory, {
+      agentProvider: adapter.name(),
+      agentCliVersion: agentVersion,
+      agentModel: effectiveConfig.agentModel,
+      agentMode: "build",
+      structuredOutputFormat: effectiveConfig.agent === "opencode" ? "json" : null,
+      structuredEventTypesObserved: null,
+      adapterName: adapter.name(),
+      adapterVersion: agentVersion,
+      modelProbe: null,
+      ...platformSummary(),
+      agentEnvironmentVariableNames: detectAgentEnvironmentVariables(process.env),
+    });
+  } catch {
+    // runtime provenance is best-effort and must never block execution
+  }
+  const processSampler = createProcessTelemetrySampler(processTelemetrySink, {
+    worktreeMarker: join(directory, ".worktrees"),
+    onError: () => undefined,
+  });
   const sampler = createHostTelemetrySampler(telemetrySink, {
     intervalMs: 1_000,
     activeAgentWorkers: () => agentActivity.active,
@@ -489,6 +520,7 @@ export async function runExperiment(
     },
   });
   sampler.start();
+  processSampler.start();
 
   let resumedRuns = 0;
   let skippedCompletedRuns = 0;
@@ -611,6 +643,7 @@ export async function runExperiment(
   } finally {
     const finishedAt = new Date().toISOString();
     await sampler.stop();
+    await processSampler.stop();
     const completion = await computeMatrixCompletion(directory, plan);
     const metrics = await deriveMetrics(join(directory, "events.jsonl"));
     try {
@@ -910,6 +943,19 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         input.activity.decrement();
       }
       agentExecutionMs = agent.durationMs;
+      // Provider/runtime boundary observability, parsed from the structured
+      // stream before redaction. Adapters without structured events yield
+      // null fields; parsing must never invalidate the engineering run.
+      let runtimeObservability: RuntimeObservability | null = null;
+      try {
+        runtimeObservability = extractRuntimeObservability(agent.value.process.stdout, {
+          processStartedAt: agent.value.process.startedAt,
+          processFinishedAt: agent.value.process.finishedAt,
+          totalRunMs: agentExecutionMs,
+        });
+      } catch {
+        runtimeObservability = null;
+      }
       const stdoutPath = join(runDirectory, "agent.stdout.log");
       const stderrPath = join(runDirectory, "agent.stderr.log");
       const persistStart = performance.now();
@@ -990,6 +1036,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
           integrationResult: "not_requested",
           failureClassification: "provider_blocked",
           accepted: false,
+          runtimeObservability,
           artifacts: {
             stdout: relative(input.directory, stdoutPath),
             stdoutSha256: stdoutHash,
@@ -1143,6 +1190,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         integrationResult: "not_requested",
         failureClassification,
         accepted: runState === "accepted",
+        runtimeObservability,
         artifacts: {
           stdout: relative(input.directory, stdoutPath),
           stdoutSha256: stdoutHash,
