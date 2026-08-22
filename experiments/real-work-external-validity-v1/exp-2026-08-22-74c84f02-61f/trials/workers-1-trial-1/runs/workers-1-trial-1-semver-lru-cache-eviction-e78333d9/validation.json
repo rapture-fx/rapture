@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-lru-cache.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T09:02:38.838Z",
+    "finishedAt": "2026-08-22T09:02:38.982Z",
+    "durationMs": 143,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

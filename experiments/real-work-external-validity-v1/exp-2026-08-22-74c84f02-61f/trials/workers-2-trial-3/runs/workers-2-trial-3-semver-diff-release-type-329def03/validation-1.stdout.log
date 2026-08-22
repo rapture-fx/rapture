@@ -1,0 +1,1 @@
+{"status":"rejected","detail":"diff(1.1.1-1, 2.0.0)\n\n'patch' !== 'major'\n"}

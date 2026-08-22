@@ -1,0 +1,243 @@
+{
+  "runId": "workers-1-trial-2-semver-range-test-repair-7c04ffa9",
+  "logicalRunId": "ebcd3a0f83c2dbce3cfe91d95ed828a0f73e68045aacb7fd64ac7ee2c2d25653",
+  "attemptId": "workers-1-trial-2-semver-range-test-repair-7c04ffa9",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-74c84f02-61f",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "semver-range-test-repair",
+  "repositoryId": "semver-core",
+  "benchmarkSuiteId": "rapture-real-work-v1",
+  "benchmarkSuiteVersion": "0.2.0",
+  "benchmarkTaskClass": "test_repair",
+  "baseCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "baseTreeHash": "1d3c3e9a4315d0f20f0e8c7f57e99a441e9b6cba",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-1-trial-2-semver-range-test-repair-7c04ffa9",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T09:13:09.611Z",
+  "finishedAt": "2026-08-22T09:14:39.597Z",
+  "durationMs": 89985,
+  "phaseTimings": {
+    "worktreeSetupMs": 48,
+    "queueWaitMs": 303726.06307000003,
+    "agentExecutionMs": 88504,
+    "validationMs": 1231,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 48,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 89985
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "finalTreeHash": "4aecc34f568108d29bb5b437447c9515f4565e76",
+  "filesChanged": [
+    "test/range.test.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-1-trial-2-semver-range-test-repair-7c04ffa9",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-range-tests.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 27193,
+    "outputTokens": 2322,
+    "cachedInputTokens": 143104,
+    "reasoningTokens": 2151,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T09:13:09.678Z",
+      "processFinishedAt": "2026-08-22T09:14:38.181Z",
+      "firstStructuredEventAt": "2026-08-22T09:13:17.128Z",
+      "firstModelResponseAt": "2026-08-22T09:13:18.620Z",
+      "lastModelResponseAt": "2026-08-22T09:14:38.033Z",
+      "providerWaitMs": 51039,
+      "providerEventCount": 24,
+      "modelStepCount": 12,
+      "toolEventCount": 16,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787389997128,
+        "endMs": 1787389998620
+      },
+      {
+        "startMs": 1787390001420,
+        "endMs": 1787390003520
+      },
+      {
+        "startMs": 1787390006232,
+        "endMs": 1787390021291
+      },
+      {
+        "startMs": 1787390024234,
+        "endMs": 1787390043323
+      },
+      {
+        "startMs": 1787390046182,
+        "endMs": 1787390046589
+      },
+      {
+        "startMs": 1787390049032,
+        "endMs": 1787390051070
+      },
+      {
+        "startMs": 1787390053453,
+        "endMs": 1787390053938
+      },
+      {
+        "startMs": 1787390056344,
+        "endMs": 1787390056897
+      },
+      {
+        "startMs": 1787390059386,
+        "endMs": 1787390061746
+      },
+      {
+        "startMs": 1787390064330,
+        "endMs": 1787390067672
+      },
+      {
+        "startMs": 1787390071494,
+        "endMs": 1787390071904
+      },
+      {
+        "startMs": 1787390074329,
+        "endMs": 1787390078033
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 80905,
+      "providerWaitMs": 51039,
+      "interStepGapMs": 29866,
+      "outsideWindowMs": 7599,
+      "providerWaitFraction": 0.5766857995118865,
+      "interStepGapFraction": 0.33745367441019614,
+      "unobservedFraction": 0.08586052607791739
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1022,
+        426,
+        44,
+        2800,
+        1099,
+        901,
+        100,
+        2712,
+        14992,
+        0,
+        67,
+        2943,
+        12760,
+        1417,
+        2881,
+        1812,
+        16,
+        203,
+        2859,
+        358,
+        49,
+        2443,
+        1875,
+        9,
+        154,
+        2383,
+        430,
+        55,
+        2406,
+        464,
+        89,
+        2489,
+        2259,
+        101,
+        2584,
+        3045,
+        297,
+        3822,
+        369,
+        41,
+        2425,
+        3633,
+        71
+      ],
+      "handoffGapsMs": [
+        2800,
+        2712,
+        2943,
+        2859,
+        2443,
+        2383,
+        2406,
+        2489,
+        2584,
+        3822,
+        2425
+      ],
+      "launchToFirstEventMs": 7450
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-semver-range-test-repair-7c04ffa9/agent.stdout.log",
+    "stdoutSha256": "40cdc87a7c92237d8286467de648c0a3dbc220ce3c2ada95f02c34a3501627fc",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-semver-range-test-repair-7c04ffa9/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-semver-range-test-repair-7c04ffa9/validation.json",
+    "validationSha256": "29fd9a288bb042602993a2dbf0397c1c556c55d1bc6d0795508342b135329f22",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-semver-range-test-repair-7c04ffa9/change.patch",
+    "patchSha256": "805d58354c0be630e559734afd16e47c786b74b969d98735254116a667c5dcea"
+  }
+}
