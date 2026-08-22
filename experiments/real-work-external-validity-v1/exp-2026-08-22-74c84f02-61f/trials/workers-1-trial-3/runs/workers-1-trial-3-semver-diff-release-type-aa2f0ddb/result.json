@@ -1,0 +1,237 @@
+{
+  "runId": "workers-1-trial-3-semver-diff-release-type-aa2f0ddb",
+  "logicalRunId": "eaed1674f83c9bbb292cc575ed02294602a876a2b35fad455a9e217ae2532abf",
+  "attemptId": "workers-1-trial-3-semver-diff-release-type-aa2f0ddb",
+  "runState": "rejected",
+  "experimentId": "exp-2026-08-22-74c84f02-61f",
+  "trialId": "workers-1-trial-3",
+  "repetition": 3,
+  "taskId": "semver-diff-release-type",
+  "repositoryId": "semver-core",
+  "benchmarkSuiteId": "rapture-real-work-v1",
+  "benchmarkSuiteVersion": "0.2.0",
+  "benchmarkTaskClass": "bug_fix",
+  "baseCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "baseTreeHash": "1d3c3e9a4315d0f20f0e8c7f57e99a441e9b6cba",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-1-trial-3-semver-diff-release-type-aa2f0ddb",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `semver.diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T09:18:20.811Z",
+  "finishedAt": "2026-08-22T09:21:11.143Z",
+  "durationMs": 170451,
+  "phaseTimings": {
+    "worktreeSetupMs": 72,
+    "queueWaitMs": 0.03684299997985363,
+    "agentExecutionMs": 170085,
+    "validationMs": 117,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 26,
+    "otherOrchestrationMs": 148.96315700002015,
+    "totalRunMs": 170451
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "finalTreeHash": "37602b0c284ec87655fbdbc737fcf207e74a5b64",
+  "filesChanged": [
+    "functions/diff.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-1-trial-3-semver-diff-release-type-aa2f0ddb",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `semver.diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-diff.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 22454,
+    "outputTokens": 2174,
+    "cachedInputTokens": 179456,
+    "reasoningTokens": 3769,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "failed",
+  "integrationResult": "not_requested",
+  "failureClassification": "validation_failed",
+  "accepted": false,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T09:18:20.904Z",
+      "processFinishedAt": "2026-08-22T09:21:10.868Z",
+      "firstStructuredEventAt": "2026-08-22T09:18:28.232Z",
+      "firstModelResponseAt": "2026-08-22T09:18:30.376Z",
+      "lastModelResponseAt": "2026-08-22T09:21:10.711Z",
+      "providerWaitMs": 129513,
+      "providerEventCount": 24,
+      "modelStepCount": 12,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787390308232,
+        "endMs": 1787390310376
+      },
+      {
+        "startMs": 1787390313273,
+        "endMs": 1787390344909
+      },
+      {
+        "startMs": 1787390347702,
+        "endMs": 1787390349315
+      },
+      {
+        "startMs": 1787390352180,
+        "endMs": 1787390354393
+      },
+      {
+        "startMs": 1787390357517,
+        "endMs": 1787390407972
+      },
+      {
+        "startMs": 1787390410696,
+        "endMs": 1787390414129
+      },
+      {
+        "startMs": 1787390417037,
+        "endMs": 1787390420820
+      },
+      {
+        "startMs": 1787390423739,
+        "endMs": 1787390438962
+      },
+      {
+        "startMs": 1787390442025,
+        "endMs": 1787390444844
+      },
+      {
+        "startMs": 1787390447956,
+        "endMs": 1787390460321
+      },
+      {
+        "startMs": 1787390463673,
+        "endMs": 1787390465465
+      },
+      {
+        "startMs": 1787390468674,
+        "endMs": 1787390470711
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 162479,
+      "providerWaitMs": 129513,
+      "interStepGapMs": 32966,
+      "outsideWindowMs": 7606,
+      "providerWaitFraction": 0.7614604462474645,
+      "interStepGapFraction": 0.19382073669047828,
+      "unobservedFraction": 0.04471881706205721
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1164,
+        851,
+        129,
+        2897,
+        2793,
+        1563,
+        50,
+        2865,
+        2148,
+        65,
+        3124,
+        2724,
+        3284,
+        40,
+        109,
+        2908,
+        3661,
+        45,
+        77,
+        2919,
+        15017,
+        94,
+        112,
+        3063,
+        2776,
+        43,
+        3112,
+        12295,
+        20,
+        50,
+        3352,
+        1678,
+        70,
+        44,
+        3209,
+        1977,
+        60
+      ],
+      "handoffGapsMs": [
+        2897,
+        2793,
+        2865,
+        3124,
+        2724,
+        2908,
+        2919,
+        3063,
+        3112,
+        3352,
+        3209
+      ],
+      "launchToFirstEventMs": 7328
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-3/runs/workers-1-trial-3-semver-diff-release-type-aa2f0ddb/agent.stdout.log",
+    "stdoutSha256": "9853417db63b100c2a50d11116dfc27f7a152fb2560d5426259a4424d8746ca9",
+    "stderr": "trials/workers-1-trial-3/runs/workers-1-trial-3-semver-diff-release-type-aa2f0ddb/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-3/runs/workers-1-trial-3-semver-diff-release-type-aa2f0ddb/validation.json",
+    "validationSha256": "703a145408bf793121f2e7616cb460dceb9d1a255b16bf1facafc6ab76cdb772",
+    "patch": "trials/workers-1-trial-3/runs/workers-1-trial-3-semver-diff-release-type-aa2f0ddb/change.patch",
+    "patchSha256": "97bfb57251faf91336dc0d9fa1dc681be56e7d76b6299f04f3f3b725a4e06150"
+  }
+}

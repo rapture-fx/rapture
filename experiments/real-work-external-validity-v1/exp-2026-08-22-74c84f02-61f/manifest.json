@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-74c84f02-61f",
+  "experimentIdentityHash": "1c8937d3ba1b2f1e4fadac32a78857044586a937254ba0f0faab2f5f35379b8a",
+  "repository": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/rwv1-repo",
+  "repositoryHead": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "repositoryFingerprint": "b4ffd1da30785772df2eecb8bad421b47451aa17bbf808cfbbe2ee95b5d76140",
+  "taskFile": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/rwv1-tasks.json",
+  "taskSetHash": "88a768cc2ce7c67cc2bfae0e0e5958eb9e8a16f6677ecb056fb3d3a64632aa9f",
+  "workerCounts": [
+    1,
+    2
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3",
+    "workers-2-trial-1",
+    "workers-2-trial-2",
+    "workers-2-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.21",
+    "model": "opencode/hy3-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "benchmark": {
+    "suiteIds": [
+      "rapture-real-work-v1"
+    ],
+    "suiteVersions": [
+      "0.2.0"
+    ],
+    "repositoryIds": [
+      "semver-core"
+    ],
+    "taskClasses": [
+      "bug_fix",
+      "refactor",
+      "small_feature",
+      "test_repair"
+    ]
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "repetition-major",
+  "budget": {},
+  "seed": 20260822,
+  "startedAt": "2026-08-22T08:58:50.972Z",
+  "pricing": null,
+  "reproduction": "rapture run --repo /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/rwv1-repo --tasks /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/rwv1-tasks.json --workers 1,2 --repetitions 3 --seed 20260822 --agent opencode --agent-model opencode/hy3-free --output /Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1"
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import { resolve } from "node:path";
+import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import {
   benchmarkTasksForRepository,
   buildExperimentConfig,

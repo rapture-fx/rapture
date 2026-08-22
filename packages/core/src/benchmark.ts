@@ -29,17 +29,43 @@ const relativePathSchema = z
 const sha256Schema = z.string().regex(/^[a-f0-9]{64}$/u);
 const revisionSchema = z.string().regex(/^[a-f0-9]{40}$/u);
 
+/**
+ * A fixture authored inside this repository and pinned by its own revision. Suite 0.1.1
+ * fixtures use this shape and must keep parsing byte-identically.
+ */
+const vendoredSourceSchema = z
+  .object({
+    type: z.literal("vendored"),
+    upstreamUrl: z.string().url(),
+    upstreamRevision: z.string().trim().min(1),
+    fixturePath: relativePathSchema,
+  })
+  .strict();
+
+/**
+ * A fixture acquired from a third-party upstream repository. It carries the provenance a
+ * vendored fixture does not need: what was acquired, when, whether the snapshot is exact,
+ * and a fingerprint of the retained upstream bytes taken before any Rapture transformation.
+ * The transformation log itself lives in the protected `provenance.json` sidecar.
+ */
+const upstreamDerivedSourceSchema = z
+  .object({
+    type: z.literal("upstream_derived"),
+    upstreamUrl: z.string().url(),
+    upstreamRevision: revisionSchema,
+    upstreamRef: z.string().trim().min(1),
+    acquiredAt: z.string().datetime({ offset: true }),
+    snapshot: z.enum(["exact_vendored_snapshot", "minimized_derived_snapshot"]),
+    upstreamSourceSha256: sha256Schema,
+    provenancePath: relativePathSchema,
+    fixturePath: relativePathSchema,
+  })
+  .strict();
+
 const repositorySchema = z
   .object({
     id: z.string().trim().min(1),
-    source: z
-      .object({
-        type: z.literal("vendored"),
-        upstreamUrl: z.string().url(),
-        upstreamRevision: z.string().trim().min(1),
-        fixturePath: relativePathSchema,
-      })
-      .strict(),
+    source: z.discriminatedUnion("type", [vendoredSourceSchema, upstreamDerivedSourceSchema]),
     license: z
       .object({
         spdx: z.string().trim().min(1),
@@ -278,6 +304,16 @@ export async function verifyBenchmarkAssets(
     await stat(
       assetPath(manifestPath, join(repository.source.fixturePath, repository.license.path)),
     );
+    if (repository.source.type === "upstream_derived") {
+      const provenancePath = repository.source.provenancePath;
+      const expected = suite.integrity.protectedAssets[provenancePath];
+      if (expected === undefined) {
+        throw new BenchmarkIntegrityError(
+          `upstream provenance is not integrity-protected: ${provenancePath}`,
+        );
+      }
+      await verifyFile(assetPath(manifestPath, provenancePath), expected);
+    }
   }
   for (const task of suite.tasks) {
     await verifyFile(assetPath(manifestPath, task.validator.path), task.validator.sha256);

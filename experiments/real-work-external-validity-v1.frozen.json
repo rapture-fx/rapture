@@ -1,0 +1,104 @@
+{
+  "experimentName": "real-work-external-validity-v1",
+  "status": "not_executed",
+  "frozenAt": "2026-08-22T00:00:00.000Z",
+  "purpose": "External-validity experiment: determine whether Rapture's accepted-engineering-throughput measurement remains meaningful on realistic engineering tasks drawn from an upstream third-party codebase, rather than only on Rapture-authored synthetic fixtures. Measures whether raising OpenCode concurrency from 1 worker to 2 produces measurable accepted-throughput scaling on the upstream-derived semver-core benchmark repository.",
+  "northStarQuestion": "On a real upstream TypeScript/Node.js codebase with realistic engineering tasks, does increasing OpenCode concurrency from 1 worker to 2 workers produce measurable accepted engineering throughput scaling?",
+  "baseline": {
+    "branch": "main",
+    "baseSha": "321d9c00df65add0d1fd2cf35d8c1691753dc726",
+    "note": "origin/main matched the expected research baseline SHA exactly. The literal token RAPTURE_RESEARCH_BASELINE_READY does not appear anywhere in the tree or history; the SHA is treated as authoritative."
+  },
+  "benchmark": {
+    "suiteId": "rapture-real-work-v1",
+    "suiteVersion": "0.2.0",
+    "manifest": "benchmarks/real-work-v1/manifest.json",
+    "suiteSha256": "35ed9af7971992a704b45b6d5c4508f9a71231fa7f08fa4d1c7a02a787a80c83",
+    "repositoryId": "semver-core",
+    "baseRevision": "e3707f5846b848dd0876a22d1492786744de51e9",
+    "fixtureSha256": "cfff12db42869d27c37b7822ada4ea39fbbe23c9a6e4039d5be5c67d818b74dd",
+    "upstream": {
+      "url": "https://github.com/npm/node-semver",
+      "revision": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+      "ref": "v7.8.5",
+      "license": "ISC",
+      "snapshot": "minimized_derived_snapshot"
+    }
+  },
+  "configuration": {
+    "agent": "opencode",
+    "agentVersion": "1.18.21",
+    "agentModel": "opencode/hy3-free",
+    "workerCounts": [1, 2],
+    "repetitions": 3,
+    "taskCount": 4,
+    "taskIds": [
+      "semver-diff-release-type",
+      "semver-coerce-options",
+      "semver-lru-cache-eviction",
+      "semver-range-test-repair"
+    ],
+    "logicalRuns": 24,
+    "timeoutSecondsPerTask": 900,
+    "integration": false,
+    "executionOrder": "repetition-major",
+    "seed": 20260822,
+    "hostTelemetry": true,
+    "phaseTiming": true,
+    "resumable": true,
+    "pricingContext": null
+  },
+  "modelSelection": {
+    "constraint": "OpenCode only. Codex must not be executed and must not consume quota. No paid provider experiment was authorized, so selection was restricted to free-tier OpenCode models.",
+    "candidatesProbed": [
+      "opencode/hy3-free",
+      "opencode/nemotron-3-ultra-free",
+      "opencode/mimo-v2.5-free"
+    ],
+    "selected": "opencode/hy3-free",
+    "reason": "All three candidates answered a standalone probe with cost 0 and structured token usage. hy3-free was selected because it is the model used by the prior opencode-capacity-curve experiment, keeping the provider surface comparable, and because pre-freeze capability probes showed a non-degenerate acceptance spread on this benchmark (2 of 3 probed tasks accepted, 1 rejected), so accepted throughput is measurable rather than uniformly zero.",
+    "preFreezeCapabilityProbes": [
+      { "taskId": "semver-lru-cache-eviction", "agentSeconds": 58, "validator": "accepted" },
+      { "taskId": "semver-range-test-repair", "agentSeconds": 79, "validator": "accepted" },
+      { "taskId": "semver-diff-release-type", "agentSeconds": 99, "validator": "rejected" }
+    ],
+    "probeDisclosure": "These probes ran before the freeze, outside the experiment, solely to select a model and confirm the benchmark is executable end-to-end by a real agent. The benchmark was not modified after observing them, and their runs are not counted in any reported result."
+  },
+  "runtimeFingerprint": {
+    "node": "v22.14.0",
+    "pnpm": "10.12.1",
+    "opencodeCli": "1.18.21",
+    "platform": "darwin",
+    "osRelease": "22.6.0",
+    "productVersion": "macOS 13.7.8 (22H730)",
+    "arch": "x64",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "totalMemBytes": 8589934592
+  },
+  "priorEvidence": {
+    "note": "Recorded for descriptive comparison only. Prior scaling results come from the synthetic ledger-kit workload and must not be pooled numerically with this experiment.",
+    "sourceExperiment": "opencode-capacity-curve",
+    "workload": "fixtures/ledger-kit (Rapture-authored synthetic)",
+    "relatedDecisions": ["LOCAL_CONTENTION_ATTRIBUTED", "PREDICTION_NO_INCREMENTAL_VALUE"]
+  },
+  "prohibitedConclusions": [
+    "Rapture is commercially validated.",
+    "Rapture can predict optimal concurrency.",
+    "Rapture should build a scheduler.",
+    "The current host represents production agent infrastructure.",
+    "The observed result generalizes to all coding agents.",
+    "The observed result generalizes to all repositories."
+  ],
+  "allowedPrimaryDecisions": [
+    "REAL_WORK_SCALING_SIGNAL_OBSERVED",
+    "REAL_WORK_NO_SCALING_SIGNAL",
+    "REAL_WORK_ACCEPTANCE_DEGRADATION",
+    "REAL_WORK_HIGH_VARIANCE",
+    "REAL_WORK_PROVIDER_BLOCKED",
+    "REAL_WORK_INFRA_BLOCKED",
+    "REAL_WORK_BENCHMARK_INVALID"
+  ],
+  "deviations": [],
+  "intendedCommand": "node apps/cli/dist/index.js benchmark-materialize --manifest benchmarks/real-work-v1/manifest.json --repository semver-core --destination <clean-semver-core-checkout> --tasks-output <tasks.json> && node apps/cli/dist/index.js run --repo <clean-semver-core-checkout> --tasks <tasks.json> --workers 1,2 --repetitions 3 --seed 20260822 --agent opencode --agent-model opencode/hy3-free --order repetition-major --output experiments/real-work-external-validity-v1"
+}
