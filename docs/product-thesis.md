@@ -63,9 +63,11 @@ Traceable to the claim registry (`docs/evidence-and-claims.md`, SUPPORTED):
 - accepted throughput / speedup / efficiency reconstruction from persisted evidence
 - prediction chronology persisted before held-out execution
 - engineering-economics accounting against agent-time, machine-time, and
-  explicit pricing provenance (PR #4)
-- benchmark schema with deterministic validation and multiple task classes (PR #3)
-- one documented wall attribution on one configuration (Level 2, config-specific)
+  explicit pricing provenance (accounting capability, not proof of commercial value)
+- benchmark schema with deterministic validation and multiple task classes
+- one documented wall attribution on one configuration (Level 2, config-specific),
+  strengthened by direct provider-wait observation that ruled out provider
+  throttling (`LOCAL_CONTENTION_ATTRIBUTED`)
 
 ## Unproven product capabilities
 
