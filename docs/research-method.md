@@ -15,9 +15,12 @@ should not be pooled without an explicit warning and a separate analysis.
 ## Workload and worker-count method
 
 Select deterministic, independently useful tasks that can start from the same base commit. Run the same
-task set at each worker count, conventionally 1, 2, and 4 before considering 8. Each task attempt receives
-its own detached Git worktree. Worker-count matrices run sequentially so their local resource contention
-does not overlap; tasks within a matrix use bounded concurrency.
+task set at each worker count, conventionally 1, 2, and 4 before considering 8. Repeated trials are a
+first-class experiment field: each worker-count/repetition pair is a distinct trial with a stable
+`trialId`. A root seed is persisted; each repetition derives a trial seed and a deterministic task
+order. Matching repetitions at different worker counts receive that same order. Each task attempt
+receives its own detached Git worktree. Worker-count matrices run sequentially so their local resource
+contention does not overlap; tasks within a matrix use bounded concurrency.
 
 Task selection must not be tailored after seeing results. Record exclusions, retries, warm caches, and
 failed trajectories. Small fake-agent fixtures prove instrumentation and formula behavior only. They do
@@ -31,9 +34,12 @@ patches in deterministic task order and runs explicit post-integration validatio
 integration makes accepted throughput zero for that worker-count matrix while retaining the individual
 validation evidence.
 
-Useful engineering throughput is accepted tasks divided by matrix wall-clock hours:
+Useful engineering throughput is accepted tasks divided by trial wall-clock hours. Trials are not
+merged before aggregation:
 
-`T(N) = accepted tasks at N workers / elapsed wall-clock hours at N workers`
+`T_i(N) = accepted tasks in trial i at N workers / elapsed wall-clock hours of that trial`
+
+`T(N) = median_i T_i(N)`
 
 Speedup and parallel efficiency are:
 
@@ -41,8 +47,14 @@ Speedup and parallel efficiency are:
 
 `E(N) = T(N) / (N * T(1))`
 
-Zero-duration and missing one-worker baselines produce `null`, not fabricated values. Missing token or
-provider-cost evidence also remains `null`.
+Paired per-repetition ratios `T_i(N) / T_i(1)` are also reported. Zero-duration and missing one-worker
+baselines produce `null`, not fabricated values. Missing token or provider-cost evidence also remains
+`null`. Three repetitions are an early variance probe, not a basis for statistical significance.
+
+Phase timings use monotonic clocks. Wall-clock timestamps remain for audit. Serialized worktree
+create/remove time is Rapture overhead, not agent execution. Because tasks in a trial may overlap,
+the sum of per-task phase durations is not required to equal trial wall time. Incomplete phases stay
+`null` and are omitted from medians.
 
 ## Evidence and reproducibility
 
@@ -67,9 +79,10 @@ Partial experiments are evidence, not successful comparisons. Their status remai
 - duplicated repository exploration that an adapter cannot expose
 - human intervention not yet captured reliably in V0
 
-Repeated trials and randomized task ordering are needed before inferential claims. Provider/model identity
+Repeated trials and seeded task ordering are now part of the experiment contract. Provider/model identity
 and environment must be pinned as tightly as practical. Raw session, PR, or patch counts are not useful
-throughput because they ignore independent validation and composition.
+throughput because they ignore independent validation and composition. Fake-agent fixture results validate
+instrumentation only; they are not evidence about real coding-agent scaling.
 
 ## Future changeability research
 

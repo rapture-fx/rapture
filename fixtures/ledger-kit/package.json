@@ -1,0 +1,10 @@
+{
+  "name": "ledger-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Small TypeScript fixture library for Rapture scaling experiments",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  }
+}

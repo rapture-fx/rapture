@@ -50,18 +50,25 @@ node apps/cli/dist/index.js run \
   --integration-validation "node -e \"Promise.all([import('./add.mjs'), import('./multiply.mjs'), import('./divide.mjs'), import('./modulo.mjs')])\""
 ```
 
-The built package also exposes the `rapture` binary when linked or installed. The four CLI commands
-are:
+The built package also exposes the `rapture` binary when linked or installed. The CLI commands are:
 
 ```sh
 rapture validate --tasks ./tasks.json
-rapture run --repo ./fixture --tasks ./tasks.json --workers 1,2,4 --agent fake --output ./runs
+rapture doctor --config experiments/real-scale-2.frozen.json --json
+rapture run --repo ./fixture --tasks ./tasks.json --workers 1,2 --repetitions 3 --seed 20260817 --agent fake --output ./runs
 rapture report ./runs/<experiment-id>
 rapture inspect ./runs/<experiment-id>
 ```
 
-Add `--json` to `run`, `report`, or `inspect` for machine-readable output. `report` re-derives its
-metrics from `events.jsonl`; it does not rerun agents or overwrite raw artifacts.
+`rapture doctor` inspects whether the current environment can execute an experiment. It never starts
+task workers or paid inference. `--write-dir` persists `doctor.json` and `runner-fingerprint.json`.
+Doctor exit `0` means required checks passed (warnings allowed), `2` means the environment is blocked,
+`3` means the experiment definition is invalid, and `4` is an internal doctor failure.
+
+`--repetitions` defaults to 1. `--seed` defaults to 0. The same repetition index always receives the
+same seeded task order at every worker count. Add `--json` to `run`, `report`, `inspect`, or `doctor`
+for machine-readable output. `report` re-derives trial and worker metrics from `events.jsonl`; it does
+not rerun agents or overwrite raw artifacts.
 
 ## Task definition
 
@@ -101,16 +108,53 @@ rapture run \
   --output runs
 ```
 
+The first non-trivial real-agent suite is `fixtures/ledger-kit`: six independent TypeScript tasks with
+validators stored beside the task file. Create a clean Git copy, then run fake-agent preflight or an
+explicit Codex experiment:
+
+```sh
+node fixtures/ledger-kit/create.mjs /tmp/ledger-kit
+rapture run \
+  --repo /tmp/ledger-kit \
+  --tasks fixtures/ledger-kit/tasks.json \
+  --workers 1,2 \
+  --repetitions 3 \
+  --seed 20260817 \
+  --agent fake \
+  --output runs
+```
+
 The adapter tells Codex not to push, open PRs, deploy, or access secrets, and gives it a dedicated Git
 worktree. A Git worktree is an isolation boundary for repository state, not a complete operating-system
 sandbox; run real agents only against repositories and environments you are willing to expose to that
-local process.
+local process. See [docs/real-scale-2-report.md](docs/real-scale-2-report.md) for the first 1-vs-2
+attempt and its infrastructure block.
+
+## GitHub Actions (frozen Codex 1-vs-2)
+
+The frozen real-agent matrix runs on a single GitHub-hosted `ubuntu-24.04` runner via
+`.github/workflows/real-scale-2-codex.yml`. It is `workflow_dispatch` only so pull requests cannot
+spend Codex quota or read the secrets.
+
+1. Create the GitHub Environment `real-scale-2` (or use repository secrets).
+2. Set `OPENAI_API_KEY` or `CODEX_API_KEY`, or `CODEX_ACCESS_TOKEN`.
+3. Dispatch **real-scale-2 Codex**. Use `preflight_only=true` to run doctor, fixture probes, and fingerprinting without Codex inference.
+4. Download the `real-scale-2-<run-id>` artifact. It includes `doctor.json` and `runner-fingerprint.json`.
+
+`rapture doctor` runs before `rapture run`. If secrets are missing on the real path, the job fails with
+`REAL_SCALE_2_CREDENTIALS_MISSING` and never substitutes `--agent fake`. Preflight-only mode records
+that same blocker as an expected diagnostic and does not start inference. Toolchain pins are Node
+`22.14.0`, pnpm `10.12.1`, and `@openai/codex@0.147.0`. The Rapture command remains
+`--workers 1,2 --repetitions 3 --seed 20260817 --agent codex`. Do not pool GitHub-hosted results
+with other environment fingerprints.
 
 ## Artifact layout
 
 Each experiment contains immutable `manifest.json`, append-only `events.jsonl`, final `outcome.json`,
-and one `runs/<run-id>/` directory per task attempt. Run artifacts include separate redacted stdout and
-stderr logs, validation evidence, a Git patch, content hashes, and `result.json`. Interrupted experiments
-retain whatever events and run artifacts were durably written before interruption.
+and one `trials/<trial-id>/` directory per worker-count/repetition pair. Each trial stores
+`trial.json`, `trial-outcome.json`, and `runs/<run-id>/` artifacts. Run artifacts include separate
+redacted stdout and stderr logs, validation evidence, a Git patch, content hashes, phase timings, and
+`result.json`. Interrupted experiments retain whatever events and run artifacts were durably written
+before interruption.
 
 See [docs/research-method.md](docs/research-method.md) for methodology and validity limits.

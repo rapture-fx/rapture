@@ -1,0 +1,27 @@
+{
+  "experimentName": "opencode-scale-4",
+  "status": "not_executed",
+  "frozenAt": "2026-08-19T15:45:00.000Z",
+  "configuration": {
+    "agent": "opencode",
+    "agentVersion": "opencode 1.18.18",
+    "agentModel": "opencode/deepseek-v4-flash-free",
+    "reasoningEffort": null,
+    "workerCounts": [1, 2, 4],
+    "repetitions": 3,
+    "seed": 20260817,
+    "taskFile": "fixtures/ledger-kit/tasks.json",
+    "taskCount": 6,
+    "taskIds": [
+      "fix-parse-money",
+      "add-volume-discount",
+      "validate-sku",
+      "one-based-pagination",
+      "extract-normalize-email",
+      "parse-config-comments"
+    ],
+    "timeoutSecondsPerTask": 180,
+    "integration": false,
+    "intendedCommand": "rapture run --repo <clean-ledger-kit-copy> --tasks fixtures/ledger-kit/tasks.json --workers 1,2,4 --repetitions 3 --seed 20260817 --agent opencode --agent-model opencode/deepseek-v4-flash-free --output experiments/opencode-scale-4"
+  }
+}

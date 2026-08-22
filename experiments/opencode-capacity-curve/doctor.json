@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "status": "READY",
+  "experiment": "opencode-capacity-curve",
+  "agent": "opencode",
+  "checks": [
+    {
+      "id": "NODE_RUNTIME",
+      "status": "PASS",
+      "message": "Node.js v22.14.0 is available.",
+      "details": {
+        "version": "v22.14.0",
+        "major": 22,
+        "minimumMajor": 22
+      }
+    },
+    {
+      "id": "PNPM_RUNTIME",
+      "status": "PASS",
+      "message": "pnpm 10.12.1 is available.",
+      "details": {
+        "version": "10.12.1"
+      }
+    },
+    {
+      "id": "GIT_RUNTIME",
+      "status": "PASS",
+      "message": "git version 2.49.0",
+      "details": {
+        "version": "git version 2.49.0"
+      }
+    },
+    {
+      "id": "EXPERIMENT_CONFIG",
+      "status": "PASS",
+      "message": "Experiment configuration is valid.",
+      "details": {
+        "experiment": "opencode-capacity-curve",
+        "agent": "opencode",
+        "workerCounts": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "repetitions": 3,
+        "seed": 20260817,
+        "taskFile": "fixtures/ledger-kit/tasks.json",
+        "integration": false,
+        "aggregateSha256": "2d00ad4d3f52672db1112b25b34aad7752e0ebb5b5498687d1e0e94a4808b7d8",
+        "fileCount": 18
+      }
+    },
+    {
+      "id": "TASK_INTEGRITY",
+      "status": "PASS",
+      "message": "6 task definition(s) validated.",
+      "details": {
+        "ids": [
+          "fix-parse-money",
+          "add-volume-discount",
+          "validate-sku",
+          "one-based-pagination",
+          "extract-normalize-email",
+          "parse-config-comments"
+        ],
+        "taskFile": "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/tasks.json"
+      }
+    },
+    {
+      "id": "FIXTURE_INTEGRITY",
+      "status": "PASS",
+      "message": "ledger-kit baseline is rejected by all validators.",
+      "details": {
+        "generator": "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/create.mjs",
+        "rejected": [
+          "fix-parse-money",
+          "add-volume-discount",
+          "validate-sku",
+          "one-based-pagination",
+          "extract-normalize-email",
+          "parse-config-comments"
+        ],
+        "repositoryFingerprint": "9b7b94c49afd18b9204d60b6bb376ebc9b9409b8df8728c22dc4a6ea90a6dcbf",
+        "baseCommit": "bf6a6a03361ea2af4b21dc241588351100ff4852"
+      }
+    },
+    {
+      "id": "REPOSITORY_STATE",
+      "status": "PASS",
+      "message": "Target Git repository is usable.",
+      "details": {
+        "repository": "/private/tmp/rapture-opencode-capacity-curve/ledger-kit",
+        "dirty": false,
+        "baseCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780"
+      }
+    },
+    {
+      "id": "WORKTREE_STATE",
+      "status": "PASS",
+      "message": "Worktree create and remove succeeded.",
+      "details": {
+        "leaked": []
+      }
+    },
+    {
+      "id": "AGENT_BINARY",
+      "status": "PASS",
+      "message": "opencode is available.",
+      "details": {
+        "binary": "opencode",
+        "version": "1.18.20",
+        "detail": "1.18.20"
+      }
+    },
+    {
+      "id": "AGENT_AUTH",
+      "status": "PASS",
+      "message": "A supported credential mechanism is present.",
+      "details": {
+        "agent": "opencode",
+        "required": true,
+        "present": true,
+        "envVar": null,
+        "method": "opencode",
+        "supportedEnvVars": [
+          "OPENCODE_API_KEY"
+        ]
+      }
+    },
+    {
+      "id": "MODEL_CONFIG",
+      "status": "PASS",
+      "message": "Model is pinned to opencode/hy3-free.",
+      "details": {
+        "agent": "opencode",
+        "modelPinned": true,
+        "model": "opencode/hy3-free",
+        "reasoningPinned": false,
+        "reasoning": null,
+        "usesProviderDefault": false
+      }
+    },
+    {
+      "id": "OUTPUT_PATH",
+      "status": "PASS",
+      "message": "Experiment output directory is writable.",
+      "details": {
+        "outputDirectory": "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve"
+      }
+    }
+  ],
+  "integrity": {
+    "schemaVersion": 1,
+    "experimentName": "opencode-capacity-curve",
+    "files": {
+      "experiments/opencode-capacity-curve.frozen.json": "c5d7589c44f69dca4f77c52c24d31df473306822ed4f44c6f9889b5b28a3623b",
+      "fixtures/ledger-kit/create.mjs": "4037ba6309d2aadd1b22739441c948c3b72f0c25d2c036bb1c6a396fb779eda5",
+      "fixtures/ledger-kit/package.json": "04f24489d2d45d246ec361be42a9264a337399056dd111cedafdf3ddf8dc63c1",
+      "fixtures/ledger-kit/src/config.ts": "d4913e061b2b509ea524bc9f7f633d1b087af1c6925f1ec8d3874c50757a0bc6",
+      "fixtures/ledger-kit/src/discount.ts": "2216a914f8af908241fd578b86d7df4be9c9bea652d9909446a6bba8ef1550e8",
+      "fixtures/ledger-kit/src/email.ts": "9b9dbac3efc4782c42f5b4bd0d977115b1ade5fb35f2ad6299d3a2e1445979c2",
+      "fixtures/ledger-kit/src/money.ts": "f8a8baef0de2f150a60a92e06560df5b40b267248c2f13afaf3eb9db1e5035a3",
+      "fixtures/ledger-kit/src/pagination.ts": "fc6f1cd4bdd0d2ace7032b0b586f55e7b3987bc2c96a4da2f76e5d3e74a2f4a4",
+      "fixtures/ledger-kit/src/sku.ts": "38fd92d178f71f222d6447462de90bc4548862cd416cbf64808444c586e76b81",
+      "fixtures/ledger-kit/tasks.json": "db3006a82912854977b3cc37f8e7196fd6796fbfc7c7b9f6c848c816043baa01",
+      "fixtures/ledger-kit/tsconfig.json": "e5c300627f466ba43375ac656b534388cc86fcd603c384236562a52c64819ad6",
+      "fixtures/ledger-kit/validation/config.ts": "b680dc38f2d9f3435ae767c7e896bd593fdeeea97a07400389a5c48b3e0a6db6",
+      "fixtures/ledger-kit/validation/discount.ts": "ed90d72c79f5cf75907848534b35a0bc04d54f275cef473d08a2604af8343b2b",
+      "fixtures/ledger-kit/validation/email.ts": "eb4decdb20ae1deb42e4b027462fd365e49784dd69f181306b550c2cc8b69542",
+      "fixtures/ledger-kit/validation/load.ts": "834f5cc797779a100d230de8850cc958a234a8ebd84ae5cb5dafdcef383ffec9",
+      "fixtures/ledger-kit/validation/money.ts": "a46f2afaf267f3b54f729cfc8cc3db70784c5ee877f6463e1d70d3d50be08395",
+      "fixtures/ledger-kit/validation/pagination.ts": "bea9daa5aa83e83eaf7cd8d181a39b439553964d2c30145f5c342b5e9ec024c8",
+      "fixtures/ledger-kit/validation/sku.ts": "f7c657da40efb805af440ffc03e968f324e4ee2f943eab09b959ff21fd061b61"
+    },
+    "aggregateSha256": "2d00ad4d3f52672db1112b25b34aad7752e0ebb5b5498687d1e0e94a4808b7d8"
+  },
+  "runnerFingerprint": {
+    "schemaVersion": 1,
+    "timestamp": "2026-08-21T13:14:06.950Z",
+    "runnerOs": "darwin",
+    "runnerArchitecture": "x64",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "kernel": "Darwin 22.6.0",
+    "nodeVersion": "v22.14.0",
+    "pnpmVersion": "10.12.1",
+    "gitVersion": "git version 2.49.0",
+    "raptureCommit": "b220650159389a1e12fd219712f371465b139b7e",
+    "codexBinaryVersion": "1.18.20",
+    "modelConfiguration": "opencode/hy3-free",
+    "reasoningConfiguration": null,
+    "githubRunId": null,
+    "githubRunnerImage": null,
+    "githubImageVersion": null
+  },
+  "startedAt": "2026-08-21T13:13:46.275Z",
+  "finishedAt": "2026-08-21T13:14:10.471Z",
+  "scalingConclusion": null
+}

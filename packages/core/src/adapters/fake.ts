@@ -2,6 +2,7 @@ import { rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { ProcessResult } from "../models.js";
 import { runProcess } from "../process.js";
+import { fakeCredentialProbe } from "./auth.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
 
 const workerScript = `
@@ -39,6 +40,9 @@ export const fakeAgentAdapter: AgentAdapter = {
     if (input.task.fake === undefined) {
       throw new Error(`task ${input.task.id} has no fake adapter configuration`);
     }
+    if (input.task.fake.failOnRepetition === input.repetition) {
+      throw new Error(`forced fake-agent failure on repetition ${input.repetition}`);
+    }
     const path = configPath(input);
     await writeFile(path, JSON.stringify(input.task.fake), { encoding: "utf8", flag: "wx" });
     const command = fakeAgentAdapter.command(input);
@@ -62,4 +66,5 @@ export const fakeAgentAdapter: AgentAdapter = {
     };
   },
   extractUsageMetadata: (_result: ProcessResult) => ({ tokenUsage: null, providerCost: null }),
+  probeCredentials: () => fakeCredentialProbe(),
 };

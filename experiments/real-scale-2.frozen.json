@@ -1,0 +1,35 @@
+{
+  "experimentName": "real-scale-2",
+  "status": "not_executed",
+  "blocker": "Codex CLI is not installed in this environment and no Codex/OpenAI credentials are present. npm currently publishes @openai/codex@0.147.0, but installing an unauthenticated CLI would not produce a valid real-agent experiment.",
+  "frozenAt": "2026-08-17T23:58:00.000Z",
+  "configuration": {
+    "agent": "codex",
+    "agentVersion": null,
+    "agentModel": null,
+    "workerCounts": [1, 2],
+    "repetitions": 3,
+    "seed": 20260817,
+    "taskFile": "fixtures/ledger-kit/tasks.json",
+    "taskCount": 6,
+    "taskIds": [
+      "fix-parse-money",
+      "add-volume-discount",
+      "validate-sku",
+      "one-based-pagination",
+      "extract-normalize-email",
+      "parse-config-comments"
+    ],
+    "timeoutSecondsPerTask": 180,
+    "integration": false,
+    "intendedCommand": "rapture run --repo <clean-ledger-kit-copy> --tasks fixtures/ledger-kit/tasks.json --workers 1,2 --repetitions 3 --seed 20260817 --agent codex --output experiments/real-scale-2"
+  },
+  "environmentWhenFrozen": {
+    "platform": "linux",
+    "operatingSystemRelease": "6.12.94+",
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.43.0",
+    "cpuCount": 4,
+    "codexCli": "not_found"
+  }
+}

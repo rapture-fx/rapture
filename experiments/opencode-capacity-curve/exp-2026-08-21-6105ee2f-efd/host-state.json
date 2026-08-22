@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-21T11:55:11.027Z",
+  "platform": "darwin",
+  "release": "22.6.0",
+  "arch": "x64",
+  "cpuCount": 4,
+  "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+  "totalMemoryBytes": 8589934592,
+  "freeMemoryBytes": 452689920,
+  "loadAverage1m": 10.63330078125,
+  "raptureRssBytes": 60375040,
+  "cpuUtilizationSample": 0.5742574257425743,
+  "activeAgentProcesses": [
+    {
+      "pid": 1607,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/browser_crashpad_handler --monitor-self --monitor-self-annotation=ptype=crashpad-handler --database=/Users/wira/Library/Application Support/Codex/Crashpad --annotation=plat=OS X --annotation=prod=ChatGPT_Mac --annotation=ver=151.0.7922.137 --handshake-fd=5"
+    },
+    {
+      "pid": 1609,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/browser_crashpad_handler --no-periodic-tasks --monitor-self-annotation=ptype=crashpad-handler --database=/Users/wira/Library/Application Support/Codex/Crashpad --annotation=plat=OS X --annotation=prod=ChatGPT_Mac --annotation=ver=151.0.7922.137 --handshake-fd=4"
+    },
+    {
+      "pid": 30904,
+      "command": "/Applications/ChatGPT.app/Contents/Resources/codex-code-mode-host"
+    },
+    {
+      "pid": 38832,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/browser_crashpad_handler --monitor-self --monitor-self-annotation=ptype=crashpad-handler --database=/Users/wira/Library/Application Support/Codex/Crashpad --annotation=plat=OS X --annotation=prod=ChatGPT_Mac --annotation=ver=151.0.7922.137 --handshake-fd=5"
+    },
+    {
+      "pid": 38838,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/browser_crashpad_handler --no-periodic-tasks --monitor-self-annotation=ptype=crashpad-handler --database=/Users/wira/Library/Application Support/Codex/Crashpad --annotation=plat=OS X --annotation=prod=ChatGPT_Mac --annotation=ver=151.0.7922.137 --handshake-fd=4"
+    },
+    {
+      "pid": 39938,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Service).app/Contents/MacOS/Codex (Service) --type=gpu-process --user-data-dir=/Users/wira/Library/Application Support/Codex --start-stack-profiler --gpu-preferences=WAAAAAAAAAAgAQAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --shared-files --metrics-shmem-handle=1752395122,r,9770926380917029483,532472501970163124,262144 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708988185955192 --seatbelt-client=31"
+    },
+    {
+      "pid": 39939,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Service).app/Contents/MacOS/Codex (Service) --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-GB --service-sandbox-type=network --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com --owl-scoped-user-agent-prefix=ChatGPTBrowser --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --start-stack-profiler --shared-files --metrics-shmem-handle=1752395122,r,15351519688940885521,10953773497638100583,524288 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708989122997041 --seatbelt-client=31"
+    },
+    {
+      "pid": 39975,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Service).app/Contents/MacOS/Codex (Service) --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-GB --service-sandbox-type=service --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --shared-files --metrics-shmem-handle=1752395122,r,8237605473886094420,16483460731425127350,524288 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708990060038890 --seatbelt-client=44"
+    },
+    {
+      "pid": 41782,
+      "command": "/Applications/ChatGPT.app/Contents/Resources/codex -c features.code_mode_host=true app-server --analytics-default-enabled"
+    },
+    {
+      "pid": 42059,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Renderer).app/Contents/MacOS/Codex (Renderer) --type=renderer --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com --owl-scoped-user-agent-prefix=ChatGPTBrowser --start-stack-profiler --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --lang=en-GB --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1786969798337672 --launch-time-ticks=265926653812 --shared-files --metrics-shmem-handle=1752395122,r,12042426557729956029,1812218062779839435,2097152 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708991934122588 --seatbelt-client=162"
+    },
+    {
+      "pid": 42060,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Renderer).app/Contents/MacOS/Codex (Renderer) --type=renderer --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com --owl-scoped-user-agent-prefix=ChatGPTBrowser --start-stack-profiler --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --lang=en-GB --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1786969798337672 --launch-time-ticks=265926701142 --shared-files --metrics-shmem-handle=1752395122,r,18052104323204905699,15738549336415398322,2097152 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708990997080739 --seatbelt-client=162"
+    },
+    {
+      "pid": 42349,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Renderer).app/Contents/MacOS/Codex (Renderer) --type=renderer --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com --owl-scoped-user-agent-prefix=ChatGPTBrowser --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --lang=en-GB --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=11 --time-ticks-at-unix-epoch=-1786969798337672 --launch-time-ticks=266015567947 --shared-files --metrics-shmem-handle=1752395122,r,12728534395549006388,16251164124268557434,2097152 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708996619331833 --seatbelt-client=178"
+    },
+    {
+      "pid": 42350,
+      "command": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/151.0.7922.137/Helpers/Codex (Renderer).app/Contents/MacOS/Codex (Renderer) --type=renderer --user-data-dir=/Users/wira/Library/Application Support/Codex --standard-schemes=app,codex-sandbox --service-worker-schemes=codex-sandbox --secure-schemes=app,codex-sandbox,sentry-ipc --bypasscsp-schemes=sentry-ipc --fetch-schemes=app,codex-sandbox,sentry-ipc --cors-schemes=codex-sandbox,sentry-ipc --streaming-schemes=app,codex-sandbox --owl-scoped-user-agent-additional-hosts=openai.com,chatgpt.com --owl-scoped-user-agent-prefix=ChatGPTBrowser --disable-blink-features=ReplacedNormalFlowStackingInlinePaint --lang=en-GB --num-raster-threads=2 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=12 --time-ticks-at-unix-epoch=-1786969798337672 --launch-time-ticks=266015661314 --shared-files --metrics-shmem-handle=1752395122,r,10959492177185073646,10053862227182216624,2097152 --field-trial-handle=1718379636,r,17171703989506608993,16810122811681201669,262144 --enable-features=ReportStuckThrottle --disable-features=DropInputEventsWhilePaintHolding,WebUIOmniboxAimPopup,WebUIOmniboxPopup --variations-seed-version --pseudonymization-salt-handle=1935764596,r,12626171323621554390,13682854793516901888,4 --trace-process-track-uuid=3190708997556373682 --seatbelt-client=178"
+    },
+    {
+      "pid": 74742,
+      "command": "/Users/wira/.local/share/claude/versions/2.1.233"
+    },
+    {
+      "pid": 33311,
+      "command": "opencode"
+    }
+  ],
+  "agentEnvironmentVariables": [],
+  "nodeVersion": "v22.14.0",
+  "warnings": [
+    "15 potentially competing coding-agent process(es) detected: pid 1607, pid 1609, pid 30904, pid 38832, pid 38838, pid 39938, pid 39939, pid 39975, pid 41782, pid 42059, pid 42060, pid 42349, pid 42350, pid 74742, pid 33311",
+    "host memory is low: 5.3% available"
+  ]
+}

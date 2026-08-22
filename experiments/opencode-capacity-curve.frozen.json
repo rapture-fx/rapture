@@ -1,0 +1,51 @@
+{
+  "experimentName": "opencode-capacity-curve",
+  "status": "not_executed",
+  "frozenAt": "2026-08-21T00:00:00.000Z",
+  "purpose": "Capacity-prediction experiment: complete the 1/2/3/4 worker capacity curve on the same host as opencode-scale-4-diagnostic, persist next-step predictions before held-out worker-count execution, and compare an engineering-outcome-aware predictor against resource-only baselines.",
+  "deviations": [
+    {
+      "field": "configuration.agentModel",
+      "frozenValue": "opencode/deepseek-v4-flash-free",
+      "executedValue": "opencode/hy3-free",
+      "reason": "The provider removed deepseek-v4-flash-free from its model catalog during the task window; every request returned server-side UnknownError (verified with standalone probes, independent of concurrency). The paid successor deepseek-v4-flash was rejected for insufficient account balance. opencode/hy3-free was selected from the remaining free-tier OpenCode models after a successful standalone probe. Absolute comparability with the opencode-scale-4-diagnostic throughput levels is therefore broken; the within-experiment capacity-curve comparison is unaffected because all worker counts use the identical model.",
+      "decidedBy": "operator",
+      "recordedAt": "2026-08-21T13:20:00.000Z"
+    }
+  ],
+  "priorEvidence": {
+    "sourceExperiment": "opencode-scale-4-diagnostic",
+    "experimentId": "exp-2026-08-20-0941a7e3-b19",
+    "decision": "BOTTLENECK_MULTI_FACTOR",    "observedScaling": {
+      "workers_1": { "medianTasksPerHour": 32.5 },
+      "workers_2": { "medianTasksPerHour": 42.02, "parallelEfficiency": 0.647 },
+      "workers_4": { "medianTasksPerHour": 56.1, "parallelEfficiency": 0.432 }
+    }
+  },
+  "configuration": {
+    "agent": "opencode",
+    "agentVersion": "1.18.20",
+    "agentModel": "opencode/hy3-free",
+    "workerCounts": [1, 2, 3, 4],
+    "repetitions": 3,
+    "seed": 20260817,
+    "taskFile": "fixtures/ledger-kit/tasks.json",
+    "taskCount": 6,
+    "taskIds": [
+      "fix-parse-money",
+      "add-volume-discount",
+      "validate-sku",
+      "one-based-pagination",
+      "extract-normalize-email",
+      "parse-config-comments"
+    ],
+    "timeoutSecondsPerTask": 180,
+    "integration": false,
+    "executionOrder": "worker-major",
+    "hostTelemetry": true,
+    "phaseTiming": true,
+    "resumable": true,
+    "predictionChronology": "predictions.jsonl appended per step before the next worker count executes; outcomes appended separately and never rewritten"
+  },
+  "intendedCommand": "node apps/cli/dist/index.js run --repo <clean-ledger-kit-copy> --tasks fixtures/ledger-kit/tasks.json --workers 1,2,3,4 --repetitions 3 --seed 20260817 --agent opencode --agent-model opencode/deepseek-v4-flash-free --order worker-major --output experiments/opencode-capacity-curve"
+}
