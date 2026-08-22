@@ -454,6 +454,15 @@ pre-freeze availability probe = 49.
 | `e786c62` | `feat(contract): add change-contract schema, repository mechanics, and CLI` |
 | `7e2b91e` | `research: freeze change-compiler paired experiment` |
 | `5b422b0` | `style: format change-compiler experiment builder` |
+| `0c9f036` | `research: record change-compiler v0 result` |
+
+## Push result and draft PR URL
+
+Branch `research/change-compiler-v0` pushed to `https://github.com/wiramahendra/rapture`.
+
+Draft PR: <https://github.com/wiramahendra/rapture/pull/10> — opened as a draft against
+`main` and deliberately not merged. It stacks on unmerged draft PRs #8 and #9, both
+linear ancestors; merge order is #8, then #9, then this.
 
 ## Recommended next engineering decision
 
