@@ -1,0 +1,93 @@
+{
+  "runId": "workers-3-trial-2-extract-normalize-email-ee98b6c3",
+  "logicalRunId": "420e07875f712080f2aa8ee4a416898e78884e1ea0148a8cbbac1ed920cb3cd6",
+  "attemptId": "workers-3-trial-2-extract-normalize-email-ee98b6c3",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-21-2c5c7311-d6b",
+  "trialId": "workers-3-trial-2",
+  "repetition": 2,
+  "taskId": "extract-normalize-email",
+  "repositoryId": "7d5126bd0c5ec3b28475444a145f0e3292ba509cf721900613a88f604cffc0a4",
+  "baseCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-3",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-2-extract-normalize-email-ee98b6c3",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-21T14:11:12.643Z",
+  "finishedAt": "2026-08-21T14:12:27.168Z",
+  "durationMs": 74525,
+  "phaseTimings": {
+    "worktreeSetupMs": 273,
+    "queueWaitMs": 1.7763299997895956,
+    "agentExecutionMs": 73157,
+    "validationMs": 447,
+    "artifactPersistenceMs": 5,
+    "integrationMs": null,
+    "worktreeCleanupMs": 236,
+    "otherOrchestrationMs": 405.2236700002104,
+    "totalRunMs": 74525
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "finalTreeHash": "eacb6cc4a795f8edfdf63f2504f92fd0357e3a7d",
+  "filesChanged": [
+    "src/email.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-2-extract-normalize-email-ee98b6c3",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/email.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-2/runs/workers-3-trial-2-extract-normalize-email-ee98b6c3/agent.stdout.log",
+    "stdoutSha256": "0e49cb3f43ce20d6c99cc43a168b2012d747f13f14521068a571002a7cf7e26d",
+    "stderr": "trials/workers-3-trial-2/runs/workers-3-trial-2-extract-normalize-email-ee98b6c3/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-2/runs/workers-3-trial-2-extract-normalize-email-ee98b6c3/validation.json",
+    "validationSha256": "14c84f1f400f41c660a04bdb18dbbfa93f8cbecb6d8f2c83832aac67ea9afdfc",
+    "patch": "trials/workers-3-trial-2/runs/workers-3-trial-2-extract-normalize-email-ee98b6c3/change.patch",
+    "patchSha256": "31a2131799a0953279f5358a2b3fb2039ce74620169351450aac14c643e0d8fc"
+  }
+}

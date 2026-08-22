@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/discount.ts"
+    ],
+    "startedAt": "2026-08-21T11:55:20.744Z",
+    "finishedAt": "2026-08-21T11:55:21.005Z",
+    "durationMs": 261,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": "file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-1-trial-1-add-volume-discount-ac0ca2da/src/discount.ts:2\n  throw new Error(\"not implemented\");\n        ^\n\nError: not implemented\n    at applyVolumeDiscount (file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-1-trial-1-add-volume-discount-ac0ca2da/src/discount.ts:2:9)\n    at file:///Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/discount.ts:8:14\n\nNode.js v22.14.0\n"
+  }
+]

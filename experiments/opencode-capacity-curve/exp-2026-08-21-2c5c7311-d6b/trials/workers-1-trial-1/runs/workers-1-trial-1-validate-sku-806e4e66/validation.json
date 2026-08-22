@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/sku.ts"
+    ],
+    "startedAt": "2026-08-21T13:26:48.087Z",
+    "finishedAt": "2026-08-21T13:26:48.647Z",
+    "durationMs": 560,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": "node:internal/modules/run_main:122\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Missing expected exception (TypeError).\n    at file:///Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/sku.ts:10:8 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: undefined,\n  expected: [Function: TypeError],\n  operator: 'throws'\n}\n\nNode.js v22.14.0\n"
+  }
+]

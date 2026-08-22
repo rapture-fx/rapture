@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/discount.ts"
+    ],
+    "startedAt": "2026-08-21T14:25:11.843Z",
+    "finishedAt": "2026-08-21T14:25:12.236Z",
+    "durationMs": 393,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": ""
+  }
+]

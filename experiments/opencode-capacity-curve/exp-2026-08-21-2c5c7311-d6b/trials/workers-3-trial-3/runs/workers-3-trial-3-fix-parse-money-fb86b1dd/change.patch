@@ -1,0 +1,20 @@
+diff --git a/src/money.ts b/src/money.ts
+index d079d6d03d3724f135f2c174f8866942e262ba41..0f9df3d1fba5f52c3192228f10a28772d1e6390e 100644
+--- a/src/money.ts
++++ b/src/money.ts
+@@ -1,7 +1,12 @@
+ export function parseMoney(input: string): number {
+-  const digits = input.replace(/[^0-9-]/g, "");
+-  if (digits.length === 0 || digits === "-") {
++  if (typeof input !== "string" || input.trim() === "" || !/^\$?-?\d{1,3}(,\d{3})*(\.\d{1,2})?$/.test(input.trim())) {
+     throw new TypeError("invalid money amount");
+   }
+-  return Number.parseInt(digits, 10);
++  const cleaned = input.trim().replace(/[$,]/g, "");
++  const amount = Number.parseFloat(cleaned);
++  if (!Number.isFinite(amount)) {
++    throw new TypeError("invalid money amount");
++  }
++  const rounded = Math.floor(amount * 100 + 0.5) / 100;
++  return rounded;
+ }

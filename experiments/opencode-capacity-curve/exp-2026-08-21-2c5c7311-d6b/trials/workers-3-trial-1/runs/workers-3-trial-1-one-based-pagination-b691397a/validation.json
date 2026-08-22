@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/pagination.ts"
+    ],
+    "startedAt": "2026-08-21T14:07:58.968Z",
+    "finishedAt": "2026-08-21T14:07:59.645Z",
+    "durationMs": 677,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": ""
+  }
+]

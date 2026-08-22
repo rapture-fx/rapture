@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/email.ts"
+    ],
+    "startedAt": "2026-08-20T15:20:27.113Z",
+    "finishedAt": "2026-08-20T15:20:27.388Z",
+    "durationMs": 276,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": ""
+  }
+]

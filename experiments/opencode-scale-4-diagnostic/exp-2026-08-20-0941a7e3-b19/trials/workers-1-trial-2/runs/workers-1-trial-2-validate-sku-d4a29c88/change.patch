@@ -1,0 +1,14 @@
+diff --git a/src/sku.ts b/src/sku.ts
+index e03c6a83005295d0a091f0cfe9c1ef1fa16cc796..57d86ed10f1a2f3c0d4264e6b31888f9a789d48a 100644
+--- a/src/sku.ts
++++ b/src/sku.ts
+@@ -1,3 +1,9 @@
+ export function createSku(department: string, id: string): string {
++  if (!/^[A-Z]{3}$/.test(department)) {
++    throw new TypeError("department must be 3 uppercase letters");
++  }
++  if (!/^\d{4}$/.test(id)) {
++    throw new TypeError("id must be 4 digits");
++  }
+   return `${department}-${id}`;
+ }

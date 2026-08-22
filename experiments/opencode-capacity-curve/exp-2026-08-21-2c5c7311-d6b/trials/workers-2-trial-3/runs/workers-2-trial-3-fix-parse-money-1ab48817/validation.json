@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/money.ts"
+    ],
+    "startedAt": "2026-08-21T14:04:39.412Z",
+    "finishedAt": "2026-08-21T14:04:39.771Z",
+    "durationMs": 359,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": ""
+  }
+]
