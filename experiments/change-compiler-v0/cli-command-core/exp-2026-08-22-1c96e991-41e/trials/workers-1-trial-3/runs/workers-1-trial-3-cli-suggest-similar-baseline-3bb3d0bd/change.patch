@@ -1,0 +1,104 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..0317e132f58b54e91b8a2ffd6c8d6b7ed8936749 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -1,21 +1,94 @@
+ const maxDistance = 3;
+ 
+ /**
+- * Find close matches, restricted to same number of edits.
++ * Find close matches using Damerau-Levenshtein distance (transpositions count
++ * as a single edit).
+  *
+  * @param {string} word
+  * @param {string[]} candidates
+  * @returns {string}
+  */
+ 
++function editDistance(a, b) {
++  const al = a.length;
++  const bl = b.length;
++  if (al === 0) return bl;
++  if (bl === 0) return al;
++
++  const prev = new Array(bl + 1);
++  const curr = new Array(bl + 1);
++  const prev2 = new Array(bl + 1);
++
++  for (let j = 0; j <= bl; j++) prev[j] = j;
++
++  for (let i = 1; i <= al; i++) {
++    curr[0] = i;
++    for (let j = 1; j <= bl; j++) {
++      let cost = a[i - 1] === b[j - 1] ? 0 : 1;
++      let val = Math.min(
++        prev[j] + 1,
++        curr[j - 1] + 1,
++        prev[j - 1] + cost
++      );
++      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
++        val = Math.min(val, prev2[j - 2] + 1);
++      }
++      curr[j] = val;
++    }
++    for (let j = 0; j <= bl; j++) {
++      prev2[j] = prev[j];
++      prev[j] = curr[j];
++    }
++  }
++
++  return prev[bl];
++}
++
+ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
+ 
+   const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
++  const strip = (s) => (searchingOptions ? s.replace(/^-+/, '') : s);
++
++  const target = strip(word);
++  let bestDistance = Infinity;
++  let matches = [];
++
++  for (const candidate of candidates) {
++    if (candidate.length <= 1) continue;
++
++    const cmp = strip(candidate);
++    const distance = editDistance(target, cmp);
++    if (distance > maxDistance) continue;
++
++    const longer = Math.max(target.length, cmp.length);
++    if (longer === 0) continue;
++    const similarity = (longer - distance) / longer;
++    if (similarity <= 0.4) continue;
++
++    if (distance < bestDistance) {
++      bestDistance = distance;
++      matches = [candidate];
++    } else if (distance === bestDistance) {
++      matches.push(candidate);
++    }
++  }
++
++  if (matches.length === 0) return '';
++
++  const seen = new Set();
++  const unique = [];
++  for (const m of matches) {
++    if (!seen.has(m)) {
++      seen.add(m);
++      unique.push(m);
++    }
++  }
++  unique.sort((a, b) => a.localeCompare(b));
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++  if (unique.length === 1) {
++    return `\n(Did you mean ${unique[0]}?)`;
+   }
+-  return '';
++  const listed = unique.join(', ');
++  return `\n(Did you mean one of ${listed}?)`;
+ }

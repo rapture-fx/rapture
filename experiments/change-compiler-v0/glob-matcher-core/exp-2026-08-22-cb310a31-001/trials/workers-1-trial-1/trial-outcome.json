@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "status": "completed",
+  "startedAt": "2026-08-22T15:22:54.542Z",
+  "finishedAt": "2026-08-22T15:30:21.179Z",
+  "durationMs": 446629,
+  "taskOrder": [
+    "glob-utils-helpers__baseline",
+    "glob-ignore-callbacks__contract",
+    "glob-utils-helpers__contract",
+    "glob-ignore-callbacks__baseline"
+  ],
+  "trialSeed": 1360424495
+}

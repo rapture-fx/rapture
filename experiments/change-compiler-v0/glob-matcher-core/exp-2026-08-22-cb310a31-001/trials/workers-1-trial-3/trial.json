@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-3",
+  "experimentId": "exp-2026-08-22-cb310a31-001",
+  "workerCount": 1,
+  "repetition": 3,
+  "trialSeed": 1161755453,
+  "taskOrder": [
+    "glob-utils-helpers__baseline",
+    "glob-utils-helpers__contract",
+    "glob-ignore-callbacks__contract",
+    "glob-ignore-callbacks__baseline"
+  ],
+  "startedAt": "2026-08-22T15:37:53.673Z"
+}

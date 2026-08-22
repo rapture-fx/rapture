@@ -1,0 +1,179 @@
+{
+  "runId": "workers-1-trial-1-cli-subpath-exports-e9bbac6f",
+  "logicalRunId": "2eb0067639560c73ba51de9a830359a8d79bd215cc7090006ccfc869ff9bccbf",
+  "attemptId": "workers-1-trial-1-cli-subpath-exports-e9bbac6f",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-fe965730-47c",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "cli-subpath-exports",
+  "repositoryId": "cli-command-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "config_change",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "static_analysis",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "moderate",
+    "reversibility": "reversible_with_review"
+  },
+  "baseCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "baseTreeHash": "5fa201e53df4a223c5a20b9f6a93299b70f3ba36",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-subpath-exports-e9bbac6f",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: This package has no `exports` map, so every file under `lib/` is reachable by consumers. Add\npackaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/package.json` remains resolvable;\n- no path under `lib/` is reachable directly, and neither is `<pkg>/index.js`;\n- a `files` array is declared that includes `index.js` and `lib/`.\n\nThis is an ES module package. Do not change the package name, license, type or main field.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T13:16:48.567Z",
+  "finishedAt": "2026-08-22T13:17:09.698Z",
+  "durationMs": 21132,
+  "phaseTimings": {
+    "worktreeSetupMs": 33,
+    "queueWaitMs": 71471.45414700001,
+    "agentExecutionMs": 20479,
+    "validationMs": 473,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 26,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 21132
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "finalTreeHash": "66e885a9e1fb72021af5fc7abc3b5d47d53cb561",
+  "filesChanged": [
+    "package.json"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-subpath-exports-e9bbac6f",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: This package has no `exports` map, so every file under `lib/` is reachable by consumers. Add\npackaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/package.json` remains resolvable;\n- no path under `lib/` is reachable directly, and neither is `<pkg>/index.js`;\n- a `files` array is declared that includes `index.js` and `lib/`.\n\nThis is an ES module package. Do not change the package name, license, type or main field.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/cli-exports.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 7628,
+    "outputTokens": 392,
+    "cachedInputTokens": 25984,
+    "reasoningTokens": 19,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T13:16:48.612Z",
+      "processFinishedAt": "2026-08-22T13:17:09.089Z",
+      "firstStructuredEventAt": "2026-08-22T13:16:55.336Z",
+      "firstModelResponseAt": "2026-08-22T13:16:56.775Z",
+      "lastModelResponseAt": "2026-08-22T13:17:08.951Z",
+      "providerWaitMs": 6133,
+      "providerEventCount": 8,
+      "modelStepCount": 4,
+      "toolEventCount": 3,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787404615336,
+        "endMs": 1787404616775
+      },
+      {
+        "startMs": 1787404619244,
+        "endMs": 1787404621697
+      },
+      {
+        "startMs": 1787404624257,
+        "endMs": 1787404625177
+      },
+      {
+        "startMs": 1787404627630,
+        "endMs": 1787404628951
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 13615,
+      "providerWaitMs": 6133,
+      "interStepGapMs": 7482,
+      "outsideWindowMs": 6864,
+      "providerWaitFraction": 0.2994775135504663,
+      "interStepGapFraction": 0.36534987059915036,
+      "unobservedFraction": 0.3351726158503833
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1353,
+        86,
+        2469,
+        2304,
+        149,
+        2560,
+        871,
+        49,
+        2453,
+        1264,
+        57
+      ],
+      "handoffGapsMs": [
+        2469,
+        2560,
+        2453
+      ],
+      "launchToFirstEventMs": 6724
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-subpath-exports-e9bbac6f/agent.stdout.log",
+    "stdoutSha256": "064fd30a17d139e66ec32fe68abd8e8bbe4cb27410149796dc936346c783158a",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-subpath-exports-e9bbac6f/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-subpath-exports-e9bbac6f/validation.json",
+    "validationSha256": "1d424cb37c6554b46994e52af858f797e901fdd16148a176ab5f1031e1e081c6",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-subpath-exports-e9bbac6f/change.patch",
+    "patchSha256": "9a9374193d76e63aa7aedf1839d7b8826d326f9996155ae696c254eb766b1a4d"
+  }
+}

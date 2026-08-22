@@ -1,0 +1,113 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..17645b14ade8e192f046d62ea591c706b6cede0f 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -1,21 +1,101 @@
+ const maxDistance = 3;
++const minSimilarity = 0.4;
+ 
+ /**
+- * Find close matches, restricted to same number of edits.
++ * Damerau-Levenshtein (optimal string alignment) distance, where a
++ * transposition of two adjacent characters counts as a single edit.
++ *
++ * @param {string} a
++ * @param {string} b
++ * @returns {number}
++ */
++function editDistance(a, b) {
++  const la = a.length;
++  const lb = b.length;
++  if (la === 0) return lb;
++  if (lb === 0) return la;
++
++  const d = Array.from({ length: la + 1 }, () => new Array(lb + 1).fill(0));
++  for (let i = 0; i <= la; i++) d[i][0] = i;
++  for (let j = 0; j <= lb; j++) d[0][j] = j;
++
++  for (let i = 1; i <= la; i++) {
++    for (let j = 1; j <= lb; j++) {
++      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
++      d[i][j] = Math.min(
++        d[i - 1][j] + 1,
++        d[i][j - 1] + 1,
++        d[i - 1][j - 1] + cost,
++      );
++      if (
++        i > 1 &&
++        j > 1 &&
++        a[i - 1] === b[j - 2] &&
++        a[i - 2] === b[j - 1]
++      ) {
++        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
++      }
++    }
++  }
++  return d[la][lb];
++}
++
++/**
++ * Find close matches, restricted to a small edit distance.
+  *
+  * @param {string} word
+  * @param {string[]} candidates
+  * @returns {string}
+  */
+-
+ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
+ 
+-  const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
++  const dashMatch = word.match(/^-+/);
++  const prefix = dashMatch ? dashMatch[0] : '';
++  const compare = (s) => (prefix ? s.replace(/^-+/, '') : s);
++
++  const w = compare(word);
++
++  let bestDistance = Infinity;
++  let matches = [];
++
++  for (const candidate of candidates) {
++    if (candidate == null) continue;
++    const c = compare(candidate);
++
++    if (c.length <= 1) continue;
++
++    const distance = editDistance(w, c);
++    if (distance > maxDistance) continue;
++
++    const longer = Math.max(w.length, c.length);
++    if (longer === 0) continue;
++    const similarity = (longer - distance) / longer;
++    if (similarity <= minSimilarity) continue;
++
++    if (distance < bestDistance) {
++      bestDistance = distance;
++      matches = [candidate];
++    } else if (distance === bestDistance) {
++      matches.push(candidate);
++    }
++  }
++
++  if (matches.length === 0) return '';
++
++  const seen = new Set();
++  const suggestions = [];
++  for (const candidate of matches) {
++    const restored = prefix && !candidate.startsWith('-') ? prefix + candidate : candidate;
++    if (!seen.has(restored)) {
++      seen.add(restored);
++      suggestions.push(restored);
++    }
++  }
++  suggestions.sort((a, b) => a.localeCompare(b));
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++  if (suggestions.length === 1) {
++    return `\n(Did you mean ${suggestions[0]}?)`;
+   }
+-  return '';
++  return `\n(Did you mean one of ${suggestions.join(', ')}?)`;
+ }

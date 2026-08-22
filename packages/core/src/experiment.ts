@@ -6,6 +6,7 @@ import { codexAgentAdapter } from "./adapters/codex.js";
 import { fakeAgentAdapter } from "./adapters/fake.js";
 import { opencodeAgentAdapter } from "./adapters/opencode.js";
 import type { AgentAdapter, AgentRunResult } from "./adapters/types.js";
+import { extractAgentExploration } from "./agent-exploration.js";
 import {
   redactSecrets,
   safeArtifactPath,
@@ -63,6 +64,7 @@ import {
 } from "./process-telemetry.js";
 import { extractRuntimeObservability, type RuntimeObservability } from "./provider-events.js";
 import { persistRuntimeFingerprint, platformSummary } from "./runtime-fingerprint.js";
+import { materializeTaskContext } from "./task-context.js";
 import { createHostTelemetrySampler, type TelemetrySink } from "./telemetry.js";
 import { timePhase } from "./timing.js";
 import { deriveTrialSeed, orderTasks, trialIdFor } from "./trial.js";
@@ -909,6 +911,11 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
     worktreeSetupMs = setup.durationMs;
     created = true;
     const worktree = setup.value;
+    // Injected context is written before the agent starts and excluded from git, so it is
+    // available to read but never appears as a change the agent made.
+    if (input.task.context !== undefined) {
+      await materializeTaskContext(worktree, input.task.context);
+    }
     await input.events.emit("task_started", {
       runId: attemptId,
       logicalRunId: planEntry.logicalRunId,
@@ -1007,6 +1014,8 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
           benchmarkSuiteId: input.task.benchmark?.suiteId ?? null,
           benchmarkSuiteVersion: input.task.benchmark?.suiteVersion ?? null,
           benchmarkTaskClass: input.task.benchmark?.taskClass ?? null,
+          benchmarkDelegationFeatures: input.task.benchmark?.delegationFeatures ?? null,
+          agentExploration: extractAgentExploration(agent.value.process.stdout),
           baseCommit,
           baseTreeHash,
           workerId: input.workerId,
@@ -1161,6 +1170,8 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         benchmarkSuiteId: input.task.benchmark?.suiteId ?? null,
         benchmarkSuiteVersion: input.task.benchmark?.suiteVersion ?? null,
         benchmarkTaskClass: input.task.benchmark?.taskClass ?? null,
+        benchmarkDelegationFeatures: input.task.benchmark?.delegationFeatures ?? null,
+        agentExploration: extractAgentExploration(agent.value.process.stdout),
         baseCommit,
         baseTreeHash,
         workerId: input.workerId,

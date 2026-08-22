@@ -1,0 +1,40 @@
+diff --git a/functions/coerce.js b/functions/coerce.js
+index fc941b391789f98b8321785295fecd354a981a0f..b78b4fa677b9dd51541983b067ab7fbc60f25665 100644
+--- a/functions/coerce.js
++++ b/functions/coerce.js
+@@ -19,7 +19,16 @@ const coerce = (version, options) => {
+ 
+   options = options || {}
+ 
+-  const match = version.match(re[t.COERCE])
++  let match = null
++  if (!options.rtl) {
++    match = version.match(re[t.COERCE])
++  } else {
++    // Find the right-most coercible string that does not share
++    // a terminus with a more left-ward coercible string.
++    // Eg, '1.2.3.4' wants to coerce '2.3.4', not '3.4'.
++    const coerceRtlRegex = new RegExp(`(?:${re[t.COERCE].source})\\s*$`)
++    match = version.match(coerceRtlRegex)
++  }
+ 
+   if (match === null) {
+     return null
+@@ -29,6 +38,17 @@ const coerce = (version, options) => {
+   const minor = match[3] || '0'
+   const patch = match[4] || '0'
+ 
++  if (options.includePrerelease) {
++    const rfull = !options.rtl
++      ? re[t.COERCEFULL]
++      : new RegExp(`(?:${re[t.COERCEFULL].source})\\s*$`)
++    const full = version.match(rfull)
++    const prerelease = full[5] ? `-${full[5]}` : ''
++    const build = full[6] ? `+${full[6]}` : ''
++
++    return parse(`${major}.${minor}.${patch}${prerelease}${build}`, options)
++  }
++
+   return parse(`${major}.${minor}.${patch}`, options)
+ }
+ module.exports = coerce

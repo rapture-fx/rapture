@@ -1,0 +1,195 @@
+{
+  "runId": "workers-2-trial-2-semver-lru-cache-eviction-d2582ac3",
+  "logicalRunId": "0592390e1c32667ae80adc3456dd9ea82d9f7ccccfe2fa8cb8a10e7ce392821a",
+  "attemptId": "workers-2-trial-2-semver-lru-cache-eviction-d2582ac3",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-74c84f02-61f",
+  "trialId": "workers-2-trial-2",
+  "repetition": 2,
+  "taskId": "semver-lru-cache-eviction",
+  "repositoryId": "semver-core",
+  "benchmarkSuiteId": "rapture-real-work-v1",
+  "benchmarkSuiteVersion": "0.2.0",
+  "benchmarkTaskClass": "refactor",
+  "baseCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "baseTreeHash": "1d3c3e9a4315d0f20f0e8c7f57e99a441e9b6cba",
+  "workerId": "w2-1",
+  "workerCount": 2,
+  "activeAgentsAtStart": 2,
+  "activeAgentsAtEnd": 2,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T09:16:38.230Z",
+  "finishedAt": "2026-08-22T09:17:17.444Z",
+  "durationMs": 39214,
+  "phaseTimings": {
+    "worktreeSetupMs": 77,
+    "queueWaitMs": 118552.58328300004,
+    "agentExecutionMs": 38803,
+    "validationMs": 148,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 37,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 39214
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e3707f5846b848dd0876a22d1492786744de51e9",
+  "finalTreeHash": "ebb35a2a15880a09aea19c6a8c156a0000efe64d",
+  "filesChanged": [
+    "internal/lrucache.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/experiments/real-work-external-validity-v1/exp-2026-08-22-74c84f02-61f/.worktrees/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-lru-cache.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 9515,
+    "outputTokens": 1178,
+    "cachedInputTokens": 53760,
+    "reasoningTokens": 24,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T09:16:38.322Z",
+      "processFinishedAt": "2026-08-22T09:17:17.125Z",
+      "firstStructuredEventAt": "2026-08-22T09:16:46.674Z",
+      "firstModelResponseAt": "2026-08-22T09:16:47.968Z",
+      "lastModelResponseAt": "2026-08-22T09:17:16.946Z",
+      "providerWaitMs": 14565,
+      "providerEventCount": 14,
+      "modelStepCount": 7,
+      "toolEventCount": 6,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787390206674,
+        "endMs": 1787390207968
+      },
+      {
+        "startMs": 1787390210593,
+        "endMs": 1787390214235
+      },
+      {
+        "startMs": 1787390216751,
+        "endMs": 1787390218245
+      },
+      {
+        "startMs": 1787390220857,
+        "endMs": 1787390222106
+      },
+      {
+        "startMs": 1787390224360,
+        "endMs": 1787390225477
+      },
+      {
+        "startMs": 1787390228211,
+        "endMs": 1787390232944
+      },
+      {
+        "startMs": 1787390235910,
+        "endMs": 1787390236946
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 30272,
+      "providerWaitMs": 14565,
+      "interStepGapMs": 15707,
+      "outsideWindowMs": 8531,
+      "providerWaitFraction": 0.37535757544519754,
+      "interStepGapFraction": 0.4047882895652398,
+      "unobservedFraction": 0.21985413498956266
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1180,
+        114,
+        2625,
+        3490,
+        152,
+        2516,
+        1388,
+        106,
+        2612,
+        1078,
+        171,
+        2254,
+        964,
+        153,
+        2734,
+        4683,
+        50,
+        2966,
+        951,
+        85
+      ],
+      "handoffGapsMs": [
+        2625,
+        2516,
+        2612,
+        2254,
+        2734,
+        2966
+      ],
+      "launchToFirstEventMs": 8352
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-2-trial-2/runs/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3/agent.stdout.log",
+    "stdoutSha256": "871183cc19c4e995806da20c7f9bbd9905e74fb0cf6ed347badf2ed50babcce7",
+    "stderr": "trials/workers-2-trial-2/runs/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-2-trial-2/runs/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3/validation.json",
+    "validationSha256": "136dcfcd05434f9dd124be5e69fa30fac6f302ca01bc6aafae0ead4a5297060b",
+    "patch": "trials/workers-2-trial-2/runs/workers-2-trial-2-semver-lru-cache-eviction-d2582ac3/change.patch",
+    "patchSha256": "3c5e7d7a0214e4454559a3b640522481f1ab492c23f233e859af532bbcf11275"
+  }
+}

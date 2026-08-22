@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-fe965730-47c",
+  "experimentIdentityHash": "821e1057f2ae88a0cb3c34ca0a13ce4973755561fc7b22874d14522697773a77",
+  "repository": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/dv0/cli-command-core",
+  "repositoryHead": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "repositoryFingerprint": "5df17dbbcf05b4addda0718c879acdc8067f5500e211103ae5c360944b64e2b9",
+  "taskFile": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/dv0/tasks/cli-command-core.json",
+  "taskSetHash": "bd9bff660920e93f35c72ff0de49501d2534b0d5d3e714f2cdc8c3080d18c64b",
+  "workerCounts": [
+    1
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.21",
+    "model": "opencode/hy3-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "benchmark": {
+    "suiteIds": [
+      "rapture-delegation-v0"
+    ],
+    "suiteVersions": [
+      "0.1.0"
+    ],
+    "repositoryIds": [
+      "cli-command-core"
+    ],
+    "taskClasses": [
+      "bug_fix",
+      "config_change",
+      "refactor",
+      "small_feature",
+      "test_repair"
+    ]
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "repetition-major",
+  "budget": {},
+  "seed": 20260823,
+  "startedAt": "2026-08-22T13:15:35.868Z",
+  "pricing": null,
+  "reproduction": "rapture run --repo /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/dv0/cli-command-core --tasks /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/dv0/tasks/cli-command-core.json --workers 1 --repetitions 3 --seed 20260823 --agent opencode --agent-model opencode/hy3-free --output /Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core"
+}

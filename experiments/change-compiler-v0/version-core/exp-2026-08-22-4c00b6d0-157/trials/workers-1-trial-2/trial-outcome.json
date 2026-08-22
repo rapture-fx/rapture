@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-2",
+  "status": "completed",
+  "startedAt": "2026-08-22T14:58:03.171Z",
+  "finishedAt": "2026-08-22T15:09:01.831Z",
+  "durationMs": 658559,
+  "taskOrder": [
+    "version-diff-release-type__baseline",
+    "version-diff-release-type__contract",
+    "version-lru-cache-eviction__contract",
+    "version-coerce-options__baseline",
+    "version-coerce-options__contract",
+    "version-lru-cache-eviction__baseline"
+  ],
+  "trialSeed": 3744084150
+}

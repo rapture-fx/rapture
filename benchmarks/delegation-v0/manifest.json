@@ -1,0 +1,758 @@
+{
+  "id": "rapture-delegation-v0",
+  "version": "0.1.0",
+  "description": "Three upstream-derived, identity-reduced Node.js repositories with a fully crossed corpus of five engineering task classes each, for testing whether task structure explains variation in independently verified autonomous-agent outcomes.",
+  "repositories": [
+    {
+      "id": "version-core",
+      "source": {
+        "type": "upstream_derived",
+        "upstreamUrl": "https://github.com/npm/node-semver",
+        "upstreamRevision": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+        "upstreamRef": "v7.8.5",
+        "acquiredAt": "2026-08-22T00:00:00Z",
+        "snapshot": "minimized_derived_snapshot",
+        "upstreamSourceSha256": "88cecf345941d88038900aa7b43a40700ec8603778a418b9b7dab42775644ce7",
+        "provenancePath": "provenance.json",
+        "fixturePath": "fixtures/version-core"
+      },
+      "license": {
+        "spdx": "ISC",
+        "path": "LICENSE"
+      },
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "945053bb6456c3f86f79d474140fbf6827bbbc273de5306db6615c1e3ebd8dc7",
+        "commitTimestamp": "2026-08-22T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        [
+          "node",
+          "--check",
+          "index.js"
+        ],
+        [
+          "node",
+          "-e",
+          "require('./index.js')"
+        ]
+      ],
+      "size": {
+        "fileCount": 52,
+        "checkoutBytes": 68951
+      }
+    },
+    {
+      "id": "glob-matcher-core",
+      "source": {
+        "type": "upstream_derived",
+        "upstreamUrl": "https://github.com/micromatch/picomatch",
+        "upstreamRevision": "4f41a8edade7a5ab19832f7b40ecce46b288767f",
+        "upstreamRef": "4.0.5",
+        "acquiredAt": "2026-08-22T00:00:00Z",
+        "snapshot": "minimized_derived_snapshot",
+        "upstreamSourceSha256": "8640e47c23f718c4a176ec82477eb160b86b5e14081d8770a1adecd1cc2c9de5",
+        "provenancePath": "provenance.json",
+        "fixturePath": "fixtures/glob-matcher-core"
+      },
+      "license": {
+        "spdx": "MIT",
+        "path": "LICENSE"
+      },
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "c46589a1cd641b3e6968c9a5a6ff07d7fde6d465450784d2ac87f7545bda9236",
+        "commitTimestamp": "2026-08-22T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        [
+          "node",
+          "--check",
+          "index.js"
+        ],
+        [
+          "node",
+          "-e",
+          "require('./index.js')"
+        ]
+      ],
+      "size": {
+        "fileCount": 9,
+        "checkoutBytes": 64343
+      }
+    },
+    {
+      "id": "cli-command-core",
+      "source": {
+        "type": "upstream_derived",
+        "upstreamUrl": "https://github.com/tj/commander.js",
+        "upstreamRevision": "ba6d13ddb4243e5913367734f8c159089ffe7834",
+        "upstreamRef": "v15.0.0",
+        "acquiredAt": "2026-08-22T00:00:00Z",
+        "snapshot": "minimized_derived_snapshot",
+        "upstreamSourceSha256": "00f9d14b482496aa4f3208e3dd626466c1bdc933a3d3d7701153e80582abb055",
+        "provenancePath": "provenance.json",
+        "fixturePath": "fixtures/cli-command-core"
+      },
+      "license": {
+        "spdx": "MIT",
+        "path": "LICENSE"
+      },
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "materialization": {
+        "type": "deterministic_git_fixture",
+        "fixtureSha256": "644ccc8f4b207ea6300416eb90ad1552256f00abdc8f74c21f597c015363f218",
+        "commitTimestamp": "2026-08-22T00:00:00Z"
+      },
+      "installCommand": [],
+      "baselineChecks": [
+        [
+          "node",
+          "--check",
+          "index.js"
+        ],
+        [
+          "node",
+          "--input-type=module",
+          "-e",
+          "await import('./index.js')"
+        ]
+      ],
+      "size": {
+        "fileCount": 10,
+        "checkoutBytes": 127680
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "version-diff-release-type",
+      "repositoryId": "version-core",
+      "class": "bug_fix",
+      "title": "Restore prerelease-aware release-type diffing",
+      "prompt": "`diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.",
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "editableScope": [
+        "functions/diff.js"
+      ],
+      "validator": {
+        "path": "validators/version-diff.mjs",
+        "sha256": "815951f395a82a2b9802dd523941851885567003d74e365b42696955e77d87cb",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/version-diff.json",
+        "sha256": "32ce7d7439bc1624a14676742a41ca13aa375bf9a84baf59a627a63a3e511cf3"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Release-type classification across prerelease boundaries is real upstream logic that requires reasoning about two comparison helpers rather than editing one expression.",
+        "expectedAreas": [
+          "functions/diff.js"
+        ],
+        "validatorEstablishes": "A 22-pair release-type table asserted in both argument orders, plus TypeError on invalid input.",
+        "limitations": "Does not cover loose parsing or the includePrerelease option.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "version-coerce-options",
+      "repositoryId": "version-core",
+      "class": "small_feature",
+      "title": "Add rtl and includePrerelease coercion options",
+      "prompt": "`coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.",
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "editableScope": [
+        "functions/coerce.js"
+      ],
+      "validator": {
+        "path": "validators/version-coerce.mjs",
+        "sha256": "3451cbe4de1d7a5a00bef62fdb3686f1c9cd5a49fcd9fff87108b21b7dfd14c8",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/version-coerce.json",
+        "sha256": "f00cd03e695f23a1998a18a9a028732f31bf94227beae232b4add0d875b567e3"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "unit_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Adding documented option handling to an existing public function is ordinary library feature work, and the right-to-left variant cannot be written without reading the shared regular-expression table in another file.",
+        "expectedAreas": [
+          "functions/coerce.js"
+        ],
+        "validatorEstablishes": "Preserved no-option coercion, right-to-left coercion, prerelease and build capture, both options combined, and call-to-call stability.",
+        "limitations": "Does not cover the loose option or coercion of ranges.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "version-lru-cache-eviction",
+      "repositoryId": "version-core",
+      "class": "refactor",
+      "title": "Make the internal parse cache a bounded LRU",
+      "prompt": "`internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.",
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "editableScope": [
+        "internal/lrucache.js"
+      ],
+      "validator": {
+        "path": "validators/version-lru-cache.mjs",
+        "sha256": "0ab6da0ae4b2918a8e5a3e3816685067aa6953e7203b43a0a18223c85ab6f3cd",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/version-lru-cache.json",
+        "sha256": "a165ab1755c01aea328d7a8cd2717e0f3134caf539df74420aa485f9e9c5f542"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Replacing a degenerate data structure with a correct one while holding an existing interface fixed is a common maintenance refactor.",
+        "expectedAreas": [
+          "internal/lrucache.js"
+        ],
+        "validatorEstablishes": "Interface preservation, eviction at capacity, recency promotion on read, a hard retention bound under 3x churn, and unchanged answers across 1500 distinct ranges.",
+        "limitations": "Does not assert re-setting an existing key, where upstream behaviour is idiosyncratic.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "version-range-test-repair",
+      "repositoryId": "version-core",
+      "class": "test_repair",
+      "title": "Repair the stale range test suite",
+      "prompt": "`test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.",
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "editableScope": [
+        "test/range.test.js"
+      ],
+      "validator": {
+        "path": "validators/version-range-tests.mjs",
+        "sha256": "8ce3e590c59743b9a57a1c8042d7c50c022368061a0009e5017914927719405e",
+        "timeoutMs": 180000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/version-range-tests.json",
+        "sha256": "55f731b657598d4a3f142f8fdf55e1ff2d5b489ab33435855a8d9c7be4f4435b"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "integration_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "moderate",
+        "verificationCostClass": "expensive",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Repairing a stale suite without letting it rot into a suite that asserts nothing is routine maintenance, and it is only decidable with an external check.",
+        "expectedAreas": [
+          "test/range.test.js"
+        ],
+        "validatorEstablishes": "The suite passes against the unmodified library and still fails against four appended behavioural mutants, so assertions cannot be deleted or trivialised.",
+        "limitations": "Mutation coverage is limited to four Range mutants and does not measure line coverage.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "version-subpath-exports",
+      "repositoryId": "version-core",
+      "class": "config_change",
+      "title": "Publish documented subpaths and keep internals private",
+      "prompt": "This package has no `exports` map, so every internal file is reachable by consumers and nothing\nis a declared entry point. Add packaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/classes/<name>`, `<pkg>/functions/<name>` and `<pkg>/ranges/<name>` resolve to the\n  matching `.js` file in that directory (for example `<pkg>/functions/parse`);\n- `<pkg>/package.json` remains resolvable;\n- everything under `internal/` is NOT reachable from outside the package;\n- deep paths that name a file directly, such as `<pkg>/index.js`, are NOT reachable;\n- a `files` array is declared that includes `classes/`, `functions/`, `internal/`, `ranges/` and\n  `index.js`.\n\nDo not change the package name, license or main field, and do not add a `type` field.",
+      "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+      "editableScope": [
+        "package.json"
+      ],
+      "validator": {
+        "path": "validators/version-exports.mjs",
+        "sha256": "9ff9ef55cc4c9c8ef9c71ed0c958a40892c2661925ef692167dbd2eba41c2d7c",
+        "timeoutMs": 120000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/version-exports.json",
+        "sha256": "3b3255a7f0669d7eec97d0c504926b629b23dbf4cd4643ef68ad9ab3a488e31a"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "static_analysis",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "moderate",
+        "reversibility": "reversible_with_review"
+      },
+      "metadata": {
+        "representativeReason": "Declaring public entry points while hiding internals is routine packaging work whose failure mode -- accidentally publishing internals -- is invisible without resolving the package for real.",
+        "expectedAreas": [
+          "package.json"
+        ],
+        "validatorEstablishes": "The candidate is staged under node_modules and Node's own resolver decides which subpaths load, so a plausible-looking but non-working exports block is rejected.",
+        "limitations": "Does not cover conditional exports, types entries, or dual CJS/ESM packaging.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "glob-scan-negation",
+      "repositoryId": "glob-matcher-core",
+      "class": "bug_fix",
+      "title": "Stop treating a negated extglob as a negated pattern",
+      "prompt": "`scan(pattern)` splits a glob into a static base and a glob remainder, and reports flags\ndescribing what it found. It currently mis-scans negated extglobs.\n\nA leading `!` negates a pattern, so `scan('!a/b/*.js')` reports prefix '!', start 1, base 'a/b',\nglob '*.js' and negated true. But `!(` opens a *negated extglob*, which is part of the pattern\nand must not be consumed as a negation prefix: `scan('!(a|b)')` must report prefix '', start 0,\nbase '', glob '!(a|b)', isExtglob true, negatedExtglob true and negated false. Today it reports\nthe extglob as a negation instead.\n\nFix `lib/scan.js` so both forms are classified correctly, without disturbing the base/glob split\nfor ordinary patterns, `./` prefixes, braces, brackets, globstars or escaped `!` characters. The\n`nonegate` option must still suppress negation while leaving extglob detection intact.",
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "editableScope": [
+        "lib/scan.js"
+      ],
+      "validator": {
+        "path": "validators/glob-scan.mjs",
+        "sha256": "736b74a282a3e3c7b6d827b53ef99a1e1dccbec313566cbb69172a85d4e6a98b",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/glob-scan.json",
+        "sha256": "4c3dba2e36dbc24a06759ba3586d6a123c9d0b46b374152a200b7c843ec025c8"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "A precedence bug between two lexer branches is a realistic parser defect that cannot be fixed without understanding the order in which the scanner consumes characters.",
+        "expectedAreas": [
+          "lib/scan.js"
+        ],
+        "validatorEstablishes": "Every field of the scan result across 18 patterns covering negation, negated extglobs, other extglobs, globstars, braces, brackets, prefixes and escapes.",
+        "limitations": "Does not cover windows path scanning or the tokens/parts scan options.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "glob-ignore-callbacks",
+      "repositoryId": "glob-matcher-core",
+      "class": "small_feature",
+      "title": "Add ignore patterns and match lifecycle callbacks",
+      "prompt": "The matcher returned by the main export supports neither ignore patterns nor lifecycle\ncallbacks. Add them in `lib/glob-match.js`:\n- `{ ignore }` takes a glob or array of globs; an input that matches the pattern but also matches\n  an ignore pattern must not match;\n- `{ onResult }` is called once with a result object for every input, whatever the outcome;\n- `{ onMatch }` is called only for inputs that end up matching;\n- `{ onIgnore }` is called only for inputs excluded by an ignore pattern;\n- the result object carries at least glob, regex, input, output and isMatch, with isMatch\n  reflecting the final decision;\n- an input that never matched the pattern is reported as a non-match, never as ignored;\n- the ignore pattern is evaluated without inheriting the caller's own callbacks.\n\nExisting matching behaviour, including array patterns and the returnObject form, must not change.",
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "editableScope": [
+        "lib/glob-match.js"
+      ],
+      "validator": {
+        "path": "validators/glob-ignore.mjs",
+        "sha256": "2ab1a5285132104c093fa6e8acd16c3c1bbc2a9420b0b979afb1de83059f4acd",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/glob-ignore.json",
+        "sha256": "5175b3bc546fe64b3895816debf824a9649f99bc7964c31b5a6b0eaf55bd7938"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "unit_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Adding option-driven behaviour to a closure that already exists is common library feature work, and the ordering between match, ignore and callback is easy to get subtly wrong.",
+        "expectedAreas": [
+          "lib/glob-match.js"
+        ],
+        "validatorEstablishes": "Ignore semantics for single and array patterns, exact callback firing order and membership, result-object shape, and that ignore evaluation does not re-enter the caller's callbacks.",
+        "limitations": "Does not cover the format option or ignore interaction with windows paths.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "glob-utils-helpers",
+      "repositoryId": "glob-matcher-core",
+      "class": "refactor",
+      "title": "Restore the path helper contract",
+      "prompt": "The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.",
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "editableScope": [
+        "lib/utils.js"
+      ],
+      "validator": {
+        "path": "validators/glob-utils.mjs",
+        "sha256": "25e7ec67f2e6b54f8dc442872272ff6e93768e9e4e26c7515e4412f9757ff989",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/glob-utils.json",
+        "sha256": "844eaee6e6c598986e3b10411a4e1e8424b1b64df60e73df34bfc02560b632c6"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Restoring a set of related helpers behind an unchanged interface, where several behaviours are wrong together, is a wholesale implementation replacement rather than a localized fix.",
+        "expectedAreas": [
+          "lib/utils.js"
+        ],
+        "validatorEstablishes": "Separator and trailing-separator handling, already-escaped skipping, prefix recording including the optional state argument, preservation of the untouched helpers, and unchanged public matching.",
+        "limitations": "Does not cover the windows auto-detection path, which depends on the host platform.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "glob-match-test-repair",
+      "repositoryId": "glob-matcher-core",
+      "class": "test_repair",
+      "title": "Repair the stale matcher test suite",
+      "prompt": "`test/match.test.js` is a node:test suite covering glob matching. It was written against older\nexpectations and now fails: run `node --test test/match.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, paths that do match a\npattern, paths that do not, globstars, extglobs and negated extglobs, leading-bang negation,\nbraces and bracket ranges, basename matching, and how `scan` splits a pattern into base and glob.\n\nOnly `test/match.test.js` may be changed. The library itself is correct.",
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "editableScope": [
+        "test/match.test.js"
+      ],
+      "validator": {
+        "path": "validators/glob-match-tests.mjs",
+        "sha256": "1704353c2ac7a8b27ff07d853e5eda1d46636375da5ce68fd92a868a502281f2",
+        "timeoutMs": 180000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/glob-match-tests.json",
+        "sha256": "94e69cf56bd3bb131239a07e015f0e578afe054e4e1cc469432f9a8e17874efa"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "integration_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "moderate",
+        "verificationCostClass": "expensive",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Repairing a stale suite without letting it rot into a suite that asserts nothing is routine maintenance, and it is only decidable with an external check.",
+        "expectedAreas": [
+          "test/match.test.js"
+        ],
+        "validatorEstablishes": "The suite passes against the unmodified library and still fails against four appended behavioural mutants covering matching, scanning and basename matching.",
+        "limitations": "Mutation coverage is limited to four mutants and does not measure line coverage.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "glob-subpath-exports",
+      "repositoryId": "glob-matcher-core",
+      "class": "config_change",
+      "title": "Publish named entry points and keep lib private",
+      "prompt": "This package has no `exports` map, so every file under `lib/` is reachable by consumers. Add\npackaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/scan` resolves to `./lib/scan.js`;\n- `<pkg>/utils` resolves to `./lib/utils.js`;\n- `<pkg>/package.json` remains resolvable;\n- no path under `lib/` is reachable directly, and neither is `<pkg>/index.js`;\n- a `files` array is declared that includes `index.js` and `lib/`.\n\nDo not change the package name, license or main field, and do not add a `type` field.",
+      "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+      "editableScope": [
+        "package.json"
+      ],
+      "validator": {
+        "path": "validators/glob-exports.mjs",
+        "sha256": "ef25dc014cfdd90a384f3ed836c1c0ec112e2ced8d1045fbfcf83ea9c0f478e5",
+        "timeoutMs": 120000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/glob-exports.json",
+        "sha256": "8a3f806732f0924af638aa3bb76f7ee715d20b2d41a08f294104810947fac2d5"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "static_analysis",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "moderate",
+        "reversibility": "reversible_with_review"
+      },
+      "metadata": {
+        "representativeReason": "Exposing a small set of named subpaths while hiding the implementation directory is routine packaging work with an invisible failure mode.",
+        "expectedAreas": [
+          "package.json"
+        ],
+        "validatorEstablishes": "The candidate is staged under node_modules and Node's own resolver decides which subpaths load.",
+        "limitations": "Does not cover conditional exports or dual CJS/ESM packaging.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "cli-negated-option-name",
+      "repositoryId": "cli-command-core",
+      "class": "bug_fix",
+      "title": "Store negated options under their positive name",
+      "prompt": "A `--no-x` flag is a negated option: it turns off `x`, so its parsed value must be stored under\nthe positive attribute name. Today `--no-color` is stored as `noColor` instead of `color`.\n\nFix `lib/option.js` so that a negated option's attribute name drops the `no-` prefix before\ncamelcasing, so `--no-color` becomes `color` and `--no-check-updates` becomes `checkUpdates`,\nwhile positive options are unaffected and a long flag that merely begins with the letters 'no'\n-- such as `--nozzle` -- is not treated as negated.\n\nParsing must then behave correctly: with only `--no-color` declared, the default is\n`{ color: true }` and passing the flag yields `{ color: false }`; when `--color` and `--no-color`\nare both declared they share the single `color` attribute and neither implies a default.",
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "editableScope": [
+        "lib/option.js"
+      ],
+      "validator": {
+        "path": "validators/cli-negated-option.mjs",
+        "sha256": "076fb0fa9bf5828ace614c823e526ff1b234ac8a9a0a45a5ebe4836f2098e98e",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/cli-negated-option.json",
+        "sha256": "359a4315b0bddad8b9c4098641ae9bdf0a6a719dea2744f823320a0778eda36b"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Attribute naming for negated flags is real option-parser logic whose failure silently produces the wrong key in parsed output.",
+        "expectedAreas": [
+          "lib/option.js"
+        ],
+        "validatorEstablishes": "Attribute naming for negated, positive and lookalike flags, plus end-to-end parsing for a lone negated flag and a positive/negative pair.",
+        "limitations": "Does not cover environment-variable or implied-option interactions.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "cli-suggest-similar",
+      "repositoryId": "cli-command-core",
+      "class": "small_feature",
+      "title": "Suggest close matches for unknown commands and flags",
+      "prompt": "`suggestSimilar(word, candidates)` currently only recognises an exact match, so a mistyped\ncommand or flag produces no 'did you mean' hint. Implement real similarity matching in\n`lib/suggestSimilar.js`.\n\nRequirements:\n- compare `word` against `candidates` using an edit distance that also counts a transposition of\n  two adjacent characters as a single edit;\n- only consider candidates within 3 edits, and reject any whose similarity, measured as\n  (length - distance) / length against the longer of the two strings, is not greater than 0.4;\n- candidates of one character or shorter are never suggested;\n- keep only the closest candidates: a strictly better distance discards previous matches, an\n  equal distance joins them;\n- de-duplicate candidates, and sort the surviving suggestions with localeCompare;\n- when `word` starts with '--', compare without the leading dashes but restore them in the output;\n- return '' when nothing qualifies, '\\n(Did you mean X?)' for one match, and\n  '\\n(Did you mean one of A, B?)' for several;\n- return '' when candidates is empty, null or undefined.",
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "editableScope": [
+        "lib/suggestSimilar.js"
+      ],
+      "validator": {
+        "path": "validators/cli-suggest-similar.mjs",
+        "sha256": "3ca57e7353d8c0d112771d2b5585c7536472a6408d0f6c024a624f9bf741485c",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/cli-suggest-similar.json",
+        "sha256": "ef7be0a93e5c8911484c1c91c155d181e5453af9a1bc553363c72251b4d65eb5"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "unit_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "moderate",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Implementing a scored suggestion helper from a written specification is self-contained feature work with many boundary conditions.",
+        "expectedAreas": [
+          "lib/suggestSimilar.js"
+        ],
+        "validatorEstablishes": "Exact output strings across no-match, single-match, tie, duplicate, long-flag and closer-match cases, plus the unknown-command path that consumes it.",
+        "limitations": "Pins one similarity policy; other reasonable scoring schemes would be rejected. The prompt states the thresholds but not the algorithm, so the implementation choice is open.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "cli-argument-contract",
+      "repositoryId": "cli-command-core",
+      "class": "refactor",
+      "title": "Restore the Argument class contract",
+      "prompt": "The `Argument` class in `lib/argument.js` has been reduced to a stub: it no longer interprets its\nname syntax, its setters are not chainable, and choices are neither validated nor collected.\nReimplement it, keeping every current export and method name:\n- `<name>` is a required argument, `[name]` is optional, a bare name is required, and a trailing\n  `...` inside the brackets makes it variadic; `name()` returns the bare name without any of that\n  punctuation;\n- `default()`, `argParser()`, `choices()`, `argRequired()` and `argOptional()` all return the\n  argument so they can be chained;\n- `choices(values)` copies the caller's array, and installs parsing that raises\n  `InvalidArgumentError` with the message `Allowed choices are a, b.` for a value outside the\n  list, and that accumulates values when the argument is variadic;\n- `_collectValue(value, previous)` starts a new array when there is nothing to extend and appends\n  otherwise;\n- `humanReadableArgName` renders the argument back to `<name>`, `[name]`, `<name...>` or\n  `[name...]`.\n\nA command declaring `<first>` and `[rest...]` must pass the first value and an array of the rest\nto its action handler.",
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "editableScope": [
+        "lib/argument.js"
+      ],
+      "validator": {
+        "path": "validators/cli-argument.mjs",
+        "sha256": "c61526ecdca4a38e4a8bf06e03c9603f8c138dbb71d5ffef1304a7c631b3dd67",
+        "timeoutMs": 60000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/cli-argument.json",
+        "sha256": "5143073a747aaff52e3c1e9df336a47804466fe21ecd4fa5843770817d36a31c"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "behavioral_contract",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "cheap",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Rebuilding a small class whose whole contract is degenerate, behind an interface other modules already depend on, is a wholesale implementation replacement.",
+        "expectedAreas": [
+          "lib/argument.js"
+        ],
+        "validatorEstablishes": "Name-syntax parsing, chainability of every setter, choice validation and array copying, variadic collection, help rendering, and end-to-end argument dispatch through a command.",
+        "limitations": "Does not cover default-value descriptions in rendered help output.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "cli-option-test-repair",
+      "repositoryId": "cli-command-core",
+      "class": "test_repair",
+      "title": "Repair the stale option test suite",
+      "prompt": "`test/option.test.js` is a node:test suite covering option parsing. It was written against older\nexpectations and now fails: run `node --test test/option.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, boolean options,\noptions carrying a value, default values, how a long flag becomes a camelcased attribute name,\nwhether an option is boolean, which flags an option recognises, how flags split into short and\nlong forms, and value choices.\n\nOnly `test/option.test.js` may be changed. Do not change the library to make a test pass.",
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "editableScope": [
+        "test/option.test.js"
+      ],
+      "validator": {
+        "path": "validators/cli-option-tests.mjs",
+        "sha256": "917317511298f3490b2c79adf9517c8527ab28985349b6ddae4276a1b9c6b6d0",
+        "timeoutMs": 180000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/cli-option-tests.json",
+        "sha256": "2234a1c4dc80eacbec641d3f0bce6fc7c65a7bddd4425032782ae0f2efeef6bd"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "integration_test",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "moderate",
+        "verificationCostClass": "expensive",
+        "reversibility": "fully_reversible"
+      },
+      "metadata": {
+        "representativeReason": "Repairing a stale suite without letting it rot into a suite that asserts nothing is routine maintenance, and it is only decidable with an external check.",
+        "expectedAreas": [
+          "test/option.test.js"
+        ],
+        "validatorEstablishes": "The suite passes against the unmodified library and still fails against four appended Option mutants covering flag recognition, attribute naming and option kind.",
+        "limitations": "Mutation coverage is limited to four Option mutants. The suite deliberately avoids areas covered by other tasks in this repository.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    },
+    {
+      "id": "cli-subpath-exports",
+      "repositoryId": "cli-command-core",
+      "class": "config_change",
+      "title": "Declare the package entry point and keep lib private",
+      "prompt": "This package has no `exports` map, so every file under `lib/` is reachable by consumers. Add\npackaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/package.json` remains resolvable;\n- no path under `lib/` is reachable directly, and neither is `<pkg>/index.js`;\n- a `files` array is declared that includes `index.js` and `lib/`.\n\nThis is an ES module package. Do not change the package name, license, type or main field.",
+      "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+      "editableScope": [
+        "package.json"
+      ],
+      "validator": {
+        "path": "validators/cli-exports.mjs",
+        "sha256": "a1eb3b97d413727a12b74f4a52f3e6b6e674e68722de2da3318684ad608e2dd2",
+        "timeoutMs": 120000
+      },
+      "timeoutHintSeconds": 900,
+      "knownGoodPatch": {
+        "path": "known-good/cli-exports.json",
+        "sha256": "8be38b5f378e8a3b4119e741a1d929eece40eed8f7a78679453d87b64764b10a"
+      },
+      "delegationFeatures": {
+        "acceptanceCriteriaType": "static_analysis",
+        "editableFileCount": 1,
+        "expectedChangeBreadth": "single_file",
+        "specificationClarity": "explicit",
+        "verificationCostClass": "moderate",
+        "reversibility": "reversible_with_review"
+      },
+      "metadata": {
+        "representativeReason": "Declaring a single public entry point while hiding the implementation directory is routine packaging work with an invisible failure mode.",
+        "expectedAreas": [
+          "package.json"
+        ],
+        "validatorEstablishes": "The candidate is staged under node_modules and Node's own resolver decides which subpaths load, including that JSON stays reachable in an ES module package.",
+        "limitations": "Does not cover conditional exports, types entries, or dual CJS/ESM packaging.",
+        "baselineValidatorRuntimeMs": 0,
+        "cachePolicy": "disabled"
+      }
+    }
+  ],
+  "integrity": {
+    "algorithm": "sha256",
+    "protectedAssets": {
+      "known-good/cli-argument.json": "5143073a747aaff52e3c1e9df336a47804466fe21ecd4fa5843770817d36a31c",
+      "known-good/cli-exports.json": "8be38b5f378e8a3b4119e741a1d929eece40eed8f7a78679453d87b64764b10a",
+      "known-good/cli-negated-option.json": "359a4315b0bddad8b9c4098641ae9bdf0a6a719dea2744f823320a0778eda36b",
+      "known-good/cli-option-tests.json": "2234a1c4dc80eacbec641d3f0bce6fc7c65a7bddd4425032782ae0f2efeef6bd",
+      "known-good/cli-suggest-similar.json": "ef7be0a93e5c8911484c1c91c155d181e5453af9a1bc553363c72251b4d65eb5",
+      "known-good/glob-exports.json": "8a3f806732f0924af638aa3bb76f7ee715d20b2d41a08f294104810947fac2d5",
+      "known-good/glob-ignore.json": "5175b3bc546fe64b3895816debf824a9649f99bc7964c31b5a6b0eaf55bd7938",
+      "known-good/glob-match-tests.json": "94e69cf56bd3bb131239a07e015f0e578afe054e4e1cc469432f9a8e17874efa",
+      "known-good/glob-scan.json": "4c3dba2e36dbc24a06759ba3586d6a123c9d0b46b374152a200b7c843ec025c8",
+      "known-good/glob-utils.json": "844eaee6e6c598986e3b10411a4e1e8424b1b64df60e73df34bfc02560b632c6",
+      "known-good/version-coerce.json": "f00cd03e695f23a1998a18a9a028732f31bf94227beae232b4add0d875b567e3",
+      "known-good/version-diff.json": "32ce7d7439bc1624a14676742a41ca13aa375bf9a84baf59a627a63a3e511cf3",
+      "known-good/version-exports.json": "3b3255a7f0669d7eec97d0c504926b629b23dbf4cd4643ef68ad9ab3a488e31a",
+      "known-good/version-lru-cache.json": "a165ab1755c01aea328d7a8cd2717e0f3134caf539df74420aa485f9e9c5f542",
+      "known-good/version-range-tests.json": "55f731b657598d4a3f142f8fdf55e1ff2d5b489ab33435855a8d9c7be4f4435b",
+      "provenance.json": "4a0f46074015f47add0666493d973dd70d12ea08d042a70bb363fcdb790a9bd3",
+      "validators/cli-argument.mjs": "c61526ecdca4a38e4a8bf06e03c9603f8c138dbb71d5ffef1304a7c631b3dd67",
+      "validators/cli-exports.mjs": "a1eb3b97d413727a12b74f4a52f3e6b6e674e68722de2da3318684ad608e2dd2",
+      "validators/cli-negated-option.mjs": "076fb0fa9bf5828ace614c823e526ff1b234ac8a9a0a45a5ebe4836f2098e98e",
+      "validators/cli-option-tests.mjs": "917317511298f3490b2c79adf9517c8527ab28985349b6ddae4276a1b9c6b6d0",
+      "validators/cli-suggest-similar.mjs": "3ca57e7353d8c0d112771d2b5585c7536472a6408d0f6c024a624f9bf741485c",
+      "validators/exports-check.mjs": "525b8cf7b3cc5524e194653363cdecd566bfdbd291968bf1b1ade13086a0ff7a",
+      "validators/glob-exports.mjs": "ef25dc014cfdd90a384f3ed836c1c0ec112e2ced8d1045fbfcf83ea9c0f478e5",
+      "validators/glob-ignore.mjs": "2ab1a5285132104c093fa6e8acd16c3c1bbc2a9420b0b979afb1de83059f4acd",
+      "validators/glob-match-tests.mjs": "1704353c2ac7a8b27ff07d853e5eda1d46636375da5ce68fd92a868a502281f2",
+      "validators/glob-scan.mjs": "736b74a282a3e3c7b6d827b53ef99a1e1dccbec313566cbb69172a85d4e6a98b",
+      "validators/glob-utils.mjs": "25e7ec67f2e6b54f8dc442872272ff6e93768e9e4e26c7515e4412f9757ff989",
+      "validators/lib.mjs": "838c778babf8f62053ef9b8f2a05de176d97d3856bb1ca554666e7b3055b3439",
+      "validators/mutation-suite.mjs": "40dcca6b08e756a1460083538766be842954ff5eaf5d9ee6798959f736e90352",
+      "validators/version-coerce.mjs": "3451cbe4de1d7a5a00bef62fdb3686f1c9cd5a49fcd9fff87108b21b7dfd14c8",
+      "validators/version-diff.mjs": "815951f395a82a2b9802dd523941851885567003d74e365b42696955e77d87cb",
+      "validators/version-exports.mjs": "9ff9ef55cc4c9c8ef9c71ed0c958a40892c2661925ef692167dbd2eba41c2d7c",
+      "validators/version-lru-cache.mjs": "0ab6da0ae4b2918a8e5a3e3816685067aa6953e7203b43a0a18223c85ab6f3cd",
+      "validators/version-range-tests.mjs": "8ce3e590c59743b9a57a1c8042d7c50c022368061a0009e5017914927719405e"
+    },
+    "suiteSha256": "4ed10042f9daa33634f2ed930adf5b7715377f7a33fffd889555b891b2bf01e2"
+  }
+}

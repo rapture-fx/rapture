@@ -1,0 +1,173 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "version-coerce-options",
+    "intent": "`coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.",
+    "repositoryCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "functions/coerce.js",
+        "symbols": [
+          "coerce"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "functions/coerce.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "classes/semver.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "functions/parse.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "internal/re.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "internal/constants.js",
+        "depth": 2,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "internal/debug.js",
+        "depth": 2,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "internal/identifiers.js",
+        "depth": 2,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "internal/parse-options.js",
+        "depth": 2,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "test/range.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 4,
+        "2": 5
+      }
+    },
+    "fanOut": {
+      "functions/coerce.js": 1
+    },
+    "testSurfaces": {
+      "files": [
+        "test/range.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "functions/coerce.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "functions/coerce.js"
+    ],
+    "protectedPaths": [
+      "classes/semver.js",
+      "functions/parse.js",
+      "index.js",
+      "internal/constants.js",
+      "internal/debug.js",
+      "internal/identifiers.js",
+      "internal/parse-options.js",
+      "internal/re.js",
+      "test/range.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "functions/coerce.js is imported by 1 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 1 importer(s)"
+      },
+      {
+        "statement": "functions/coerce.js exports coerce; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "test/range.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "functions/coerce.js": "cf458974fd80f4a7c539577c85a013276740c8b16c7782b72162152d8b7f3a8d",
+      "classes/semver.js": "813b2c185512d30c9b931c2fed8140889d9d7490ceeeedc370da30337dc8ca57",
+      "functions/parse.js": "29a69e15b6d02fe381d573f861881a89590e9d0f0f0ca740c5f85eaf0234c4ad",
+      "index.js": "4b3e57d3d40e29e0706002eba113d09f35aea593578376bbeec83b777b9912ab",
+      "internal/re.js": "5833262888e2b5d843a69193f83c05e374818dbe55379b497819b5bf58e48cd8",
+      "internal/constants.js": "38a112baf27ceca0260082ff26ac2fd7a9861cab1af12dd65e720277f68e6ce9",
+      "internal/debug.js": "8a9f420572260f3cf944463b5090d62a60f0730589dc23a7ec4ca25e2ee41bb3",
+      "internal/identifiers.js": "b4916b09dc7869ae0eb05e71c855c942a3a7365f7e6e89185d59a9e45a2451d7",
+      "internal/parse-options.js": "fdf51d0de8d5442c35a997ef58cd530d239ce206f961d14c5121354451b01d01",
+      "test/range.test.js": "2ee7b4526e28530719965653d3c23e84fa540400a2264a3d3e0ffd19c9e545bd"
+    },
+    "contractSha256": "f2ce63c14bbb50120eb1d7d5e2c0e7618b636b7ab343ddc67ef1f848f2f79c6f"
+  }
+}

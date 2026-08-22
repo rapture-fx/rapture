@@ -1,0 +1,13 @@
+diff --git a/lib/option.js b/lib/option.js
+index 0c037a19ef3abbc47df7b113edd1ccab2d080b7e..63d329361e09f6ae154f12e88c155cca6e5c8cd8 100644
+--- a/lib/option.js
++++ b/lib/option.js
+@@ -202,7 +202,7 @@ export class Option {
+ 
+   name() {
+     if (this.long) {
+-      return this.long.replace(/^--/, '');
++      return this.long.replace(/^--(no-)?/, '');
+     }
+     return this.short.replace(/^-/, '');
+   }

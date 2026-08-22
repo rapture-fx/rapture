@@ -1,0 +1,255 @@
+{
+  "runId": "workers-1-trial-1-cli-argument-contract-baseline-b79447d8",
+  "logicalRunId": "603e17b74b60f2064b4a3aa645e1e782d265c05ddc75b859fbca1e16fa07d343",
+  "attemptId": "workers-1-trial-1-cli-argument-contract-baseline-b79447d8",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-1c96e991-41e",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "cli-argument-contract__baseline",
+  "repositoryId": "cli-command-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "refactor",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 10,
+    "fileReads": 3,
+    "uniqueFilesRead": 3,
+    "searchOperations": 4,
+    "commandsExecuted": 5,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 3,
+    "msToFirstEdit": 22341,
+    "toolBreakdown": {
+      "read": 3,
+      "bash": 5,
+      "write": 1,
+      "grep": 1
+    }
+  },
+  "baseCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "baseTreeHash": "5fa201e53df4a223c5a20b9f6a93299b70f3ba36",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/cli-command-core/exp-2026-08-22-1c96e991-41e/.worktrees/workers-1-trial-1-cli-argument-contract-baseline-b79447d8",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: The `Argument` class in `lib/argument.js` has been reduced to a stub: it no longer interprets its\nname syntax, its setters are not chainable, and choices are neither validated nor collected.\nReimplement it, keeping every current export and method name:\n- `<name>` is a required argument, `[name]` is optional, a bare name is required, and a trailing\n  `...` inside the brackets makes it variadic; `name()` returns the bare name without any of that\n  punctuation;\n- `default()`, `argParser()`, `choices()`, `argRequired()` and `argOptional()` all return the\n  argument so they can be chained;\n- `choices(values)` copies the caller's array, and installs parsing that raises\n  `InvalidArgumentError` with the message `Allowed choices are a, b.` for a value outside the\n  list, and that accumulates values when the argument is variadic;\n- `_collectValue(value, previous)` starts a new array when there is nothing to extend and appends\n  otherwise;\n- `humanReadableArgName` renders the argument back to `<name>`, `[name]`, `<name...>` or\n  `[name...]`.\n\nA command declaring `<first>` and `[rest...]` must pass the first value and an array of the rest\nto its action handler.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T15:55:07.166Z",
+  "finishedAt": "2026-08-22T15:56:26.780Z",
+  "durationMs": 79614,
+  "phaseTimings": {
+    "worktreeSetupMs": 47,
+    "queueWaitMs": 539910.884836,
+    "agentExecutionMs": 79147,
+    "validationMs": 132,
+    "artifactPersistenceMs": 6,
+    "integrationMs": null,
+    "worktreeCleanupMs": 81,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 79614
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "finalTreeHash": "9de28eb347bc2b419855716cab95f5dde4549dd6",
+  "filesChanged": [
+    "lib/argument.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/cli-command-core/exp-2026-08-22-1c96e991-41e/.worktrees/workers-1-trial-1-cli-argument-contract-baseline-b79447d8",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: The `Argument` class in `lib/argument.js` has been reduced to a stub: it no longer interprets its\nname syntax, its setters are not chainable, and choices are neither validated nor collected.\nReimplement it, keeping every current export and method name:\n- `<name>` is a required argument, `[name]` is optional, a bare name is required, and a trailing\n  `...` inside the brackets makes it variadic; `name()` returns the bare name without any of that\n  punctuation;\n- `default()`, `argParser()`, `choices()`, `argRequired()` and `argOptional()` all return the\n  argument so they can be chained;\n- `choices(values)` copies the caller's array, and installs parsing that raises\n  `InvalidArgumentError` with the message `Allowed choices are a, b.` for a value outside the\n  list, and that accumulates values when the argument is variadic;\n- `_collectValue(value, previous)` starts a new array when there is nothing to extend and appends\n  otherwise;\n- `humanReadableArgName` renders the argument back to `<name>`, `[name]`, `<name...>` or\n  `[name...]`.\n\nA command declaring `<first>` and `[rest...]` must pass the first value and an array of the rest\nto its action handler.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-argument.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 28906,
+    "outputTokens": 2045,
+    "cachedInputTokens": 102656,
+    "reasoningTokens": 825,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:55:07.245Z",
+      "processFinishedAt": "2026-08-22T15:56:26.391Z",
+      "firstStructuredEventAt": "2026-08-22T15:55:15.222Z",
+      "firstModelResponseAt": "2026-08-22T15:55:16.719Z",
+      "lastModelResponseAt": "2026-08-22T15:56:25.961Z",
+      "providerWaitMs": 41534,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787414115222,
+        "endMs": 1787414116719
+      },
+      {
+        "startMs": 1787414119283,
+        "endMs": 1787414120628
+      },
+      {
+        "startMs": 1787414123223,
+        "endMs": 1787414124403
+      },
+      {
+        "startMs": 1787414127262,
+        "endMs": 1787414139185
+      },
+      {
+        "startMs": 1787414142122,
+        "endMs": 1787414145344
+      },
+      {
+        "startMs": 1787414148368,
+        "endMs": 1787414149912
+      },
+      {
+        "startMs": 1787414152892,
+        "endMs": 1787414155033
+      },
+      {
+        "startMs": 1787414158109,
+        "endMs": 1787414164111
+      },
+      {
+        "startMs": 1787414167202,
+        "endMs": 1787414169679
+      },
+      {
+        "startMs": 1787414172785,
+        "endMs": 1787414180549
+      },
+      {
+        "startMs": 1787414183522,
+        "endMs": 1787414185961
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 70739,
+      "providerWaitMs": 41534,
+      "interStepGapMs": 29205,
+      "outsideWindowMs": 8408,
+      "providerWaitFraction": 0.5247703640062162,
+      "interStepGapFraction": 0.36899692976360443,
+      "unobservedFraction": 0.10623270623017929
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1407,
+        90,
+        2564,
+        1253,
+        92,
+        2595,
+        1094,
+        86,
+        2859,
+        11710,
+        213,
+        2937,
+        3134,
+        88,
+        3024,
+        1489,
+        55,
+        2980,
+        2033,
+        108,
+        3076,
+        5927,
+        75,
+        3091,
+        2427,
+        50,
+        3106,
+        7709,
+        18,
+        37,
+        2973,
+        2294,
+        145
+      ],
+      "handoffGapsMs": [
+        2564,
+        2595,
+        2859,
+        2937,
+        3024,
+        2980,
+        3076,
+        3091,
+        3106,
+        2973
+      ],
+      "launchToFirstEventMs": 7977
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-argument-contract-baseline-b79447d8/agent.stdout.log",
+    "stdoutSha256": "7240e1b6082449194dd332848b4e1be3f0e740701b89bbf1241fb233a617368d",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-argument-contract-baseline-b79447d8/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-argument-contract-baseline-b79447d8/validation.json",
+    "validationSha256": "d4a3c68ef68036d1406d67c5bb4a159ecb91ba603b6737d74433a3dd63ca49c2",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-argument-contract-baseline-b79447d8/change.patch",
+    "patchSha256": "aaf04de9aa00d2202d8e4b2c27fe07f214e7fade6f02da173ff7c2201afa9b02"
+  }
+}

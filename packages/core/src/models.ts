@@ -1,3 +1,4 @@
+import type { AgentExplorationMetrics } from "./agent-exploration.js";
 export type JsonValue =
   | null
   | boolean
@@ -39,6 +40,22 @@ export interface TaskDefinition {
   readonly dependsOn: readonly string[];
   readonly fake?: FakeAgentConfig;
   readonly benchmark?: BenchmarkTaskProvenance;
+  readonly context?: TaskContextInjection | undefined;
+}
+
+/**
+ * Extra material placed in the agent's worktree before it starts, plus a fixed pointer
+ * appended to the prompt telling it the material exists.
+ *
+ * This is how an experiment varies what an agent knows without varying the engineering
+ * request itself. `ignorePaths` are written to the worktree's git exclude file so injected
+ * material is invisible to change detection and cannot be mistaken for an edit by the
+ * agent, or counted as an editable-scope violation.
+ */
+export interface TaskContextInjection {
+  readonly files: Readonly<Record<string, string>>;
+  readonly ignorePaths: readonly string[];
+  readonly promptSuffix: string;
 }
 
 export interface BenchmarkTaskProvenance {
@@ -52,7 +69,39 @@ export interface BenchmarkTaskProvenance {
     | "refactor"
     | "test_repair"
     | "repository_exploration"
-    | "build_or_typecheck_heavy";
+    | "build_or_typecheck_heavy"
+    | "config_change"
+    | "api_change";
+  readonly delegationFeatures?: DelegationFeatures | undefined;
+}
+
+/**
+ * Structural characteristics of a task, assigned from how the task is constructed and
+ * recorded before any agent runs against it.
+ *
+ * These exist to be tested, not assumed: the open question is whether they explain
+ * variation in independently verified outcomes. They are deliberately derivable from the
+ * task definition alone, so that no label can be adjusted after seeing whether an agent
+ * succeeded.
+ */
+export interface DelegationFeatures {
+  /** What kind of evidence the external validator uses to decide acceptance. */
+  readonly acceptanceCriteriaType:
+    | "unit_test"
+    | "integration_test"
+    | "type_contract"
+    | "static_analysis"
+    | "behavioral_contract";
+  /** Number of files the agent is permitted to edit; must equal the editable scope size. */
+  readonly editableFileCount: number;
+  /** How far the intended change reaches, independent of how many files may be touched. */
+  readonly expectedChangeBreadth: "single_file" | "multi_file_single_module" | "cross_module";
+  /** How completely the prompt determines the required behaviour. */
+  readonly specificationClarity: "explicit" | "moderate" | "underspecified";
+  /** Cost of running the verification, not of doing the work. */
+  readonly verificationCostClass: "cheap" | "moderate" | "expensive";
+  /** Blast radius if a wrong change were accepted. */
+  readonly reversibility: "fully_reversible" | "reversible_with_review" | "high_consequence";
 }
 
 export interface ExperimentBudget {
@@ -126,6 +175,8 @@ export interface EngineeringTaskRun {
   readonly benchmarkSuiteId: string | null;
   readonly benchmarkSuiteVersion: string | null;
   readonly benchmarkTaskClass: BenchmarkTaskProvenance["taskClass"] | null;
+  readonly benchmarkDelegationFeatures: DelegationFeatures | null;
+  readonly agentExploration: AgentExplorationMetrics | null;
   readonly baseCommit: string;
   readonly baseTreeHash: string;
   readonly workerId: string;

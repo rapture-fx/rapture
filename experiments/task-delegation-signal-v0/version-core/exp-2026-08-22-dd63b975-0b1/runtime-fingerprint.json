@@ -1,0 +1,20 @@
+{
+  "agentProvider": "opencode",
+  "agentCliVersion": "1.18.21",
+  "agentModel": "opencode/hy3-free",
+  "agentMode": "build",
+  "structuredOutputFormat": "json",
+  "structuredEventTypesObserved": null,
+  "adapterName": "opencode",
+  "adapterVersion": "1.18.21",
+  "modelProbe": null,
+  "platform": "darwin",
+  "release": "22.6.0",
+  "arch": "x64",
+  "nodeVersion": "v22.14.0",
+  "cpuCount": 4,
+  "totalMemoryBytes": 8589934592,
+  "agentEnvironmentVariableNames": [],
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-22T12:29:21.088Z"
+}

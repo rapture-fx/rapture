@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "package.json": "{\n  \"name\": \"version-core\",\n  \"version\": \"0.0.0\",\n  \"description\": \"Semantic version parsing, comparison and range matching.\",\n  \"main\": \"index.js\",\n  \"license\": \"ISC\",\n  \"engines\": {\n    \"node\": \">=10\"\n  },\n  \"exports\": {\n    \".\": \"./index.js\",\n    \"./classes/*\": \"./classes/*.js\",\n    \"./functions/*\": \"./functions/*.js\",\n    \"./ranges/*\": \"./ranges/*.js\",\n    \"./package.json\": \"./package.json\"\n  },\n  \"files\": [\n    \"classes/\",\n    \"functions/\",\n    \"internal/\",\n    \"ranges/\",\n    \"index.js\",\n    \"range.bnf\"\n  ]\n}\n"
+  }
+}

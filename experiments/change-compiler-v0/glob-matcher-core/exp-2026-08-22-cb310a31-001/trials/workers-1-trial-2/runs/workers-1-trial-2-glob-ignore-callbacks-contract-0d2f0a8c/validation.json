@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/glob-ignore.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T15:32:14.119Z",
+    "finishedAt": "2026-08-22T15:32:14.222Z",
+    "durationMs": 103,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

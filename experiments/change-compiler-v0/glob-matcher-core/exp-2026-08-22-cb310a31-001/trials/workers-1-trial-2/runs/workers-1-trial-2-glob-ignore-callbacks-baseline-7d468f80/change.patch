@@ -1,0 +1,109 @@
+diff --git a/lib/glob-match.js b/lib/glob-match.js
+index 8e92b8c57ed33a32c9241d2e2dfbbc34b65dafef..289bab6bd5276ab5addc0cf4541964478b7e1354 100644
+--- a/lib/glob-match.js
++++ b/lib/glob-match.js
+@@ -6,6 +6,43 @@ const utils = require('./utils');
+ const constants = require('./constants');
+ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+ 
++const withoutExtras = options => {
++  if (!options) return options;
++  const { onResult, onMatch, onIgnore, ignore, ...rest } = options;
++  return rest;
++};
++
++const wrapExtras = (core, globPattern, options, ignoreMatcher, state, returnState, alwaysBoolean) => {
++  const opts = options || {};
++  const matcher = (input, returnObject = false) => {
++    const coreResult = core(input, true);
++    let isMatch = Boolean(coreResult);
++    let isIgnored = false;
++
++    if (isMatch && ignoreMatcher && ignoreMatcher(input)) {
++      isMatch = false;
++      isIgnored = true;
++    }
++
++    const result = coreResult
++      ? { ...coreResult, isMatch, isIgnored }
++      : { glob: globPattern, input, output: input, match: false, isMatch, isIgnored };
++
++    if (opts.onResult) opts.onResult(result);
++    if (isMatch && opts.onMatch) opts.onMatch(result);
++    else if (isIgnored && opts.onIgnore) opts.onIgnore(result);
++
++    if (alwaysBoolean || !returnObject) return isMatch;
++    return result;
++  };
++
++  if (returnState && state) {
++    matcher.state = state;
++  }
++
++  return matcher;
++};
++
+ /**
+  * Creates a matcher function from one or more glob patterns. The
+  * returned function takes a string to match as its first argument,
+@@ -41,15 +78,18 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+ 
+ const globMatch = (glob, options, returnState = false) => {
+   if (Array.isArray(glob)) {
+-    const fns = glob.map(input => globMatch(input, options, returnState));
+-    const arrayMatcher = str => {
++    const fns = glob.map(input => globMatch(input, withoutExtras(options), returnState));
++    const ignoreMatcher = options && options.ignore
++      ? globMatch(options.ignore, withoutExtras(options))
++      : null;
++    const core = str => {
+       for (const isMatch of fns) {
+-        const state = isMatch(str);
++        const state = isMatch(str, true);
+         if (state) return state;
+       }
+       return false;
+     };
+-    return arrayMatcher;
++    return wrapExtras(core, glob, options, ignoreMatcher, null, returnState, true);
+   }
+ 
+   const isState = isObject(glob) && glob.tokens && glob.input;
+@@ -60,6 +100,9 @@ const globMatch = (glob, options, returnState = false) => {
+ 
+   const opts = options || {};
+   const posix = opts.windows;
++  const ignoreMatcher = opts.ignore
++    ? globMatch(opts.ignore, withoutExtras(options))
++    : null;
+   const regex = isState
+     ? globMatch.compileRe(glob, options)
+     : globMatch.makeRe(glob, options, false, true);
+@@ -67,23 +110,18 @@ const globMatch = (glob, options, returnState = false) => {
+   const state = regex.state;
+   delete regex.state;
+ 
+-  const matcher = (input, returnObject = false) => {
++  const core = (input, returnObject = false) => {
+     const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
+     const result = { glob, state, regex, posix, input, output, match, isMatch };
+ 
+     if (isMatch === false) {
+-      result.isMatch = false;
+-      return returnObject ? result : false;
++      return false;
+     }
+ 
+-    return returnObject ? result : true;
++    return result;
+   };
+ 
+-  if (returnState) {
+-    matcher.state = state;
+-  }
+-
+-  return matcher;
++  return wrapExtras(core, glob, options, ignoreMatcher, state, returnState, false);
+ };
+ 
+ /**

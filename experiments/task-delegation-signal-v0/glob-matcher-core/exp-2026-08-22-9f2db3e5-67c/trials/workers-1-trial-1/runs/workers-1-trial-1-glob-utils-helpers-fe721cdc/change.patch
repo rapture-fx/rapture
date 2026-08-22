@@ -1,0 +1,46 @@
+diff --git a/lib/utils.js b/lib/utils.js
+index 5668748cba110c220636cb8b1c6c8a539851a821..5ab649a9b0ea172c5b835bfb8146dce5f4b4cb77 100644
+--- a/lib/utils.js
++++ b/lib/utils.js
+@@ -34,15 +34,23 @@ exports.removeBackslashes = str => {
+ };
+ 
+ exports.escapeLast = (input, char, lastIdx) => {
+-  const idx = input.lastIndexOf(char, lastIdx);
+-  if (idx === -1) return input;
+-  return `${input.slice(0, idx)}\\${input.slice(idx)}`;
++  let idx = input.lastIndexOf(char, lastIdx);
++  while (idx !== -1) {
++    const preceding = input.slice(0, idx);
++    if (preceding.endsWith('\\')) {
++      idx = input.lastIndexOf(char, idx - 1);
++      continue;
++    }
++    return `${preceding}\\${char}${input.slice(idx + 1)}`;
++  }
++  return input;
+ };
+ 
+-exports.removePrefix = input => {
++exports.removePrefix = (input, state = {}) => {
+   let output = input;
+   if (output.startsWith('./')) {
+     output = output.slice(2);
++    state.prefix = './';
+   }
+   return output;
+ };
+@@ -58,7 +66,10 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
+   return output;
+ };
+ 
+-exports.basename = path => {
+-  const segs = path.split('/');
+-  return segs[segs.length - 1];
++exports.basename = (path, { windows } = {}) => {
++  const segs = path.split(windows ? /[\\/]/ : '/');
++  while (segs.length && segs[segs.length - 1] === '') {
++    segs.pop();
++  }
++  return segs[segs.length - 1] || '';
+ };

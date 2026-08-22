@@ -8,10 +8,14 @@ import { parseOpenCodeUsage } from "./opencode-usage.js";
 import type { AgentAdapter, AgentRunInput, AgentRunResult } from "./types.js";
 
 function prompt(input: AgentRunInput): string {
+  // The engineering request is identical whatever context is injected; only the fixed
+  // pointer differs, so a paired experiment varies availability of context and nothing else.
+  const suffix = input.task.context?.promptSuffix ?? "";
   return [
     `Complete this repository task: ${input.task.description}`,
     "Work only in the current repository. Do not push, open a PR, deploy, or access secrets.",
     "Make the smallest correct change and run relevant local checks.",
+    ...(suffix === "" ? [] : [suffix]),
   ].join("\n");
 }
 

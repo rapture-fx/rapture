@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-negated-option.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T15:48:12.205Z",
+    "finishedAt": "2026-08-22T15:48:12.290Z",
+    "durationMs": 86,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-suggest-similar.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T16:22:58.724Z",
+    "finishedAt": "2026-08-22T16:22:58.875Z",
+    "durationMs": 151,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": "error: unknown command 'strt'\n(Did you mean start?)\n"
+  }
+]

@@ -1,0 +1,67 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..f27be955897e381005c32c7ea6a33015bba2fc3e 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -12,26 +12,44 @@ const diff = (version1, version2) => {
+   }
+ 
+   const v1Higher = comparison > 0
+-  const highVersion = v1Higher ? v1 : v2
+-  const highHasPre = !!highVersion.prerelease.length
+-
+-  // add the `pre` prefix if we are going to a prerelease version
+-  const prefix = highHasPre ? 'pre' : ''
+-
+-  if (v1.major !== v2.major) {
+-    return prefix + 'major'
+-  }
+-
+-  if (v1.minor !== v2.minor) {
+-    return prefix + 'minor'
+-  }
+-
+-  if (v1.patch !== v2.patch) {
+-    return prefix + 'patch'
++  const high = v1Higher ? v1 : v2
++  const low = v1Higher ? v2 : v1
++  const highHasPre = !!high.prerelease.length
++  const lowHasPre = !!low.prerelease.length
++
++  // Determine the release type from the main version differences, independent
++  // of argument order (we always look at the higher vs lower version).
++  let type
++  if (high.major !== low.major) {
++    type = 'major'
++  } else if (high.minor !== low.minor) {
++    type = 'minor'
++  } else if (high.patch !== low.patch) {
++    type = 'patch'
++  } else if (highHasPre || lowHasPre) {
++    // main versions are identical; this is a prerelease-only change
++    if (!lowHasPre) {
++      // stepping into a prerelease
++      return 'prerelease'
++    }
++    if (!highHasPre) {
++      // stepping out of a prerelease
++      if (low.minor === 0 && low.patch === 0) {
++        return 'major'
++      } else if (low.minor !== 0 && low.patch === 0) {
++        return 'minor'
++      }
++      return 'patch'
++    }
++    // both are prereleases of the same main version
++    return 'prerelease'
++  } else {
++    // identical precedence but comparison was not 0 (should not happen)
++    return null
+   }
+ 
+-  // high and low are prereleases
+-  return 'prerelease'
++  // add the `pre` prefix when stepping into a prerelease
++  return (highHasPre ? 'pre' : '') + type
+ }
+ 
+ module.exports = diff

@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-coerce.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T09:29:27.196Z",
+    "finishedAt": "2026-08-22T09:29:27.312Z",
+    "durationMs": 116,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

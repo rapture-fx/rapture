@@ -1,0 +1,67 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..7e7dba6bbe59e6909a9cd5e7403492bbd2ede515 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -13,25 +13,51 @@ const diff = (version1, version2) => {
+ 
+   const v1Higher = comparison > 0
+   const highVersion = v1Higher ? v1 : v2
++  const lowVersion = v1Higher ? v2 : v1
+   const highHasPre = !!highVersion.prerelease.length
++  const lowHasPre = !!lowVersion.prerelease.length
+ 
+-  // add the `pre` prefix if we are going to a prerelease version
+-  const prefix = highHasPre ? 'pre' : ''
+-
+-  if (v1.major !== v2.major) {
+-    return prefix + 'major'
++  // going from a non-prerelease to a prerelease version is always a step
++  // *into* a prerelease of the same main version
++  if (highHasPre && !lowHasPre) {
++    return 'pre' + mainType(highVersion, lowVersion)
+   }
+ 
+-  if (v1.minor !== v2.minor) {
+-    return prefix + 'minor'
++  // going from a prerelease to a non-prerelease version is a step *out of*
++  // the prerelease, classified by how much of the main version is left behind
++  if (lowHasPre && !highHasPre) {
++    if (highVersion.compareMain(lowVersion) === 0) {
++      if (highVersion.minor === 0 && highVersion.patch === 0) {
++        return 'major'
++      }
++      if (highVersion.minor !== 0 && highVersion.patch === 0) {
++        return 'minor'
++      }
++      return 'patch'
++    }
++    return mainType(highVersion, lowVersion)
+   }
+ 
+-  if (v1.patch !== v2.patch) {
+-    return prefix + 'patch'
++  // both are prereleases
++  if (highHasPre && lowHasPre) {
++    if (highVersion.compareMain(lowVersion) === 0) {
++      return 'prerelease'
++    }
++    return 'pre' + mainType(highVersion, lowVersion)
+   }
+ 
+-  // high and low are prereleases
+-  return 'prerelease'
++  // neither version is a prerelease
++  return mainType(highVersion, lowVersion)
++}
++
++const mainType = (highVersion, lowVersion) => {
++  if (highVersion.major !== lowVersion.major) {
++    return 'major'
++  }
++  if (highVersion.minor !== lowVersion.minor) {
++    return 'minor'
++  }
++  return 'patch'
+ }
+ 
+ module.exports = diff

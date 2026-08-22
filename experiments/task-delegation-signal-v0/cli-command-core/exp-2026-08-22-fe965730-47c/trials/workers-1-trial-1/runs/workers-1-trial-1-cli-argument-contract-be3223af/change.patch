@@ -1,0 +1,85 @@
+diff --git a/lib/argument.js b/lib/argument.js
+index 630688a2638404d2d7c3075c0913df2c1731740b..063409a5a47b87001c5f447aaf07eade64f0710d 100644
+--- a/lib/argument.js
++++ b/lib/argument.js
+@@ -18,8 +18,25 @@ export class Argument {
+     this.defaultValueDescription = undefined;
+     this.argChoices = undefined;
+ 
+-    this.required = true;
+-    this._name = name;
++    switch (name[0]) {
++      case '<': // e.g. <foo>
++        this.required = true;
++        this._name = name.slice(1, -1);
++        break;
++      case '[': // e.g. [foo]
++        this.required = false;
++        this._name = name.slice(1, -1);
++        break;
++      default:
++        this.required = true;
++        this._name = name;
++        break;
++    }
++
++    if (this._name.slice(-3) === '...') {
++      this.variadic = true;
++      this._name = this._name.slice(0, -3);
++    }
+   }
+ 
+   /**
+@@ -36,8 +53,12 @@ export class Argument {
+    * @package
+    */
+ 
+-  _collectValue(value) {
+-    return value;
++  _collectValue(value, previous) {
++    if (previous === this.defaultValue || !Array.isArray(previous)) {
++      return [value];
++    }
++
++    return previous.concat(value);
+   }
+ 
+   /**
+@@ -51,6 +72,7 @@ export class Argument {
+   default(value, description) {
+     this.defaultValue = value;
+     this.defaultValueDescription = description;
++    return this;
+   }
+ 
+   /**
+@@ -62,6 +84,7 @@ export class Argument {
+ 
+   argParser(fn) {
+     this.parseArg = fn;
++    return this;
+   }
+ 
+   /**
+@@ -72,7 +95,20 @@ export class Argument {
+    */
+ 
+   choices(values) {
+-    this.argChoices = values;
++    this.argChoices = values.slice();
++    const uniqueValues = new Set(values);
++    this.argParser((arg, previous) => {
++      if (!uniqueValues.has(arg)) {
++        throw new InvalidArgumentError(
++          `Allowed choices are ${Array.from(uniqueValues).join(', ')}.`,
++        );
++      }
++      if (this.variadic) {
++        return this._collectValue(arg, previous);
++      }
++      return arg;
++    });
++
+     return this;
+   }
+ 

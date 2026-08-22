@@ -1,0 +1,152 @@
+{
+  "experimentName": "change-compiler-v0",
+  "status": "not_executed",
+  "frozenAt": "2026-08-22T00:00:00.000Z",
+  "purpose": "Test whether a mechanically compiled change contract reduces a coding agent's repository-exploration cost without degrading independently verified correctness.",
+  "northStarQuestion": "Can Rapture remove enough repeated repository-discovery work from a coding agent to measurably improve verified engineering efficiency?",
+  "baseline": {
+    "originMain": "321d9c00df65add0d1fd2cf35d8c1691753dc726",
+    "branchedFrom": "0a30ab2c879efca1346e330ac028d5bc27cd7772",
+    "stackedOn": ["#8 research/real-work-external-validity-v1", "#9 research/task-delegation-signal-v0"],
+    "whyStacked": "The hypothesis is that precomputed context removes repository-discovery work. Main's only corpus (real-work-v0) has 7-8 file fixtures of ~2.6KB with a 16-line maximum source file, which an agent reads in two tool calls; there is no discovery cost there for a contract to remove, so measuring on it would return a null result by construction. The delegation-v0 corpus on PR #9 has 52-file and 127KB repositories with 1416- and 2790-line source files, and carries measured per-task acceptance needed for the pre-registered task selection. That functionality is genuinely required, so this branch stacks and both PRs must land in order."
+  },
+  "design": {
+    "type": "paired within-task intervention",
+    "conditions": [
+      { "id": "baseline", "description": "OpenCode receives the task specification and normal repository access only." },
+      { "id": "change_contract", "description": "Identical in every respect, plus .rapture/change-contract.json present in the worktree and a fixed sentence pointing at it." }
+    ],
+    "heldConstant": [
+      "model and CLI version",
+      "repository snapshot and base revision",
+      "engineering request text (byte-identical)",
+      "external validator and acceptance rule",
+      "editable scope",
+      "timeout",
+      "worker count",
+      "seed and trial ordering"
+    ],
+    "onlyVariable": "presence of the compiled change contract in the worktree, and the fixed pointer sentence naming it",
+    "pairingNote": "Both conditions live in the same task file so they interleave within a trial, pairing them in time rather than running all of one condition first."
+  },
+  "configuration": {
+    "agent": "opencode",
+    "agentVersion": "1.18.21",
+    "agentModel": "opencode/hy3-free",
+    "workerCounts": [1],
+    "repetitions": 3,
+    "taskCount": 8,
+    "conditionCount": 2,
+    "logicalRuns": 48,
+    "timeoutSecondsPerTask": 900,
+    "integration": false,
+    "executionOrder": "repetition-major",
+    "seed": 20260824,
+    "resumable": true,
+    "pricingContext": null,
+    "executionStructure": "Three runner invocations, one per repository, because a run materializes worktrees from a single base revision. Each invocation carries that repository's selected tasks in both conditions."
+  },
+  "benchmark": {
+    "suiteId": "rapture-delegation-v0",
+    "suiteVersion": "0.1.0",
+    "manifest": "benchmarks/delegation-v0/manifest.json",
+    "suiteSha256": "4ed10042f9daa33634f2ed930adf5b7715377f7a33fffd889555b891b2bf01e2"
+  },
+  "taskSelection": {
+    "rule": "Chosen before execution using acceptance measured in the delegation workstream. Four tasks sit away from the ceiling so acceptance can move in either direction; four are at ceiling, which is where exploration cost can be read without acceptance noise. Task set is fixed and will not be changed after seeing results.",
+    "tasks": [
+      { "id": "version-diff-release-type", "repository": "version-core", "priorAcceptance": "0/3", "role": "hard negative control", "contractSha256": "6dd762e4a466" },
+      { "id": "version-coerce-options", "repository": "version-core", "priorAcceptance": "1/3", "role": "off-ceiling", "contractSha256": "f2ce63c14bbb" },
+      { "id": "version-lru-cache-eviction", "repository": "version-core", "priorAcceptance": "3/3", "role": "ceiling, exploration probe", "contractSha256": "47e4bf506e8a" },
+      { "id": "glob-ignore-callbacks", "repository": "glob-matcher-core", "priorAcceptance": "2/3", "role": "off-ceiling", "contractSha256": "858bdefb7d96" },
+      { "id": "glob-utils-helpers", "repository": "glob-matcher-core", "priorAcceptance": "3/3", "role": "ceiling, exploration probe", "contractSha256": "cd64bc04e694" },
+      { "id": "cli-negated-option-name", "repository": "cli-command-core", "priorAcceptance": "2/3", "role": "off-ceiling", "contractSha256": "2543f2b56ce1" },
+      { "id": "cli-argument-contract", "repository": "cli-command-core", "priorAcceptance": "3/3", "role": "ceiling, exploration probe", "contractSha256": "50fd8b214958" },
+      { "id": "cli-suggest-similar", "repository": "cli-command-core", "priorAcceptance": "3/3", "role": "ceiling, exploration probe", "contractSha256": "bafefd01a24d" }
+    ],
+    "hardNegativeControlNote": "version-diff-release-type has never been accepted in 9 prior attempts. If the contract condition were to 'solve' it, that would indicate leakage rather than assistance and must be investigated before any positive claim."
+  },
+  "successCriteria": {
+    "primaryMetric": "independently verified acceptance rate",
+    "positive": {
+      "decision": "CHANGE_CONTRACT_SIGNAL_OBSERVED",
+      "requirements": [
+        "Acceptance in the contract condition is not more than 5 percentage points below baseline.",
+        "At least two exploration-cost metrics improve by >= 20% in median paired comparison.",
+        "Improvement direction is consistent in at least two of three repetitions for a majority of tasks.",
+        "The result is not explained by one pathological task.",
+        "No material increase in scope violations or infrastructure/provider failures."
+      ]
+    },
+    "negative": {
+      "decision": "CHANGE_CONTRACT_NO_VALUE",
+      "conditions": [
+        "No material reduction in exploration cost.",
+        "Or acceptance materially decreases.",
+        "Or the apparent improvement is dominated by one task or confounded by different validation behaviour."
+      ]
+    },
+    "inconclusive": {
+      "decision": "CHANGE_CONTRACT_INCONCLUSIVE",
+      "conditions": [
+        "Variance too high to read a direction.",
+        "Instrumentation coverage insufficient.",
+        "Corpus too easy or too hard to discriminate the conditions."
+      ]
+    },
+    "explorationMetrics": [
+      "toolCallsBeforeFirstEdit",
+      "uniqueFilesRead",
+      "searchOperations",
+      "msToFirstEdit",
+      "totalToolCalls",
+      "commandsExecuted"
+    ],
+    "rule": "These thresholds are fixed before execution and will not be adjusted after seeing results."
+  },
+  "instrumentation": {
+    "source": "OpenCode structured JSON event stream (tool_use events)",
+    "captured": ["totalToolCalls", "fileReads", "uniqueFilesRead", "searchOperations", "commandsExecuted", "editOperations", "uniqueFilesEdited", "repeatedEdits", "invalidToolCalls", "toolCallsBeforeFirstEdit", "msToFirstEdit", "toolBreakdown"],
+    "nullPolicy": "Any metric the stream does not support is null. Host telemetry is not used as a substitute because it cannot attribute work to an agent action."
+  },
+  "contractDelivery": {
+    "mechanism": ".rapture/change-contract.json written into the worktree before the agent starts, with .rapture/ added to the worktree git exclude file so it is readable but never appears as a change the agent made",
+    "promptDelta": "One fixed sentence naming the file and stating it contains no solution. The engineering request itself is byte-identical across conditions.",
+    "contractsCommittedAt": "experiments/change-compiler-v0-contracts/"
+  },
+  "preflight": {
+    "contractsByteReproducible": true,
+    "knownGoodLeakCheck": "0 leaks across 760 solution lines x 8 contracts",
+    "validatorInternalsLeakCheck": "none present",
+    "benchmarkDoctor": "PASS",
+    "frozenIntegritySidecars": "8/8 PASS",
+    "modelAvailability": "verified"
+  },
+  "prohibitedConclusions": [
+    "That the Agentic Change Compiler vision is validated, unless exploration improves materially without degrading acceptance.",
+    "Any causal mechanism beyond the paired intervention actually tested.",
+    "Generalization to other repositories, models, agents or hosts.",
+    "That routing, swarms, scheduling or further compiler layers are justified."
+  ],
+  "allowedDecisions": [
+    "CHANGE_CONTRACT_SIGNAL_OBSERVED",
+    "CHANGE_CONTRACT_NO_VALUE",
+    "CHANGE_CONTRACT_INCONCLUSIVE",
+    "CHANGE_CONTRACT_BENCHMARK_INVALID",
+    "CHANGE_CONTRACT_PROVIDER_BLOCKED",
+    "CHANGE_CONTRACT_INFRA_BLOCKED"
+  ],
+  "runtimeFingerprint": {
+    "node": "v22.14.0",
+    "pnpm": "10.12.1",
+    "opencodeCli": "1.18.21",
+    "platform": "darwin",
+    "osRelease": "22.6.0",
+    "productVersion": "macOS 13.7.8 (22H730)",
+    "arch": "x64",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "totalMemBytes": 8589934592
+  },
+  "deviations": []
+}

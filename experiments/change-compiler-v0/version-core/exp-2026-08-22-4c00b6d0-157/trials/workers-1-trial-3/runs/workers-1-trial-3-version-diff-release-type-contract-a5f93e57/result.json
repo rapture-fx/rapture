@@ -1,0 +1,260 @@
+{
+  "runId": "workers-1-trial-3-version-diff-release-type-contract-a5f93e57",
+  "logicalRunId": "6cef47a309f6451f9d40c938da46ea71d444340c717dd5928992d459a357e437",
+  "attemptId": "workers-1-trial-3-version-diff-release-type-contract-a5f93e57",
+  "runState": "rejected",
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "trialId": "workers-1-trial-3",
+  "repetition": 3,
+  "taskId": "version-diff-release-type__contract",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "bug_fix",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 11,
+    "fileReads": 4,
+    "uniqueFilesRead": 4,
+    "searchOperations": 4,
+    "commandsExecuted": 4,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 7,
+    "msToFirstEdit": 138494,
+    "toolBreakdown": {
+      "read": 4,
+      "grep": 1,
+      "glob": 1,
+      "bash": 4,
+      "write": 1
+    }
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-3-version-diff-release-type-contract-a5f93e57",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+  ],
+  "startedAt": "2026-08-22T15:18:02.069Z",
+  "finishedAt": "2026-08-22T15:20:54.891Z",
+  "durationMs": 172818,
+  "phaseTimings": {
+    "worktreeSetupMs": 89,
+    "queueWaitMs": 540149.2716809998,
+    "agentExecutionMs": 172420,
+    "validationMs": 115,
+    "artifactPersistenceMs": 6,
+    "integrationMs": null,
+    "worktreeCleanupMs": 41,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 172818
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "ac3c783c27cc63ec2a6f08cd62af19f4309c0881",
+  "filesChanged": [
+    "functions/diff.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-3-version-diff-release-type-contract-a5f93e57",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/version-diff.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 31860,
+    "outputTokens": 1640,
+    "cachedInputTokens": 166400,
+    "reasoningTokens": 4797,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "failed",
+  "integrationResult": "not_requested",
+  "failureClassification": "validation_failed",
+  "accepted": false,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:18:02.189Z",
+      "processFinishedAt": "2026-08-22T15:20:54.610Z",
+      "firstStructuredEventAt": "2026-08-22T15:18:10.174Z",
+      "firstModelResponseAt": "2026-08-22T15:18:12.324Z",
+      "lastModelResponseAt": "2026-08-22T15:20:54.446Z",
+      "providerWaitMs": 132533,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 11,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787411890174,
+        "endMs": 1787411892324
+      },
+      {
+        "startMs": 1787411895384,
+        "endMs": 1787411948677
+      },
+      {
+        "startMs": 1787411953536,
+        "endMs": 1787411955640
+      },
+      {
+        "startMs": 1787411958645,
+        "endMs": 1787411960021
+      },
+      {
+        "startMs": 1787411962803,
+        "endMs": 1787411963181
+      },
+      {
+        "startMs": 1787411965993,
+        "endMs": 1787411966672
+      },
+      {
+        "startMs": 1787411969596,
+        "endMs": 1787412030073
+      },
+      {
+        "startMs": 1787412033005,
+        "endMs": 1787412038058
+      },
+      {
+        "startMs": 1787412041039,
+        "endMs": 1787412042071
+      },
+      {
+        "startMs": 1787412045168,
+        "endMs": 1787412049975
+      },
+      {
+        "startMs": 1787412053262,
+        "endMs": 1787412054446
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 164272,
+      "providerWaitMs": 132533,
+      "interStepGapMs": 31739,
+      "outsideWindowMs": 8148,
+      "providerWaitFraction": 0.7686637281057882,
+      "interStepGapFraction": 0.18407957313536713,
+      "unobservedFraction": 0.04725669875884468
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1109,
+        943,
+        98,
+        3060,
+        4859,
+        1092,
+        915,
+        28,
+        69,
+        3005,
+        1320,
+        56,
+        2782,
+        322,
+        56,
+        2812,
+        605,
+        74,
+        2924,
+        60178,
+        76,
+        223,
+        2932,
+        4877,
+        119,
+        57,
+        2981,
+        773,
+        206,
+        53,
+        3097,
+        4401,
+        305,
+        101,
+        3287,
+        1094,
+        90
+      ],
+      "handoffGapsMs": [
+        3060,
+        4859,
+        3005,
+        2782,
+        2812,
+        2924,
+        2932,
+        2981,
+        3097,
+        3287
+      ],
+      "launchToFirstEventMs": 7985
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-diff-release-type-contract-a5f93e57/agent.stdout.log",
+    "stdoutSha256": "619618430abe14b5cc9e59cf5fd1820e573bffee91a72daac1055a63d50bb8ea",
+    "stderr": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-diff-release-type-contract-a5f93e57/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-diff-release-type-contract-a5f93e57/validation.json",
+    "validationSha256": "1e2c3aaa80aea8194266c91a1a19c68b4f43c63b73804cdb7024ae65187d152e",
+    "patch": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-diff-release-type-contract-a5f93e57/change.patch",
+    "patchSha256": "69d736f039b45d4ee21ffde71ef149f54f6d51737e8db4542b94abead642cc81"
+  }
+}

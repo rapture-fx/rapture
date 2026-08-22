@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import { resolve } from "node:path";
+import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import {
+  analyzeRepositoryMechanics,
   benchmarkTasksForRepository,
   buildExperimentConfig,
   ConfigurationError,
   compareWorkerEdge,
+  compileChangeContract,
   createPredictionStore,
   DoctorError,
   detectCapacityKnee,
@@ -23,6 +25,7 @@ import {
   loadTasks,
   materializeBenchmarkRepository,
   observeOutcomes,
+  parseChangeContract,
   persistDoctorArtifacts,
   regenerateReport,
   regenerateStepPredictions,
@@ -31,6 +34,7 @@ import {
   runDoctor,
   runExperiment,
   simulateControllerStop,
+  summarizeChangeContract,
 } from "@rapture/core";
 import { Command, InvalidArgumentError, Option } from "commander";
 import { z } from "zod";
@@ -95,6 +99,115 @@ program
       }
     }
     process.exitCode = result.status === "BLOCKED" ? 2 : 0;
+  });
+
+const analyzeOptionsSchema = z.object({
+  manifest: z.string().min(1),
+  task: z.string().min(1),
+  repository: z.string().min(1),
+  depth: z.string().optional(),
+  json: z.boolean(),
+});
+
+program
+  .command("analyze")
+  .description("compute deterministic repository mechanics for one benchmark task")
+  .requiredOption("--manifest <path>", "benchmark suite manifest")
+  .requiredOption("--task <id>", "benchmark task ID")
+  .requiredOption("--repository <path>", "materialized repository checkout to analyze")
+  .option("--depth <n>", "bounded dependency traversal depth")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (rawOptions: unknown) => {
+    const options = analyzeOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const manifestPath = resolve(invocationRoot, options.manifest);
+    const suite = await loadBenchmarkSuite(manifestPath);
+    const task = suite.tasks.find((item) => item.id === options.task);
+    if (task === undefined) throw new ConfigurationError(`unknown task: ${options.task}`);
+    const mechanics = await analyzeRepositoryMechanics({
+      repositoryRoot: resolve(invocationRoot, options.repository),
+      editableScope: task.editableScope,
+      ...(options.depth === undefined ? {} : { maxDepth: Number.parseInt(options.depth, 10) }),
+    });
+    if (options.json) printJson(mechanics);
+    else {
+      process.stdout.write(`Repository mechanics for ${task.id}\n`);
+      process.stdout.write(`  relevant files      ${mechanics.relevantFiles.length}\n`);
+      for (const file of mechanics.relevantFiles) {
+        process.stdout.write(`    d${file.depth} ${file.reason.padEnd(20)} ${file.path}\n`);
+      }
+      process.stdout.write(`  change breadth      ${mechanics.changeBreadth ?? "unknown"}\n`);
+      process.stdout.write(`  test surfaces       ${mechanics.testSurfaces.files.length}\n`);
+      process.stdout.write(
+        `  verification        ${mechanics.verificationSurface.length} mechanism(s)\n`,
+      );
+      process.stdout.write(`  explicit unknowns   ${mechanics.unknowns.length}\n`);
+    }
+  });
+
+const contractOptionsSchema = z.object({
+  manifest: z.string().min(1),
+  task: z.string().min(1),
+  repository: z.string().min(1),
+  depth: z.string().optional(),
+  output: z.string().optional(),
+  json: z.boolean(),
+});
+
+program
+  .command("contract")
+  .description("compile a deterministic change contract for one benchmark task")
+  .requiredOption("--manifest <path>", "benchmark suite manifest")
+  .requiredOption("--task <id>", "benchmark task ID")
+  .requiredOption("--repository <path>", "materialized repository checkout to analyze")
+  .option("--depth <n>", "bounded dependency traversal depth")
+  .option("--output <path>", "write the contract JSON to this path")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (rawOptions: unknown) => {
+    const options = contractOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const manifestPath = resolve(invocationRoot, options.manifest);
+    const suite = await loadBenchmarkSuite(manifestPath);
+    const task = suite.tasks.find((item) => item.id === options.task);
+    if (task === undefined) throw new ConfigurationError(`unknown task: ${options.task}`);
+    const repository = suite.repositories.find((item) => item.id === task.repositoryId);
+    if (repository === undefined) throw new ConfigurationError("task repository missing");
+    const repositoryRoot = resolve(invocationRoot, options.repository);
+    const mechanics = await analyzeRepositoryMechanics({
+      repositoryRoot,
+      editableScope: task.editableScope,
+      ...(options.depth === undefined ? {} : { maxDepth: Number.parseInt(options.depth, 10) }),
+    });
+    const contract = compileChangeContract({
+      taskId: task.id,
+      intent: task.prompt,
+      repositoryCommit: task.baseRevision,
+      commitTimestamp: repository.materialization.commitTimestamp,
+      editableScope: task.editableScope,
+      protectedPaths: mechanics.relevantFiles
+        .map((file) => file.path)
+        .filter((path) => !task.editableScope.includes(path)),
+      acceptanceCommands: [
+        "an external validator decides acceptance; it is not runnable from this repository",
+      ],
+      requiredEvidence: [
+        "every editable file still parses",
+        "the change stays inside the editable scope",
+        "existing behaviour outside the stated change is unaffected",
+      ],
+      mechanics,
+    });
+    // Re-parse to prove the emitted contract validates against its own schema and hash.
+    parseChangeContract(JSON.parse(JSON.stringify(contract)) as unknown);
+    if (options.output !== undefined) {
+      const { mkdir, writeFile } = await import("node:fs/promises");
+      const { dirname } = await import("node:path");
+      const destination = resolve(invocationRoot, options.output);
+      await mkdir(dirname(destination), { recursive: true });
+      await writeFile(destination, `${JSON.stringify(contract, null, 2)}\n`, "utf8");
+    }
+    if (options.json) printJson(contract);
+    else process.stdout.write(`${summarizeChangeContract(contract)}\n`);
   });
 
 const benchmarkMaterializeOptionsSchema = z.object({

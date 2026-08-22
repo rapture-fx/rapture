@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/glob-ignore.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T15:35:34.422Z",
+    "finishedAt": "2026-08-22T15:35:34.501Z",
+    "durationMs": 79,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "{\"status\":\"rejected\",\"detail\":\"Expected values to be strictly equal:\\n\\nfalse !== true\\n\"}\n",
+    "stderr": ""
+  }
+]

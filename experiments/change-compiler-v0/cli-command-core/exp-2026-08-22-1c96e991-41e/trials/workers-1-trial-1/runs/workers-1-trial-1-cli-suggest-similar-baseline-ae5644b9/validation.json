@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-suggest-similar.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T15:52:07.325Z",
+    "finishedAt": "2026-08-22T15:52:07.400Z",
+    "durationMs": 75,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "{\"status\":\"rejected\",\"detail\":\"Expected values to be strictly equal:\\n+ actual - expected\\n\\n+ ''\\n- '\\\\n(Did you mean help?)'\\n\"}\n",
+    "stderr": ""
+  }
+]

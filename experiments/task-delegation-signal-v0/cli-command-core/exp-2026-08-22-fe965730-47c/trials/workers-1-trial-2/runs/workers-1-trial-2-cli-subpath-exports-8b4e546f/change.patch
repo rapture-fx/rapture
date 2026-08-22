@@ -1,0 +1,19 @@
+diff --git a/package.json b/package.json
+index 5749daf8333e334ec49a0a2d005f598ca181776a..b55ab702926e364fc7289315106a458325ebef6d 100644
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,14 @@
+   "description": "Command-line option and subcommand parser.",
+   "type": "module",
+   "main": "./index.js",
++  "exports": {
++    ".": "./index.js",
++    "./package.json": "./package.json"
++  },
++  "files": [
++    "index.js",
++    "lib/"
++  ],
+   "license": "MIT",
+   "engines": {
+     "node": ">=22.12.0"

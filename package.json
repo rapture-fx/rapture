@@ -12,9 +12,10 @@
     "build": "pnpm -r build",
     "check": "biome check .",
     "format": "biome format --write .",
-    "test": "pnpm --filter @rapture/core test && node --test scripts/real-scale-2/ci.test.mjs",
+    "test": "pnpm --filter @rapture/core test && node --test scripts/real-scale-2/ci.test.mjs && node --test scripts/guards/check-immutable-evidence.test.mjs",
     "typecheck": "pnpm -r typecheck",
-    "rapture": "pnpm --filter @rapture/cli start"
+    "rapture": "pnpm --filter @rapture/cli start",
+    "guard:evidence": "node scripts/guards/check-immutable-evidence.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.0",

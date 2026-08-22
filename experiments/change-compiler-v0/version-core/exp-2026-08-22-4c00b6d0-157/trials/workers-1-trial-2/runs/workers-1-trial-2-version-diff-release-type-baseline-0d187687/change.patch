@@ -1,0 +1,77 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..92947fb9f30c2e247f34c721e12bcae6cfe23a31 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -13,25 +13,62 @@ const diff = (version1, version2) => {
+ 
+   const v1Higher = comparison > 0
+   const highVersion = v1Higher ? v1 : v2
++  const lowVersion = v1Higher ? v2 : v1
+   const highHasPre = !!highVersion.prerelease.length
++  const lowHasPre = !!lowVersion.prerelease.length
+ 
+-  // add the `pre` prefix if we are going to a prerelease version
+-  const prefix = highHasPre ? 'pre' : ''
++  const compareMainResult = highVersion.compareMain(lowVersion)
+ 
+-  if (v1.major !== v2.major) {
+-    return prefix + 'major'
++  // Same main version: only prerelease status differs (or differs by prerelease).
++  if (compareMainResult === 0) {
++    // Two prereleases of the same main version.
++    if (highHasPre && lowHasPre) {
++      return 'prerelease'
++    }
++
++    // Stepping out of a prerelease: the main version is unchanged, so the
++    // step is classified by how much of the main version is left behind.
++    const pre = lowVersion
++    if (pre.minor === 0 && pre.patch === 0) {
++      return 'major'
++    }
++    if (pre.minor !== 0 && pre.patch === 0) {
++      return 'minor'
++    }
++    return 'patch'
++  }
++
++  // Different main version: figure out the base release type from the
++  // difference in the main version.
++  let base
++  if (highVersion.major !== lowVersion.major) {
++    base = 'major'
++  } else if (highVersion.minor !== lowVersion.minor) {
++    base = 'minor'
++  } else {
++    base = 'patch'
+   }
+ 
+-  if (v1.minor !== v2.minor) {
+-    return prefix + 'minor'
++  // Stepping into a prerelease keeps the `pre` prefix.
++  if (highHasPre && !lowHasPre) {
++    return 'pre' + base
+   }
+ 
+-  if (v1.patch !== v2.patch) {
+-    return prefix + 'patch'
++  // Stepping out of a prerelease across a main-version change is still
++  // classified by how much of the main version is left behind.
++  if (!highHasPre && lowHasPre) {
++    const pre = lowVersion
++    if (pre.minor === 0 && pre.patch === 0) {
++      return 'major'
++    }
++    if (pre.minor !== 0 && pre.patch === 0) {
++      return 'minor'
++    }
++    return 'patch'
+   }
+ 
+-  // high and low are prereleases
+-  return 'prerelease'
++  // Ordinary release step (neither version is a prerelease).
++  return base
+ }
+ 
+ module.exports = diff

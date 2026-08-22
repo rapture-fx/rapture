@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "cli-argument-contract",
+    "intent": "The `Argument` class in `lib/argument.js` has been reduced to a stub: it no longer interprets its\nname syntax, its setters are not chainable, and choices are neither validated nor collected.\nReimplement it, keeping every current export and method name:\n- `<name>` is a required argument, `[name]` is optional, a bare name is required, and a trailing\n  `...` inside the brackets makes it variadic; `name()` returns the bare name without any of that\n  punctuation;\n- `default()`, `argParser()`, `choices()`, `argRequired()` and `argOptional()` all return the\n  argument so they can be chained;\n- `choices(values)` copies the caller's array, and installs parsing that raises\n  `InvalidArgumentError` with the message `Allowed choices are a, b.` for a value outside the\n  list, and that accumulates values when the argument is variadic;\n- `_collectValue(value, previous)` starts a new array when there is nothing to extend and appends\n  otherwise;\n- `humanReadableArgName` renders the argument back to `<name>`, `[name]`, `<name...>` or\n  `[name...]`.\n\nA command declaring `<first>` and `[rest...]` must pass the first value and an array of the rest\nto its action handler.",
+    "repositoryCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "lib/argument.js",
+        "symbols": [
+          "Argument",
+          "humanReadableArgName"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "lib/argument.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/command.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/error.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "lib/help.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "test/option.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 4,
+        "2": 1
+      }
+    },
+    "fanOut": {
+      "lib/argument.js": 3
+    },
+    "testSurfaces": {
+      "files": [
+        "test/option.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/option.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "lib/argument.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/option.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "lib/argument.js"
+    ],
+    "protectedPaths": [
+      "index.js",
+      "lib/command.js",
+      "lib/error.js",
+      "lib/help.js",
+      "test/option.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "lib/argument.js is imported by 3 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 3 importer(s)"
+      },
+      {
+        "statement": "lib/argument.js exports Argument, humanReadableArgName; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "lib/command.js has unresolved specifiers: node:child_process, node:events, node:fs, node:path, node:process, node:util",
+      "lib/help.js has unresolved specifiers: node:util",
+      "test/option.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "lib/argument.js": "c019b0620165908ff573dd48625421f5b2e19e78c58ae5c0b60531e76f9fab2d",
+      "index.js": "1a06e98ba848b9db780d5fd177dd7e4802627faddfdece01110d5eb9acd1e3dd",
+      "lib/command.js": "8720575ce0d4108465e7ac032e3340bc1c90ad0844a80c8526a237f362a4c13c",
+      "lib/error.js": "4d93dce33b63b7ae5f349f408cfa7349d8fb991ba1365c7c531d6c764a79d059",
+      "lib/help.js": "49a7167474e3529fdab99618073a6e0bcc90467338468f71dbc134416379280f",
+      "test/option.test.js": "5cbf17efdc155831c415c84528057517887b03cc76d48ad97b8404b78c9843fa"
+    },
+    "contractSha256": "50fd8b214958b53c264214e9c27bca22f183eff50ba39037bc64c479cbd7dc3b"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "semver-core",
+  "upstream": {
+    "url": "https://github.com/npm/node-semver",
+    "ref": "v7.8.5",
+    "revision": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+    "license": {
+      "spdx": "ISC",
+      "retainedAt": "LICENSE",
+      "modified": false
+    },
+    "acquiredAt": "2026-08-22T00:00:00Z",
+    "acquisitionMethod": "git clone https://github.com/npm/node-semver.git; git checkout 6e05b7637396ac66522cff8731f07cfe0ef49a29"
+  },
+  "snapshot": {
+    "type": "minimized_derived_snapshot",
+    "statement": "This fixture is NOT an unmodified upstream repository. It is a reduced snapshot of the upstream runtime surface with deliberate baseline defects introduced for benchmark tasks.",
+    "upstreamSourceSha256": "e597146565fd4e3d094c1d8fa42c87de6d320d973d05ab5ab656a5c02b194339",
+    "upstreamSourceSha256Covers": "the retained upstream paths listed in retainedUpstreamPaths, hashed from the pristine upstream checkout BEFORE any Rapture transformation",
+    "upstreamFileCount": 154,
+    "retainedUpstreamFileCount": 50,
+    "removedUpstreamFileCount": 104
+  },
+  "retainedUpstreamPaths": [
+    "LICENSE",
+    "README.md",
+    "classes/comparator.js",
+    "classes/index.js",
+    "classes/range.js",
+    "classes/semver.js",
+    "functions/clean.js",
+    "functions/cmp.js",
+    "functions/coerce.js",
+    "functions/compare-build.js",
+    "functions/compare-loose.js",
+    "functions/compare.js",
+    "functions/diff.js",
+    "functions/eq.js",
+    "functions/gt.js",
+    "functions/gte.js",
+    "functions/inc.js",
+    "functions/lt.js",
+    "functions/lte.js",
+    "functions/major.js",
+    "functions/minor.js",
+    "functions/neq.js",
+    "functions/parse.js",
+    "functions/patch.js",
+    "functions/prerelease.js",
+    "functions/rcompare.js",
+    "functions/rsort.js",
+    "functions/satisfies.js",
+    "functions/sort.js",
+    "functions/truncate.js",
+    "functions/valid.js",
+    "index.js",
+    "internal/constants.js",
+    "internal/debug.js",
+    "internal/identifiers.js",
+    "internal/lrucache.js",
+    "internal/parse-options.js",
+    "internal/re.js",
+    "range.bnf",
+    "ranges/gtr.js",
+    "ranges/intersects.js",
+    "ranges/ltr.js",
+    "ranges/max-satisfying.js",
+    "ranges/min-satisfying.js",
+    "ranges/min-version.js",
+    "ranges/outside.js",
+    "ranges/simplify.js",
+    "ranges/subset.js",
+    "ranges/to-comparators.js",
+    "ranges/valid.js"
+  ],
+  "removedUpstreamPaths": [
+    {
+      "path": ".commitlintrc.js",
+      "fileCount": 1
+    },
+    {
+      "path": ".eslintrc.js",
+      "fileCount": 1
+    },
+    {
+      "path": ".eslintrc.local.js",
+      "fileCount": 1
+    },
+    {
+      "path": ".github/",
+      "fileCount": 16
+    },
+    {
+      "path": ".gitignore",
+      "fileCount": 1
+    },
+    {
+      "path": ".npmrc",
+      "fileCount": 1
+    },
+    {
+      "path": ".release-please-manifest.json",
+      "fileCount": 1
+    },
+    {
+      "path": "CHANGELOG.md",
+      "fileCount": 1
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "fileCount": 1
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "fileCount": 1
+    },
+    {
+      "path": "SECURITY.md",
+      "fileCount": 1
+    },
+    {
+      "path": "benchmarks/",
+      "fileCount": 6
+    },
+    {
+      "path": "bin/",
+      "fileCount": 1
+    },
+    {
+      "path": "map.js",
+      "fileCount": 1
+    },
+    {
+      "path": "package.json",
+      "fileCount": 1
+    },
+    {
+      "path": "preload.js",
+      "fileCount": 1
+    },
+    {
+      "path": "release-please-config.json",
+      "fileCount": 1
+    },
+    {
+      "path": "tap-snapshots/",
+      "fileCount": 1
+    },
+    {
+      "path": "test/",
+      "fileCount": 66
+    }
+  ],
+  "transformations": [
+    {
+      "order": 1,
+      "kind": "path_reduction",
+      "detail": "Retained only the upstream runtime distribution surface (index.js, classes/, functions/, internal/, ranges/, range.bnf) plus LICENSE and README.md. Removed the upstream test suite, benchmarks, CI/GitHub metadata, lint/commit tooling configuration, changelog and contributor docs, bin/ and preload.js.",
+      "rationale": "The upstream test suite runs on `tap`, which requires a network package install. Removing it lets the fixture be materialized and validated fully offline with zero dependencies, which the experiment requires for determinism."
+    },
+    {
+      "order": 2,
+      "kind": "manifest_replacement",
+      "detail": "Replaced package.json with a minimized CommonJS manifest: name changed to semver-core, devDependencies and all scripts removed, files/main/engines/license/author retained.",
+      "rationale": "Prevents any install or lifecycle script from running and makes clear this is not the published semver package."
+    },
+    {
+      "order": 3,
+      "kind": "documentation_addition",
+      "detail": "Added PROVENANCE.md declaring the fixture as a derived, defect-injected snapshot.",
+      "rationale": "Anyone reading the fixture in isolation must not mistake it for upstream semver."
+    },
+    {
+      "order": 4,
+      "kind": "baseline_defect_injection",
+      "detail": "Rewrote functions/diff.js to drop the prerelease-to-release special casing.",
+      "affects": "functions/diff.js",
+      "taskId": "semver-diff-release-type"
+    },
+    {
+      "order": 5,
+      "kind": "baseline_defect_injection",
+      "detail": "Rewrote functions/coerce.js to remove support for the rtl and includePrerelease options.",
+      "affects": "functions/coerce.js",
+      "taskId": "semver-coerce-options"
+    },
+    {
+      "order": 6,
+      "kind": "baseline_defect_injection",
+      "detail": "Rewrote internal/lrucache.js as an unbounded Map wrapper with no recency tracking and no eviction.",
+      "affects": "internal/lrucache.js",
+      "taskId": "semver-lru-cache-eviction"
+    },
+    {
+      "order": 7,
+      "kind": "test_addition",
+      "detail": "Added test/range.test.js, a Rapture-authored node:test suite (not upstream) whose baseline revision asserts stale expectations and therefore fails.",
+      "affects": "test/range.test.js",
+      "taskId": "semver-range-test-repair"
+    }
+  ],
+  "notIncluded": {
+    "upstreamTests": "removed; benchmark acceptance is decided only by external validators under benchmarks/real-work-v1/validators/",
+    "dependencies": "none; the retained surface has no external require() targets"
+  }
+}

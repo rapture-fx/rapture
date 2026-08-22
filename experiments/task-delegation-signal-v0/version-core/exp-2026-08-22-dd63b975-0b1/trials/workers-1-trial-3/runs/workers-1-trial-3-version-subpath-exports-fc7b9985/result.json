@@ -1,0 +1,227 @@
+{
+  "runId": "workers-1-trial-3-version-subpath-exports-fc7b9985",
+  "logicalRunId": "beb0cb6aea069b6a6bf5272818730f66e19431759a1e66b321cbb90433375619",
+  "attemptId": "workers-1-trial-3-version-subpath-exports-fc7b9985",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-dd63b975-0b1",
+  "trialId": "workers-1-trial-3",
+  "repetition": 3,
+  "taskId": "version-subpath-exports",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "config_change",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "static_analysis",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "moderate",
+    "reversibility": "reversible_with_review"
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-3-version-subpath-exports-fc7b9985",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: This package has no `exports` map, so every internal file is reachable by consumers and nothing\nis a declared entry point. Add packaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/classes/<name>`, `<pkg>/functions/<name>` and `<pkg>/ranges/<name>` resolve to the\n  matching `.js` file in that directory (for example `<pkg>/functions/parse`);\n- `<pkg>/package.json` remains resolvable;\n- everything under `internal/` is NOT reachable from outside the package;\n- deep paths that name a file directly, such as `<pkg>/index.js`, are NOT reachable;\n- a `files` array is declared that includes `classes/`, `functions/`, `internal/`, `ranges/` and\n  `index.js`.\n\nDo not change the package name, license or main field, and do not add a `type` field.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T12:48:53.644Z",
+  "finishedAt": "2026-08-22T12:50:07.107Z",
+  "durationMs": 73461,
+  "phaseTimings": {
+    "worktreeSetupMs": 76,
+    "queueWaitMs": 329949.2058369999,
+    "agentExecutionMs": 72422,
+    "validationMs": 806,
+    "artifactPersistenceMs": 1,
+    "integrationMs": null,
+    "worktreeCleanupMs": 28,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 73461
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "9a811b2fefb84f16c7a22b345cc105f1265ab6e5",
+  "filesChanged": [
+    "package.json"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-3-version-subpath-exports-fc7b9985",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: This package has no `exports` map, so every internal file is reachable by consumers and nothing\nis a declared entry point. Add packaging configuration to `package.json` so that:\n- the package root resolves to `./index.js`;\n- `<pkg>/classes/<name>`, `<pkg>/functions/<name>` and `<pkg>/ranges/<name>` resolve to the\n  matching `.js` file in that directory (for example `<pkg>/functions/parse`);\n- `<pkg>/package.json` remains resolvable;\n- everything under `internal/` is NOT reachable from outside the package;\n- deep paths that name a file directly, such as `<pkg>/index.js`, are NOT reachable;\n- a `files` array is declared that includes `classes/`, `functions/`, `internal/`, `ranges/` and\n  `index.js`.\n\nDo not change the package name, license or main field, and do not add a `type` field.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/version-exports.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 12034,
+    "outputTokens": 1863,
+    "cachedInputTokens": 86528,
+    "reasoningTokens": 784,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T12:48:53.734Z",
+      "processFinishedAt": "2026-08-22T12:50:06.157Z",
+      "firstStructuredEventAt": "2026-08-22T12:49:00.482Z",
+      "firstModelResponseAt": "2026-08-22T12:49:02.066Z",
+      "lastModelResponseAt": "2026-08-22T12:50:06.018Z",
+      "providerWaitMs": 40870,
+      "providerEventCount": 20,
+      "modelStepCount": 10,
+      "toolEventCount": 9,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787402940482,
+        "endMs": 1787402942066
+      },
+      {
+        "startMs": 1787402944646,
+        "endMs": 1787402946480
+      },
+      {
+        "startMs": 1787402949157,
+        "endMs": 1787402950897
+      },
+      {
+        "startMs": 1787402953431,
+        "endMs": 1787402960812
+      },
+      {
+        "startMs": 1787402963692,
+        "endMs": 1787402969026
+      },
+      {
+        "startMs": 1787402971821,
+        "endMs": 1787402977246
+      },
+      {
+        "startMs": 1787402979941,
+        "endMs": 1787402983947
+      },
+      {
+        "startMs": 1787402986758,
+        "endMs": 1787402995611
+      },
+      {
+        "startMs": 1787402998410,
+        "endMs": 1787403001461
+      },
+      {
+        "startMs": 1787403004356,
+        "endMs": 1787403006018
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 65536,
+      "providerWaitMs": 40870,
+      "interStepGapMs": 24666,
+      "outsideWindowMs": 6886,
+      "providerWaitFraction": 0.5643312805501091,
+      "interStepGapFraction": 0.3405871144127475,
+      "unobservedFraction": 0.09508160503714341
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1507,
+        77,
+        2580,
+        1672,
+        162,
+        2677,
+        1635,
+        105,
+        2534,
+        7202,
+        179,
+        2880,
+        5256,
+        78,
+        2795,
+        5373,
+        52,
+        2695,
+        3944,
+        62,
+        2811,
+        8780,
+        73,
+        2799,
+        2971,
+        80,
+        2895,
+        1604,
+        58
+      ],
+      "handoffGapsMs": [
+        2580,
+        2677,
+        2534,
+        2880,
+        2795,
+        2695,
+        2811,
+        2799,
+        2895
+      ],
+      "launchToFirstEventMs": 6748
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-subpath-exports-fc7b9985/agent.stdout.log",
+    "stdoutSha256": "e29fad0cfc9e4e18edc3d702ba629960cd56ba0763babc52c0fdbdb67a2b697b",
+    "stderr": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-subpath-exports-fc7b9985/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-subpath-exports-fc7b9985/validation.json",
+    "validationSha256": "71f17fb547bde4be5fd72beaf74aed42290401ca37bbd16e51c11afb065b594f",
+    "patch": "trials/workers-1-trial-3/runs/workers-1-trial-3-version-subpath-exports-fc7b9985/change.patch",
+    "patchSha256": "69b5d530741a244c84db37678fd47ef02fd998e6f73b439ff37483f1245540d8"
+  }
+}
