@@ -10,6 +10,17 @@ export { OPENCODE_MODEL, opencodeAgentAdapter } from "./adapters/opencode.js";
 export { parseOpenCodeUsage } from "./adapters/opencode-usage.js";
 export type { AgentAdapter, AgentRunInput, AgentRunResult } from "./adapters/types.js";
 export type {
+  EdgeComparison,
+  RunObservation,
+  WorkerSideSummary,
+} from "./attribution.js";
+export {
+  compareWorkerEdge,
+  distributionStats,
+  loadRunObservations,
+  summarizeWorkerSide,
+} from "./attribution.js";
+export type {
   BenchmarkDoctorCheck,
   BenchmarkDoctorResult,
   BenchmarkRepository,
@@ -58,6 +69,14 @@ export {
   persistStepPredictions,
   regenerateStepPredictions,
 } from "./capacity-report.js";
+export type {
+  ConcurrencyInterval,
+  ConcurrencyOverlap,
+} from "./concurrency-overlap.js";
+export {
+  computeConcurrencyOverlap,
+  computeProviderConcurrency,
+} from "./concurrency-overlap.js";
 export {
   buildExperimentConfig,
   ConfigurationError,
@@ -184,12 +203,40 @@ export {
   simpleResourceBaseline,
 } from "./predictors.js";
 export { runProcess } from "./process.js";
+export type {
+  AttemptProcessSummary,
+  ProcessTelemetrySample,
+} from "./process-telemetry.js";
+export {
+  aggregateProcessTelemetry,
+  attemptIdFromCommand,
+  createProcessTelemetrySampler,
+  sampleAgentProcesses,
+} from "./process-telemetry.js";
+export type {
+  EventGapSummary,
+  OpenCodeStreamEvent,
+  ProviderSpan,
+  ProviderTiming,
+  RunTimeDecomposition,
+  RuntimeObservability,
+} from "./provider-events.js";
+export {
+  decomposeRunTime,
+  deriveProviderTiming,
+  extractRuntimeObservability,
+  matchProviderSpans,
+  parseOpenCodeEventStream,
+  summarizeEventGaps,
+} from "./provider-events.js";
 export {
   type ExperimentReport,
   formatReport,
   inspectExperiment,
   regenerateReport,
 } from "./report.js";
+export type { RuntimeCapabilityFingerprint } from "./runtime-fingerprint.js";
+export { persistRuntimeFingerprint, platformSummary } from "./runtime-fingerprint.js";
 export { incompletePhaseTimings, raptureOverheadMs, timePhase } from "./timing.js";
 export { deriveTrialSeed, orderTasks, seededShuffle, trialIdFor } from "./trial.js";
 export { parseCommand, validateCommands } from "./validation.js";

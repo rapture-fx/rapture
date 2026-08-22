@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
+import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import { resolve } from "node:path";
-import type { CapacityContext } from "@rapture/core";
 import {
   benchmarkTasksForRepository,
   buildExperimentConfig,
   ConfigurationError,
+  compareWorkerEdge,
   createPredictionStore,
   DoctorError,
   detectCapacityKnee,
+  type distributionStats,
   doctorExitCode,
   evaluateStoredPredictions,
   formatDoctor,
@@ -17,6 +19,7 @@ import {
   inspectExperiment,
   loadBenchmarkSuite,
   loadCapacityContext,
+  loadRunObservations,
   loadTasks,
   materializeBenchmarkRepository,
   observeOutcomes,
@@ -458,6 +461,124 @@ function formatCapacityText(
   } else {
     lines.push("");
     lines.push("Retrospective controller simulation: unavailable (no candidate knee detected)");
+  }
+  return lines.join("\n");
+}
+
+program
+  .command("attribution")
+  .description(
+    "compare provider-wait, local-execution, and concurrency-overlap evidence between two worker counts from persisted run records",
+  )
+  .argument("<experiment>", "experiment artifact directory")
+  .option("--low <count>", "lower worker count of the edge", "3")
+  .option("--high <count>", "higher worker count of the edge", "4")
+  .option("--json", "emit machine-readable output", false)
+  .action(
+    async (
+      experiment: string,
+      options: { readonly low: string; readonly high: string; readonly json: boolean },
+    ) => {
+      const low = Number.parseInt(options.low, 10);
+      const high = Number.parseInt(options.high, 10);
+      if (!Number.isInteger(low) || !Number.isInteger(high) || low <= 0 || high <= low) {
+        process.stderr.write("invalid --low/--high worker counts\n");
+        process.exitCode = 2;
+        return;
+      }
+      const observations = await loadRunObservations(experiment);
+      if (observations.length === 0) {
+        process.stderr.write("no readable run records found\n");
+        process.exitCode = 3;
+        return;
+      }
+      const comparison = compareWorkerEdge(observations, low, high);
+      const report = await regenerateReport(experiment);
+      if (options.json) {
+        printJson({ experimentId: report.experimentId, comparison });
+        return;
+      }
+      process.stdout.write(formatAttributionText(report.experimentId, comparison));
+    },
+  );
+
+function statsLine(label: string, stats: ReturnType<typeof distributionStats>, unit = ""): string {
+  if (stats === null) return `  ${label.padEnd(28)} n/a`;
+  return [
+    "  ",
+    label.padEnd(28),
+    `n=${stats.count}`,
+    `min=${Math.round(stats.min)}`,
+    `p25=${Math.round(stats.p25)}`,
+    `med=${Math.round(stats.median)}`,
+    `p75=${Math.round(stats.p75)}`,
+    `max=${Math.round(stats.max)}${unit}`,
+  ].join(" ");
+}
+
+function formatAttributionText(experimentId: string, comparison: EdgeComparison): string {
+  const lines: string[] = [];
+  lines.push(
+    `Runtime attribution ${experimentId}: N=${comparison.low.workerCount} vs N=${comparison.high.workerCount}`,
+  );
+  lines.push("");
+  for (const side of [comparison.low, comparison.high]) {
+    lines.push(
+      `N=${side.workerCount}: runs=${side.runs} accepted=${side.acceptedRuns} (${(side.acceptanceRate * 100).toFixed(1)}%) streamCoverage=${(side.streamCoverage * 100).toFixed(0)}% rateLimitSignals=${side.rateLimitSignals}`,
+    );
+    lines.push(statsLine("agent execution ms", side.agentExecutionMs));
+    lines.push(statsLine("provider wait ms", side.providerWaitMs));
+    lines.push(statsLine("provider wait fraction", side.providerWaitFraction));
+    lines.push(statsLine("local tool gap fraction", side.interStepGapFraction));
+    lines.push(statsLine("non-tool gap fraction", side.unobservedFraction));
+    lines.push(statsLine("launch->first event ms", side.launchToFirstEventMs));
+    lines.push(statsLine("model steps per run", side.modelStepsPerRun));
+    lines.push(statsLine("tool events per run", side.toolEventsPerRun));
+    lines.push("");
+  }
+  lines.push("Median ratios (N=high / N=low)");
+  lines.push(`  agentExecutionMs       ${formatFactor(comparison.ratios.agentExecutionMs)}`);
+  lines.push(`  providerWaitMs         ${formatFactor(comparison.ratios.providerWaitMs)}`);
+  lines.push(`  providerWaitFraction   ${formatFactor(comparison.ratios.providerWaitFraction)}`);
+  lines.push(`  interStepGapFraction   ${formatFactor(comparison.ratios.interStepGapFraction)}`);
+  lines.push(`  launchToFirstEventMs   ${formatFactor(comparison.ratios.launchToFirstEventMs)}`);
+  lines.push("");
+  lines.push("Actual concurrency overlap per trial (execution windows)");
+  lines.push("trial                        workers  maxConcurrent  meanConcurrent  frac@full");
+  for (const trial of comparison.actualOverlapByTrial) {
+    lines.push(
+      [
+        "  ",
+        trial.trialId.padEnd(27),
+        String(trial.workerCount).padStart(7),
+        String(trial.maxConcurrent).padStart(14),
+        trial.meanConcurrent === null
+          ? "n/a".padStart(15)
+          : trial.meanConcurrent.toFixed(2).padStart(15),
+        trial.fractionAtFullConcurrency === null
+          ? "n/a".padStart(10)
+          : `${(trial.fractionAtFullConcurrency * 100).toFixed(1)}%`.padStart(10),
+      ].join("  "),
+    );
+  }
+  if (comparison.providerOverlapByTrial.length > 0) {
+    lines.push("");
+    lines.push("Provider-span overlap per trial");
+    lines.push("trial                        workers  maxSpans  meanSpans  spanCount");
+    for (const trial of comparison.providerOverlapByTrial) {
+      lines.push(
+        [
+          "  ",
+          trial.trialId.padEnd(27),
+          String(trial.workerCount).padStart(7),
+          String(trial.maxConcurrentProviderSpans).padStart(9),
+          trial.meanConcurrentProviderSpans === null
+            ? "n/a".padStart(10)
+            : trial.meanConcurrentProviderSpans.toFixed(2).padStart(10),
+          String(trial.spanCount).padStart(10),
+        ].join("  "),
+      );
+    }
   }
   return lines.join("\n");
 }
