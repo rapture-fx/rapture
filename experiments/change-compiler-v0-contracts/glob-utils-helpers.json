@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "glob-utils-helpers",
+    "intent": "The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.",
+    "repositoryCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "lib/utils.js",
+        "symbols": [
+          "basename",
+          "escapeLast",
+          "escapeRegex",
+          "hasRegexChars",
+          "isObject",
+          "isRegexChar",
+          "isWindows",
+          "removeBackslashes",
+          "removePrefix",
+          "toPosixSlashes",
+          "wrapOutput"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "lib/utils.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/constants.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "lib/glob-match.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/parse.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/scan.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "test/match.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 5,
+        "2": 1
+      }
+    },
+    "fanOut": {
+      "lib/utils.js": 4
+    },
+    "testSurfaces": {
+      "files": [
+        "test/match.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/match.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "lib/utils.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/match.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "lib/utils.js"
+    ],
+    "protectedPaths": [
+      "index.js",
+      "lib/constants.js",
+      "lib/glob-match.js",
+      "lib/parse.js",
+      "lib/scan.js",
+      "test/match.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "lib/utils.js is imported by 4 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 4 importer(s)"
+      },
+      {
+        "statement": "lib/utils.js exports basename, escapeLast, escapeRegex, hasRegexChars, isObject, isRegexChar, isWindows, removeBackslashes, removePrefix, toPosixSlashes, wrapOutput; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "test/match.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "lib/utils.js": "2af02bdfe34fc69608e5affecbd47dda79de7a761fcf934b5194b92f8eaca970",
+      "index.js": "9cd6c0b2955767faf2e526b60e2a4909153de1082862af83ae6f7544126d0d3f",
+      "lib/constants.js": "c28f952d2758261fe5428a121add485cc25b03e0193633f649de903dc0e5e222",
+      "lib/glob-match.js": "7071caab1987b211f468cd896cb4441d7c79647075b241661233c1031e18450f",
+      "lib/parse.js": "73211a8ba85ce257b827abd8960e52c9750385b3fd18e8ef1080b114d774eb23",
+      "lib/scan.js": "bade4d084534b783ba4f7e1d9b52c39e35b9b590e142c3b81976272185a5e314",
+      "test/match.test.js": "ae7897f63c0777d35a1555fe8681073d442147d21065c58f6388ec17aed52f89"
+    },
+    "contractSha256": "cd64bc04e694d836bd46f06c785a48effbe729cfd7b438f0c85cdd7e4cb54c0b"
+  }
+}

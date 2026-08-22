@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "version-diff-release-type",
+    "intent": "`diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.",
+    "repositoryCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "functions/diff.js",
+        "symbols": [
+          "diff"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "functions/diff.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "functions/parse.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "classes/semver.js",
+        "depth": 2,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "test/range.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 2,
+        "2": 2
+      }
+    },
+    "fanOut": {
+      "functions/diff.js": 1
+    },
+    "testSurfaces": {
+      "files": [
+        "test/range.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "functions/diff.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "functions/diff.js"
+    ],
+    "protectedPaths": [
+      "classes/semver.js",
+      "functions/parse.js",
+      "index.js",
+      "test/range.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "functions/diff.js is imported by 1 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 1 importer(s)"
+      },
+      {
+        "statement": "functions/diff.js exports diff; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "test/range.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "functions/diff.js": "2704a4cbc3c18b567d5a0a9cfe98aaf69c1b5434b11e01fc7e28d7fcc2e5dd3f",
+      "functions/parse.js": "29a69e15b6d02fe381d573f861881a89590e9d0f0f0ca740c5f85eaf0234c4ad",
+      "index.js": "4b3e57d3d40e29e0706002eba113d09f35aea593578376bbeec83b777b9912ab",
+      "classes/semver.js": "813b2c185512d30c9b931c2fed8140889d9d7490ceeeedc370da30337dc8ca57",
+      "test/range.test.js": "2ee7b4526e28530719965653d3c23e84fa540400a2264a3d3e0ffd19c9e545bd"
+    },
+    "contractSha256": "6dd762e4a466c5b160861abfda31b2347b048ee3b2669f87f88913f70c30249f"
+  }
+}

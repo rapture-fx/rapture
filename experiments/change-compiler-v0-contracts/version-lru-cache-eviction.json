@@ -1,0 +1,208 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "version-lru-cache-eviction",
+    "intent": "`internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.",
+    "repositoryCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "internal/lrucache.js",
+        "symbols": [
+          "LRUCache"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "internal/lrucache.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "classes/range.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "classes/comparator.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "classes/index.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "functions/satisfies.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/intersects.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/max-satisfying.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/min-satisfying.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/min-version.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/outside.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/subset.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/to-comparators.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "ranges/valid.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "test/range.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 1,
+        "2": 13
+      }
+    },
+    "fanOut": {
+      "internal/lrucache.js": 1
+    },
+    "testSurfaces": {
+      "files": [
+        "test/range.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "internal/lrucache.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/range.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "internal/lrucache.js"
+    ],
+    "protectedPaths": [
+      "classes/comparator.js",
+      "classes/index.js",
+      "classes/range.js",
+      "functions/satisfies.js",
+      "index.js",
+      "ranges/intersects.js",
+      "ranges/max-satisfying.js",
+      "ranges/min-satisfying.js",
+      "ranges/min-version.js",
+      "ranges/outside.js",
+      "ranges/subset.js",
+      "ranges/to-comparators.js",
+      "ranges/valid.js",
+      "test/range.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "internal/lrucache.js is imported by 1 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 1 importer(s)"
+      },
+      {
+        "statement": "internal/lrucache.js exports LRUCache; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "test/range.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "internal/lrucache.js": "af7218d0f39f68ab8c7d01b9458c8726735272632c82d637e6d91d2e7474d36a",
+      "classes/range.js": "a6544485aa8575aa9854c67e2caa67726815de18a482d0ceb8a1003244de3bc1",
+      "classes/comparator.js": "054202956430d63d5ff4599fae09760ce465b489e4f0b5ef5ce7cc7ac21157ac",
+      "classes/index.js": "3bb69280c2a788d0eb16f915bb9df4dbe812075182024c753dca2283bcea1b17",
+      "functions/satisfies.js": "8cf5e122b757251671ed6c9d9680904b71cd375845853f05312e608cf2cc2946",
+      "index.js": "4b3e57d3d40e29e0706002eba113d09f35aea593578376bbeec83b777b9912ab",
+      "ranges/intersects.js": "fe87ac5d3020010ad3ec00636dadbf0c669ff07d0f57e0a8165a8264f79a676f",
+      "ranges/max-satisfying.js": "e1a2c0d6144cc772cd20bbc8ecb9e8a3a4074e9172a3d8e794838b591cdeb416",
+      "ranges/min-satisfying.js": "2681abf54098aa670f12826b76a6ec77a2441186ae4243afde3be8ae4908f7ca",
+      "ranges/min-version.js": "fefba0a88c2bf74d5cede504b5ae50a8dc3edfd69cf0174a491e2cf3e442614b",
+      "ranges/outside.js": "3a2b0b23593d2f49419c06af2af75450cab103b0c25d665d48fe5bca495a21ca",
+      "ranges/subset.js": "ceb9eb6ed5bfc6c7ac7af7f47e5c3535444a4e66a0e2b58cdad4bd02a35d454d",
+      "ranges/to-comparators.js": "6c5e966210cff270fa2850668aaf8460fac7759f8d99f282521ef7a78f4564e9",
+      "ranges/valid.js": "5ef6f995af801868925940cf8df5735d565ebabb090b068695cae65218bcd3ac",
+      "test/range.test.js": "2ee7b4526e28530719965653d3c23e84fa540400a2264a3d3e0ffd19c9e545bd"
+    },
+    "contractSha256": "47e4bf506e8ad730064628dee25e0d05be9cabb95ee8802618494de7d3f01f7a"
+  }
+}

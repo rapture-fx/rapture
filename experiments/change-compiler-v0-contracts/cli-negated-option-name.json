@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "1",
+  "request": {
+    "taskId": "cli-negated-option-name",
+    "intent": "A `--no-x` flag is a negated option: it turns off `x`, so its parsed value must be stored under\nthe positive attribute name. Today `--no-color` is stored as `noColor` instead of `color`.\n\nFix `lib/option.js` so that a negated option's attribute name drops the `no-` prefix before\ncamelcasing, so `--no-color` becomes `color` and `--no-check-updates` becomes `checkUpdates`,\nwhile positive options are unaffected and a long flag that merely begins with the letters 'no'\n-- such as `--nozzle` -- is not treated as negated.\n\nParsing must then behave correctly: with only `--no-color` declared, the default is\n`{ color: true }` and passing the flag yields `{ color: false }`; when `--color` and `--no-color`\nare both declared they share the single `color` attribute and neither implies a default.",
+    "repositoryCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234"
+  },
+  "mechanicalContext": {
+    "entrySymbols": [
+      {
+        "file": "lib/option.js",
+        "symbols": [
+          "DualOptions",
+          "Option"
+        ]
+      }
+    ],
+    "relevantFiles": [
+      {
+        "path": "lib/option.js",
+        "depth": 0,
+        "reason": "editable"
+      },
+      {
+        "path": "index.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/command.js",
+        "depth": 1,
+        "reason": "imports_editable"
+      },
+      {
+        "path": "lib/error.js",
+        "depth": 1,
+        "reason": "imported_by_editable"
+      },
+      {
+        "path": "test/option.test.js",
+        "depth": 2,
+        "reason": "imports_editable"
+      }
+    ],
+    "dependencyDepth": {
+      "maxDepthWalked": 2,
+      "bounded": true,
+      "filesByDepth": {
+        "0": 1,
+        "1": 3,
+        "2": 1
+      }
+    },
+    "fanOut": {
+      "lib/option.js": 2
+    },
+    "testSurfaces": {
+      "files": [
+        "test/option.test.js"
+      ],
+      "commands": [
+        [
+          "node",
+          "--test",
+          "test/option.test.js"
+        ]
+      ]
+    },
+    "verificationSurface": [
+      {
+        "mechanism": "syntax check",
+        "command": [
+          "node",
+          "--check",
+          "lib/option.js"
+        ],
+        "evidence": "file is a parseable source module"
+      },
+      {
+        "mechanism": "node:test suite",
+        "command": [
+          "node",
+          "--test",
+          "test/option.test.js"
+        ],
+        "evidence": "file imports node:test"
+      }
+    ],
+    "changeBreadth": "cross_module"
+  },
+  "constraints": {
+    "editableScope": [
+      "lib/option.js"
+    ],
+    "protectedPaths": [
+      "index.js",
+      "lib/command.js",
+      "lib/error.js",
+      "test/option.test.js"
+    ],
+    "existingInvariants": [
+      {
+        "statement": "lib/option.js is imported by 2 other file(s); its module interface is depended upon",
+        "evidence": "static import graph: 2 importer(s)"
+      },
+      {
+        "statement": "lib/option.js exports DualOptions, Option; these names are its observable surface",
+        "evidence": "syntactic export analysis"
+      }
+    ],
+    "unknowns": [
+      "dependency edges come from literal import/require specifiers only; computed specifiers are not resolved",
+      "no type information, call-graph, or runtime behaviour was analyzed",
+      "lib/command.js has unresolved specifiers: node:child_process, node:events, node:fs, node:path, node:process, node:util",
+      "test/option.test.js has unresolved specifiers: node:assert/strict, node:test"
+    ]
+  },
+  "acceptance": {
+    "commands": [
+      "an external validator outside this repository decides acceptance; it cannot be run from here"
+    ],
+    "requiredEvidence": [
+      "every editable file still parses",
+      "the change stays inside the editable scope",
+      "behaviour outside the requested change is unaffected"
+    ]
+  },
+  "provenance": {
+    "generatedAt": "2026-08-22T00:00:00Z",
+    "generatorVersion": "rapture-change-compiler/0.1.0",
+    "sourceHashes": {
+      "lib/option.js": "ca21fb2fb77e20f9bc1546f6877931e4df884ed0622ae1f95686c7883ecf68e1",
+      "index.js": "1a06e98ba848b9db780d5fd177dd7e4802627faddfdece01110d5eb9acd1e3dd",
+      "lib/command.js": "8720575ce0d4108465e7ac032e3340bc1c90ad0844a80c8526a237f362a4c13c",
+      "lib/error.js": "4d93dce33b63b7ae5f349f408cfa7349d8fb991ba1365c7c531d6c764a79d059",
+      "test/option.test.js": "5cbf17efdc155831c415c84528057517887b03cc76d48ad97b8404b78c9843fa"
+    },
+    "contractSha256": "2543f2b56ce1627b9b8de09e2090e340d25d4eb2c5a6d9d882e74d9597653fc4"
+  }
+}
