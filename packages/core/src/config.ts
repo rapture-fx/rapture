@@ -51,7 +51,28 @@ const benchmarkTaskProvenanceSchema = z
       "test_repair",
       "repository_exploration",
       "build_or_typecheck_heavy",
+      "config_change",
+      "api_change",
     ]),
+    // Carried through the materialize -> run round trip so the features an analysis reads
+    // come from the frozen task definition rather than being re-derived later.
+    delegationFeatures: z
+      .object({
+        acceptanceCriteriaType: z.enum([
+          "unit_test",
+          "integration_test",
+          "type_contract",
+          "static_analysis",
+          "behavioral_contract",
+        ]),
+        editableFileCount: z.number().int().positive(),
+        expectedChangeBreadth: z.enum(["single_file", "multi_file_single_module", "cross_module"]),
+        specificationClarity: z.enum(["explicit", "moderate", "underspecified"]),
+        verificationCostClass: z.enum(["cheap", "moderate", "expensive"]),
+        reversibility: z.enum(["fully_reversible", "reversible_with_review", "high_consequence"]),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 

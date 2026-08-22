@@ -52,7 +52,39 @@ export interface BenchmarkTaskProvenance {
     | "refactor"
     | "test_repair"
     | "repository_exploration"
-    | "build_or_typecheck_heavy";
+    | "build_or_typecheck_heavy"
+    | "config_change"
+    | "api_change";
+  readonly delegationFeatures?: DelegationFeatures | undefined;
+}
+
+/**
+ * Structural characteristics of a task, assigned from how the task is constructed and
+ * recorded before any agent runs against it.
+ *
+ * These exist to be tested, not assumed: the open question is whether they explain
+ * variation in independently verified outcomes. They are deliberately derivable from the
+ * task definition alone, so that no label can be adjusted after seeing whether an agent
+ * succeeded.
+ */
+export interface DelegationFeatures {
+  /** What kind of evidence the external validator uses to decide acceptance. */
+  readonly acceptanceCriteriaType:
+    | "unit_test"
+    | "integration_test"
+    | "type_contract"
+    | "static_analysis"
+    | "behavioral_contract";
+  /** Number of files the agent is permitted to edit; must equal the editable scope size. */
+  readonly editableFileCount: number;
+  /** How far the intended change reaches, independent of how many files may be touched. */
+  readonly expectedChangeBreadth: "single_file" | "multi_file_single_module" | "cross_module";
+  /** How completely the prompt determines the required behaviour. */
+  readonly specificationClarity: "explicit" | "moderate" | "underspecified";
+  /** Cost of running the verification, not of doing the work. */
+  readonly verificationCostClass: "cheap" | "moderate" | "expensive";
+  /** Blast radius if a wrong change were accepted. */
+  readonly reversibility: "fully_reversible" | "reversible_with_review" | "high_consequence";
 }
 
 export interface ExperimentBudget {
@@ -126,6 +158,7 @@ export interface EngineeringTaskRun {
   readonly benchmarkSuiteId: string | null;
   readonly benchmarkSuiteVersion: string | null;
   readonly benchmarkTaskClass: BenchmarkTaskProvenance["taskClass"] | null;
+  readonly benchmarkDelegationFeatures: DelegationFeatures | null;
   readonly baseCommit: string;
   readonly baseTreeHash: string;
   readonly workerId: string;

@@ -15,6 +15,41 @@ export const benchmarkTaskClasses = [
   "test_repair",
   "repository_exploration",
   "build_or_typecheck_heavy",
+  "config_change",
+  "api_change",
+] as const;
+
+/**
+ * Pre-registered structural characteristics of a task.
+ *
+ * Recorded in the manifest before any agent runs, so a delegation analysis cannot invent
+ * an explanatory label after seeing which tasks succeeded. Optional at the schema level so
+ * that suites frozen before this existed keep parsing, and keep their fingerprints.
+ */
+const delegationFeaturesSchema = z
+  .object({
+    acceptanceCriteriaType: z.enum([
+      "unit_test",
+      "integration_test",
+      "type_contract",
+      "static_analysis",
+      "behavioral_contract",
+    ]),
+    editableFileCount: z.number().int().positive(),
+    expectedChangeBreadth: z.enum(["single_file", "multi_file_single_module", "cross_module"]),
+    specificationClarity: z.enum(["explicit", "moderate", "underspecified"]),
+    verificationCostClass: z.enum(["cheap", "moderate", "expensive"]),
+    reversibility: z.enum(["fully_reversible", "reversible_with_review", "high_consequence"]),
+  })
+  .strict();
+
+export const delegationFeatureNames = [
+  "taskClass",
+  "acceptanceCriteriaType",
+  "expectedChangeBreadth",
+  "specificationClarity",
+  "verificationCostClass",
+  "reversibility",
 ] as const;
 
 const relativePathSchema = z
@@ -109,6 +144,7 @@ const taskSchema = z
       .strict(),
     timeoutHintSeconds: z.number().int().positive(),
     knownGoodPatch: z.object({ path: relativePathSchema, sha256: sha256Schema }).strict(),
+    delegationFeatures: delegationFeaturesSchema.optional(),
     metadata: z
       .object({
         representativeReason: z.string().trim().min(1),
@@ -173,6 +209,16 @@ export const benchmarkSuiteSchema = z
           code: "custom",
           path: ["tasks", index, "baseRevision"],
           message: "task baseRevision must equal its repository baseRevision",
+        });
+      }
+      if (
+        task.delegationFeatures !== undefined &&
+        task.delegationFeatures.editableFileCount !== task.editableScope.length
+      ) {
+        context.addIssue({
+          code: "custom",
+          path: ["tasks", index, "delegationFeatures", "editableFileCount"],
+          message: `editableFileCount ${task.delegationFeatures.editableFileCount} must equal the editable scope size ${task.editableScope.length}`,
         });
       }
     });
@@ -509,6 +555,9 @@ export function benchmarkTasksForRepository(input: {
           repositoryId: task.repositoryId,
           editableScope: task.editableScope,
           taskClass: task.class,
+          ...(task.delegationFeatures === undefined
+            ? {}
+            : { delegationFeatures: task.delegationFeatures }),
         },
       };
     });
