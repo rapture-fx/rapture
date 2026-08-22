@@ -695,9 +695,18 @@ reasoning. **Codex was never invoked and consumed no quota.**
 | `16b4c14` | `benchmark: add upstream-derived real-work fixture and provenance` |
 | `331882f` | `benchmark: add deterministic real-work tasks and validation proofs` |
 | `a6f157d` | `research: freeze real-work external-validity experiment` |
+| `e6d4972` | `research: record OpenCode 1-vs-2 external-validity result` |
 
 Branched from `321d9c00df65add0d1fd2cf35d8c1691753dc726`. The freeze was committed
 before any experiment run was consumed; results are committed separately.
+
+## Push result and PR URL
+
+Branch `research/real-work-external-validity-v1` pushed to
+`https://github.com/wiramahendra/rapture`.
+
+Draft PR: <https://github.com/wiramahendra/rapture/pull/8> — opened as a draft
+against `main` and deliberately **not** merged.
 
 ## Recommended next empirical question
 
