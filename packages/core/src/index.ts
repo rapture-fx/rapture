@@ -9,6 +9,31 @@ export { fakeAgentAdapter } from "./adapters/fake.js";
 export { OPENCODE_MODEL, opencodeAgentAdapter } from "./adapters/opencode.js";
 export type { AgentAdapter, AgentRunInput, AgentRunResult } from "./adapters/types.js";
 export type {
+  BenchmarkDoctorCheck,
+  BenchmarkDoctorResult,
+  BenchmarkRepository,
+  BenchmarkSuite,
+  BenchmarkTask,
+  BenchmarkTaskClass,
+  BenchmarkValidatorClassification,
+  BenchmarkValidatorResult,
+} from "./benchmark.js";
+export {
+  applyKnownGoodPatch,
+  BenchmarkIntegrityError,
+  benchmarkFingerprint,
+  benchmarkSuiteSchema,
+  benchmarkTaskClasses,
+  benchmarkTasksForRepository,
+  directoryFingerprint,
+  loadBenchmarkSuite,
+  materializeBenchmarkRepository,
+  parseBenchmarkSuite,
+  runBenchmarkDoctor,
+  runBenchmarkValidator,
+  verifyBenchmarkAssets,
+} from "./benchmark.js";
+export type {
   AdjacentCapacityStep,
   CapacityCurve,
   CapacityPoint,
@@ -100,6 +125,7 @@ export type {
 export { DEFAULT_KNEE_THRESHOLDS, detectCapacityKnee } from "./knee.js";
 export { deriveMetrics, median, percentile } from "./metrics.js";
 export type {
+  BenchmarkTaskProvenance,
   EngineeringTaskRun,
   ExecutionOrder,
   ExperimentConfig,

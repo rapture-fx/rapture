@@ -15,6 +15,23 @@ const fakeAgentSchema = z
   })
   .strict();
 
+const benchmarkTaskProvenanceSchema = z
+  .object({
+    suiteId: z.string().trim().min(1),
+    suiteVersion: z.string().trim().min(1),
+    repositoryId: z.string().trim().min(1),
+    editableScope: z.array(z.string().trim().min(1)).min(1),
+    taskClass: z.enum([
+      "bug_fix",
+      "small_feature",
+      "refactor",
+      "test_repair",
+      "repository_exploration",
+      "build_or_typecheck_heavy",
+    ]),
+  })
+  .strict();
+
 export const taskDefinitionSchema = z
   .object({
     id: z.string().trim().min(1),
@@ -25,6 +42,7 @@ export const taskDefinitionSchema = z
     independent: z.boolean().default(true),
     dependsOn: z.array(z.string().trim().min(1)).default([]),
     fake: fakeAgentSchema.optional(),
+    benchmark: benchmarkTaskProvenanceSchema.optional(),
   })
   .strict();
 
@@ -183,9 +201,10 @@ export function parseTaskFile(value: unknown): readonly TaskDefinition[] {
   if (!result.success) {
     throw new ConfigurationError(z.prettifyError(result.error));
   }
-  return result.data.tasks.map(({ fake, ...task }) =>
-    fake === undefined ? task : { ...task, fake: toFakeAgentConfig(fake) },
-  );
+  return result.data.tasks.map(({ fake, benchmark, ...task }) => {
+    const withBenchmark = benchmark === undefined ? task : { ...task, benchmark };
+    return fake === undefined ? withBenchmark : { ...withBenchmark, fake: toFakeAgentConfig(fake) };
+  });
 }
 
 export async function loadTasks(path: string): Promise<readonly TaskDefinition[]> {

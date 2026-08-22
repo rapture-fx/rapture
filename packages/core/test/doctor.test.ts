@@ -187,7 +187,7 @@ describe("frozen config and integrity", () => {
 });
 
 describe("doctor integration", () => {
-  it("returns READY for a valid fake fixture environment", async () => {
+  it("accepts a valid fake fixture environment with at most pinned-runtime drift", async () => {
     const root = await mkdtemp(join(tmpdir(), "rapture-doctor-ready-"));
     const repository = await createGitRepository(root);
     const taskFile = await writeTaskFile(root, [
@@ -224,9 +224,12 @@ describe("doctor integration", () => {
     expect(result.checks.find((item) => item.id === "AGENT_AUTH")?.status).toBe("PASS");
     expect(result.checks.find((item) => item.id === "AGENT_BINARY")?.status).toBe("PASS");
     expect(result.checks.find((item) => item.id === "REPOSITORY_STATE")?.status).toBe("PASS");
-    expect(result.status).toBe("READY");
+    expect(["READY", "WARNING"]).toContain(result.status);
+    expect(
+      result.checks.filter((item) => item.status === "WARNING").map((item) => item.id),
+    ).toEqual(process.version === "v22.14.0" ? [] : ["NODE_RUNTIME"]);
     expect(result.scalingConclusion).toBeNull();
-    expect(doctorResultSchema.parse(result).status).toBe("READY");
+    expect(doctorResultSchema.parse(result).status).toBe(result.status);
   });
 
   it("blocks on a missing Codex binary", async () => {
@@ -265,7 +268,7 @@ describe("doctor integration", () => {
     expect(result.status).toBe("BLOCKED");
   });
 
-  it("reports READY for OpenCode with a test-double adapter", async () => {
+  it("accepts OpenCode with a test-double adapter with at most pinned-runtime drift", async () => {
     const adapter: AgentAdapter = {
       ...fakeAgentAdapter,
       name: () => "opencode",
@@ -318,7 +321,10 @@ describe("doctor integration", () => {
     expect(result.checks.find((item) => item.id === "AGENT_BINARY")?.status).toBe("PASS");
     expect(result.checks.find((item) => item.id === "AGENT_AUTH")?.status).toBe("PASS");
     expect(result.checks.find((item) => item.id === "MODEL_CONFIG")?.status).toBe("PASS");
-    expect(result.status).toBe("READY");
+    expect(["READY", "WARNING"]).toContain(result.status);
+    expect(
+      result.checks.filter((item) => item.status === "WARNING").map((item) => item.id),
+    ).toEqual(process.version === "v22.14.0" ? [] : ["NODE_RUNTIME"]);
   });
 
   it("blocks OpenCode auth when no credential mechanism exists", async () => {

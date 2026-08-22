@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+import { resolve } from "node:path";
 import type { CapacityContext } from "@rapture/core";
 import {
+  benchmarkTasksForRepository,
   buildExperimentConfig,
   ConfigurationError,
   createPredictionStore,
@@ -13,13 +15,16 @@ import {
   formatFactor,
   formatReport,
   inspectExperiment,
+  loadBenchmarkSuite,
   loadCapacityContext,
   loadTasks,
+  materializeBenchmarkRepository,
   observeOutcomes,
   persistDoctorArtifacts,
   regenerateReport,
   regenerateStepPredictions,
   resumeExperiment,
+  runBenchmarkDoctor,
   runDoctor,
   runExperiment,
   simulateControllerStop,
@@ -58,6 +63,75 @@ program
   .action(async (options: { readonly tasks: string }) => {
     const tasks = await loadTasks(options.tasks);
     process.stdout.write(`valid: ${tasks.length} task(s)\n`);
+  });
+
+const benchmarkDoctorOptionsSchema = z.object({
+  manifest: z.string().min(1),
+  json: z.boolean(),
+});
+
+program
+  .command("benchmark-doctor")
+  .description("verify a benchmark manifest, fixtures, validators, and known-good proofs")
+  .requiredOption("--manifest <path>", "benchmark suite manifest")
+  .option("--json", "emit machine-readable output", false)
+  .action(async (rawOptions: unknown) => {
+    const options = benchmarkDoctorOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const result = await runBenchmarkDoctor({
+      manifestPath: resolve(invocationRoot, options.manifest),
+    });
+    if (options.json) printJson(result);
+    else {
+      process.stdout.write(
+        `Rapture benchmark doctor ${result.status} (${result.suiteId}@${result.suiteVersion})\n`,
+      );
+      for (const check of result.checks) {
+        process.stdout.write(`${check.id.padEnd(36)} ${check.status.padEnd(8)} ${check.message}\n`);
+      }
+    }
+    process.exitCode = result.status === "BLOCKED" ? 2 : 0;
+  });
+
+const benchmarkMaterializeOptionsSchema = z.object({
+  manifest: z.string().min(1),
+  repository: z.string().min(1),
+  destination: z.string().min(1),
+  tasksOutput: z.string().optional(),
+});
+
+program
+  .command("benchmark-materialize")
+  .description("materialize one pinned benchmark repository and optionally write Rapture tasks")
+  .requiredOption("--manifest <path>", "benchmark suite manifest")
+  .requiredOption("--repository <id>", "benchmark repository ID")
+  .requiredOption("--destination <path>", "new destination directory")
+  .option("--tasks-output <path>", "write compatible task JSON for this repository")
+  .action(async (rawOptions: unknown) => {
+    const options = benchmarkMaterializeOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const manifestPath = resolve(invocationRoot, options.manifest);
+    const suite = await loadBenchmarkSuite(manifestPath);
+    await materializeBenchmarkRepository({
+      manifestPath,
+      suite,
+      repositoryId: options.repository,
+      destination: resolve(invocationRoot, options.destination),
+    });
+    if (options.tasksOutput !== undefined) {
+      const { writeFile } = await import("node:fs/promises");
+      const tasks = benchmarkTasksForRepository({
+        manifestPath,
+        suite,
+        repositoryId: options.repository,
+      });
+      await writeFile(
+        resolve(invocationRoot, options.tasksOutput),
+        `${JSON.stringify({ tasks }, null, 2)}\n`,
+        "utf8",
+      );
+    }
+    process.stdout.write(`materialized ${options.repository} at ${options.destination}\n`);
   });
 
 const doctorOptionsSchema = z.object({
