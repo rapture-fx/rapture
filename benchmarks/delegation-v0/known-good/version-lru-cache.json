@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "internal/lrucache.js": "'use strict'\n\nclass LRUCache {\n  constructor () {\n    this.max = 1000\n    this.map = new Map()\n  }\n\n  get (key) {\n    const value = this.map.get(key)\n    if (value === undefined) {\n      return undefined\n    } else {\n      // Remove the key from the map and add it to the end\n      this.map.delete(key)\n      this.map.set(key, value)\n      return value\n    }\n  }\n\n  delete (key) {\n    return this.map.delete(key)\n  }\n\n  set (key, value) {\n    const deleted = this.delete(key)\n\n    if (!deleted && value !== undefined) {\n      // If cache is full, delete the least recently used item\n      if (this.map.size >= this.max) {\n        const firstKey = this.map.keys().next().value\n        this.delete(firstKey)\n      }\n\n      this.map.set(key, value)\n    }\n\n    return this\n  }\n}\n\nmodule.exports = LRUCache\n"
+  }
+}

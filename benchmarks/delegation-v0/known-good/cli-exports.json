@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "package.json": "{\n  \"name\": \"cli-command-core\",\n  \"version\": \"0.0.0\",\n  \"description\": \"Command-line option and subcommand parser.\",\n  \"type\": \"module\",\n  \"main\": \"./index.js\",\n  \"license\": \"MIT\",\n  \"engines\": {\n    \"node\": \">=22.12.0\"\n  },\n  \"exports\": {\n    \".\": \"./index.js\",\n    \"./package.json\": \"./package.json\"\n  },\n  \"files\": [\n    \"index.js\",\n    \"lib/\"\n  ]\n}\n"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "glob-matcher-core",
+  "version": "0.0.0",
+  "description": "Glob matcher with support for braces, extglobs, POSIX brackets and regular expressions.",
+  "main": "index.js",
+  "license": "MIT",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=12"
+  }
+}

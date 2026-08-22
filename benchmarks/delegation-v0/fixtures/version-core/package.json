@@ -1,0 +1,10 @@
+{
+  "name": "version-core",
+  "version": "0.0.0",
+  "description": "Semantic version parsing, comparison and range matching.",
+  "main": "index.js",
+  "license": "ISC",
+  "engines": {
+    "node": ">=10"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "package.json": "{\n  \"name\": \"glob-matcher-core\",\n  \"version\": \"0.0.0\",\n  \"description\": \"Glob matcher with support for braces, extglobs, POSIX brackets and regular expressions.\",\n  \"main\": \"index.js\",\n  \"license\": \"MIT\",\n  \"sideEffects\": false,\n  \"engines\": {\n    \"node\": \">=12\"\n  },\n  \"exports\": {\n    \".\": \"./index.js\",\n    \"./scan\": \"./lib/scan.js\",\n    \"./utils\": \"./lib/utils.js\",\n    \"./package.json\": \"./package.json\"\n  },\n  \"files\": [\n    \"index.js\",\n    \"lib/\"\n  ]\n}\n"
+  }
+}
