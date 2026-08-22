@@ -103,6 +103,7 @@ reports and were not independently re-executed here.
 | Capacity prediction (Agent 1) | `PREDICTION_NO_INCREMENTAL_VALUE`; knee at N=3 detected retrospectively; outcome-aware predictor agreed with held-out outcomes on 1/3 steps vs 2/3 for naive baselines; provider/runtime attribution next/in progress | commit `afd3b29` on `cursor/repeated-real-agent-scaling-ca4d` [verified]; continuation work [operator-reported] |
 | Real-Work Benchmark V0 (Agent 2) | `REAL_WORK_BENCHMARK_PARTIAL`; draft PR #3 | PR #3 / branch `research/real-work-benchmark-v0` [verified] |
 | Engineering Economics V0 (Agent 3) | `ENGINEERING_ECONOMICS_READY`; draft PR #4 | PR #4 / branch `research/engineering-economics-v0` [verified] |
+| Integration Baseline V0 | all four workstreams merged onto `integration/research-v0` from `origin/main` (`bb96ef2`) with historical artifacts verified unchanged; full deterministic suite green under Node v22.14.0 | branch `integration/research-v0` |
 | Research methodology & evidence contract (Agent 4) | this document set, draft PR on `research/research-program-v0` | this branch |
 
 This document set deliberately does not depend on code from any other
