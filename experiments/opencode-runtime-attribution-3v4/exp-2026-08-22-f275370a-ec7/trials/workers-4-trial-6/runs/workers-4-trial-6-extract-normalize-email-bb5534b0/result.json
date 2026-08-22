@@ -1,0 +1,209 @@
+{
+  "runId": "workers-4-trial-6-extract-normalize-email-bb5534b0",
+  "logicalRunId": "e869df961db77bff370bedc7189efb5b3a6fdc7dc428cfc7d5714d0af98dd78f",
+  "attemptId": "workers-4-trial-6-extract-normalize-email-bb5534b0",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-4-trial-6",
+  "repetition": 6,
+  "taskId": "extract-normalize-email",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w4-4",
+  "workerCount": 4,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 4,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-6-extract-normalize-email-bb5534b0",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:36:32.848Z",
+  "finishedAt": "2026-08-22T01:37:55.897Z",
+  "durationMs": 83126,
+  "phaseTimings": {
+    "worktreeSetupMs": 150,
+    "queueWaitMs": 0.22626699972897768,
+    "agentExecutionMs": 82163,
+    "validationMs": 485,
+    "artifactPersistenceMs": 4,
+    "integrationMs": null,
+    "worktreeCleanupMs": 43,
+    "otherOrchestrationMs": 280.773733000271,
+    "totalRunMs": 83126
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "eacb6cc4a795f8edfdf63f2504f92fd0357e3a7d",
+  "filesChanged": [
+    "src/email.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-6-extract-normalize-email-bb5534b0",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/email.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:36:33.098Z",
+      "processFinishedAt": "2026-08-22T01:37:55.183Z",
+      "firstStructuredEventAt": "2026-08-22T01:37:06.208Z",
+      "firstModelResponseAt": "2026-08-22T01:37:07.900Z",
+      "lastModelResponseAt": "2026-08-22T01:37:54.621Z",
+      "providerWaitMs": 18684,
+      "providerEventCount": 20,
+      "modelStepCount": 10,
+      "toolEventCount": 9,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787362626208,
+        "endMs": 1787362627900
+      },
+      {
+        "startMs": 1787362631191,
+        "endMs": 1787362633540
+      },
+      {
+        "startMs": 1787362637102,
+        "endMs": 1787362638959
+      },
+      {
+        "startMs": 1787362642157,
+        "endMs": 1787362643739
+      },
+      {
+        "startMs": 1787362646761,
+        "endMs": 1787362648588
+      },
+      {
+        "startMs": 1787362652145,
+        "endMs": 1787362653879
+      },
+      {
+        "startMs": 1787362657019,
+        "endMs": 1787362658720
+      },
+      {
+        "startMs": 1787362662123,
+        "endMs": 1787362664416
+      },
+      {
+        "startMs": 1787362667502,
+        "endMs": 1787362670476
+      },
+      {
+        "startMs": 1787362673946,
+        "endMs": 1787362674621
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 48413,
+      "providerWaitMs": 18684,
+      "interStepGapMs": 29729,
+      "outsideWindowMs": 33750,
+      "providerWaitFraction": 0.22740162847023598,
+      "interStepGapFraction": 0.36182953397514694,
+      "unobservedFraction": 0.410768837554617
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        706,
+        986,
+        3291,
+        1768,
+        581,
+        3562,
+        1423,
+        338,
+        96,
+        3198,
+        1482,
+        100,
+        3022,
+        1417,
+        410,
+        3557,
+        1469,
+        265,
+        3140,
+        1453,
+        248,
+        3403,
+        1707,
+        437,
+        149,
+        3086,
+        2666,
+        308,
+        3470,
+        384,
+        291
+      ],
+      "handoffGapsMs": [
+        3291,
+        3562,
+        3198,
+        3022,
+        3557,
+        3140,
+        3403,
+        3086,
+        3470
+      ],
+      "launchToFirstEventMs": 33110
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-4-trial-6/runs/workers-4-trial-6-extract-normalize-email-bb5534b0/agent.stdout.log",
+    "stdoutSha256": "e765197776d237ba9b4fb8803f7fd417f7d999e42dabd0ac0032aa20c1c94cd7",
+    "stderr": "trials/workers-4-trial-6/runs/workers-4-trial-6-extract-normalize-email-bb5534b0/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-4-trial-6/runs/workers-4-trial-6-extract-normalize-email-bb5534b0/validation.json",
+    "validationSha256": "e0c4cda64e4a6bd79daf0d212ebede7df4bb125613e38d899fdadeaeb73d0290",
+    "patch": "trials/workers-4-trial-6/runs/workers-4-trial-6-extract-normalize-email-bb5534b0/change.patch",
+    "patchSha256": "31a2131799a0953279f5358a2b3fb2039ce74620169351450aac14c643e0d8fc"
+  }
+}

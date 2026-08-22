@@ -1,0 +1,199 @@
+{
+  "runId": "workers-3-trial-3-parse-config-comments-c684d2c3",
+  "logicalRunId": "cad4a4d851531297a8597a259d5af30214d1744068d6a1a91471cebda1e8cad9",
+  "attemptId": "workers-3-trial-3-parse-config-comments-c684d2c3",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-3-trial-3",
+  "repetition": 3,
+  "taskId": "parse-config-comments",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-2",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 2,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-3-parse-config-comments-c684d2c3",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Update parseConfig(text) in src/config.ts to skip empty lines and # comments, trim keys, support double-quoted values that may contain #, treat duplicate keys as last-wins, and throw SyntaxError for a non-comment line without =. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:03:19.718Z",
+  "finishedAt": "2026-08-22T01:04:35.419Z",
+  "durationMs": 75704,
+  "phaseTimings": {
+    "worktreeSetupMs": 80,
+    "queueWaitMs": 80747.91412700003,
+    "agentExecutionMs": 75004,
+    "validationMs": 408,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 47,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 75704
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "58c956fc11d04def0dbc619a34991662573013a0",
+  "filesChanged": [
+    "src/config.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-3-parse-config-comments-c684d2c3",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Update parseConfig(text) in src/config.ts to skip empty lines and # comments, trim keys, support double-quoted values that may contain #, treat duplicate keys as last-wins, and throw SyntaxError for a non-comment line without =. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/config.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:03:19.810Z",
+      "processFinishedAt": "2026-08-22T01:04:34.811Z",
+      "firstStructuredEventAt": "2026-08-22T01:03:44.170Z",
+      "firstModelResponseAt": "2026-08-22T01:03:45.932Z",
+      "lastModelResponseAt": "2026-08-22T01:04:34.262Z",
+      "providerWaitMs": 26462,
+      "providerEventCount": 18,
+      "modelStepCount": 9,
+      "toolEventCount": 8,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787360624170,
+        "endMs": 1787360625932
+      },
+      {
+        "startMs": 1787360628866,
+        "endMs": 1787360640377
+      },
+      {
+        "startMs": 1787360643172,
+        "endMs": 1787360644769
+      },
+      {
+        "startMs": 1787360647818,
+        "endMs": 1787360651179
+      },
+      {
+        "startMs": 1787360654221,
+        "endMs": 1787360655964
+      },
+      {
+        "startMs": 1787360658915,
+        "endMs": 1787360660792
+      },
+      {
+        "startMs": 1787360663772,
+        "endMs": 1787360665395
+      },
+      {
+        "startMs": 1787360668260,
+        "endMs": 1787360670616
+      },
+      {
+        "startMs": 1787360673630,
+        "endMs": 1787360674262
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 50092,
+      "providerWaitMs": 26462,
+      "interStepGapMs": 23630,
+      "outsideWindowMs": 24912,
+      "providerWaitFraction": 0.3528078502479868,
+      "interStepGapFraction": 0.31504986400725293,
+      "unobservedFraction": 0.3321422857447603
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1406,
+        356,
+        2934,
+        11386,
+        125,
+        2795,
+        1406,
+        191,
+        3049,
+        2636,
+        725,
+        3042,
+        1467,
+        276,
+        2951,
+        1723,
+        154,
+        2980,
+        1483,
+        140,
+        2865,
+        2195,
+        161,
+        3014,
+        438,
+        194
+      ],
+      "handoffGapsMs": [
+        2934,
+        2795,
+        3049,
+        3042,
+        2951,
+        2980,
+        2865,
+        3014
+      ],
+      "launchToFirstEventMs": 24360
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-3/runs/workers-3-trial-3-parse-config-comments-c684d2c3/agent.stdout.log",
+    "stdoutSha256": "af21c6dd2dc8b3423e3e197e7ec5014bc02bd438c3578bfb27a9c77d0510b0f2",
+    "stderr": "trials/workers-3-trial-3/runs/workers-3-trial-3-parse-config-comments-c684d2c3/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-3/runs/workers-3-trial-3-parse-config-comments-c684d2c3/validation.json",
+    "validationSha256": "a00904823087ed26ca08c7bc53cb15d9e8835ae38ca398f26da04da5313ea83e",
+    "patch": "trials/workers-3-trial-3/runs/workers-3-trial-3-parse-config-comments-c684d2c3/change.patch",
+    "patchSha256": "318775335030b36d2544d3cc5d26c467eba53e6eb1d4ea3307b12be3e704a4ac"
+  }
+}

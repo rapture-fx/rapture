@@ -1,0 +1,191 @@
+{
+  "runId": "workers-3-trial-3-fix-parse-money-42b65057",
+  "logicalRunId": "ba0627c6bb67ad09a1664af847bdc741b9c2c4b2c1ee5bea35902d2d6e9cf874",
+  "attemptId": "workers-3-trial-3-fix-parse-money-42b65057",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-3-trial-3",
+  "repetition": 3,
+  "taskId": "fix-parse-money",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-1",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-3-fix-parse-money-42b65057",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Fix parseMoney in src/money.ts. The current implementation strips non-digits and returns an integer, so $12.50 becomes 1250. parseMoney must accept an optional leading $, optional thousands commas, and a decimal cents field; return a finite dollar amount rounded half-up to two decimal places; and throw TypeError for empty, non-numeric, or otherwise invalid input. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:03:16.529Z",
+  "finishedAt": "2026-08-22T01:04:23.029Z",
+  "durationMs": 66503,
+  "phaseTimings": {
+    "worktreeSetupMs": 62,
+    "queueWaitMs": 77558.62754999998,
+    "agentExecutionMs": 65878,
+    "validationMs": 316,
+    "artifactPersistenceMs": 3,
+    "integrationMs": null,
+    "worktreeCleanupMs": 39,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 66503
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "8ec1b6e94e03e1619abfa1c7c42cdb2a5088051e",
+  "filesChanged": [
+    "src/money.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-3-fix-parse-money-42b65057",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Fix parseMoney in src/money.ts. The current implementation strips non-digits and returns an integer, so $12.50 becomes 1250. parseMoney must accept an optional leading $, optional thousands commas, and a decimal cents field; return a finite dollar amount rounded half-up to two decimal places; and throw TypeError for empty, non-numeric, or otherwise invalid input. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/money.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:03:16.605Z",
+      "processFinishedAt": "2026-08-22T01:04:22.482Z",
+      "firstStructuredEventAt": "2026-08-22T01:03:40.340Z",
+      "firstModelResponseAt": "2026-08-22T01:03:41.956Z",
+      "lastModelResponseAt": "2026-08-22T01:04:22.051Z",
+      "providerWaitMs": 20415,
+      "providerEventCount": 16,
+      "modelStepCount": 8,
+      "toolEventCount": 7,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787360620340,
+        "endMs": 1787360621956
+      },
+      {
+        "startMs": 1787360624789,
+        "endMs": 1787360627151
+      },
+      {
+        "startMs": 1787360630138,
+        "endMs": 1787360631382
+      },
+      {
+        "startMs": 1787360634254,
+        "endMs": 1787360638589
+      },
+      {
+        "startMs": 1787360641775,
+        "endMs": 1787360643780
+      },
+      {
+        "startMs": 1787360646990,
+        "endMs": 1787360650867
+      },
+      {
+        "startMs": 1787360654158,
+        "endMs": 1787360658289
+      },
+      {
+        "startMs": 1787360661206,
+        "endMs": 1787360662051
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 41711,
+      "providerWaitMs": 20415,
+      "interStepGapMs": 21296,
+      "outsideWindowMs": 24167,
+      "providerWaitFraction": 0.3098910106560612,
+      "interStepGapFraction": 0.3232642156713926,
+      "unobservedFraction": 0.3668447736725462
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1229,
+        387,
+        2833,
+        1950,
+        412,
+        2987,
+        1003,
+        241,
+        2872,
+        3920,
+        415,
+        3186,
+        1872,
+        133,
+        3210,
+        3555,
+        322,
+        3291,
+        3972,
+        159,
+        2917,
+        733,
+        112
+      ],
+      "handoffGapsMs": [
+        2833,
+        2987,
+        2872,
+        3186,
+        3210,
+        3291,
+        2917
+      ],
+      "launchToFirstEventMs": 23735
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-3/runs/workers-3-trial-3-fix-parse-money-42b65057/agent.stdout.log",
+    "stdoutSha256": "bb53552f97c2a2f50954a434f37c0d74d82d8b92ab23429f944030ca43452820",
+    "stderr": "trials/workers-3-trial-3/runs/workers-3-trial-3-fix-parse-money-42b65057/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-3/runs/workers-3-trial-3-fix-parse-money-42b65057/validation.json",
+    "validationSha256": "873bbf79ce36a259331818d9c82be48e2d2c200af66866489d3674bebff7fe0b",
+    "patch": "trials/workers-3-trial-3/runs/workers-3-trial-3-fix-parse-money-42b65057/change.patch",
+    "patchSha256": "83bddaf6f2c0dbe0da0e9bd6ba2ce390f42df1c49cb66159ebefb67b423b12b9"
+  }
+}

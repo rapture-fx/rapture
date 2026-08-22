@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "timestamp": "2026-08-22T00:45:52.684Z",
+  "runnerOs": "darwin",
+  "runnerArchitecture": "x64",
+  "cpuCount": 4,
+  "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+  "memoryBytes": 8589934592,
+  "kernel": "Darwin 22.6.0",
+  "nodeVersion": "v22.14.0",
+  "pnpmVersion": "10.12.1",
+  "gitVersion": "git version 2.49.0",
+  "raptureCommit": "947325a776adeeced2bf20e5dea780d8f659012a",
+  "codexBinaryVersion": "1.18.20",
+  "modelConfiguration": "opencode/hy3-free",
+  "reasoningConfiguration": null,
+  "githubRunId": null,
+  "githubRunnerImage": null,
+  "githubImageVersion": null
+}

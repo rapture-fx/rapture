@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-3-trial-5",
+  "status": "completed",
+  "startedAt": "2026-08-22T01:08:51.704Z",
+  "finishedAt": "2026-08-22T01:12:55.813Z",
+  "durationMs": 244116,
+  "taskOrder": [
+    "one-based-pagination",
+    "add-volume-discount",
+    "fix-parse-money",
+    "validate-sku",
+    "parse-config-comments",
+    "extract-normalize-email"
+  ],
+  "trialSeed": 484680914
+}
