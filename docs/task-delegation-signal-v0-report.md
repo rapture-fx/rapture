@@ -581,9 +581,20 @@ OpenCode with `opencode/hy3-free`, provider-reported cost 0. Total agent invocat
 | `8df8f4f` | `benchmark: add pre-registered delegation task features` |
 | `843b564` | `benchmark: add crossed delegation task corpus across three upstream repositories` |
 | `2d43db1` | `research: freeze task delegation signal experiment` |
+| `a6d1ed1` | `research: record task delegation signal result` |
 
 Branched from `56af0afe706e2fe2392ab65515fd1c10789d4564`; `origin/main` at
 `321d9c00df65add0d1fd2cf35d8c1691753dc726`.
+
+## Push result and draft PR URL
+
+Branch `research/task-delegation-signal-v0` pushed to
+`https://github.com/wiramahendra/rapture`.
+
+Draft PR: <https://github.com/wiramahendra/rapture/pull/9> — opened as a draft
+against `main` and deliberately not merged. It **stacks on unmerged draft PR #8**
+(`research/real-work-external-validity-v1`), which is a linear ancestor; #8 must land
+first.
 
 ## Recommended next decision
 
