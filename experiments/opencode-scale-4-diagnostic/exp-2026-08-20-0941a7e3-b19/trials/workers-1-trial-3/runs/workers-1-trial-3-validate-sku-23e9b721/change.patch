@@ -1,0 +1,11 @@
+diff --git a/src/sku.ts b/src/sku.ts
+index e03c6a83005295d0a091f0cfe9c1ef1fa16cc796..4a184f73cb1a7536d256abbefb2e6014d9db1852 100644
+--- a/src/sku.ts
++++ b/src/sku.ts
+@@ -1,3 +1,6 @@
+ export function createSku(department: string, id: string): string {
++  if (!/^[A-Z]{3}$/.test(department) || !/^\d{4}$/.test(id)) {
++    throw new TypeError("invalid sku");
++  }
+   return `${department}-${id}`;
+ }

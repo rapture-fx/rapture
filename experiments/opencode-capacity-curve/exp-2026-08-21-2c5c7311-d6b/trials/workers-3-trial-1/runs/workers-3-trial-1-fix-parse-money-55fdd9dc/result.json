@@ -1,0 +1,93 @@
+{
+  "runId": "workers-3-trial-1-fix-parse-money-55fdd9dc",
+  "logicalRunId": "2c6b4c86ba8d8aa0da23f3400a5a819a4017c37f01b6aebedb6cdb4453f6a290",
+  "attemptId": "workers-3-trial-1-fix-parse-money-55fdd9dc",
+  "runState": "timed_out",
+  "experimentId": "exp-2026-08-21-2c5c7311-d6b",
+  "trialId": "workers-3-trial-1",
+  "repetition": 1,
+  "taskId": "fix-parse-money",
+  "repositoryId": "7d5126bd0c5ec3b28475444a145f0e3292ba509cf721900613a88f604cffc0a4",
+  "baseCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-3",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-1-fix-parse-money-55fdd9dc",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Fix parseMoney in src/money.ts. The current implementation strips non-digits and returns an integer, so $12.50 becomes 1250. parseMoney must accept an optional leading $, optional thousands commas, and a decimal cents field; return a finite dollar amount rounded half-up to two decimal places; and throw TypeError for empty, non-numeric, or otherwise invalid input. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-21T14:06:39.065Z",
+  "finishedAt": "2026-08-21T14:09:40.594Z",
+  "durationMs": 181530,
+  "phaseTimings": {
+    "worktreeSetupMs": 328,
+    "queueWaitMs": 0.5318749998696148,
+    "agentExecutionMs": 180122,
+    "validationMs": 606,
+    "artifactPersistenceMs": 3,
+    "integrationMs": null,
+    "worktreeCleanupMs": 53,
+    "otherOrchestrationMs": 417.4681250001304,
+    "totalRunMs": 181530
+  },
+  "processExitCode": null,
+  "timedOut": true,
+  "finalCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "finalTreeHash": "71c4fd485e5a535c0d0e9132f469c44e9e584766",
+  "filesChanged": [
+    "src/money.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-1-fix-parse-money-55fdd9dc",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Fix parseMoney in src/money.ts. The current implementation strips non-digits and returns an integer, so $12.50 becomes 1250. parseMoney must accept an optional leading $, optional thousands commas, and a decimal cents field; return a finite dollar amount rounded half-up to two decimal places; and throw TypeError for empty, non-numeric, or otherwise invalid input. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/money.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "failed",
+  "integrationResult": "not_requested",
+  "failureClassification": "agent_timeout",
+  "accepted": false,
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-1/runs/workers-3-trial-1-fix-parse-money-55fdd9dc/agent.stdout.log",
+    "stdoutSha256": "2c3befa98c428d3061e8ae95b089a19e1acca7c08af4b30a6bfd4bf9733189bb",
+    "stderr": "trials/workers-3-trial-1/runs/workers-3-trial-1-fix-parse-money-55fdd9dc/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-1/runs/workers-3-trial-1-fix-parse-money-55fdd9dc/validation.json",
+    "validationSha256": "1743a5641e0cb3b91b04f41ac5560622fafa24d6ea907dade719c0313ec6861e",
+    "patch": "trials/workers-3-trial-1/runs/workers-3-trial-1-fix-parse-money-55fdd9dc/change.patch",
+    "patchSha256": "fab93f3bee2712b86a33ebf88ca1aa17d04f292776594684b3b90a2ee56345f2"
+  }
+}

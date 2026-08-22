@@ -1,0 +1,18 @@
+diff --git a/src/pagination.ts b/src/pagination.ts
+index ebd3970cab7cdcff0d9934f065379b4675789777..c83b3e1029241f16672bf1148ba4fb7b550ae271 100644
+--- a/src/pagination.ts
++++ b/src/pagination.ts
+@@ -1,7 +1,10 @@
+ export function pageSlice<T>(items: readonly T[], page: number, pageSize: number): T[] {
+-  if (pageSize <= 0) {
+-    throw new RangeError("pageSize must be positive");
++  if (!Number.isInteger(page) || page < 1) {
++    throw new RangeError("page must be a positive integer");
+   }
+-  const start = page * pageSize;
++  if (!Number.isInteger(pageSize) || pageSize <= 0) {
++    throw new RangeError("pageSize must be a positive integer");
++  }
++  const start = (page - 1) * pageSize;
+   return items.slice(start, start + pageSize);
+ }

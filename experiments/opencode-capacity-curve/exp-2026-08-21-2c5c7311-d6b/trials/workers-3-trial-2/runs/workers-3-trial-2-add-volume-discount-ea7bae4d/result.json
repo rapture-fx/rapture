@@ -1,0 +1,93 @@
+{
+  "runId": "workers-3-trial-2-add-volume-discount-ea7bae4d",
+  "logicalRunId": "d195fb50299f723124f863d871029d2ef6a4d7eecfd0314a06bb5132500d0cc2",
+  "attemptId": "workers-3-trial-2-add-volume-discount-ea7bae4d",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-21-2c5c7311-d6b",
+  "trialId": "workers-3-trial-2",
+  "repetition": 2,
+  "taskId": "add-volume-discount",
+  "repositoryId": "7d5126bd0c5ec3b28475444a145f0e3292ba509cf721900613a88f604cffc0a4",
+  "baseCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-2",
+  "workerCount": 3,
+  "activeAgentsAtStart": 2,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-2-add-volume-discount-ea7bae4d",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Implement applyVolumeDiscount(subtotal, quantity) in src/discount.ts. Quantities 0-9 have no discount, 10-49 receive 5%, and 50 or more receive 10%. Return the discounted subtotal rounded half-up to two decimal places. Throw RangeError for negative or non-finite inputs. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-21T14:11:12.641Z",
+  "finishedAt": "2026-08-21T14:12:54.600Z",
+  "durationMs": 101960,
+  "phaseTimings": {
+    "worktreeSetupMs": 207,
+    "queueWaitMs": 1.0298170000314713,
+    "agentExecutionMs": 100797,
+    "validationMs": 410,
+    "artifactPersistenceMs": 11,
+    "integrationMs": null,
+    "worktreeCleanupMs": 59,
+    "otherOrchestrationMs": 474.97018299996853,
+    "totalRunMs": 101960
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "finalTreeHash": "a50f762e6db41209252d5c4dd7a98757311a6bd6",
+  "filesChanged": [
+    "src/discount.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-2-add-volume-discount-ea7bae4d",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Implement applyVolumeDiscount(subtotal, quantity) in src/discount.ts. Quantities 0-9 have no discount, 10-49 receive 5%, and 50 or more receive 10%. Return the discounted subtotal rounded half-up to two decimal places. Throw RangeError for negative or non-finite inputs. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/discount.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-2/runs/workers-3-trial-2-add-volume-discount-ea7bae4d/agent.stdout.log",
+    "stdoutSha256": "8bf81fa5377c8d40e9a45aed581bb95b6c20a2421f79ddeda8c46ba65845aa48",
+    "stderr": "trials/workers-3-trial-2/runs/workers-3-trial-2-add-volume-discount-ea7bae4d/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-2/runs/workers-3-trial-2-add-volume-discount-ea7bae4d/validation.json",
+    "validationSha256": "9f92ab824fe39f46c61ccf1688ab87fb5f7253ba35c8ab87ad6cf226165f396c",
+    "patch": "trials/workers-3-trial-2/runs/workers-3-trial-2-add-volume-discount-ea7bae4d/change.patch",
+    "patchSha256": "409fff6b670c4bd845231d8e7c29739a1a87567b987002f1c2461f26a51b2665"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "runId": "workers-3-trial-3-validate-sku-5153d233",
+  "logicalRunId": "93e28478a1ee85c27ac70fd3236fb83aa28f69ccfa35a15d191fe4cf8de02d27",
+  "attemptId": "workers-3-trial-3-validate-sku-5153d233",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-21-2c5c7311-d6b",
+  "trialId": "workers-3-trial-3",
+  "repetition": 3,
+  "taskId": "validate-sku",
+  "repositoryId": "7d5126bd0c5ec3b28475444a145f0e3292ba509cf721900613a88f604cffc0a4",
+  "baseCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-3",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-3-validate-sku-5153d233",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Change createSku(department, id) in src/sku.ts so it only accepts a 3-letter uppercase department and a 4-digit id. Valid input returns DEPARTMENT-ID. Throw TypeError for empty values, lowercase departments, wrong lengths, or non-digit ids. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-21T14:14:10.739Z",
+  "finishedAt": "2026-08-21T14:16:01.424Z",
+  "durationMs": 110686,
+  "phaseTimings": {
+    "worktreeSetupMs": 437,
+    "queueWaitMs": 0.6427469998598099,
+    "agentExecutionMs": 109239,
+    "validationMs": 522,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 53,
+    "otherOrchestrationMs": 432.3572530001402,
+    "totalRunMs": 110686
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "b91fc116ddabcd6acb2acbbf266e31e9868ee780",
+  "finalTreeHash": "b6c7fcee2b73866fdb485058b19b53b49e03d610",
+  "filesChanged": [
+    "src/sku.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-2c5c7311-d6b/.worktrees/workers-3-trial-3-validate-sku-5153d233",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Change createSku(department, id) in src/sku.ts so it only accepts a 3-letter uppercase department and a 4-digit id. Valid input returns DEPARTMENT-ID. Throw TypeError for empty values, lowercase departments, wrong lengths, or non-digit ids. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/sku.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-3/runs/workers-3-trial-3-validate-sku-5153d233/agent.stdout.log",
+    "stdoutSha256": "1be2ec05316726099d8e369f26d2406d35235dec2127fbdfaf4f04ebf29c1183",
+    "stderr": "trials/workers-3-trial-3/runs/workers-3-trial-3-validate-sku-5153d233/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-3/runs/workers-3-trial-3-validate-sku-5153d233/validation.json",
+    "validationSha256": "ca188270de8ec355639d1e7c1264b51d3a9ed4cc91b6869d02c2682c3a1afd12",
+    "patch": "trials/workers-3-trial-3/runs/workers-3-trial-3-validate-sku-5153d233/change.patch",
+    "patchSha256": "e0b8189d95ecfa94f3cc985b7cc4268a27bf05c70b154d753f8b06c914bc952c"
+  }
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "command": [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/money.ts"
+    ],
+    "startedAt": "2026-08-20T14:32:39.379Z",
+    "finishedAt": "2026-08-20T14:32:39.571Z",
+    "durationMs": 192,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "",
+    "stderr": "file:///Users/wira/Documents/rapture/rapture/experiments/opencode-scale-4-diagnostic/exp-2026-08-20-0941a7e3-b19/.worktrees/workers-1-trial-1-fix-parse-money-974fbf22/src/money.ts:4\n    throw new TypeError(\"invalid money amount\");\n          ^\n\nTypeError: invalid money amount\n    at parseMoney (file:///Users/wira/Documents/rapture/rapture/experiments/opencode-scale-4-diagnostic/exp-2026-08-20-0941a7e3-b19/.worktrees/workers-1-trial-1-fix-parse-money-974fbf22/src/money.ts:4:11)\n    at file:///Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/money.ts:13:14\n\nNode.js v22.14.0\n"
+  }
+]
