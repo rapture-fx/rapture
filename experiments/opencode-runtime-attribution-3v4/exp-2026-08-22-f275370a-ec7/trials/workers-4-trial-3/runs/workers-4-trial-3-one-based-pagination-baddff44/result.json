@@ -1,0 +1,216 @@
+{
+  "runId": "workers-4-trial-3-one-based-pagination-baddff44",
+  "logicalRunId": "f4e73670e19aa8e452bf6519a7b3edf2fe3a5d5720904c6f071ca0388f923bd2",
+  "attemptId": "workers-4-trial-3-one-based-pagination-baddff44",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-4-trial-3",
+  "repetition": 3,
+  "taskId": "one-based-pagination",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w4-2",
+  "workerCount": 4,
+  "activeAgentsAtStart": 4,
+  "activeAgentsAtEnd": 2,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-3-one-based-pagination-baddff44",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Change pageSlice(items, page, pageSize) in src/pagination.ts from 0-based pages to 1-based pages. Page 1 must return the first pageSize items. Throw RangeError when page is not a 1-based integer or pageSize is not a positive integer. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:26:41.051Z",
+  "finishedAt": "2026-08-22T01:29:01.358Z",
+  "durationMs": 140311,
+  "phaseTimings": {
+    "worktreeSetupMs": 58,
+    "queueWaitMs": 117787.659614,
+    "agentExecutionMs": 139450,
+    "validationMs": 589,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 52,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 140311
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "40147ecd060d188795be62ed5ac111ca90294def",
+  "filesChanged": [
+    "src/pagination.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-3-one-based-pagination-baddff44",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Change pageSlice(items, page, pageSize) in src/pagination.ts from 0-based pages to 1-based pages. Page 1 must return the first pageSize items. Throw RangeError when page is not a 1-based integer or pageSize is not a positive integer. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/pagination.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:26:41.121Z",
+      "processFinishedAt": "2026-08-22T01:29:00.567Z",
+      "firstStructuredEventAt": "2026-08-22T01:27:14.340Z",
+      "firstModelResponseAt": "2026-08-22T01:27:15.810Z",
+      "lastModelResponseAt": "2026-08-22T01:28:59.786Z",
+      "providerWaitMs": 20206,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787362034340,
+        "endMs": 1787362035810
+      },
+      {
+        "startMs": 1787362038834,
+        "endMs": 1787362042325
+      },
+      {
+        "startMs": 1787362091826,
+        "endMs": 1787362093463
+      },
+      {
+        "startMs": 1787362097644,
+        "endMs": 1787362099254
+      },
+      {
+        "startMs": 1787362102465,
+        "endMs": 1787362104409
+      },
+      {
+        "startMs": 1787362107989,
+        "endMs": 1787362109659
+      },
+      {
+        "startMs": 1787362115868,
+        "endMs": 1787362117361
+      },
+      {
+        "startMs": 1787362121287,
+        "endMs": 1787362123395
+      },
+      {
+        "startMs": 1787362126819,
+        "endMs": 1787362129362
+      },
+      {
+        "startMs": 1787362133032,
+        "endMs": 1787362134381
+      },
+      {
+        "startMs": 1787362138895,
+        "endMs": 1787362139786
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 105446,
+      "providerWaitMs": 20206,
+      "interStepGapMs": 85240,
+      "outsideWindowMs": 34004,
+      "providerWaitFraction": 0.14489781283614198,
+      "interStepGapFraction": 0.6112585155969882,
+      "unobservedFraction": 0.24384367156686984
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1314,
+        156,
+        3024,
+        3135,
+        356,
+        49501,
+        1394,
+        243,
+        4181,
+        1506,
+        104,
+        3211,
+        1779,
+        165,
+        3580,
+        1542,
+        128,
+        6209,
+        1391,
+        102,
+        3926,
+        2035,
+        73,
+        3424,
+        2360,
+        183,
+        3670,
+        1093,
+        175,
+        81,
+        4514,
+        595,
+        296
+      ],
+      "handoffGapsMs": [
+        3024,
+        49501,
+        4181,
+        3211,
+        3580,
+        6209,
+        3926,
+        3424,
+        3670,
+        4514
+      ],
+      "launchToFirstEventMs": 33219
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-4-trial-3/runs/workers-4-trial-3-one-based-pagination-baddff44/agent.stdout.log",
+    "stdoutSha256": "792e72d8a4491e032c46fabfa337adbb29d86c07ee596241a191a35154a871e3",
+    "stderr": "trials/workers-4-trial-3/runs/workers-4-trial-3-one-based-pagination-baddff44/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-4-trial-3/runs/workers-4-trial-3-one-based-pagination-baddff44/validation.json",
+    "validationSha256": "24bf70cee4bf5aeaa93c6a29c328e86edfd36181d1c4d3f744feebdbc56f70b3",
+    "patch": "trials/workers-4-trial-3/runs/workers-4-trial-3-one-based-pagination-baddff44/change.patch",
+    "patchSha256": "0903e25cbdf142df363cb1dbf21881f930ab171484ec798dc278d350f2545ca8"
+  }
+}

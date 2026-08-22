@@ -1,0 +1,201 @@
+{
+  "runId": "workers-4-trial-3-validate-sku-ff0511b0",
+  "logicalRunId": "9d605f1d9e501e45706b1d8c75286aaf7d19f00bedd6aa275c6bf78e6691bc09",
+  "attemptId": "workers-4-trial-3-validate-sku-ff0511b0",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-4-trial-3",
+  "repetition": 3,
+  "taskId": "validate-sku",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w4-3",
+  "workerCount": 4,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 4,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-3-validate-sku-ff0511b0",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Change createSku(department, id) in src/sku.ts so it only accepts a 3-letter uppercase department and a 4-digit id. Valid input returns DEPARTMENT-ID. Throw TypeError for empty values, lowercase departments, wrong lengths, or non-digit ids. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:24:43.377Z",
+  "finishedAt": "2026-08-22T01:26:40.977Z",
+  "durationMs": 117603,
+  "phaseTimings": {
+    "worktreeSetupMs": 80,
+    "queueWaitMs": 0.2026029999833554,
+    "agentExecutionMs": 116861,
+    "validationMs": 416,
+    "artifactPersistenceMs": 3,
+    "integrationMs": null,
+    "worktreeCleanupMs": 44,
+    "otherOrchestrationMs": 198.79739700001664,
+    "totalRunMs": 117603
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "ae288b8ef015fdb9202b73a29eec621ff8da1021",
+  "filesChanged": [
+    "src/sku.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-3-validate-sku-ff0511b0",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Change createSku(department, id) in src/sku.ts so it only accepts a 3-letter uppercase department and a 4-digit id. Valid input returns DEPARTMENT-ID. Throw TypeError for empty values, lowercase departments, wrong lengths, or non-digit ids. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/sku.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:24:43.483Z",
+      "processFinishedAt": "2026-08-22T01:26:40.341Z",
+      "firstStructuredEventAt": "2026-08-22T01:25:21.543Z",
+      "firstModelResponseAt": "2026-08-22T01:25:22.779Z",
+      "lastModelResponseAt": "2026-08-22T01:26:39.505Z",
+      "providerWaitMs": 44643,
+      "providerEventCount": 18,
+      "modelStepCount": 9,
+      "toolEventCount": 8,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787361921543,
+        "endMs": 1787361922779
+      },
+      {
+        "startMs": 1787361926327,
+        "endMs": 1787361928752
+      },
+      {
+        "startMs": 1787361932780,
+        "endMs": 1787361936898
+      },
+      {
+        "startMs": 1787361940145,
+        "endMs": 1787361941427
+      },
+      {
+        "startMs": 1787361945544,
+        "endMs": 1787361947087
+      },
+      {
+        "startMs": 1787361951105,
+        "endMs": 1787361952314
+      },
+      {
+        "startMs": 1787361956153,
+        "endMs": 1787361977948
+      },
+      {
+        "startMs": 1787361985037,
+        "endMs": 1787361995021
+      },
+      {
+        "startMs": 1787361998454,
+        "endMs": 1787361999505
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 77962,
+      "providerWaitMs": 44643,
+      "interStepGapMs": 33319,
+      "outsideWindowMs": 38899,
+      "providerWaitFraction": 0.3820179529526532,
+      "interStepGapFraction": 0.2851165059344007,
+      "unobservedFraction": 0.33286554111294614
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1017,
+        219,
+        3548,
+        2107,
+        318,
+        4028,
+        3272,
+        846,
+        3247,
+        1188,
+        94,
+        4117,
+        1244,
+        299,
+        4018,
+        956,
+        253,
+        3839,
+        1620,
+        19987,
+        188,
+        7089,
+        4685,
+        5148,
+        151,
+        3433,
+        693,
+        358
+      ],
+      "handoffGapsMs": [
+        3548,
+        4028,
+        3247,
+        4117,
+        4018,
+        3839,
+        7089,
+        3433
+      ],
+      "launchToFirstEventMs": 38060
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-4-trial-3/runs/workers-4-trial-3-validate-sku-ff0511b0/agent.stdout.log",
+    "stdoutSha256": "bf1c473a0fd2ca75de084d89923fe6a8172f54d588215233fe16b53105c9b225",
+    "stderr": "trials/workers-4-trial-3/runs/workers-4-trial-3-validate-sku-ff0511b0/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-4-trial-3/runs/workers-4-trial-3-validate-sku-ff0511b0/validation.json",
+    "validationSha256": "c44692ef2f9f2b0fa358984e8f0b6a2fe6b47c80060985989eb375104d111e71",
+    "patch": "trials/workers-4-trial-3/runs/workers-4-trial-3-validate-sku-ff0511b0/change.patch",
+    "patchSha256": "1eeb843219d9bfb4e639c09a0f828f29b863fe338a9634eeed7d1baf5823a62e"
+  }
+}

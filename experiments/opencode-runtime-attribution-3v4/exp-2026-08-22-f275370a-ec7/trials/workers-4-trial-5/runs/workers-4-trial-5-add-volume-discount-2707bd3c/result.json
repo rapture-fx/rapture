@@ -1,0 +1,191 @@
+{
+  "runId": "workers-4-trial-5-add-volume-discount-2707bd3c",
+  "logicalRunId": "8c78a262860aa3cf2853700dcc7fcf6a8af286567cf5ddb50cfc6beccaca8083",
+  "attemptId": "workers-4-trial-5-add-volume-discount-2707bd3c",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-4-trial-5",
+  "repetition": 5,
+  "taskId": "add-volume-discount",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w4-2",
+  "workerCount": 4,
+  "activeAgentsAtStart": 2,
+  "activeAgentsAtEnd": 4,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-5-add-volume-discount-2707bd3c",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Implement applyVolumeDiscount(subtotal, quantity) in src/discount.ts. Quantities 0-9 have no discount, 10-49 receive 5%, and 50 or more receive 10%. Return the discounted subtotal rounded half-up to two decimal places. Throw RangeError for negative or non-finite inputs. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:33:18.492Z",
+  "finishedAt": "2026-08-22T01:34:49.598Z",
+  "durationMs": 91108,
+  "phaseTimings": {
+    "worktreeSetupMs": 202,
+    "queueWaitMs": 0.21254399977624416,
+    "agentExecutionMs": 90112,
+    "validationMs": 515,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 53,
+    "otherOrchestrationMs": 223.78745600022376,
+    "totalRunMs": 91108
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "5c10f2123bfc1bd0397aef2c61cc37231d92dce5",
+  "filesChanged": [
+    "src/discount.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-4-trial-5-add-volume-discount-2707bd3c",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Implement applyVolumeDiscount(subtotal, quantity) in src/discount.ts. Quantities 0-9 have no discount, 10-49 receive 5%, and 50 or more receive 10%. Return the discounted subtotal rounded half-up to two decimal places. Throw RangeError for negative or non-finite inputs. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/discount.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:33:18.729Z",
+      "processFinishedAt": "2026-08-22T01:34:48.838Z",
+      "firstStructuredEventAt": "2026-08-22T01:33:52.658Z",
+      "firstModelResponseAt": "2026-08-22T01:33:54.305Z",
+      "lastModelResponseAt": "2026-08-22T01:34:48.084Z",
+      "providerWaitMs": 26969,
+      "providerEventCount": 16,
+      "modelStepCount": 8,
+      "toolEventCount": 7,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787362432658,
+        "endMs": 1787362434305
+      },
+      {
+        "startMs": 1787362437526,
+        "endMs": 1787362440497
+      },
+      {
+        "startMs": 1787362443633,
+        "endMs": 1787362445354
+      },
+      {
+        "startMs": 1787362451900,
+        "endMs": 1787362459472
+      },
+      {
+        "startMs": 1787362462647,
+        "endMs": 1787362464896
+      },
+      {
+        "startMs": 1787362468598,
+        "endMs": 1787362471153
+      },
+      {
+        "startMs": 1787362476200,
+        "endMs": 1787362482938
+      },
+      {
+        "startMs": 1787362486568,
+        "endMs": 1787362488084
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 55426,
+      "providerWaitMs": 26969,
+      "interStepGapMs": 28457,
+      "outsideWindowMs": 34686,
+      "providerWaitFraction": 0.2992831143465909,
+      "interStepGapFraction": 0.3157958984375,
+      "unobservedFraction": 0.3849209872159091
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1364,
+        283,
+        3221,
+        2854,
+        117,
+        3136,
+        1428,
+        293,
+        6546,
+        7377,
+        195,
+        3175,
+        2010,
+        239,
+        3702,
+        2442,
+        113,
+        5047,
+        6482,
+        256,
+        3630,
+        1409,
+        107
+      ],
+      "handoffGapsMs": [
+        3221,
+        3136,
+        6546,
+        3175,
+        3702,
+        5047,
+        3630
+      ],
+      "launchToFirstEventMs": 33929
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-4-trial-5/runs/workers-4-trial-5-add-volume-discount-2707bd3c/agent.stdout.log",
+    "stdoutSha256": "134a129a3ec1d92325f6928eb11362bcc0109c7f6283413b223010d7bbb7bae9",
+    "stderr": "trials/workers-4-trial-5/runs/workers-4-trial-5-add-volume-discount-2707bd3c/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-4-trial-5/runs/workers-4-trial-5-add-volume-discount-2707bd3c/validation.json",
+    "validationSha256": "d8069cbb83e3e81d33559aab5176f8004564a2bab66e152f1a50fdfccbf26ad2",
+    "patch": "trials/workers-4-trial-5/runs/workers-4-trial-5-add-volume-discount-2707bd3c/change.patch",
+    "patchSha256": "393e679dc4acfa90ffe348cb159c3d8e875c064bd231331a28e14d08e42dbd5b"
+  }
+}

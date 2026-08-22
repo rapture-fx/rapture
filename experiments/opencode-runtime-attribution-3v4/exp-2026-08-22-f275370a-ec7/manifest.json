@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "experimentIdentityHash": "9f5cd63c8fe0d891fdb72ba4801b9d20c56b964914033ab2e91f2d4cfa26c792",
+  "repository": "/private/tmp/rapture-opencode-attribution-3v4/ledger-kit",
+  "repositoryHead": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "repositoryFingerprint": "7dd1b31d8b61dcd5abbc44ef9e5122cdbcc90095ee7381c2259b3a2cba3354d3",
+  "taskFile": "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/tasks.json",
+  "taskSetHash": "db3006a82912854977b3cc37f8e7196fd6796fbfc7c7b9f6c848c816043baa01",
+  "workerCounts": [
+    3,
+    4
+  ],
+  "repetitions": 6,
+  "trialIds": [
+    "workers-3-trial-1",
+    "workers-3-trial-2",
+    "workers-3-trial-3",
+    "workers-3-trial-4",
+    "workers-3-trial-5",
+    "workers-3-trial-6",
+    "workers-4-trial-1",
+    "workers-4-trial-2",
+    "workers-4-trial-3",
+    "workers-4-trial-4",
+    "workers-4-trial-5",
+    "workers-4-trial-6"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.20",
+    "model": "opencode/hy3-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "worker-major",
+  "budget": {},
+  "seed": 20260817,
+  "startedAt": "2026-08-22T00:54:37.598Z",
+  "reproduction": "rapture run --repo /private/tmp/rapture-opencode-attribution-3v4/ledger-kit --tasks /Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/tasks.json --workers 3,4 --repetitions 6 --seed 20260817 --agent opencode --agent-model opencode/hy3-free --output /Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4"
+}

@@ -1,0 +1,18 @@
+diff --git a/src/email.ts b/src/email.ts
+index 1a22761a0447b8ccab2dbedb29e014c6951d34f4..3abbfbc67a93c7e98f003bf1dbd5aff28700ef28 100644
+--- a/src/email.ts
++++ b/src/email.ts
+@@ -1,7 +1,11 @@
++export function normalizeEmail(email: string): string {
++  return email.trim().toLowerCase();
++}
++
+ export function formatContact(name: string, email: string): string {
+-  return `${name.trim()} <${email.trim().toLowerCase()}>`;
++  return `${name.trim()} <${normalizeEmail(email)}>`;
+ }
+ 
+ export function emailKey(email: string): string {
+-  return email.trim().toLowerCase();
++  return normalizeEmail(email);
+ }

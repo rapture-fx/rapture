@@ -1,0 +1,167 @@
+{
+  "runId": "workers-3-trial-4-extract-normalize-email-129e8bcf",
+  "logicalRunId": "47e298e24dc505ce9398f5fe87d95772459248847df1a965c966947f3a459316",
+  "attemptId": "workers-3-trial-4-extract-normalize-email-129e8bcf",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-f275370a-ec7",
+  "trialId": "workers-3-trial-4",
+  "repetition": 4,
+  "taskId": "extract-normalize-email",
+  "repositoryId": "d5618556a19be080c982534c428b384e8be7e4bba310b865891caf37d7c3275c",
+  "baseCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "baseTreeHash": "ecd859b685b8673f0aa27338a0cb7715f45012eb",
+  "workerId": "w3-1",
+  "workerCount": 3,
+  "activeAgentsAtStart": 3,
+  "activeAgentsAtEnd": 3,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.20",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-4-extract-normalize-email-129e8bcf",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T01:06:15.464Z",
+  "finishedAt": "2026-08-22T01:07:15.175Z",
+  "durationMs": 59713,
+  "phaseTimings": {
+    "worktreeSetupMs": 52,
+    "queueWaitMs": 68557.70152599993,
+    "agentExecutionMs": 58985,
+    "validationMs": 400,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 65,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 59713
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "62d68b3e3c5590ed130767a64ca36e74287341b3",
+  "finalTreeHash": "eacb6cc4a795f8edfdf63f2504f92fd0357e3a7d",
+  "filesChanged": [
+    "src/email.ts"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-4-extract-normalize-email-129e8bcf",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: Refactor src/email.ts by extracting and exporting normalizeEmail(email) that trims whitespace and lowercases the address. formatContact and emailKey must keep their current behavior and use that helper. Do not change other modules.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "node",
+      "--experimental-strip-types",
+      "--no-warnings",
+      "/Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/email.ts"
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T01:06:15.534Z",
+      "processFinishedAt": "2026-08-22T01:07:14.516Z",
+      "firstStructuredEventAt": "2026-08-22T01:06:37.133Z",
+      "firstModelResponseAt": "2026-08-22T01:06:38.584Z",
+      "lastModelResponseAt": "2026-08-22T01:07:13.921Z",
+      "providerWaitMs": 24796,
+      "providerEventCount": 10,
+      "modelStepCount": 5,
+      "toolEventCount": 4,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787360797133,
+        "endMs": 1787360798584
+      },
+      {
+        "startMs": 1787360801326,
+        "endMs": 1787360803613
+      },
+      {
+        "startMs": 1787360806793,
+        "endMs": 1787360808876
+      },
+      {
+        "startMs": 1787360812144,
+        "endMs": 1787360830505
+      },
+      {
+        "startMs": 1787360833307,
+        "endMs": 1787360833921
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 36788,
+      "providerWaitMs": 24796,
+      "interStepGapMs": 11992,
+      "outsideWindowMs": 22197,
+      "providerWaitFraction": 0.42037806221920826,
+      "interStepGapFraction": 0.2033059252352293,
+      "unobservedFraction": 0.3763160125455624
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1153,
+        298,
+        2742,
+        1770,
+        517,
+        3180,
+        1702,
+        381,
+        3268,
+        18267,
+        94,
+        2802,
+        350,
+        264
+      ],
+      "handoffGapsMs": [
+        2742,
+        3180,
+        3268,
+        2802
+      ],
+      "launchToFirstEventMs": 21599
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-3-trial-4/runs/workers-3-trial-4-extract-normalize-email-129e8bcf/agent.stdout.log",
+    "stdoutSha256": "0ab438f4cc5e1d7d6271605a521f6471809d5f2cd42dad276268dc4de414fbaa",
+    "stderr": "trials/workers-3-trial-4/runs/workers-3-trial-4-extract-normalize-email-129e8bcf/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-3-trial-4/runs/workers-3-trial-4-extract-normalize-email-129e8bcf/validation.json",
+    "validationSha256": "b233a660e709aa588ee92f903b8e95546aaf73299c2e3c90462eb255f8540ced",
+    "patch": "trials/workers-3-trial-4/runs/workers-3-trial-4-extract-normalize-email-129e8bcf/change.patch",
+    "patchSha256": "31a2131799a0953279f5358a2b3fb2039ce74620169351450aac14c643e0d8fc"
+  }
+}
