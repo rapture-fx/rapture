@@ -1,3 +1,4 @@
+import type { AgentExplorationMetrics } from "./agent-exploration.js";
 export type JsonValue =
   | null
   | boolean
@@ -39,6 +40,22 @@ export interface TaskDefinition {
   readonly dependsOn: readonly string[];
   readonly fake?: FakeAgentConfig;
   readonly benchmark?: BenchmarkTaskProvenance;
+  readonly context?: TaskContextInjection | undefined;
+}
+
+/**
+ * Extra material placed in the agent's worktree before it starts, plus a fixed pointer
+ * appended to the prompt telling it the material exists.
+ *
+ * This is how an experiment varies what an agent knows without varying the engineering
+ * request itself. `ignorePaths` are written to the worktree's git exclude file so injected
+ * material is invisible to change detection and cannot be mistaken for an edit by the
+ * agent, or counted as an editable-scope violation.
+ */
+export interface TaskContextInjection {
+  readonly files: Readonly<Record<string, string>>;
+  readonly ignorePaths: readonly string[];
+  readonly promptSuffix: string;
 }
 
 export interface BenchmarkTaskProvenance {
@@ -159,6 +176,7 @@ export interface EngineeringTaskRun {
   readonly benchmarkSuiteVersion: string | null;
   readonly benchmarkTaskClass: BenchmarkTaskProvenance["taskClass"] | null;
   readonly benchmarkDelegationFeatures: DelegationFeatures | null;
+  readonly agentExploration: AgentExplorationMetrics | null;
   readonly baseCommit: string;
   readonly baseTreeHash: string;
   readonly workerId: string;

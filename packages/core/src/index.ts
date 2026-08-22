@@ -9,6 +9,7 @@ export { fakeAgentAdapter } from "./adapters/fake.js";
 export { OPENCODE_MODEL, opencodeAgentAdapter } from "./adapters/opencode.js";
 export { parseOpenCodeUsage } from "./adapters/opencode-usage.js";
 export type { AgentAdapter, AgentRunInput, AgentRunResult } from "./adapters/types.js";
+export * from "./agent-exploration.js";
 export type {
   EdgeComparison,
   RunObservation,
@@ -69,6 +70,7 @@ export {
   persistStepPredictions,
   regenerateStepPredictions,
 } from "./capacity-report.js";
+export * from "./change-contract.js";
 export type {
   ConcurrencyInterval,
   ConcurrencyOverlap,
@@ -229,6 +231,7 @@ export {
   parseOpenCodeEventStream,
   summarizeEventGaps,
 } from "./provider-events.js";
+export * from "./repo-mechanics.js";
 export {
   type ExperimentReport,
   formatReport,
@@ -237,6 +240,7 @@ export {
 } from "./report.js";
 export type { RuntimeCapabilityFingerprint } from "./runtime-fingerprint.js";
 export { persistRuntimeFingerprint, platformSummary } from "./runtime-fingerprint.js";
+export * from "./task-context.js";
 export { incompletePhaseTimings, raptureOverheadMs, timePhase } from "./timing.js";
 export { deriveTrialSeed, orderTasks, seededShuffle, trialIdFor } from "./trial.js";
 export { parseCommand, validateCommands } from "./validation.js";

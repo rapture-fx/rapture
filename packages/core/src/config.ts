@@ -76,9 +76,18 @@ const benchmarkTaskProvenanceSchema = z
   })
   .strict();
 
+const taskContextSchema = z
+  .object({
+    files: z.record(z.string().trim().min(1), z.string()),
+    ignorePaths: z.array(z.string().trim().min(1)).readonly(),
+    promptSuffix: z.string(),
+  })
+  .strict();
+
 export const taskDefinitionSchema = z
   .object({
     id: z.string().trim().min(1),
+    context: taskContextSchema.optional(),
     description: z.string().trim().min(1),
     baseCommit: z.string().trim().min(1).default("HEAD"),
     validation: z.array(z.string().trim().min(1)).min(1),
