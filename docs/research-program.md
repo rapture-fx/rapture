@@ -55,7 +55,7 @@ by evidence at the corresponding evidence level, never by argument.
 
 All formulas match `docs/research-method.md`, the implemented metrics in
 `packages/core/src/metrics.ts`, and Engineering Economics V0
-(`docs/engineering-economics-v0.md` on PR #4). Nullable inputs stay nullable;
+(`docs/engineering-economics-v0.md`). Nullable inputs stay nullable;
 a metric with missing inputs is `null`, never zero or a guess. No metric may be
 combined into a single unexplained composite score, and different objectives
 may legitimately prefer different operating points.
@@ -100,10 +100,12 @@ reports and were not independently re-executed here.
 
 | Workstream | Status | Source of truth |
 | --- | --- | --- |
-| Capacity prediction (Agent 1) | `PREDICTION_NO_INCREMENTAL_VALUE`; knee at N=3 detected retrospectively; outcome-aware predictor agreed with held-out outcomes on 1/3 steps vs 2/3 for naive baselines; provider/runtime attribution next/in progress | commit `afd3b29` on `cursor/repeated-real-agent-scaling-ca4d` [verified]; continuation work [operator-reported] |
-| Real-Work Benchmark V0 (Agent 2) | `REAL_WORK_BENCHMARK_PARTIAL`; draft PR #3 | PR #3 / branch `research/real-work-benchmark-v0` [verified] |
-| Engineering Economics V0 (Agent 3) | `ENGINEERING_ECONOMICS_READY`; draft PR #4 | PR #4 / branch `research/engineering-economics-v0` [verified] |
-| Research methodology & evidence contract (Agent 4) | this document set, draft PR on `research/research-program-v0` | this branch |
+| Core runtime + capacity prediction (Agent 1) | `PREDICTION_NO_INCREMENTAL_VALUE`; knee at N=3 detected retrospectively; outcome-aware predictor agreed with held-out outcomes on 1/3 steps vs 2/3 for naive baselines | merged to `main` via PR #2 (rebased lineage of commit `afd3b29`) [verified] |
+| Real-Work Benchmark V0 (Agent 2) | `REAL_WORK_BENCHMARK_PARTIAL` — schema, validator isolation, rejection/acceptance proofs all landed; benchmark remains partial, not READY | merged to `main` via PR #3 [verified] |
+| Engineering Economics V0 (Agent 3) | `ENGINEERING_ECONOMICS_READY` — accounting capability only, not proof of commercial value | merged to `main` via PR #4 [verified] |
+| Provider/runtime attribution (Agent 5) | `LOCAL_CONTENTION_ATTRIBUTED` — reproduced 3→4 plateau attributed to local agent-process contention; provider throttling ruled out by direct observation; strengthens Level 2 retrospective diagnosis only — it does not change the failed Level 4/5 prediction result and does not justify Level 6 control | merged to `main` via PR #6 (`docs/opencode-runtime-attribution-report.md`) [verified] |
+| Research methodology & evidence contract (Agent 4) | this document set, updated to integrated post-merge truth | this document set on `main` |
 
-This document set deliberately does not depend on code from any other
-workstream branch; their reports are treated as research evidence only.
+All workstreams above are integrated on a single canonical `main`; no result
+was rewritten during integration. The integration-proof PR #7 was superseded
+by landing each workstream individually and is closed unmerged.
