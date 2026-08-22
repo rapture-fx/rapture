@@ -1,0 +1,13 @@
+diff --git a/lib/scan.js b/lib/scan.js
+index 4e92b40cfd72c3e934d3cf3ec46102883e539bf5..d0e7fe0d7ee13f8e8e249a04cf4de1a3cad06026 100644
+--- a/lib/scan.js
++++ b/lib/scan.js
+@@ -168,7 +168,7 @@ const scan = (input, options) => {
+       continue;
+     }
+ 
+-    if (opts.nonegate !== true && code === CHAR_EXCLAMATION_MARK && index === start) {
++    if (opts.nonegate !== true && code === CHAR_EXCLAMATION_MARK && index === start && peek() !== CHAR_LEFT_PARENTHESES) {
+       negated = token.negated = true;
+       start++;
+       continue;

@@ -1,0 +1,229 @@
+diff --git a/lib/glob-match.js b/lib/glob-match.js
+index 8e92b8c57ed33a32c9241d2e2dfbbc34b65dafef..45bb21e60d79f9d22489bd0eb082ded4c6b420c1 100644
+--- a/lib/glob-match.js
++++ b/lib/glob-match.js
+@@ -40,47 +40,104 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+  */
+ 
+ const globMatch = (glob, options, returnState = false) => {
++  const opts = options || {};
++
++  /**
++   * Options forwarded to internal (recursive) matchers. These must not carry
++   * the caller's lifecycle callbacks or the ignore pattern: both are applied
++   * once, at the outermost level.
++   */
++  const internalOptions = { ...opts };
++  delete internalOptions.onResult;
++  delete internalOptions.onMatch;
++  delete internalOptions.onIgnore;
++  delete internalOptions.ignore;
++
++  let core;
++  let globForResult = glob;
++  let regexForResult;
++  let stateForResult;
++
+   if (Array.isArray(glob)) {
+-    const fns = glob.map(input => globMatch(input, options, returnState));
+-    const arrayMatcher = str => {
++    const fns = glob.map(input => globMatch(input, internalOptions, returnState));
++    core = str => {
+       for (const isMatch of fns) {
+         const state = isMatch(str);
+         if (state) return state;
+       }
+       return false;
+     };
+-    return arrayMatcher;
+-  }
++  } else {
++    const isState = isObject(glob) && glob.tokens && glob.input;
++
++    if (glob === '' || (typeof glob !== 'string' && !isState)) {
++      throw new TypeError('Expected pattern to be a non-empty string');
++    }
++
++    const posix = opts.windows;
++    const regex = isState
++      ? globMatch.compileRe(glob, options)
++      : globMatch.makeRe(glob, options, false, true);
++
++    const state = regex.state;
++    delete regex.state;
+ 
+-  const isState = isObject(glob) && glob.tokens && glob.input;
++    core = (input, returnObject = false) => {
++      const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
++      const result = { glob, state, regex, posix, input, output, match, isMatch };
++
++      if (isMatch === false) {
++        result.isMatch = false;
++        return returnObject ? result : false;
++      }
+ 
+-  if (glob === '' || (typeof glob !== 'string' && !isState)) {
+-    throw new TypeError('Expected pattern to be a non-empty string');
++      return returnObject ? result : true;
++    };
++
++    regexForResult = regex;
++    stateForResult = state;
+   }
+ 
+-  const opts = options || {};
+-  const posix = opts.windows;
+-  const regex = isState
+-    ? globMatch.compileRe(glob, options)
+-    : globMatch.makeRe(glob, options, false, true);
++  // No lifecycle or ignore handling requested: return the bare matcher
++  // unchanged so existing behaviour is preserved.
++  if (!opts.ignore && !opts.onResult && !opts.onMatch && !opts.onIgnore) {
++    const bare = core;
++    if (returnState && regexForResult) bare.state = stateForResult;
++    return bare;
++  }
+ 
+-  const state = regex.state;
+-  delete regex.state;
++  const ignoreMatcher = opts.ignore ? globMatch(opts.ignore, internalOptions) : null;
+ 
+   const matcher = (input, returnObject = false) => {
+-    const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
+-    const result = { glob, state, regex, posix, input, output, match, isMatch };
++    const base = core(input, true);
++    const matched = base === true || Boolean(base && base.isMatch);
++
++    let isIgnored = false;
++    if (matched && ignoreMatcher) {
++      const ig = ignoreMatcher(input);
++      isIgnored = ig === true || Boolean(ig && ig.isMatch);
++    }
++
++    const finalIsMatch = matched && !isIgnored;
++
++    const result = isObject(base)
++      ? { ...base, isMatch: finalIsMatch, ignored: isIgnored }
++      : { glob: globForResult, regex: regexForResult, input, output: input, isMatch: finalIsMatch, ignored: isIgnored };
++
++    if (opts.onResult) opts.onResult(result);
++    if (finalIsMatch && opts.onMatch) opts.onMatch(result);
++    if (isIgnored && opts.onIgnore) opts.onIgnore(result);
+ 
+-    if (isMatch === false) {
+-      result.isMatch = false;
+-      return returnObject ? result : false;
++    if (Array.isArray(glob)) {
++      // Preserve the existing array matcher contract: always a boolean.
++      return finalIsMatch;
+     }
+ 
+-    return returnObject ? result : true;
++    return returnObject ? result : finalIsMatch;
+   };
+ 
+-  if (returnState) {
+-    matcher.state = state;
++  if (returnState && regexForResult) {
++    matcher.state = stateForResult;
+   }
+ 
+   return matcher;
+diff --git a/test/match.test.js b/test/match.test.js
+index fd2eca559e4025446bea739519655664c672b232..a3753b45d5601dad0173c90b8f9bd495b58b9b77 100644
+--- a/test/match.test.js
++++ b/test/match.test.js
+@@ -64,3 +64,93 @@ test('scan splits a pattern into its static base and glob parts', () => {
+   assert.equal(literal.isGlob, false)
+   assert.equal(literal.base, 'a/b/c')
+ })
++
++test('ignore excludes a matching input', () => {
++  const isMatch = glob('*.js', { ignore: 'foo.js' })
++  assert.equal(isMatch('a.js'), true)
++  assert.equal(isMatch('foo.js'), false)
++})
++
++test('ignore accepts a glob array', () => {
++  const isMatch = glob('*.js', { ignore: ['foo.js', 'bar.js'] })
++  assert.equal(isMatch('a.js'), true)
++  assert.equal(isMatch('foo.js'), false)
++  assert.equal(isMatch('bar.js'), false)
++})
++
++test('ignore works with array patterns', () => {
++  const isMatch = glob(['*.js', '*.ts'], { ignore: 'foo.*' })
++  assert.equal(isMatch('a.js'), true)
++  assert.equal(isMatch('a.ts'), true)
++  assert.equal(isMatch('foo.js'), false)
++})
++
++test('lifecycle callbacks fire for every input', () => {
++  const results = []
++  const matches = []
++  const ignores = []
++  const isMatch = glob('*.js', {
++    ignore: 'foo.js',
++    onResult: r => results.push(r),
++    onMatch: r => matches.push(r),
++    onIgnore: r => ignores.push(r)
++  })
++
++  assert.equal(isMatch('a.js'), true)
++  assert.equal(isMatch('foo.js'), false)
++  assert.equal(isMatch('a.txt'), false)
++
++  assert.equal(results.length, 3)
++  assert.equal(matches.length, 1)
++  assert.equal(ignores.length, 1)
++})
++
++test('result object carries the final decision', () => {
++  const results = []
++  const isMatch = glob('*.js', {
++    ignore: 'foo.js',
++    onResult: r => results.push(r)
++  })
++
++  isMatch('a.js')
++  isMatch('foo.js')
++  isMatch('a.txt')
++
++  const a = results[0]
++  const foo = results[1]
++  const txt = results[2]
++
++  for (const r of results) {
++    assert.ok('glob' in r)
++    assert.ok('regex' in r)
++    assert.ok('input' in r)
++    assert.ok('output' in r)
++    assert.ok('isMatch' in r)
++  }
++
++  assert.equal(a.isMatch, true)
++  assert.equal(foo.isMatch, false)
++  assert.equal(txt.isMatch, false)
++  assert.equal(foo.ignored, true)
++  assert.equal(txt.ignored, false)
++})
++
++test('ignore pattern does not inherit callbacks', () => {
++  let topLevelCalls = 0
++  const isMatch = glob('*.js', {
++    ignore: 'foo.js',
++    onResult: () => { topLevelCalls++ }
++  })
++  isMatch('a.js')
++  isMatch('foo.js')
++  assert.equal(topLevelCalls, 2)
++})
++
++test('returnObject form is honoured with ignore', () => {
++  const result = glob('*.js', { ignore: 'foo.js' })('a.js', true)
++  assert.equal(result.isMatch, true)
++  assert.equal(typeof result.glob, 'string')
++  assert.ok(result.regex instanceof RegExp)
++  assert.equal(result.input, 'a.js')
++  assert.equal(typeof result.output, 'string')
++})

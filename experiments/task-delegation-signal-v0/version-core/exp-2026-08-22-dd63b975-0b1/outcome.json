@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-dd63b975-0b1",
+  "status": "completed",
+  "startedAt": "2026-08-22T12:29:19.919Z",
+  "finishedAt": "2026-08-22T12:52:02.038Z",
+  "metrics": {
+    "schemaVersion": 2,
+    "workerResults": [
+      {
+        "workerCount": 1,
+        "trialCount": 3,
+        "taskRuns": 15,
+        "acceptedTasks": 10,
+        "acceptedTasksPerHour": 24.340222217213945,
+        "acceptedTasksPerHourPerTrial": [
+          36.108687148316434,
+          24.340222217213945,
+          20.834940967667258
+        ],
+        "medianAcceptedTasksPerHour": 24.340222217213945,
+        "minAcceptedTasksPerHour": 20.834940967667258,
+        "maxAcceptedTasksPerHour": 36.108687148316434,
+        "medianTotalTrialWallTimeMs": 443710,
+        "speedup": 1,
+        "parallelEfficiency": 1,
+        "pairedSpeedups": [
+          1,
+          1,
+          1
+        ],
+        "pairedParallelEfficiencies": [
+          1,
+          1,
+          1
+        ],
+        "medianDurationMs": 90701,
+        "p95DurationMs": 167871,
+        "medianAgentExecutionMs": 89324,
+        "medianValidationMs": 140,
+        "medianIntegrationMs": null,
+        "medianRaptureOverheadMs": 0,
+        "validationFailures": 5,
+        "integrationFailures": 0,
+        "validationFailureRate": 0.3333333333333333,
+        "integrationFailureRate": null,
+        "duplicateCommands": 10,
+        "duplicateTestInvocations": 0,
+        "duplicateBuildInvocations": 0,
+        "tokenUsage": null,
+        "providerCost": null,
+        "tokenUsagePerAcceptedTask": null,
+        "providerCostPerAcceptedTask": null
+      }
+    ],
+    "trialResults": [
+      {
+        "trialId": "workers-1-trial-1",
+        "workerCount": 1,
+        "repetition": 1,
+        "trialSeed": 3006128336,
+        "taskOrder": [
+          "version-lru-cache-eviction",
+          "version-subpath-exports",
+          "version-range-test-repair",
+          "version-diff-release-type",
+          "version-coerce-options"
+        ],
+        "acceptedTasks": 4,
+        "acceptedTasksPerHour": 36.108687148316434,
+        "totalWallTimeMs": 398796,
+        "medianTaskLatencyMs": 70755,
+        "p95TaskLatencyMs": 138422,
+        "medianAgentExecutionMs": 69245,
+        "medianValidationMs": 151,
+        "integrationMs": null,
+        "medianRaptureOverheadMs": 0,
+        "validationFailures": 1,
+        "integrationFailures": 0,
+        "tokenUsage": null,
+        "providerCost": null
+      },
+      {
+        "trialId": "workers-1-trial-2",
+        "workerCount": 1,
+        "repetition": 2,
+        "trialSeed": 1024573001,
+        "taskOrder": [
+          "version-diff-release-type",
+          "version-range-test-repair",
+          "version-subpath-exports",
+          "version-lru-cache-eviction",
+          "version-coerce-options"
+        ],
+        "acceptedTasks": 3,
+        "acceptedTasksPerHour": 24.340222217213945,
+        "totalWallTimeMs": 443710,
+        "medianTaskLatencyMs": 90701,
+        "p95TaskLatencyMs": 145394,
+        "medianAgentExecutionMs": 89324,
+        "medianValidationMs": 139,
+        "integrationMs": null,
+        "medianRaptureOverheadMs": 0,
+        "validationFailures": 2,
+        "integrationFailures": 0,
+        "tokenUsage": null,
+        "providerCost": null
+      },
+      {
+        "trialId": "workers-1-trial-3",
+        "workerCount": 1,
+        "repetition": 3,
+        "trialSeed": 2802152898,
+        "taskOrder": [
+          "version-lru-cache-eviction",
+          "version-coerce-options",
+          "version-range-test-repair",
+          "version-subpath-exports",
+          "version-diff-release-type"
+        ],
+        "acceptedTasks": 3,
+        "acceptedTasksPerHour": 20.834940967667258,
+        "totalWallTimeMs": 518360,
+        "medianTaskLatencyMs": 112134,
+        "p95TaskLatencyMs": 167871,
+        "medianAgentExecutionMs": 110780,
+        "medianValidationMs": 140,
+        "integrationMs": null,
+        "medianRaptureOverheadMs": 0,
+        "validationFailures": 2,
+        "integrationFailures": 0,
+        "tokenUsage": null,
+        "providerCost": null
+      }
+    ]
+  },
+  "integrationOutcomes": [],
+  "completion": {
+    "schemaVersion": 1,
+    "expectedLogicalRuns": 15,
+    "completedLogicalRuns": 15,
+    "acceptedRuns": 10,
+    "rejectedRuns": 5,
+    "timedOutRuns": 0,
+    "providerBlockedRuns": 0,
+    "infrastructureFailedRuns": 0,
+    "interruptedRuns": 0,
+    "outstandingRuns": 0,
+    "status": "completed",
+    "completedTrials": 3,
+    "totalTrials": 3
+  },
+  "continuationSessionId": null,
+  "environmentDifferences": [],
+  "telemetryError": null
+}

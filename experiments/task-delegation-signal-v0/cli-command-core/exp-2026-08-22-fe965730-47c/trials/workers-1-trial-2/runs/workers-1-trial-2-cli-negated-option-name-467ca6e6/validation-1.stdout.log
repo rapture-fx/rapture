@@ -1,0 +1,1 @@
+{"status":"rejected","detail":"Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n+   color: false\n-   color: true\n  }\n"}

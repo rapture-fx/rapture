@@ -1,0 +1,203 @@
+{
+  "runId": "workers-1-trial-1-glob-match-test-repair-b68164c7",
+  "logicalRunId": "5a151756e5b94d346782e21996b5156c3141d0ff62b317f5df185b308864b2b0",
+  "attemptId": "workers-1-trial-1-glob-match-test-repair-b68164c7",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-9f2db3e5-67c",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "glob-match-test-repair",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "test_repair",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "integration_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "moderate",
+    "verificationCostClass": "expensive",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-1-glob-match-test-repair-b68164c7",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `test/match.test.js` is a node:test suite covering glob matching. It was written against older\nexpectations and now fails: run `node --test test/match.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, paths that do match a\npattern, paths that do not, globstars, extglobs and negated extglobs, leading-bang negation,\nbraces and bracket ranges, basename matching, and how `scan` splits a pattern into base and glob.\n\nOnly `test/match.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T12:55:09.085Z",
+  "finishedAt": "2026-08-22T12:55:49.122Z",
+  "durationMs": 40036,
+  "phaseTimings": {
+    "worktreeSetupMs": 34,
+    "queueWaitMs": 183325.785772,
+    "agentExecutionMs": 38947,
+    "validationMs": 898,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 25,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 40036
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "8fb126d76a9a07d48184cfb0d487def8377adafe",
+  "filesChanged": [
+    "test/match.test.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-1-glob-match-test-repair-b68164c7",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `test/match.test.js` is a node:test suite covering glob matching. It was written against older\nexpectations and now fails: run `node --test test/match.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, paths that do match a\npattern, paths that do not, globstars, extglobs and negated extglobs, leading-bang negation,\nbraces and bracket ranges, basename matching, and how `scan` splits a pattern into base and glob.\n\nOnly `test/match.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/glob-match-tests.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 21245,
+    "outputTokens": 1805,
+    "cachedInputTokens": 45056,
+    "reasoningTokens": 893,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T12:55:09.132Z",
+      "processFinishedAt": "2026-08-22T12:55:48.078Z",
+      "firstStructuredEventAt": "2026-08-22T12:55:15.972Z",
+      "firstModelResponseAt": "2026-08-22T12:55:16.596Z",
+      "lastModelResponseAt": "2026-08-22T12:55:47.930Z",
+      "providerWaitMs": 18179,
+      "providerEventCount": 12,
+      "modelStepCount": 6,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787403315972,
+        "endMs": 1787403316596
+      },
+      {
+        "startMs": 1787403319236,
+        "endMs": 1787403320616
+      },
+      {
+        "startMs": 1787403323431,
+        "endMs": 1787403326081
+      },
+      {
+        "startMs": 1787403328964,
+        "endMs": 1787403340497
+      },
+      {
+        "startMs": 1787403343223,
+        "endMs": 1787403344271
+      },
+      {
+        "startMs": 1787403346986,
+        "endMs": 1787403347930
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 31958,
+      "providerWaitMs": 18179,
+      "interStepGapMs": 13779,
+      "outsideWindowMs": 6989,
+      "providerWaitFraction": 0.46676252342927566,
+      "interStepGapFraction": 0.35378848178293576,
+      "unobservedFraction": 0.17944899478778853
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        541,
+        83,
+        2640,
+        1011,
+        242,
+        59,
+        68,
+        2815,
+        2553,
+        31,
+        66,
+        2883,
+        7561,
+        1011,
+        866,
+        951,
+        899,
+        137,
+        108,
+        2726,
+        953,
+        95,
+        2715,
+        902,
+        42
+      ],
+      "handoffGapsMs": [
+        2640,
+        2815,
+        2883,
+        2726,
+        2715
+      ],
+      "launchToFirstEventMs": 6840
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-match-test-repair-b68164c7/agent.stdout.log",
+    "stdoutSha256": "405568c369126a0e0ccb91ccffddf4b293bdcfb970c23b1259bf4c7de6e655c8",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-match-test-repair-b68164c7/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-match-test-repair-b68164c7/validation.json",
+    "validationSha256": "80a4e7f1c37e38a66b7358ff52ae77cadba5185afdd708a4ab643c6854e91bfb",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-match-test-repair-b68164c7/change.patch",
+    "patchSha256": "05ffd47a6b613e1a5ea945da4b734e868e6937f3fd04ebdd4d520f3039dea80a"
+  }
+}

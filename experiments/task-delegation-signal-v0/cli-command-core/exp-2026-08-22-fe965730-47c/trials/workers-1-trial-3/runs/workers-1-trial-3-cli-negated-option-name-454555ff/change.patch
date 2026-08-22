@@ -1,0 +1,17 @@
+diff --git a/lib/option.js b/lib/option.js
+index 0c037a19ef3abbc47df7b113edd1ccab2d080b7e..23dc8453f527292b365bf4712ab2c93f27642643 100644
+--- a/lib/option.js
++++ b/lib/option.js
+@@ -215,7 +215,11 @@ export class Option {
+    */
+ 
+   attributeName() {
+-    return camelcase(this.name());
++    const name = this.name();
++    if (this.negate) {
++      return camelcase(name.replace(/^no-/, ''));
++    }
++    return camelcase(name);
+   }
+ 
+   /**

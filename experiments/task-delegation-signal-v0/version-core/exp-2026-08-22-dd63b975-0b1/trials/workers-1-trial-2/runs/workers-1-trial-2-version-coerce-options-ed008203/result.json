@@ -1,0 +1,204 @@
+{
+  "runId": "workers-1-trial-2-version-coerce-options-ed008203",
+  "logicalRunId": "ba5a95f1de78c759ccadce91c2dec9dd1e3081367ef5e5bc348c4f73df8783ed",
+  "attemptId": "workers-1-trial-2-version-coerce-options-ed008203",
+  "runState": "rejected",
+  "experimentId": "exp-2026-08-22-dd63b975-0b1",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "version-coerce-options",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "small_feature",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "unit_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-2-version-coerce-options-ed008203",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T12:41:22.716Z",
+  "finishedAt": "2026-08-22T12:43:23.621Z",
+  "durationMs": 120901,
+  "phaseTimings": {
+    "worktreeSetupMs": 67,
+    "queueWaitMs": 322749.90550600004,
+    "agentExecutionMs": 120532,
+    "validationMs": 117,
+    "artifactPersistenceMs": 16,
+    "integrationMs": null,
+    "worktreeCleanupMs": 31,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 120901
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "filesChanged": [],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-2-version-coerce-options-ed008203",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/version-coerce.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 31952,
+    "outputTokens": 1429,
+    "cachedInputTokens": 76800,
+    "reasoningTokens": 8637,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "failed",
+  "integrationResult": "not_requested",
+  "failureClassification": "validation_failed",
+  "accepted": false,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T12:41:22.797Z",
+      "processFinishedAt": "2026-08-22T12:43:23.332Z",
+      "firstStructuredEventAt": "2026-08-22T12:41:29.632Z",
+      "firstModelResponseAt": "2026-08-22T12:41:31.912Z",
+      "lastModelResponseAt": "2026-08-22T12:43:23.189Z",
+      "providerWaitMs": 95790,
+      "providerEventCount": 14,
+      "modelStepCount": 7,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787402489632,
+        "endMs": 1787402491912
+      },
+      {
+        "startMs": 1787402494831,
+        "endMs": 1787402535873
+      },
+      {
+        "startMs": 1787402539029,
+        "endMs": 1787402540360
+      },
+      {
+        "startMs": 1787402543272,
+        "endMs": 1787402544114
+      },
+      {
+        "startMs": 1787402546870,
+        "endMs": 1787402557903
+      },
+      {
+        "startMs": 1787402560835,
+        "endMs": 1787402588581
+      },
+      {
+        "startMs": 1787402591673,
+        "endMs": 1787402603189
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 113557,
+      "providerWaitMs": 95790,
+      "interStepGapMs": 17767,
+      "outsideWindowMs": 6975,
+      "providerWaitFraction": 0.7947267115786679,
+      "interStepGapFraction": 0.147404838549099,
+      "unobservedFraction": 0.0578684498722331
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1254,
+        904,
+        122,
+        2919,
+        40689,
+        212,
+        141,
+        3156,
+        664,
+        486,
+        181,
+        2912,
+        682,
+        160,
+        2756,
+        10913,
+        120,
+        2932,
+        27579,
+        167,
+        3092,
+        11233,
+        283
+      ],
+      "handoffGapsMs": [
+        2919,
+        3156,
+        2912,
+        2756,
+        2932,
+        3092
+      ],
+      "launchToFirstEventMs": 6835
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-ed008203/agent.stdout.log",
+    "stdoutSha256": "a98ca96dc0e172077fb5db78b43e276c3a251fb56ca0c5c1f65b738c34462e80",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-ed008203/agent.stderr.log",
+    "stderrSha256": "0f49ec902d2e2e601082217b1037664d50ec74703d56693daff9f541a563df80",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-ed008203/validation.json",
+    "validationSha256": "cb9654b6b1cad550b091beda9f55de27a6d425c0e02a80a6dacca50591a21394",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-ed008203/change.patch",
+    "patchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

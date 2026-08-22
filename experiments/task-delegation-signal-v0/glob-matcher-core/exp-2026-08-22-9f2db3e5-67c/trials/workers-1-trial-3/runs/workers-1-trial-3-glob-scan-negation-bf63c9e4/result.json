@@ -1,0 +1,204 @@
+{
+  "runId": "workers-1-trial-3-glob-scan-negation-bf63c9e4",
+  "logicalRunId": "58499c510cb909a5c876d55de0a42f1126d7fc1f9df0366cf5b896590d5bf683",
+  "attemptId": "workers-1-trial-3-glob-scan-negation-bf63c9e4",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-9f2db3e5-67c",
+  "trialId": "workers-1-trial-3",
+  "repetition": 3,
+  "taskId": "glob-scan-negation",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "bug_fix",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-3-glob-scan-negation-bf63c9e4",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `scan(pattern)` splits a glob into a static base and a glob remainder, and reports flags\ndescribing what it found. It currently mis-scans negated extglobs.\n\nA leading `!` negates a pattern, so `scan('!a/b/*.js')` reports prefix '!', start 1, base 'a/b',\nglob '*.js' and negated true. But `!(` opens a *negated extglob*, which is part of the pattern\nand must not be consumed as a negation prefix: `scan('!(a|b)')` must report prefix '', start 0,\nbase '', glob '!(a|b)', isExtglob true, negatedExtglob true and negated false. Today it reports\nthe extglob as a negation instead.\n\nFix `lib/scan.js` so both forms are classified correctly, without disturbing the base/glob split\nfor ordinary patterns, `./` prefixes, braces, brackets, globstars or escaped `!` characters. The\n`nonegate` option must still suppress negation while leaving extglob detection intact.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T13:14:28.403Z",
+  "finishedAt": "2026-08-22T13:15:33.579Z",
+  "durationMs": 65175,
+  "phaseTimings": {
+    "worktreeSetupMs": 53,
+    "queueWaitMs": 362879.263591,
+    "agentExecutionMs": 64871,
+    "validationMs": 83,
+    "artifactPersistenceMs": 13,
+    "integrationMs": null,
+    "worktreeCleanupMs": 27,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 65175
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "7723b1c00e474b0ffc52f6f435c5b70588dad6a0",
+  "filesChanged": [
+    "lib/scan.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-3-glob-scan-negation-bf63c9e4",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `scan(pattern)` splits a glob into a static base and a glob remainder, and reports flags\ndescribing what it found. It currently mis-scans negated extglobs.\n\nA leading `!` negates a pattern, so `scan('!a/b/*.js')` reports prefix '!', start 1, base 'a/b',\nglob '*.js' and negated true. But `!(` opens a *negated extglob*, which is part of the pattern\nand must not be consumed as a negation prefix: `scan('!(a|b)')` must report prefix '', start 0,\nbase '', glob '!(a|b)', isExtglob true, negatedExtglob true and negated false. Today it reports\nthe extglob as a negation instead.\n\nFix `lib/scan.js` so both forms are classified correctly, without disturbing the base/glob split\nfor ordinary patterns, `./` prefixes, braces, brackets, globstars or escaped `!` characters. The\n`nonegate` option must still suppress negation while leaving extglob detection intact.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/glob-scan.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 14135,
+    "outputTokens": 1155,
+    "cachedInputTokens": 73856,
+    "reasoningTokens": 1233,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T13:14:28.472Z",
+      "processFinishedAt": "2026-08-22T13:15:33.343Z",
+      "firstStructuredEventAt": "2026-08-22T13:14:35.794Z",
+      "firstModelResponseAt": "2026-08-22T13:14:37.097Z",
+      "lastModelResponseAt": "2026-08-22T13:15:33.201Z",
+      "providerWaitMs": 36885,
+      "providerEventCount": 14,
+      "modelStepCount": 7,
+      "toolEventCount": 6,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787404475794,
+        "endMs": 1787404477097
+      },
+      {
+        "startMs": 1787404480024,
+        "endMs": 1787404495549
+      },
+      {
+        "startMs": 1787404498311,
+        "endMs": 1787404500248
+      },
+      {
+        "startMs": 1787404503119,
+        "endMs": 1787404505406
+      },
+      {
+        "startMs": 1787404511565,
+        "endMs": 1787404520584
+      },
+      {
+        "startMs": 1787404523403,
+        "endMs": 1787404526149
+      },
+      {
+        "startMs": 1787404529133,
+        "endMs": 1787404533201
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 57407,
+      "providerWaitMs": 36885,
+      "interStepGapMs": 20522,
+      "outsideWindowMs": 7464,
+      "providerWaitFraction": 0.5685899708652556,
+      "interStepGapFraction": 0.31635091180959135,
+      "unobservedFraction": 0.11505911732515299
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1185,
+        118,
+        2927,
+        15344,
+        181,
+        2762,
+        1896,
+        41,
+        2871,
+        2192,
+        95,
+        6159,
+        8951,
+        68,
+        2819,
+        2609,
+        75,
+        62,
+        2984,
+        4023,
+        45
+      ],
+      "handoffGapsMs": [
+        2927,
+        2762,
+        2871,
+        6159,
+        2819,
+        2984
+      ],
+      "launchToFirstEventMs": 7322
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-scan-negation-bf63c9e4/agent.stdout.log",
+    "stdoutSha256": "951df6318a674b228d82f25a7fd1dd003121868a54a5600c7bb81ecdd7d62be7",
+    "stderr": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-scan-negation-bf63c9e4/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-scan-negation-bf63c9e4/validation.json",
+    "validationSha256": "9aa27cc6d7a90c2d39e91149270d31a91c5fd8e6683138030963eed846a098fc",
+    "patch": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-scan-negation-bf63c9e4/change.patch",
+    "patchSha256": "04ebbd57354d2c91d131fbd350d3c8c11c8869634af127c91d91c3b958c6c4ec"
+  }
+}

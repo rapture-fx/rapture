@@ -1,0 +1,104 @@
+diff --git a/lib/glob-match.js b/lib/glob-match.js
+index 8e92b8c57ed33a32c9241d2e2dfbbc34b65dafef..1726cbf9782fa6d6cfbaa41b6d65665e14eb1d85 100644
+--- a/lib/glob-match.js
++++ b/lib/glob-match.js
+@@ -40,15 +40,57 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+  */
+ 
+ const globMatch = (glob, options, returnState = false) => {
++  const opts = options || {};
++
++  // Build an ignore matcher that does not inherit the caller's own
++  // callbacks (and does not itself recurse into ignore handling).
++  const ignoreOpts = { ...opts };
++  delete ignoreOpts.onResult;
++  delete ignoreOpts.onMatch;
++  delete ignoreOpts.onIgnore;
++  delete ignoreOpts.ignore;
++
++  const ignoreMatcher = opts.ignore !== undefined ? globMatch(opts.ignore, ignoreOpts) : null;
++
+   if (Array.isArray(glob)) {
+-    const fns = glob.map(input => globMatch(input, options, returnState));
+-    const arrayMatcher = str => {
+-      for (const isMatch of fns) {
+-        const state = isMatch(str);
+-        if (state) return state;
++    const subOpts = { ...opts, ignore: undefined };
++    delete subOpts.onResult;
++    delete subOpts.onMatch;
++    delete subOpts.onIgnore;
++
++    const fns = glob.map(input => globMatch(input, subOpts, returnState));
++
++    const arrayMatcher = (input, returnObject = false) => {
++      let matched = false;
++      let detail = null;
++      for (const fn of fns) {
++        const state = fn(input, true);
++        if (state && state.isMatch) {
++          matched = true;
++          detail = state;
++          break;
++        }
+       }
+-      return false;
++
++      let isMatch = matched;
++      let ignored = false;
++      if (isMatch && ignoreMatcher) {
++        const ig = ignoreMatcher(input, true);
++        if (ig.isMatch) {
++          isMatch = false;
++          ignored = true;
++        }
++      }
++
++      const result = { ...detail, glob, state: detail && detail.state, regex: detail && detail.regex, input, output: detail ? detail.output : input, isMatch, ignored };
++
++      if (opts.onResult) opts.onResult(result);
++      if (isMatch && opts.onMatch) opts.onMatch(result);
++      if (ignored && opts.onIgnore) opts.onIgnore(result);
++
++      return isMatch === false ? (returnObject ? result : false) : (returnObject ? result : true);
+     };
++
+     return arrayMatcher;
+   }
+ 
+@@ -58,7 +100,6 @@ const globMatch = (glob, options, returnState = false) => {
+     throw new TypeError('Expected pattern to be a non-empty string');
+   }
+ 
+-  const opts = options || {};
+   const posix = opts.windows;
+   const regex = isState
+     ? globMatch.compileRe(glob, options)
+@@ -69,10 +110,24 @@ const globMatch = (glob, options, returnState = false) => {
+ 
+   const matcher = (input, returnObject = false) => {
+     const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
+-    const result = { glob, state, regex, posix, input, output, match, isMatch };
+ 
+-    if (isMatch === false) {
+-      result.isMatch = false;
++    let finalIsMatch = isMatch;
++    let ignored = false;
++    if (finalIsMatch && ignoreMatcher) {
++      const ig = ignoreMatcher(input, true);
++      if (ig.isMatch) {
++        finalIsMatch = false;
++        ignored = true;
++      }
++    }
++
++    const result = { glob, state, regex, posix, input, output, match, isMatch: finalIsMatch, ignored };
++
++    if (opts.onResult) opts.onResult(result);
++    if (finalIsMatch && opts.onMatch) opts.onMatch(result);
++    if (ignored && opts.onIgnore) opts.onIgnore(result);
++
++    if (finalIsMatch === false) {
+       return returnObject ? result : false;
+     }
+ 

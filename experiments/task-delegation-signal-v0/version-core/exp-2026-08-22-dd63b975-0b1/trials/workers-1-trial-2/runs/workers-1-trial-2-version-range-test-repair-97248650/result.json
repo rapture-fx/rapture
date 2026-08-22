@@ -1,0 +1,241 @@
+{
+  "runId": "workers-1-trial-2-version-range-test-repair-97248650",
+  "logicalRunId": "13cb525db796b491addab56d6445e13181ca0138377f095f909e46459c21624c",
+  "attemptId": "workers-1-trial-2-version-range-test-repair-97248650",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-dd63b975-0b1",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "version-range-test-repair",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "test_repair",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "integration_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "moderate",
+    "verificationCostClass": "expensive",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-2-version-range-test-repair-97248650",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T12:38:25.404Z",
+  "finishedAt": "2026-08-22T12:39:56.108Z",
+  "durationMs": 90701,
+  "phaseTimings": {
+    "worktreeSetupMs": 100,
+    "queueWaitMs": 145439.438457,
+    "agentExecutionMs": 89324,
+    "validationMs": 1072,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 39,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 90701
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "6a3ef8f0fda042a9edea93ad8372d7bdc0321d42",
+  "filesChanged": [
+    "test/range.test.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/version-core/exp-2026-08-22-dd63b975-0b1/.worktrees/workers-1-trial-2-version-range-test-repair-97248650",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `test/range.test.js` is a node:test suite covering range behaviour. It was written against older\nexpectations and now fails: run `node --test test/range.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, versions that do\nsatisfy a range, versions that do not satisfy a range, prerelease handling, pairs of ranges that\ndo intersect, pairs that do not, and range parsing and validation.\n\nOnly `test/range.test.js` may be changed. The library itself is correct.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/version-range-tests.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 28426,
+    "outputTokens": 2110,
+    "cachedInputTokens": 118912,
+    "reasoningTokens": 1741,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T12:38:25.531Z",
+      "processFinishedAt": "2026-08-22T12:39:54.856Z",
+      "firstStructuredEventAt": "2026-08-22T12:38:33.275Z",
+      "firstModelResponseAt": "2026-08-22T12:38:35.259Z",
+      "lastModelResponseAt": "2026-08-22T12:39:54.712Z",
+      "providerWaitMs": 47888,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 14,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787402313275,
+        "endMs": 1787402315259
+      },
+      {
+        "startMs": 1787402318215,
+        "endMs": 1787402328869
+      },
+      {
+        "startMs": 1787402331875,
+        "endMs": 1787402351603
+      },
+      {
+        "startMs": 1787402354301,
+        "endMs": 1787402357311
+      },
+      {
+        "startMs": 1787402360350,
+        "endMs": 1787402363567
+      },
+      {
+        "startMs": 1787402366379,
+        "endMs": 1787402367038
+      },
+      {
+        "startMs": 1787402369968,
+        "endMs": 1787402370924
+      },
+      {
+        "startMs": 1787402373654,
+        "endMs": 1787402375508
+      },
+      {
+        "startMs": 1787402381666,
+        "endMs": 1787402384537
+      },
+      {
+        "startMs": 1787402387168,
+        "endMs": 1787402387735
+      },
+      {
+        "startMs": 1787402392324,
+        "endMs": 1787402394712
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 81437,
+      "providerWaitMs": 47888,
+      "interStepGapMs": 33549,
+      "outsideWindowMs": 7887,
+      "providerWaitFraction": 0.536115713582016,
+      "interStepGapFraction": 0.3755877479736689,
+      "unobservedFraction": 0.08829653844431508
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1009,
+        931,
+        44,
+        2956,
+        10366,
+        73,
+        215,
+        3006,
+        13206,
+        1718,
+        2971,
+        1664,
+        14,
+        155,
+        2698,
+        2962,
+        48,
+        3039,
+        3124,
+        93,
+        2812,
+        608,
+        51,
+        2930,
+        797,
+        159,
+        2730,
+        1801,
+        53,
+        6158,
+        2762,
+        109,
+        2631,
+        515,
+        52,
+        4589,
+        2337,
+        51
+      ],
+      "handoffGapsMs": [
+        2956,
+        3006,
+        2698,
+        3039,
+        2812,
+        2930,
+        2730,
+        6158,
+        2631,
+        4589
+      ],
+      "launchToFirstEventMs": 7744
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-range-test-repair-97248650/agent.stdout.log",
+    "stdoutSha256": "fa2cb9e513c7c083511c29e53f6a829494f864e00cfda413c7518182aa14eab2",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-range-test-repair-97248650/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-range-test-repair-97248650/validation.json",
+    "validationSha256": "c86c222414f455b185897d28d177caa55bfb6ad1c1ac001d959e01d6c140862d",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-range-test-repair-97248650/change.patch",
+    "patchSha256": "2bf6c31ceda9521d9bd19c994bb3a8373e923ee40f3c65cbb9bcfcb57a6bc40d"
+  }
+}

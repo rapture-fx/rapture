@@ -1,0 +1,21 @@
+diff --git a/package.json b/package.json
+index aeec5aba510f17abe1028844361f308bff2ff0d7..6ff4a9975b44409f0a5d4bd16b5663a6e5961626 100644
+--- a/package.json
++++ b/package.json
+@@ -3,6 +3,16 @@
+   "version": "0.0.0",
+   "description": "Glob matcher with support for braces, extglobs, POSIX brackets and regular expressions.",
+   "main": "index.js",
++  "exports": {
++    ".": "./index.js",
++    "./scan": "./lib/scan.js",
++    "./utils": "./lib/utils.js",
++    "./package.json": "./package.json"
++  },
++  "files": [
++    "index.js",
++    "lib/"
++  ],
+   "license": "MIT",
+   "sideEffects": false,
+   "engines": {

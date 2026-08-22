@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-3",
+  "status": "completed",
+  "startedAt": "2026-08-22T12:43:23.653Z",
+  "finishedAt": "2026-08-22T12:52:02.027Z",
+  "durationMs": 518360,
+  "taskOrder": [
+    "version-lru-cache-eviction",
+    "version-coerce-options",
+    "version-range-test-repair",
+    "version-subpath-exports",
+    "version-diff-release-type"
+  ],
+  "trialSeed": 2802152898
+}

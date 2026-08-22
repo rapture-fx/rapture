@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "status": "completed",
+  "startedAt": "2026-08-22T13:15:37.060Z",
+  "finishedAt": "2026-08-22T13:21:37.681Z",
+  "durationMs": 360617,
+  "taskOrder": [
+    "cli-argument-contract",
+    "cli-subpath-exports",
+    "cli-option-test-repair",
+    "cli-negated-option-name",
+    "cli-suggest-similar"
+  ],
+  "trialSeed": 3006128336
+}

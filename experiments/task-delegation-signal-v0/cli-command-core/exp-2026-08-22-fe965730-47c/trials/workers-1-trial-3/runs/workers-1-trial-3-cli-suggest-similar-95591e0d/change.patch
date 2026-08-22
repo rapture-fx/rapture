@@ -1,0 +1,80 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..b23cd4a736d6139366a589d8aac8ee2b4c46c0f6 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -8,14 +8,71 @@ const maxDistance = 3;
+  * @returns {string}
+  */
+ 
++function editDistance(a, b) {
++  const alen = a.length;
++  const blen = b.length;
++  const dp = [];
++  for (let i = 0; i <= alen; i++) {
++    dp.push(new Array(blen + 1).fill(0));
++  }
++  for (let i = 0; i <= alen; i++) dp[i][0] = i;
++  for (let j = 0; j <= blen; j++) dp[0][j] = j;
++
++  for (let i = 1; i <= alen; i++) {
++    for (let j = 1; j <= blen; j++) {
++      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
++      dp[i][j] = Math.min(
++        dp[i - 1][j] + 1,
++        dp[i][j - 1] + 1,
++        dp[i - 1][j - 1] + cost,
++      );
++      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
++        dp[i][j] = Math.min(dp[i][j], dp[i - 2][j - 2] + 1);
++      }
++    }
++  }
++  return dp[alen][blen];
++}
++
+ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
++  if (typeof word !== 'string') return '';
+ 
+   const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
++  const strippedWord = searchingOptions ? word.replace(/^-+/, '') : word;
++
++  let best = { distance: Number.POSITIVE_INFINITY, matches: [] };
++
++  for (const candidate of candidates) {
++    if (typeof candidate !== 'string' || candidate.length <= 1) continue;
++
++    const strippedCandidate = searchingOptions
++      ? candidate.replace(/^-+/, '')
++      : candidate;
++    if (strippedCandidate.length <= 1) continue;
++
++    const longer = Math.max(strippedWord.length, strippedCandidate.length);
++    const distance = editDistance(strippedWord, strippedCandidate);
++    if (distance > maxDistance) continue;
++
++    const similarity = (longer - distance) / longer;
++    if (similarity <= 0.4) continue;
++
++    if (distance < best.distance) {
++      best = { distance, matches: [candidate] };
++    } else if (distance === best.distance) {
++      best.matches.push(candidate);
++    }
++  }
++
++  if (best.matches.length === 0) return '';
++
++  const suggestions = [...new Set(best.matches)].sort((a, b) =>
++    a.localeCompare(b),
++  );
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++  if (suggestions.length === 1) {
++    return `\n(Did you mean ${suggestions[0]}?)`;
+   }
+-  return '';
++  return `\n(Did you mean one of ${suggestions.join(', ')}?)`;
+ }
