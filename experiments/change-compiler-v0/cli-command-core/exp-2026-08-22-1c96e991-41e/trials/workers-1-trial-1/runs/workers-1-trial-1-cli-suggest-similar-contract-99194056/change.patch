@@ -1,0 +1,105 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..a3e619fb219e7aefa7474a15cf289f8ac8563f6a 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -1,7 +1,48 @@
+ const maxDistance = 3;
+ 
+ /**
+- * Find close matches, restricted to same number of edits.
++ * Restricted Damerau-Levenshtein distance: counts insertion, deletion,
++ * substitution, and transposition of two adjacent characters as a single edit.
++ *
++ * @param {string} a
++ * @param {string} b
++ * @returns {number}
++ */
++
++function editDistance(a, b) {
++  const lenA = a.length;
++  const lenB = b.length;
++
++  if (lenA === 0) return lenB;
++  if (lenB === 0) return lenA;
++
++  let prevPrev = null;
++  let prev = Array.from({ length: lenB + 1 }, (_, j) => j);
++
++  for (let i = 1; i <= lenA; i++) {
++    const curr = new Array(lenB + 1);
++    curr[0] = i;
++    for (let j = 1; j <= lenB; j++) {
++      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
++      let val = Math.min(
++        prev[j] + 1,
++        curr[j - 1] + 1,
++        prev[j - 1] + cost,
++      );
++      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
++        val = Math.min(val, prevPrev[j - 2] + 1);
++      }
++      curr[j] = val;
++    }
++    prevPrev = prev;
++    prev = curr;
++  }
++
++  return prev[lenB];
++}
++
++/**
++ * Find close matches using edit distance similarity.
+  *
+  * @param {string} word
+  * @param {string[]} candidates
+@@ -12,10 +53,46 @@ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
+ 
+   const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
++  const prefix = searchingOptions ? '--' : '';
++  const target = searchingOptions ? word.slice(2) : word;
++
++  let bestDistance = Infinity;
++  let best = [];
++  const seen = new Set();
++
++  for (const candidate of candidates) {
++    const candCompare = searchingOptions && candidate.startsWith('--')
++      ? candidate.slice(2)
++      : candidate;
++
++    if (seen.has(candCompare)) continue;
++    seen.add(candCompare);
++
++    if (candCompare.length <= 1) continue;
++
++    const distance = editDistance(target, candCompare);
++    if (distance > maxDistance) continue;
++
++    const longer = Math.max(target.length, candCompare.length);
++    const similarity = (longer - distance) / longer;
++    if (similarity <= 0.4) continue;
++
++    if (distance < bestDistance) {
++      bestDistance = distance;
++      best = [candCompare];
++    } else if (distance === bestDistance) {
++      best.push(candCompare);
++    }
++  }
++
++  if (best.length === 0) return '';
++
++  best.sort((a, b) => a.localeCompare(b));
++
++  const output = best.map((c) => `${prefix}${c}`);
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++  if (output.length === 1) {
++    return `\n(Did you mean ${output[0]}?)`;
+   }
+-  return '';
++  return `\n(Did you mean one of ${output.join(', ')}?)`;
+ }

@@ -1,0 +1,260 @@
+{
+  "runId": "workers-1-trial-1-version-diff-release-type-baseline-ff4d5132",
+  "logicalRunId": "4e1a72b6a068564f71e35be6ba063d241059877a960f9044e5bf24e5f6c5e53e",
+  "attemptId": "workers-1-trial-1-version-diff-release-type-baseline-ff4d5132",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "version-diff-release-type__baseline",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "bug_fix",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 12,
+    "fileReads": 3,
+    "uniqueFilesRead": 3,
+    "searchOperations": 5,
+    "commandsExecuted": 6,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 7,
+    "msToFirstEdit": 174090,
+    "toolBreakdown": {
+      "read": 3,
+      "glob": 1,
+      "bash": 6,
+      "grep": 1,
+      "write": 1
+    }
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T14:40:43.401Z",
+  "finishedAt": "2026-08-22T14:44:53.546Z",
+  "durationMs": 250155,
+  "phaseTimings": {
+    "worktreeSetupMs": 67,
+    "queueWaitMs": 0.5160149999996975,
+    "agentExecutionMs": 249756,
+    "validationMs": 112,
+    "artifactPersistenceMs": 5,
+    "integrationMs": null,
+    "worktreeCleanupMs": 47,
+    "otherOrchestrationMs": 167.48398499999894,
+    "totalRunMs": 250155
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "b632facafde11b3b3846ac66d4fe88f56faf7fb1",
+  "filesChanged": [
+    "functions/diff.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `diff(a, b)` reports which release type separates two versions. Transitions out of a\nprerelease are currently reported incorrectly: for example `diff('1.0.0-1', '1.0.0')` returns\n'prerelease' when it must return 'major', and `diff('1.1.0-1', '1.1.0')` must return 'minor'.\n\nFix `functions/diff.js` so that:\n- identical versions, and versions differing only in build metadata, return null;\n- ordinary release steps return 'major' / 'minor' / 'patch';\n- a step *into* a prerelease keeps the 'pre' prefix ('premajor' / 'preminor' / 'prepatch');\n- two prereleases of the same main version return 'prerelease';\n- a step *out of* a prerelease is classified by how much of the main version is actually\n  being left behind: leaving a prerelease whose minor and patch are both zero is always a\n  'major' step, and when the main version is otherwise unchanged the answer is 'minor' if the\n  minor is non-zero and the patch is zero, otherwise 'patch';\n- the result does not depend on argument order;\n- invalid version strings still raise a TypeError.\n\nRead `classes/semver.js` for `compare` and `compareMain` before changing anything.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/version-diff.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 63768,
+    "outputTokens": 2982,
+    "cachedInputTokens": 167744,
+    "reasoningTokens": 12024,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T14:40:43.483Z",
+      "processFinishedAt": "2026-08-22T14:44:53.224Z",
+      "firstStructuredEventAt": "2026-08-22T14:40:51.388Z",
+      "firstModelResponseAt": "2026-08-22T14:40:53.577Z",
+      "lastModelResponseAt": "2026-08-22T14:44:53.083Z",
+      "providerWaitMs": 206232,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 12,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787409651388,
+        "endMs": 1787409653577
+      },
+      {
+        "startMs": 1787409656339,
+        "endMs": 1787409713262
+      },
+      {
+        "startMs": 1787409716418,
+        "endMs": 1787409718212
+      },
+      {
+        "startMs": 1787409723555,
+        "endMs": 1787409755247
+      },
+      {
+        "startMs": 1787409758474,
+        "endMs": 1787409759437
+      },
+      {
+        "startMs": 1787409762376,
+        "endMs": 1787409826911
+      },
+      {
+        "startMs": 1787409830760,
+        "endMs": 1787409835350
+      },
+      {
+        "startMs": 1787409838325,
+        "endMs": 1787409874358
+      },
+      {
+        "startMs": 1787409879437,
+        "endMs": 1787409881571
+      },
+      {
+        "startMs": 1787409884598,
+        "endMs": 1787409885407
+      },
+      {
+        "startMs": 1787409888513,
+        "endMs": 1787409893083
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 241695,
+      "providerWaitMs": 206232,
+      "interStepGapMs": 35463,
+      "outsideWindowMs": 8061,
+      "providerWaitFraction": 0.8257339163023111,
+      "interStepGapFraction": 0.1419905828088214,
+      "unobservedFraction": 0.032275500888867534
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1143,
+        915,
+        131,
+        2762,
+        3156,
+        547,
+        1186,
+        12,
+        49,
+        5343,
+        31283,
+        176,
+        233,
+        3227,
+        822,
+        141,
+        2939,
+        64234,
+        42,
+        259,
+        3849,
+        4554,
+        36,
+        2975,
+        35712,
+        0,
+        321,
+        5079,
+        1940,
+        124,
+        70,
+        3027,
+        729,
+        80,
+        3106,
+        4496,
+        74
+      ],
+      "handoffGapsMs": [
+        2762,
+        3156,
+        5343,
+        3227,
+        2939,
+        3849,
+        2975,
+        5079,
+        3027,
+        3106
+      ],
+      "launchToFirstEventMs": 7905
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132/agent.stdout.log",
+    "stdoutSha256": "19a04762d04af6991b8c4fab437b446b7f13581a1dacd4bdde2a5ebc82defa95",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132/validation.json",
+    "validationSha256": "238663afc3f45d7445fa9de5a475f167f080bd7cbf20f27633e2c6ff01ec3ad0",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-version-diff-release-type-baseline-ff4d5132/change.patch",
+    "patchSha256": "3eaad9766b296e332004aa0684c244c834282d386c3baa40236066a255d01a75"
+  }
+}

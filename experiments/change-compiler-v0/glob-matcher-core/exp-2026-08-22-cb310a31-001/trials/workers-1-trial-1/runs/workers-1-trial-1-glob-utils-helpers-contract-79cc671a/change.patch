@@ -1,0 +1,42 @@
+diff --git a/lib/utils.js b/lib/utils.js
+index 5668748cba110c220636cb8b1c6c8a539851a821..3f1bfe911788e16b7237db971fd02bc7b1f784b8 100644
+--- a/lib/utils.js
++++ b/lib/utils.js
+@@ -33,16 +33,21 @@ exports.removeBackslashes = str => {
+   });
+ };
+ 
+-exports.escapeLast = (input, char, lastIdx) => {
++exports.escapeLast = function escapeLast(input, char, lastIdx) {
+   const idx = input.lastIndexOf(char, lastIdx);
+   if (idx === -1) return input;
++  const preceding = input.charAt(idx - 1);
++  if (preceding === '\\') {
++    return escapeLast(input, char, idx - 1);
++  }
+   return `${input.slice(0, idx)}\\${input.slice(idx)}`;
+ };
+ 
+-exports.removePrefix = input => {
++exports.removePrefix = (input, state = {}) => {
+   let output = input;
+   if (output.startsWith('./')) {
+     output = output.slice(2);
++    state.prefix = './';
+   }
+   return output;
+ };
+@@ -58,7 +63,11 @@ exports.wrapOutput = (input, state = {}, options = {}) => {
+   return output;
+ };
+ 
+-exports.basename = path => {
++exports.basename = (path, { windows } = {}) => {
++  if (windows) {
++    path = path.replace(REGEX_BACKSLASH, '/');
++  }
+   const segs = path.split('/');
+-  return segs[segs.length - 1];
++  while (segs.length && !segs[segs.length - 1]) segs.pop();
++  return segs[segs.length - 1] || '';
+ };

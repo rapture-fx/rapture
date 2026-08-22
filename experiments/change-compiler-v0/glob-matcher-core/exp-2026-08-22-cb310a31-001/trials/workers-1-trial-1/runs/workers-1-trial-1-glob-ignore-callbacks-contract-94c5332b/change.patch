@@ -1,0 +1,120 @@
+diff --git a/lib/glob-match.js b/lib/glob-match.js
+index 8e92b8c57ed33a32c9241d2e2dfbbc34b65dafef..0aed8846ab66f959ca6e8bf3789a51112c728949 100644
+--- a/lib/glob-match.js
++++ b/lib/glob-match.js
+@@ -6,6 +6,26 @@ const utils = require('./utils');
+ const constants = require('./constants');
+ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+ 
++const getLifecycle = opts => ({
++  onResult: typeof opts.onResult === 'function' ? opts.onResult : null,
++  onMatch: typeof opts.onMatch === 'function' ? opts.onMatch : null,
++  onIgnore: typeof opts.onIgnore === 'function' ? opts.onIgnore : null
++});
++
++const stripLifecycle = opts => {
++  const copy = { ...opts };
++  delete copy.onResult;
++  delete copy.onMatch;
++  delete copy.onIgnore;
++  delete copy.ignore;
++  return copy;
++};
++
++const buildIgnoreMatcher = opts => {
++  if (!opts.ignore) return null;
++  return globMatch(opts.ignore, stripLifecycle(opts));
++};
++
+ /**
+  * Creates a matcher function from one or more glob patterns. The
+  * returned function takes a string to match as its first argument,
+@@ -40,15 +60,42 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+  */
+ 
+ const globMatch = (glob, options, returnState = false) => {
++  const opts = options || {};
++
+   if (Array.isArray(glob)) {
+-    const fns = glob.map(input => globMatch(input, options, returnState));
+-    const arrayMatcher = str => {
+-      for (const isMatch of fns) {
+-        const state = isMatch(str);
+-        if (state) return state;
++    const fns = glob.map(input => globMatch(input, stripLifecycle(opts), returnState));
++    const ignoreMatcher = buildIgnoreMatcher(opts);
++    const { onResult, onMatch, onIgnore } = getLifecycle(opts);
++
++    const arrayMatcher = (str, returnObject = false) => {
++      let result = null;
++      for (const fn of fns) {
++        const res = fn(str, true);
++        if (res.isMatch) {
++          result = res;
++          break;
++        }
++      }
++
++      let matched = result ? result.isMatch : false;
++      let ignored = false;
++      if (matched && ignoreMatcher && ignoreMatcher(str)) {
++        matched = false;
++        ignored = true;
+       }
+-      return false;
++
++      if (!result) {
++        result = { glob, input: str, output: str, regex: undefined, state: undefined, match: false, isMatch: false };
++      }
++      result.isMatch = matched;
++
++      if (onResult) onResult(result);
++      if (matched && onMatch) onMatch(result);
++      if (ignored && onIgnore) onIgnore(result);
++
++      return returnObject ? result : matched;
+     };
++
+     return arrayMatcher;
+   }
+ 
+@@ -58,7 +105,6 @@ const globMatch = (glob, options, returnState = false) => {
+     throw new TypeError('Expected pattern to be a non-empty string');
+   }
+ 
+-  const opts = options || {};
+   const posix = opts.windows;
+   const regex = isState
+     ? globMatch.compileRe(glob, options)
+@@ -67,16 +113,26 @@ const globMatch = (glob, options, returnState = false) => {
+   const state = regex.state;
+   delete regex.state;
+ 
++  const ignoreMatcher = buildIgnoreMatcher(opts);
++  const { onResult, onMatch, onIgnore } = getLifecycle(opts);
++
+   const matcher = (input, returnObject = false) => {
+     const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
+-    const result = { glob, state, regex, posix, input, output, match, isMatch };
++    let matched = isMatch;
++    let ignored = false;
+ 
+-    if (isMatch === false) {
+-      result.isMatch = false;
+-      return returnObject ? result : false;
++    if (matched && ignoreMatcher && ignoreMatcher(input)) {
++      matched = false;
++      ignored = true;
+     }
+ 
+-    return returnObject ? result : true;
++    const result = { glob, state, regex, posix, input, output, match, isMatch: matched };
++
++    if (onResult) onResult(result);
++    if (matched && onMatch) onMatch(result);
++    if (ignored && onIgnore) onIgnore(result);
++
++    return returnObject ? result : matched;
+   };
+ 
+   if (returnState) {

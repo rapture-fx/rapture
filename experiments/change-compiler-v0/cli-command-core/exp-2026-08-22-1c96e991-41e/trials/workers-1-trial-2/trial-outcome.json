@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-2",
+  "status": "completed",
+  "startedAt": "2026-08-22T15:56:26.822Z",
+  "finishedAt": "2026-08-22T16:21:50.049Z",
+  "durationMs": 1523157,
+  "taskOrder": [
+    "cli-negated-option-name__baseline",
+    "cli-negated-option-name__contract",
+    "cli-suggest-similar__contract",
+    "cli-argument-contract__baseline",
+    "cli-argument-contract__contract",
+    "cli-suggest-similar__baseline"
+  ],
+  "trialSeed": 3744084150
+}

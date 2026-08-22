@@ -1,0 +1,216 @@
+{
+  "runId": "workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb",
+  "logicalRunId": "7a70a8b6ac27b5a86cd7ada0477434a2e1a0a4a19e19e4b0784e61929fcb3b06",
+  "attemptId": "workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "version-lru-cache-eviction__contract",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "refactor",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 7,
+    "fileReads": 2,
+    "uniqueFilesRead": 2,
+    "searchOperations": 2,
+    "commandsExecuted": 2,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 4,
+    "msToFirstEdit": 17374,
+    "toolBreakdown": {
+      "read": 2,
+      "grep": 2,
+      "edit": 1,
+      "bash": 2
+    }
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+  ],
+  "startedAt": "2026-08-22T15:03:07.752Z",
+  "finishedAt": "2026-08-22T15:03:51.902Z",
+  "durationMs": 44149,
+  "phaseTimings": {
+    "worktreeSetupMs": 70,
+    "queueWaitMs": 304441.9880939999,
+    "agentExecutionMs": 43727,
+    "validationMs": 164,
+    "artifactPersistenceMs": 1,
+    "integrationMs": null,
+    "worktreeCleanupMs": 37,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 44149
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "3d4c26c911f5f4008309c5fecdd17f184c30eb50",
+  "filesChanged": [
+    "internal/lrucache.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `internal/lrucache.js` is currently an unbounded Map wrapper: it declares a `max` of 1000 but\nnever evicts, and reads do not affect retention. It backs range and version parsing (see\n`classes/range.js` and `internal/parse-options.js`), so on a long-lived process it grows without\nbound.\n\nRefactor it into a real bounded LRU cache, preserving its current interface:\n- `max` stays 1000 by default;\n- `get(key)` returns the value or undefined, and marks the key as most recently used;\n- `set(key, value)` returns the cache itself, and never stores an entry when value is undefined;\n- `delete(key)` returns whether the key was present;\n- once `max` entries are held, inserting a new key evicts the least recently used key, so the\n  cache never retains more than `max` entries no matter how much churn it sees.\n\nLibrary behaviour must not change: parsing many more distinct ranges than the cache can hold\nmust still produce identical answers.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/version-lru-cache.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 12610,
+    "outputTokens": 969,
+    "cachedInputTokens": 57984,
+    "reasoningTokens": 403,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:03:07.850Z",
+      "processFinishedAt": "2026-08-22T15:03:51.576Z",
+      "firstStructuredEventAt": "2026-08-22T15:03:16.258Z",
+      "firstModelResponseAt": "2026-08-22T15:03:18.732Z",
+      "lastModelResponseAt": "2026-08-22T15:03:51.368Z",
+      "providerWaitMs": 20471,
+      "providerEventCount": 12,
+      "modelStepCount": 6,
+      "toolEventCount": 7,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787410996258,
+        "endMs": 1787410998732
+      },
+      {
+        "startMs": 1787411001638,
+        "endMs": 1787411004997
+      },
+      {
+        "startMs": 1787411007953,
+        "endMs": 1787411015076
+      },
+      {
+        "startMs": 1787411017999,
+        "endMs": 1787411019193
+      },
+      {
+        "startMs": 1787411022053,
+        "endMs": 1787411025083
+      },
+      {
+        "startMs": 1787411028077,
+        "endMs": 1787411031368
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 35110,
+      "providerWaitMs": 20471,
+      "interStepGapMs": 14639,
+      "outsideWindowMs": 8617,
+      "providerWaitFraction": 0.4681546870354701,
+      "interStepGapFraction": 0.3347817138152629,
+      "unobservedFraction": 0.19706359914926705
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1319,
+        955,
+        200,
+        2906,
+        2008,
+        1264,
+        87,
+        2956,
+        6969,
+        154,
+        2923,
+        1144,
+        50,
+        2860,
+        2925,
+        105,
+        2994,
+        3213,
+        78
+      ],
+      "handoffGapsMs": [
+        2906,
+        2956,
+        2923,
+        2860,
+        2994
+      ],
+      "launchToFirstEventMs": 8408
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb/agent.stdout.log",
+    "stdoutSha256": "822e39aba9f38eabfc3d7f1b90fd97d74966c059be5e16dc491cb34f9f73b685",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb/validation.json",
+    "validationSha256": "68293c8cb09a0442d95de35ea54a3737f95e379bf839bd546d0e36dc45a00cbb",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-lru-cache-eviction-contract-3a4142fb/change.patch",
+    "patchSha256": "bf141eb10de3fc3898aa39ecd7506892730a45a6e285c335208c1d07e4fb16e8"
+  }
+}

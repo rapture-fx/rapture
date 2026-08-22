@@ -1,0 +1,274 @@
+{
+  "runId": "workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5",
+  "logicalRunId": "9d50f16b241a731b3a4ac45dd38f889843549dffe6c5e2b44c9c8cbd7e836471",
+  "attemptId": "workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-cb310a31-001",
+  "trialId": "workers-1-trial-3",
+  "repetition": 3,
+  "taskId": "glob-utils-helpers__baseline",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "refactor",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 12,
+    "fileReads": 4,
+    "uniqueFilesRead": 4,
+    "searchOperations": 4,
+    "commandsExecuted": 5,
+    "editOperations": 2,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 1,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 3,
+    "msToFirstEdit": 21116,
+    "toolBreakdown": {
+      "read": 4,
+      "grep": 1,
+      "edit": 2,
+      "bash": 5
+    }
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T15:37:53.707Z",
+  "finishedAt": "2026-08-22T15:39:14.348Z",
+  "durationMs": 80639,
+  "phaseTimings": {
+    "worktreeSetupMs": 43,
+    "queueWaitMs": 0.06703599996399134,
+    "agentExecutionMs": 80347,
+    "validationMs": 80,
+    "artifactPersistenceMs": 3,
+    "integrationMs": null,
+    "worktreeCleanupMs": 27,
+    "otherOrchestrationMs": 138.932964000036,
+    "totalRunMs": 80639
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "b08292a058c1bcd4a972f11eea57e00106d2eb03",
+  "filesChanged": [
+    "lib/utils.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/glob-utils.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 30303,
+    "outputTokens": 2064,
+    "cachedInputTokens": 147008,
+    "reasoningTokens": 1845,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:37:53.767Z",
+      "processFinishedAt": "2026-08-22T15:39:14.113Z",
+      "firstStructuredEventAt": "2026-08-22T15:38:01.513Z",
+      "firstModelResponseAt": "2026-08-22T15:38:02.492Z",
+      "lastModelResponseAt": "2026-08-22T15:39:13.948Z",
+      "providerWaitMs": 37306,
+      "providerEventCount": 26,
+      "modelStepCount": 13,
+      "toolEventCount": 12,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787413081513,
+        "endMs": 1787413082492
+      },
+      {
+        "startMs": 1787413084986,
+        "endMs": 1787413086063
+      },
+      {
+        "startMs": 1787413088708,
+        "endMs": 1787413090002
+      },
+      {
+        "startMs": 1787413092569,
+        "endMs": 1787413103719
+      },
+      {
+        "startMs": 1787413106410,
+        "endMs": 1787413107908
+      },
+      {
+        "startMs": 1787413110536,
+        "endMs": 1787413111993
+      },
+      {
+        "startMs": 1787413115185,
+        "endMs": 1787413116256
+      },
+      {
+        "startMs": 1787413119073,
+        "endMs": 1787413121132
+      },
+      {
+        "startMs": 1787413125671,
+        "endMs": 1787413128392
+      },
+      {
+        "startMs": 1787413131110,
+        "endMs": 1787413132386
+      },
+      {
+        "startMs": 1787413135466,
+        "endMs": 1787413137698
+      },
+      {
+        "startMs": 1787413140596,
+        "endMs": 1787413148286
+      },
+      {
+        "startMs": 1787413151146,
+        "endMs": 1787413153948
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 72435,
+      "providerWaitMs": 37306,
+      "interStepGapMs": 35129,
+      "outsideWindowMs": 7912,
+      "providerWaitFraction": 0.4643110508170809,
+      "interStepGapFraction": 0.4372160752735012,
+      "unobservedFraction": 0.0984728739094179
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        765,
+        214,
+        2494,
+        990,
+        87,
+        2645,
+        1230,
+        64,
+        2567,
+        10799,
+        204,
+        147,
+        2691,
+        1255,
+        243,
+        2628,
+        1372,
+        34,
+        51,
+        3192,
+        973,
+        98,
+        2817,
+        1936,
+        123,
+        4539,
+        2107,
+        555,
+        59,
+        2718,
+        1217,
+        59,
+        3080,
+        2129,
+        103,
+        2898,
+        7455,
+        137,
+        98,
+        2860,
+        2724,
+        78
+      ],
+      "handoffGapsMs": [
+        2494,
+        2645,
+        2567,
+        2691,
+        2628,
+        3192,
+        2817,
+        4539,
+        2718,
+        3080,
+        2898,
+        2860
+      ],
+      "launchToFirstEventMs": 7746
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5/agent.stdout.log",
+    "stdoutSha256": "dfe031da444de03036ee76bd38810fd14b3e81af8800c937069fe6b4d0f9b426",
+    "stderr": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5/validation.json",
+    "validationSha256": "c4b3423771be7a78c142d6ac21ab4f7945225b225d44c1ec7431ba97c7fde8d3",
+    "patch": "trials/workers-1-trial-3/runs/workers-1-trial-3-glob-utils-helpers-baseline-af63b3c5/change.patch",
+    "patchSha256": "1fc8f8cbf7b26893f8532594fc404613cdc0867ca2179cf701a2452c15b818e1"
+  }
+}

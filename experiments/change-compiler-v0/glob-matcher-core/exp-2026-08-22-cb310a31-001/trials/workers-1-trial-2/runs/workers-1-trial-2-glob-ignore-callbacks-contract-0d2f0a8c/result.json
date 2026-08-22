@@ -1,0 +1,248 @@
+{
+  "runId": "workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c",
+  "logicalRunId": "89d700a668ecee807ea7e53121f260db8fba7904ca2d25d37a5d3ccdf315ea9e",
+  "attemptId": "workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-cb310a31-001",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "glob-ignore-callbacks__contract",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "small_feature",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "unit_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 9,
+    "fileReads": 4,
+    "uniqueFilesRead": 4,
+    "searchOperations": 0,
+    "commandsExecuted": 4,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 4,
+    "msToFirstEdit": 68286,
+    "toolBreakdown": {
+      "read": 4,
+      "edit": 1,
+      "bash": 4
+    }
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: The matcher returned by the main export supports neither ignore patterns nor lifecycle\ncallbacks. Add them in `lib/glob-match.js`:\n- `{ ignore }` takes a glob or array of globs; an input that matches the pattern but also matches\n  an ignore pattern must not match;\n- `{ onResult }` is called once with a result object for every input, whatever the outcome;\n- `{ onMatch }` is called only for inputs that end up matching;\n- `{ onIgnore }` is called only for inputs excluded by an ignore pattern;\n- the result object carries at least glob, regex, input, output and isMatch, with isMatch\n  reflecting the final decision;\n- an input that never matched the pattern is reported as a non-match, never as ignored;\n- the ignore pattern is evaluated without inheriting the caller's own callbacks.\n\nExisting matching behaviour, including array patterns and the returnObject form, must not change.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+  ],
+  "startedAt": "2026-08-22T15:30:21.224Z",
+  "finishedAt": "2026-08-22T15:32:14.425Z",
+  "durationMs": 113265,
+  "phaseTimings": {
+    "worktreeSetupMs": 42,
+    "queueWaitMs": 0.047263999993447214,
+    "agentExecutionMs": 112855,
+    "validationMs": 103,
+    "artifactPersistenceMs": 6,
+    "integrationMs": null,
+    "worktreeCleanupMs": 31,
+    "otherOrchestrationMs": 227.95273600000655,
+    "totalRunMs": 113265
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "4ee7be36ff36863d70a1206e6ae3d18ac0121ea0",
+  "filesChanged": [
+    "lib/glob-match.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: The matcher returned by the main export supports neither ignore patterns nor lifecycle\ncallbacks. Add them in `lib/glob-match.js`:\n- `{ ignore }` takes a glob or array of globs; an input that matches the pattern but also matches\n  an ignore pattern must not match;\n- `{ onResult }` is called once with a result object for every input, whatever the outcome;\n- `{ onMatch }` is called only for inputs that end up matching;\n- `{ onIgnore }` is called only for inputs excluded by an ignore pattern;\n- the result object carries at least glob, regex, input, output and isMatch, with isMatch\n  reflecting the final decision;\n- an input that never matched the pattern is reported as a non-match, never as ignored;\n- the ignore pattern is evaluated without inheriting the caller's own callbacks.\n\nExisting matching behaviour, including array patterns and the returnObject form, must not change.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/glob-ignore.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 29694,
+    "outputTokens": 1632,
+    "cachedInputTokens": 140992,
+    "reasoningTokens": 1673,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:30:21.300Z",
+      "processFinishedAt": "2026-08-22T15:32:14.089Z",
+      "firstStructuredEventAt": "2026-08-22T15:30:29.606Z",
+      "firstModelResponseAt": "2026-08-22T15:30:31.006Z",
+      "lastModelResponseAt": "2026-08-22T15:32:13.857Z",
+      "providerWaitMs": 76126,
+      "providerEventCount": 20,
+      "modelStepCount": 10,
+      "toolEventCount": 9,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787412629606,
+        "endMs": 1787412631006
+      },
+      {
+        "startMs": 1787412633783,
+        "endMs": 1787412671428
+      },
+      {
+        "startMs": 1787412674814,
+        "endMs": 1787412676311
+      },
+      {
+        "startMs": 1787412679132,
+        "endMs": 1787412689707
+      },
+      {
+        "startMs": 1787412692618,
+        "endMs": 1787412699003
+      },
+      {
+        "startMs": 1787412701924,
+        "endMs": 1787412705212
+      },
+      {
+        "startMs": 1787412708693,
+        "endMs": 1787412711569
+      },
+      {
+        "startMs": 1787412714816,
+        "endMs": 1787412720217
+      },
+      {
+        "startMs": 1787412723522,
+        "endMs": 1787412726376
+      },
+      {
+        "startMs": 1787412729652,
+        "endMs": 1787412733857
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 104251,
+      "providerWaitMs": 76126,
+      "interStepGapMs": 28125,
+      "outsideWindowMs": 8604,
+      "providerWaitFraction": 0.6745469850693367,
+      "interStepGapFraction": 0.24921359266315182,
+      "unobservedFraction": 0.0762394222675114
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1021,
+        220,
+        159,
+        2777,
+        3386,
+        803,
+        578,
+        57,
+        59,
+        2821,
+        2911,
+        6188,
+        197,
+        2921,
+        2720,
+        481,
+        87,
+        3481,
+        2546,
+        238,
+        92,
+        3247,
+        5148,
+        141,
+        112,
+        3305,
+        2753,
+        46,
+        55,
+        3276,
+        4088,
+        117
+      ],
+      "handoffGapsMs": [
+        2777,
+        3386,
+        2821,
+        2911,
+        2921,
+        3481,
+        3247,
+        3305,
+        3276
+      ],
+      "launchToFirstEventMs": 8306
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c/agent.stdout.log",
+    "stdoutSha256": "b229f8f188d8295a4f6019e9b4e9ee51f23edddaa20f1ef6999d2f70291d0ff9",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c/validation.json",
+    "validationSha256": "5ff3927c72a7272ad4ebe325d1367f7c792f35889c672451c950ed0125a14001",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-ignore-callbacks-contract-0d2f0a8c/change.patch",
+    "patchSha256": "64aa7f02df96e622218215adfab2d08d4fe3e963fbab68d7f05e893255b6624b"
+  }
+}

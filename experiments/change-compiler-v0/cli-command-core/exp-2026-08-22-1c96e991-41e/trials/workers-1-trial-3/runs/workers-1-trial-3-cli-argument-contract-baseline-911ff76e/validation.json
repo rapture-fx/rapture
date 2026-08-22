@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-argument.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T16:30:06.929Z",
+    "finishedAt": "2026-08-22T16:30:07.006Z",
+    "durationMs": 78,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "{\"status\":\"rejected\",\"detail\":\"default() and argParser() must return the argument\"}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "experimentIdentityHash": "a910c7a9e25d69fbcbff36197b3eded4d060b6ca68598bb56e7a18b0352e9e45",
+  "repository": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-checkout/version-core",
+  "repositoryHead": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "repositoryFingerprint": "5153a469c7b8ded997a218d9273dd37ce5791555c67501ad2422b600157e7c11",
+  "taskFile": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-tasks/version-core.json",
+  "taskSetHash": "1643b947e2c8b2961c4dce4891051d86ed4d3500bd55fd3b30d4daf3d968ef01",
+  "workerCounts": [
+    1
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.21",
+    "model": "opencode/hy3-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "benchmark": {
+    "suiteIds": [
+      "rapture-delegation-v0"
+    ],
+    "suiteVersions": [
+      "0.1.0"
+    ],
+    "repositoryIds": [
+      "version-core"
+    ],
+    "taskClasses": [
+      "bug_fix",
+      "refactor",
+      "small_feature"
+    ]
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "repetition-major",
+  "budget": {},
+  "seed": 20260824,
+  "startedAt": "2026-08-22T14:40:42.222Z",
+  "pricing": null,
+  "reproduction": "rapture run --repo /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-checkout/version-core --tasks /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-tasks/version-core.json --workers 1 --repetitions 3 --seed 20260824 --agent opencode --agent-model opencode/hy3-free --output /Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core"
+}

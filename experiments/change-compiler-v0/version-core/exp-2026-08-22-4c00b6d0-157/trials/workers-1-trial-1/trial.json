@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "workerCount": 1,
+  "repetition": 1,
+  "trialSeed": 1360424495,
+  "taskOrder": [
+    "version-diff-release-type__baseline",
+    "version-coerce-options__contract",
+    "version-lru-cache-eviction__baseline",
+    "version-diff-release-type__contract",
+    "version-lru-cache-eviction__contract",
+    "version-coerce-options__baseline"
+  ],
+  "startedAt": "2026-08-22T14:40:43.367Z"
+}

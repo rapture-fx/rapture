@@ -1,0 +1,126 @@
+diff --git a/lib/glob-match.js b/lib/glob-match.js
+index 8e92b8c57ed33a32c9241d2e2dfbbc34b65dafef..d2c476b71e215cd1d63b4d1cab18da71101244d2 100644
+--- a/lib/glob-match.js
++++ b/lib/glob-match.js
+@@ -6,6 +6,44 @@ const utils = require('./utils');
+ const constants = require('./constants');
+ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+ 
++/**
++ * Applies ignore patterns and lifecycle callbacks to the outcome of matching
++ * a single input. The `result` argument is the raw result object produced by
++ * the matcher (or `null` when the input never matched the pattern). Returns
++ * the final value: the result object when `returnObject` is true, otherwise a
++ * boolean reflecting the final decision (`isMatch`).
++ *
++ * Rules:
++ *  - an input that never matched the pattern is a non-match, never ignored;
++ *  - an input that matched the pattern but also matches an ignore pattern is
++ *    excluded (reported as a non-match via `isMatch: false`) and `onIgnore` fires;
++ *  - callbacks are always invoked with the result object, never with the caller's
++ *    own callbacks leaked into the ignore matcher.
++ */
++const applyOutcome = (input, result, returnObject, ignoreMatcher, callbacks, glob) => {
++  const matched = Boolean(result && result.isMatch);
++  let ignored = false;
++
++  if (matched && ignoreMatcher && ignoreMatcher(input)) {
++    ignored = true;
++  }
++
++  const isMatch = matched && !ignored;
++
++  if (!result) {
++    result = { glob, input, output: input, isMatch: false, isIgnored: ignored };
++  } else {
++    result.isMatch = isMatch;
++    if (ignored) result.isIgnored = true;
++  }
++
++  if (callbacks.onResult) callbacks.onResult(result);
++  if (isMatch && callbacks.onMatch) callbacks.onMatch(result);
++  if (ignored && callbacks.onIgnore) callbacks.onIgnore(result);
++
++  return returnObject ? result : isMatch;
++};
++
+ /**
+  * Creates a matcher function from one or more glob patterns. The
+  * returned function takes a string to match as its first argument,
+@@ -40,14 +78,47 @@ const isObject = val => val && typeof val === 'object' && !Array.isArray(val);
+  */
+ 
+ const globMatch = (glob, options, returnState = false) => {
++  const opts = options || {};
++
++  // Build the ignore matcher without inheriting the caller's own callbacks.
++  // Matching options (e.g. windows/nocase) are still passed through so the
++  // ignore patterns are evaluated under the same semantics as the pattern.
++  let ignoreMatcher = null;
++  if (opts.ignore !== undefined && opts.ignore !== null) {
++    const ignoreOptions = { ...opts };
++    delete ignoreOptions.onResult;
++    delete ignoreOptions.onMatch;
++    delete ignoreOptions.onIgnore;
++    delete ignoreOptions.ignore;
++    ignoreMatcher = globMatch(opts.ignore, ignoreOptions);
++  }
++
++  const callbacks = {
++    onResult: opts.onResult,
++    onMatch: opts.onMatch,
++    onIgnore: opts.onIgnore
++  };
++
+   if (Array.isArray(glob)) {
+-    const fns = glob.map(input => globMatch(input, options, returnState));
+-    const arrayMatcher = str => {
+-      for (const isMatch of fns) {
+-        const state = isMatch(str);
+-        if (state) return state;
++    // Strip callbacks/ignore before recursing so sub-matchers don't re-fire
++    // them; the array matcher applies them once at its own level.
++    const subOptions = { ...opts };
++    delete subOptions.onResult;
++    delete subOptions.onMatch;
++    delete subOptions.onIgnore;
++    delete subOptions.ignore;
++
++    const fns = glob.map(input => globMatch(input, subOptions, returnState));
++    const arrayMatcher = (str, returnObject = false) => {
++      let matchedResult = null;
++      for (const fn of fns) {
++        const res = fn(str, true);
++        if (res && res.isMatch) {
++          matchedResult = res;
++          break;
++        }
+       }
+-      return false;
++      return applyOutcome(str, matchedResult, returnObject, ignoreMatcher, callbacks, glob);
+     };
+     return arrayMatcher;
+   }
+@@ -58,7 +129,6 @@ const globMatch = (glob, options, returnState = false) => {
+     throw new TypeError('Expected pattern to be a non-empty string');
+   }
+ 
+-  const opts = options || {};
+   const posix = opts.windows;
+   const regex = isState
+     ? globMatch.compileRe(glob, options)
+@@ -70,13 +140,7 @@ const globMatch = (glob, options, returnState = false) => {
+   const matcher = (input, returnObject = false) => {
+     const { isMatch, match, output } = globMatch.test(input, regex, options, { glob, posix });
+     const result = { glob, state, regex, posix, input, output, match, isMatch };
+-
+-    if (isMatch === false) {
+-      result.isMatch = false;
+-      return returnObject ? result : false;
+-    }
+-
+-    return returnObject ? result : true;
++    return applyOutcome(input, isMatch ? result : null, returnObject, ignoreMatcher, callbacks, glob);
+   };
+ 
+   if (returnState) {

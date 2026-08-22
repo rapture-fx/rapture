@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "experimentId": "exp-2026-08-22-cb310a31-001",
+  "experimentIdentityHash": "8dec1c9ea1edd6c40f0d2e76b1bea184505359be69bb5d12cb6a1736b059af42",
+  "repository": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-checkout/glob-matcher-core",
+  "repositoryHead": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "repositoryFingerprint": "76575336d022ad867cb6d2dd9741fcb70053da9b5db166d948e1be3864afb2f1",
+  "taskFile": "/private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-tasks/glob-matcher-core.json",
+  "taskSetHash": "16908f26860807562c606dc9cdeb54ace30ba34c4ff13ffebaa0a648639a178b",
+  "workerCounts": [
+    1
+  ],
+  "repetitions": 3,
+  "trialIds": [
+    "workers-1-trial-1",
+    "workers-1-trial-2",
+    "workers-1-trial-3"
+  ],
+  "agent": {
+    "name": "opencode",
+    "version": "1.18.21",
+    "model": "opencode/hy3-free"
+  },
+  "environment": {
+    "os": "darwin",
+    "arch": "x64",
+    "kernel": "Darwin 22.6.0",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "memoryBytes": 8589934592,
+    "nodeVersion": "v22.14.0",
+    "gitVersion": "git version 2.49.0",
+    "pnpmVersion": "10.12.1"
+  },
+  "benchmark": {
+    "suiteIds": [
+      "rapture-delegation-v0"
+    ],
+    "suiteVersions": [
+      "0.1.0"
+    ],
+    "repositoryIds": [
+      "glob-matcher-core"
+    ],
+    "taskClasses": [
+      "refactor",
+      "small_feature"
+    ]
+  },
+  "integration": false,
+  "integrationValidation": [],
+  "executionOrder": "repetition-major",
+  "budget": {},
+  "seed": 20260824,
+  "startedAt": "2026-08-22T15:22:53.151Z",
+  "pricing": null,
+  "reproduction": "rapture run --repo /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-checkout/glob-matcher-core --tasks /private/tmp/claude-501/-Users-wira-Documents-rapture-rapture/377b7f86-d71b-4325-8c7b-ed9be4446428/scratchpad/cc-tasks/glob-matcher-core.json --workers 1 --repetitions 3 --seed 20260824 --agent opencode --agent-model opencode/hy3-free --output /Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core"
+}

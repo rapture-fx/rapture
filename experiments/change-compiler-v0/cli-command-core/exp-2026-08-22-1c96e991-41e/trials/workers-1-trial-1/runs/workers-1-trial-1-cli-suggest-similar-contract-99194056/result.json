@@ -1,0 +1,256 @@
+{
+  "runId": "workers-1-trial-1-cli-suggest-similar-contract-99194056",
+  "logicalRunId": "dae644e1507562914e749d4942c8b37eb78add74ee740004647f7293d69d5184",
+  "attemptId": "workers-1-trial-1-cli-suggest-similar-contract-99194056",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-1c96e991-41e",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "cli-suggest-similar__contract",
+  "repositoryId": "cli-command-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "small_feature",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "unit_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "moderate",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 11,
+    "fileReads": 3,
+    "uniqueFilesRead": 3,
+    "searchOperations": 5,
+    "commandsExecuted": 6,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 6,
+    "msToFirstEdit": 66973,
+    "toolBreakdown": {
+      "read": 3,
+      "grep": 1,
+      "bash": 6,
+      "write": 1
+    }
+  },
+  "baseCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "baseTreeHash": "5fa201e53df4a223c5a20b9f6a93299b70f3ba36",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/cli-command-core/exp-2026-08-22-1c96e991-41e/.worktrees/workers-1-trial-1-cli-suggest-similar-contract-99194056",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `suggestSimilar(word, candidates)` currently only recognises an exact match, so a mistyped\ncommand or flag produces no 'did you mean' hint. Implement real similarity matching in\n`lib/suggestSimilar.js`.\n\nRequirements:\n- compare `word` against `candidates` using an edit distance that also counts a transposition of\n  two adjacent characters as a single edit;\n- only consider candidates within 3 edits, and reject any whose similarity, measured as\n  (length - distance) / length against the longer of the two strings, is not greater than 0.4;\n- candidates of one character or shorter are never suggested;\n- keep only the closest candidates: a strictly better distance discards previous matches, an\n  equal distance joins them;\n- de-duplicate candidates, and sort the surviving suggestions with localeCompare;\n- when `word` starts with '--', compare without the leading dashes but restore them in the output;\n- return '' when nothing qualifies, '\\n(Did you mean X?)' for one match, and\n  '\\n(Did you mean one of A, B?)' for several;\n- return '' when candidates is empty, null or undefined.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+  ],
+  "startedAt": "2026-08-22T15:53:23.810Z",
+  "finishedAt": "2026-08-22T15:55:07.116Z",
+  "durationMs": 103306,
+  "phaseTimings": {
+    "worktreeSetupMs": 38,
+    "queueWaitMs": 436553.28241700004,
+    "agentExecutionMs": 102971,
+    "validationMs": 102,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 28,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 103306
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "finalTreeHash": "8d9c7403bb7f3e784865c724e0c398fd2d121673",
+  "filesChanged": [
+    "lib/suggestSimilar.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/cli-command-core/exp-2026-08-22-1c96e991-41e/.worktrees/workers-1-trial-1-cli-suggest-similar-contract-99194056",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `suggestSimilar(word, candidates)` currently only recognises an exact match, so a mistyped\ncommand or flag produces no 'did you mean' hint. Implement real similarity matching in\n`lib/suggestSimilar.js`.\n\nRequirements:\n- compare `word` against `candidates` using an edit distance that also counts a transposition of\n  two adjacent characters as a single edit;\n- only consider candidates within 3 edits, and reject any whose similarity, measured as\n  (length - distance) / length against the longer of the two strings, is not greater than 0.4;\n- candidates of one character or shorter are never suggested;\n- keep only the closest candidates: a strictly better distance discards previous matches, an\n  equal distance joins them;\n- de-duplicate candidates, and sort the surviving suggestions with localeCompare;\n- when `word` starts with '--', compare without the leading dashes but restore them in the output;\n- return '' when nothing qualifies, '\\n(Did you mean X?)' for one match, and\n  '\\n(Did you mean one of A, B?)' for several;\n- return '' when candidates is empty, null or undefined.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/cli-suggest-similar.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 28628,
+    "outputTokens": 2181,
+    "cachedInputTokens": 118016,
+    "reasoningTokens": 2708,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:53:23.885Z",
+      "processFinishedAt": "2026-08-22T15:55:06.855Z",
+      "firstStructuredEventAt": "2026-08-22T15:53:31.873Z",
+      "firstModelResponseAt": "2026-08-22T15:53:34.139Z",
+      "lastModelResponseAt": "2026-08-22T15:55:06.709Z",
+      "providerWaitMs": 65986,
+      "providerEventCount": 22,
+      "modelStepCount": 11,
+      "toolEventCount": 11,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787414011873,
+        "endMs": 1787414014139
+      },
+      {
+        "startMs": 1787414016786,
+        "endMs": 1787414017813
+      },
+      {
+        "startMs": 1787414020594,
+        "endMs": 1787414022081
+      },
+      {
+        "startMs": 1787414024979,
+        "endMs": 1787414063427
+      },
+      {
+        "startMs": 1787414066255,
+        "endMs": 1787414067788
+      },
+      {
+        "startMs": 1787414070803,
+        "endMs": 1787414080247
+      },
+      {
+        "startMs": 1787414083542,
+        "endMs": 1787414084949
+      },
+      {
+        "startMs": 1787414087853,
+        "endMs": 1787414089386
+      },
+      {
+        "startMs": 1787414092057,
+        "endMs": 1787414094216
+      },
+      {
+        "startMs": 1787414097015,
+        "endMs": 1787414100398
+      },
+      {
+        "startMs": 1787414103410,
+        "endMs": 1787414106709
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 94836,
+      "providerWaitMs": 65986,
+      "interStepGapMs": 28850,
+      "outsideWindowMs": 8135,
+      "providerWaitFraction": 0.6408212020860242,
+      "interStepGapFraction": 0.28017597187557663,
+      "unobservedFraction": 0.07900282603839916
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1250,
+        868,
+        148,
+        2647,
+        982,
+        45,
+        2781,
+        1364,
+        123,
+        2898,
+        38403,
+        45,
+        2828,
+        1413,
+        120,
+        3015,
+        9270,
+        174,
+        3295,
+        1312,
+        95,
+        2904,
+        1481,
+        52,
+        2671,
+        2026,
+        133,
+        2799,
+        3306,
+        17,
+        60,
+        3012,
+        3228,
+        71
+      ],
+      "handoffGapsMs": [
+        2647,
+        2781,
+        2898,
+        2828,
+        3015,
+        3295,
+        2904,
+        2671,
+        2799,
+        3012
+      ],
+      "launchToFirstEventMs": 7988
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-contract-99194056/agent.stdout.log",
+    "stdoutSha256": "0e5ffb60b37d5b90a2e7f58fec5a612edcf60de13dccd9fca50a86a6ba7d878e",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-contract-99194056/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-contract-99194056/validation.json",
+    "validationSha256": "68304d4bc71d38f372c151f790f3826d76a07bd796104edf40b31c334960bc63",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-contract-99194056/change.patch",
+    "patchSha256": "7689fed2e94632ac9b7c79ba6c961d3486af8db3cb7a354703eb6d2348d9e713"
+  }
+}

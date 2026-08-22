@@ -1,0 +1,1 @@
+{"status":"rejected","detail":"diff(1.0.0-1, 1.1.1)\n\n'minor' !== 'major'\n"}

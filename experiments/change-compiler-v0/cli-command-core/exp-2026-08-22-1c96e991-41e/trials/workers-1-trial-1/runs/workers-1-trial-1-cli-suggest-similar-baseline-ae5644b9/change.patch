@@ -1,0 +1,96 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..7af363e22c4f8513630058afe95819139205bda2 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -1,21 +1,87 @@
+ const maxDistance = 3;
+ 
+ /**
+- * Find close matches, restricted to same number of edits.
++ * Find close matches using Damerau-Levenshtein distance (adjacent transpositions
++ * count as a single edit).
+  *
+  * @param {string} word
+  * @param {string[]} candidates
+  * @returns {string}
+  */
+ 
++function damerauLevenshtein(a, b) {
++  const al = a.length;
++  const bl = b.length;
++  const d = Array.from({ length: al + 1 }, () => new Array(bl + 1).fill(0));
++
++  for (let i = 0; i <= al; i++) d[i][0] = i;
++  for (let j = 0; j <= bl; j++) d[0][j] = j;
++
++  for (let i = 1; i <= al; i++) {
++    for (let j = 1; j <= bl; j++) {
++      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
++      d[i][j] = Math.min(
++        d[i - 1][j] + 1,
++        d[i][j - 1] + 1,
++        d[i - 1][j - 1] + cost,
++      );
++      if (
++        i > 1 &&
++        j > 1 &&
++        a[i - 1] === b[j - 2] &&
++        a[i - 2] === b[j - 1]
++      ) {
++        d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
++      }
++    }
++  }
++
++  return d[al][bl];
++}
++
+ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
+ 
+   const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
++  const target = searchingOptions ? word.slice(2) : word;
++
++  let bestDistance = Infinity;
++  let matches = [];
++
++  for (const candidate of candidates) {
++    if (candidate.length <= 1) continue;
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++    const compare = searchingOptions ? candidate.replace(/^-+/, '') : candidate;
++    if (compare === target) continue;
++    if (compare.length === 0) continue;
++
++    const distance = damerauLevenshtein(target, compare);
++    if (distance > maxDistance) continue;
++
++    const longer = Math.max(target.length, compare.length);
++    if (longer === 0) continue;
++    const similarity = (longer - distance) / longer;
++    if (similarity <= 0.4) continue;
++
++    if (distance < bestDistance) {
++      bestDistance = distance;
++      matches = [candidate];
++    } else if (distance === bestDistance) {
++      matches.push(candidate);
++    }
++  }
++
++  const unique = [...new Set(matches)].sort((a, b) => a.localeCompare(b));
++
++  const restore = (candidate) =>
++    searchingOptions && !candidate.startsWith('-') ? `--${candidate}` : candidate;
++
++  if (unique.length === 1) {
++    return `\n(Did you mean ${restore(unique[0])}?)`;
++  }
++  if (unique.length > 1) {
++    const list = unique.map(restore).join(', ');
++    return `\n(Did you mean one of ${list}?)`;
+   }
+   return '';
+ }

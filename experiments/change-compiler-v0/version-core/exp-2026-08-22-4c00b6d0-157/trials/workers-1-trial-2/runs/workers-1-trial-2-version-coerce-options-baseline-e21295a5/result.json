@@ -1,0 +1,256 @@
+{
+  "runId": "workers-1-trial-2-version-coerce-options-baseline-e21295a5",
+  "logicalRunId": "4e958c4714ae4eed861edd5ea29d2560ae521e0c9d1e52451dc950822cda0db4",
+  "attemptId": "workers-1-trial-2-version-coerce-options-baseline-e21295a5",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-4c00b6d0-157",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "version-coerce-options__baseline",
+  "repositoryId": "version-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "small_feature",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "unit_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 12,
+    "fileReads": 2,
+    "uniqueFilesRead": 2,
+    "searchOperations": 4,
+    "commandsExecuted": 7,
+    "editOperations": 1,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 0,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 6,
+    "msToFirstEdit": 72398,
+    "toolBreakdown": {
+      "read": 2,
+      "glob": 1,
+      "bash": 7,
+      "webfetch": 1,
+      "write": 1
+    }
+  },
+  "baseCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "baseTreeHash": "6deff908cd271b2fe8eb3046f04f52d9fda2df5b",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-2-version-coerce-options-baseline-e21295a5",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T15:03:51.949Z",
+  "finishedAt": "2026-08-22T15:05:48.260Z",
+  "durationMs": 116309,
+  "phaseTimings": {
+    "worktreeSetupMs": 88,
+    "queueWaitMs": 348641.46267200005,
+    "agentExecutionMs": 115913,
+    "validationMs": 114,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 33,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 116309
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+  "finalTreeHash": "1d8f66f3b30bbf1d212f1f882cfa6f3658da76c7",
+  "filesChanged": [
+    "functions/coerce.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/version-core/exp-2026-08-22-4c00b6d0-157/.worktrees/workers-1-trial-2-version-coerce-options-baseline-e21295a5",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `coerce(version, options)` currently supports only plain left-to-right coercion of the\nmajor/minor/patch triple. The documented `rtl` and `includePrerelease` options are missing.\n\nExtend `functions/coerce.js` so that:\n- `{ rtl: true }` coerces the right-most coercible triple that does not share a terminus with a\n  more left-ward one, so '1.2.3.4' coerces to '2.3.4' and '1.2.3.4.5' to '3.4.5';\n- `{ includePrerelease: true }` carries prerelease identifiers and build metadata through, so\n  '1.2.3-alpha.1+build.2' coerces to a version with prerelease alpha.1 and build ['build','2'];\n- the two options compose: coerce('1.2.3.4-rc', { rtl: true, includePrerelease: true }) is\n  '2.3.4-rc';\n- existing no-option behaviour is unchanged, including instance passthrough, numeric input, and\n  null for uncoercible or non-string input;\n- repeated calls return the same answer (a global regular expression must not leak lastIndex).\n\n`internal/re.js` already defines the tokens you need; find them before writing code.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/version-coerce.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 33125,
+    "outputTokens": 2662,
+    "cachedInputTokens": 163136,
+    "reasoningTokens": 9246,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:03:52.059Z",
+      "processFinishedAt": "2026-08-22T15:05:47.972Z",
+      "firstStructuredEventAt": "2026-08-22T15:03:59.725Z",
+      "firstModelResponseAt": "2026-08-22T15:04:01.076Z",
+      "lastModelResponseAt": "2026-08-22T15:05:47.831Z",
+      "providerWaitMs": 80301,
+      "providerEventCount": 20,
+      "modelStepCount": 10,
+      "toolEventCount": 12,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787411039725,
+        "endMs": 1787411041076
+      },
+      {
+        "startMs": 1787411043953,
+        "endMs": 1787411091302
+      },
+      {
+        "startMs": 1787411094760,
+        "endMs": 1787411095553
+      },
+      {
+        "startMs": 1787411098227,
+        "endMs": 1787411113049
+      },
+      {
+        "startMs": 1787411115789,
+        "endMs": 1787411117751
+      },
+      {
+        "startMs": 1787411121827,
+        "endMs": 1787411125419
+      },
+      {
+        "startMs": 1787411129059,
+        "endMs": 1787411131035
+      },
+      {
+        "startMs": 1787411133963,
+        "endMs": 1787411139509
+      },
+      {
+        "startMs": 1787411142275,
+        "endMs": 1787411143277
+      },
+      {
+        "startMs": 1787411145923,
+        "endMs": 1787411147831
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 108106,
+      "providerWaitMs": 80301,
+      "interStepGapMs": 27805,
+      "outsideWindowMs": 7807,
+      "providerWaitFraction": 0.6927695771828871,
+      "interStepGapFraction": 0.2398781845004443,
+      "unobservedFraction": 0.06735223831666853
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        672,
+        560,
+        119,
+        2877,
+        46523,
+        603,
+        136,
+        87,
+        3458,
+        538,
+        104,
+        151,
+        2674,
+        14543,
+        155,
+        124,
+        2740,
+        1844,
+        68,
+        50,
+        4076,
+        3512,
+        16,
+        64,
+        3640,
+        1828,
+        148,
+        2928,
+        5439,
+        46,
+        61,
+        2766,
+        879,
+        69,
+        54,
+        2646,
+        1837,
+        71
+      ],
+      "handoffGapsMs": [
+        2877,
+        3458,
+        2674,
+        2740,
+        4076,
+        3640,
+        2928,
+        2766,
+        2646
+      ],
+      "launchToFirstEventMs": 7666
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-baseline-e21295a5/agent.stdout.log",
+    "stdoutSha256": "af13f01b9b2bd1d145aa7b6d4015168d15a001bd39aeda5035add6c1418daef4",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-baseline-e21295a5/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-baseline-e21295a5/validation.json",
+    "validationSha256": "516d5371f354a3f88844090e0c8a59907aa99824a4ad3ef04a4468abf969518a",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-version-coerce-options-baseline-e21295a5/change.patch",
+    "patchSha256": "06a08e8125f0e852973cfefec45c4b67da117472b270faaaa098113896f2a141"
+  }
+}

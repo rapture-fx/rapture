@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/version-diff.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T15:00:33.101Z",
+    "finishedAt": "2026-08-22T15:00:33.225Z",
+    "durationMs": 124,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "{\"status\":\"rejected\",\"detail\":\"diff(1.1.1-1, 2.0.0)\\n\\n'patch' !== 'major'\\n\"}\n",
+    "stderr": ""
+  }
+]

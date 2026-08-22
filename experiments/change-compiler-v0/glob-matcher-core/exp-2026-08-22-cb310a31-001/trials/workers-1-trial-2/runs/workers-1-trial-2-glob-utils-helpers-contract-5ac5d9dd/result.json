@@ -1,0 +1,274 @@
+{
+  "runId": "workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd",
+  "logicalRunId": "d94462ca9f6571aa925fa33dd50686f6c01d88457a39d70bec3519d15e13a8af",
+  "attemptId": "workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-cb310a31-001",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "glob-utils-helpers__contract",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "refactor",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "agentExploration": {
+    "totalToolCalls": 14,
+    "fileReads": 6,
+    "uniqueFilesRead": 6,
+    "searchOperations": 3,
+    "commandsExecuted": 5,
+    "editOperations": 2,
+    "uniqueFilesEdited": 1,
+    "repeatedEdits": 1,
+    "invalidToolCalls": 0,
+    "toolCallsBeforeFirstEdit": 5,
+    "msToFirstEdit": 33233,
+    "toolBreakdown": {
+      "read": 6,
+      "grep": 1,
+      "edit": 2,
+      "bash": 5
+    }
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+  ],
+  "startedAt": "2026-08-22T15:35:34.676Z",
+  "finishedAt": "2026-08-22T15:37:53.638Z",
+  "durationMs": 138960,
+  "phaseTimings": {
+    "worktreeSetupMs": 40,
+    "queueWaitMs": 313513.03555500007,
+    "agentExecutionMs": 138642,
+    "validationMs": 105,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 29,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 138960
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "16cec01a4d17d365501e6595cfd3a743dfda6c49",
+  "filesChanged": [
+    "lib/utils.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/experiments/change-compiler-v0/glob-matcher-core/exp-2026-08-22-cb310a31-001/.worktrees/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks.\nA machine-generated change contract for this task is available at .rapture/change-contract.json.\nIt lists the editable scope, the files mechanically related to the change, the module\nsurface other files depend on, available verification commands, and an explicit list of\nwhat could not be determined. It contains no solution. You may read it or ignore it."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-change-compiler-v0/benchmarks/delegation-v0/validators/glob-utils.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 40040,
+    "outputTokens": 2462,
+    "cachedInputTokens": 199808,
+    "reasoningTokens": 5654,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T15:35:34.743Z",
+      "processFinishedAt": "2026-08-22T15:37:53.383Z",
+      "firstStructuredEventAt": "2026-08-22T15:35:42.545Z",
+      "firstModelResponseAt": "2026-08-22T15:35:44.775Z",
+      "lastModelResponseAt": "2026-08-22T15:37:53.234Z",
+      "providerWaitMs": 93283,
+      "providerEventCount": 26,
+      "modelStepCount": 13,
+      "toolEventCount": 14,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787412942545,
+        "endMs": 1787412944775
+      },
+      {
+        "startMs": 1787412947870,
+        "endMs": 1787412950755
+      },
+      {
+        "startMs": 1787412953613,
+        "endMs": 1787412962210
+      },
+      {
+        "startMs": 1787412966830,
+        "endMs": 1787412977225
+      },
+      {
+        "startMs": 1787412980047,
+        "endMs": 1787412981777
+      },
+      {
+        "startMs": 1787412984778,
+        "endMs": 1787412985804
+      },
+      {
+        "startMs": 1787412988739,
+        "endMs": 1787412989639
+      },
+      {
+        "startMs": 1787412992475,
+        "endMs": 1787412996487
+      },
+      {
+        "startMs": 1787413000001,
+        "endMs": 1787413015783
+      },
+      {
+        "startMs": 1787413018531,
+        "endMs": 1787413021204
+      },
+      {
+        "startMs": 1787413023853,
+        "endMs": 1787413043418
+      },
+      {
+        "startMs": 1787413046602,
+        "endMs": 1787413067188
+      },
+      {
+        "startMs": 1787413070332,
+        "endMs": 1787413073234
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 130689,
+      "providerWaitMs": 93283,
+      "interStepGapMs": 37406,
+      "outsideWindowMs": 7953,
+      "providerWaitFraction": 0.6728336290590153,
+      "interStepGapFraction": 0.26980280145987506,
+      "unobservedFraction": 0.05736356948110962
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1115,
+        995,
+        120,
+        3095,
+        2060,
+        619,
+        206,
+        2858,
+        7432,
+        1165,
+        4620,
+        10031,
+        364,
+        2822,
+        1434,
+        296,
+        3001,
+        963,
+        63,
+        2935,
+        811,
+        89,
+        2836,
+        3950,
+        62,
+        3514,
+        15665,
+        117,
+        2748,
+        2554,
+        119,
+        2649,
+        19402,
+        87,
+        76,
+        3184,
+        20320,
+        61,
+        205,
+        3144,
+        2836,
+        66
+      ],
+      "handoffGapsMs": [
+        3095,
+        2858,
+        4620,
+        2822,
+        3001,
+        2935,
+        2836,
+        3514,
+        2748,
+        2649,
+        3184,
+        3144
+      ],
+      "launchToFirstEventMs": 7802
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd/agent.stdout.log",
+    "stdoutSha256": "de4ff7d44ad449d5bfff59ba85aca6eb0da2cb4e962c376efeb3dd309e3f0cf4",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd/validation.json",
+    "validationSha256": "b430b223c7dfd5236e04df7f7226a3bb13f64ff3feb19ec45e6e7999c9d19ffc",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-contract-5ac5d9dd/change.patch",
+    "patchSha256": "3c99986e398067d598a2cd4801e6416ce05b92a68625db97cbff44914ef19357"
+  }
+}
