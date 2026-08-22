@@ -1,0 +1,48 @@
+diff --git a/test/match.test.js b/test/match.test.js
+index fd2eca559e4025446bea739519655664c672b232..b3108688d9e6e6df003c2ce3dad901a9ce6f2811 100644
+--- a/test/match.test.js
++++ b/test/match.test.js
+@@ -13,7 +13,7 @@ test('matches simple wildcard patterns', () => {
+ 
+ test('rejects paths outside the pattern', () => {
+   assert.equal(glob.isMatch('a.md', '*.js'), false)
+-  assert.equal(glob.isMatch('a/b/c', 'a/*'), true)
++  assert.equal(glob.isMatch('a/b/c', 'a/*'), false)
+   assert.equal(glob.isMatch('b/a.js', '*.js'), false)
+ })
+ 
+@@ -26,13 +26,13 @@ test('globstar crosses path separators', () => {
+ 
+ test('supports extglobs and negated extglobs', () => {
+   assert.equal(glob.isMatch('a', '@(a|b)'), true)
+-  assert.equal(glob.isMatch('c', '@(a|b)'), true)
+-  assert.equal(glob.isMatch('a', '!(a|b)'), true)
++  assert.equal(glob.isMatch('c', '@(a|b)'), false)
++  assert.equal(glob.isMatch('a', '!(a|b)'), false)
+   assert.equal(glob.isMatch('c', '!(a|b)'), true)
+ })
+ 
+ test('a leading bang negates the whole pattern', () => {
+-  assert.equal(glob.isMatch('a.js', '!*.js'), true)
++  assert.equal(glob.isMatch('a.js', '!*.js'), false)
+   assert.equal(glob.isMatch('a.md', '!*.js'), true)
+ })
+ 
+@@ -45,7 +45,7 @@ test('supports braces and bracket ranges', () => {
+ 
+ test('matchBase compares only the final segment', () => {
+   assert.equal(glob.matchBase('a/b/c.js', '*.js'), true)
+-  assert.equal(glob.matchBase('a/b/c.md', '*.js'), true)
++  assert.equal(glob.matchBase('a/b/c.md', '*.js'), false)
+ })
+ 
+ test('scan splits a pattern into its static base and glob parts', () => {
+@@ -57,7 +57,7 @@ test('scan splits a pattern into its static base and glob parts', () => {
+ 
+   const negated = glob.scan('!a/b/*.js')
+   assert.equal(negated.negated, true)
+-  assert.equal(negated.prefix, '')
++  assert.equal(negated.prefix, '!')
+   assert.equal(negated.base, 'a/b')
+ 
+   const literal = glob.scan('a/b/c')

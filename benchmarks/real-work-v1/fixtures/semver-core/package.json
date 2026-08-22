@@ -1,0 +1,19 @@
+{
+  "name": "semver-core",
+  "version": "7.8.5",
+  "description": "The semantic version parser used by npm, reduced to its runtime surface for deterministic offline benchmark execution.",
+  "main": "index.js",
+  "license": "ISC",
+  "author": "GitHub Inc.",
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "classes/",
+    "functions/",
+    "internal/",
+    "ranges/",
+    "index.js",
+    "range.bnf"
+  ]
+}

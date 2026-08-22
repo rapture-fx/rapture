@@ -1,0 +1,245 @@
+{
+  "runId": "workers-1-trial-1-glob-scan-negation-91d870dc",
+  "logicalRunId": "e74c5ffec66d731a3b4e47d2064c4b3d30bd56b19aa706113a96d1455b3fd41b",
+  "attemptId": "workers-1-trial-1-glob-scan-negation-91d870dc",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-9f2db3e5-67c",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "glob-scan-negation",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "bug_fix",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-1-glob-scan-negation-91d870dc",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `scan(pattern)` splits a glob into a static base and a glob remainder, and reports flags\ndescribing what it found. It currently mis-scans negated extglobs.\n\nA leading `!` negates a pattern, so `scan('!a/b/*.js')` reports prefix '!', start 1, base 'a/b',\nglob '*.js' and negated true. But `!(` opens a *negated extglob*, which is part of the pattern\nand must not be consumed as a negation prefix: `scan('!(a|b)')` must report prefix '', start 0,\nbase '', glob '!(a|b)', isExtglob true, negatedExtglob true and negated false. Today it reports\nthe extglob as a negation instead.\n\nFix `lib/scan.js` so both forms are classified correctly, without disturbing the base/glob split\nfor ordinary patterns, `./` prefixes, braces, brackets, globstars or escaped `!` characters. The\n`nonegate` option must still suppress negation while leaving extglob detection intact.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T12:55:49.167Z",
+  "finishedAt": "2026-08-22T12:57:30.010Z",
+  "durationMs": 100949,
+  "phaseTimings": {
+    "worktreeSetupMs": 36,
+    "queueWaitMs": 223404.98963999999,
+    "agentExecutionMs": 100692,
+    "validationMs": 75,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 25,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 100949
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "7723b1c00e474b0ffc52f6f435c5b70588dad6a0",
+  "filesChanged": [
+    "lib/scan.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-1-glob-scan-negation-91d870dc",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `scan(pattern)` splits a glob into a static base and a glob remainder, and reports flags\ndescribing what it found. It currently mis-scans negated extglobs.\n\nA leading `!` negates a pattern, so `scan('!a/b/*.js')` reports prefix '!', start 1, base 'a/b',\nglob '*.js' and negated true. But `!(` opens a *negated extglob*, which is part of the pattern\nand must not be consumed as a negation prefix: `scan('!(a|b)')` must report prefix '', start 0,\nbase '', glob '!(a|b)', isExtglob true, negatedExtglob true and negated false. Today it reports\nthe extglob as a negation instead.\n\nFix `lib/scan.js` so both forms are classified correctly, without disturbing the base/glob split\nfor ordinary patterns, `./` prefixes, braces, brackets, globstars or escaped `!` characters. The\n`nonegate` option must still suppress negation while leaving extglob detection intact.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/glob-scan.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 31148,
+    "outputTokens": 1878,
+    "cachedInputTokens": 141952,
+    "reasoningTokens": 2902,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T12:55:49.218Z",
+      "processFinishedAt": "2026-08-22T12:57:29.802Z",
+      "firstStructuredEventAt": "2026-08-22T12:55:56.420Z",
+      "firstModelResponseAt": "2026-08-22T12:55:57.985Z",
+      "lastModelResponseAt": "2026-08-22T12:57:29.649Z",
+      "providerWaitMs": 61140,
+      "providerEventCount": 24,
+      "modelStepCount": 12,
+      "toolEventCount": 11,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787403356420,
+        "endMs": 1787403357985
+      },
+      {
+        "startMs": 1787403361220,
+        "endMs": 1787403383387
+      },
+      {
+        "startMs": 1787403386184,
+        "endMs": 1787403388086
+      },
+      {
+        "startMs": 1787403390994,
+        "endMs": 1787403392309
+      },
+      {
+        "startMs": 1787403395326,
+        "endMs": 1787403399004
+      },
+      {
+        "startMs": 1787403401841,
+        "endMs": 1787403412035
+      },
+      {
+        "startMs": 1787403415160,
+        "endMs": 1787403419069
+      },
+      {
+        "startMs": 1787403421732,
+        "endMs": 1787403423815
+      },
+      {
+        "startMs": 1787403426648,
+        "endMs": 1787403427861
+      },
+      {
+        "startMs": 1787403430742,
+        "endMs": 1787403436591
+      },
+      {
+        "startMs": 1787403439393,
+        "endMs": 1787403441064
+      },
+      {
+        "startMs": 1787403444055,
+        "endMs": 1787403449649
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 93229,
+      "providerWaitMs": 61140,
+      "interStepGapMs": 32089,
+      "outsideWindowMs": 7463,
+      "providerWaitFraction": 0.6071981885353355,
+      "interStepGapFraction": 0.3186847018631073,
+      "unobservedFraction": 0.07411710960155722
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1269,
+        296,
+        3235,
+        21960,
+        207,
+        2797,
+        1757,
+        73,
+        72,
+        2908,
+        1213,
+        102,
+        3017,
+        3591,
+        87,
+        2837,
+        10127,
+        67,
+        3125,
+        3831,
+        78,
+        2663,
+        1989,
+        53,
+        41,
+        2833,
+        1095,
+        118,
+        2881,
+        5802,
+        47,
+        2802,
+        1574,
+        97,
+        2991,
+        5538,
+        56
+      ],
+      "handoffGapsMs": [
+        3235,
+        2797,
+        2908,
+        3017,
+        2837,
+        3125,
+        2663,
+        2833,
+        2881,
+        2802,
+        2991
+      ],
+      "launchToFirstEventMs": 7202
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-scan-negation-91d870dc/agent.stdout.log",
+    "stdoutSha256": "29b891805944f8d87c37edef462f250550f957bdee50bf0f7cfc064053a79af7",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-scan-negation-91d870dc/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-scan-negation-91d870dc/validation.json",
+    "validationSha256": "4c6e4c4029e184388a001c5a931da4c012ad1ce64d3efa63acc0bda942d605c0",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-glob-scan-negation-91d870dc/change.patch",
+    "patchSha256": "04ebbd57354d2c91d131fbd350d3c8c11c8869634af127c91d91c3b958c6c4ec"
+  }
+}

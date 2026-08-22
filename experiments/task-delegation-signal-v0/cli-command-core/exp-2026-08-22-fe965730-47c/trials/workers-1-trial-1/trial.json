@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "experimentId": "exp-2026-08-22-fe965730-47c",
+  "workerCount": 1,
+  "repetition": 1,
+  "trialSeed": 3006128336,
+  "taskOrder": [
+    "cli-argument-contract",
+    "cli-subpath-exports",
+    "cli-option-test-repair",
+    "cli-negated-option-name",
+    "cli-suggest-similar"
+  ],
+  "startedAt": "2026-08-22T13:15:37.060Z"
+}

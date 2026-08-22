@@ -1,0 +1,45 @@
+diff --git a/test/range.test.js b/test/range.test.js
+index 5e0d6e5d07d0a2eabd4806f1528fe43770a12a1c..3e78038f373d38089fb448246eaa49f3ab6ece0d 100644
+--- a/test/range.test.js
++++ b/test/range.test.js
+@@ -13,33 +13,33 @@ test('satisfies accepts versions inside a caret range', () => {
+ })
+ 
+ test('satisfies rejects versions outside a caret range', () => {
+-  assert.equal(semver.satisfies('2.0.0', '^1.0.0'), true)
++  assert.equal(semver.satisfies('2.0.0', '^1.0.0'), false)
+   assert.equal(semver.satisfies('0.9.9', '^1.0.0'), false)
+ })
+ 
+ test('satisfies honours tilde and explicit comparator ranges', () => {
+   assert.equal(semver.satisfies('1.2.9', '~1.2.0'), true)
+-  assert.equal(semver.satisfies('1.3.0', '~1.2.0'), true)
++  assert.equal(semver.satisfies('1.3.0', '~1.2.0'), false)
+   assert.equal(semver.satisfies('1.5.0', '>=1.2.0 <2.0.0'), true)
+   assert.equal(semver.satisfies('2.0.0', '>=1.2.0 <2.0.0'), false)
+ })
+ 
+ test('prereleases are excluded unless the range opts in', () => {
+-  assert.equal(semver.satisfies('1.2.3-alpha.1', '^1.0.0'), true)
++  assert.equal(semver.satisfies('1.2.3-alpha.1', '^1.0.0'), false)
+   assert.equal(semver.satisfies('1.2.3-alpha.1', '^1.0.0', { includePrerelease: true }), true)
+-  assert.equal(semver.satisfies('1.2.3-alpha.1', '^1.2.3-alpha.0'), false)
++  assert.equal(semver.satisfies('1.2.3-alpha.1', '^1.2.3-alpha.0'), true)
+ })
+ 
+ test('ranges report whether they intersect', () => {
+   assert.equal(new Range('^1.0.0').intersects(new Range('>=1.5.0')), true)
+-  assert.equal(new Range('^1.0.0').intersects(new Range('>=2.0.0')), true)
++  assert.equal(new Range('^1.0.0').intersects(new Range('>=2.0.0')), false)
+   assert.equal(semver.intersects('~1.2.0', '1.2.5'), true)
+   assert.equal(semver.intersects('~1.2.0', '1.3.0'), false)
+ })
+ 
+ test('range parsing normalises and validates its input', () => {
+-  assert.equal(semver.validRange('^1.0.0'), '>=1.0.0 <2.0.0')
++  assert.equal(semver.validRange('^1.0.0'), '>=1.0.0 <2.0.0-0')
+   assert.equal(semver.validRange('not a range'), null)
+-  assert.equal(new Range('1.x').range, '1.x')
++  assert.equal(new Range('1.x').raw, '1.x')
+   assert.throws(() => new Range('not a range'), TypeError)
+ })

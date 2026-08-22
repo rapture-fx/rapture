@@ -1,0 +1,203 @@
+{
+  "runId": "workers-1-trial-1-cli-option-test-repair-84498a65",
+  "logicalRunId": "688a368d3050f3624fe7d9c5777a68a3537ed41564e69183c89c15961aac9bd4",
+  "attemptId": "workers-1-trial-1-cli-option-test-repair-84498a65",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-fe965730-47c",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "cli-option-test-repair",
+  "repositoryId": "cli-command-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "test_repair",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "integration_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "moderate",
+    "verificationCostClass": "expensive",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "baseTreeHash": "5fa201e53df4a223c5a20b9f6a93299b70f3ba36",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-option-test-repair-84498a65",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `test/option.test.js` is a node:test suite covering option parsing. It was written against older\nexpectations and now fails: run `node --test test/option.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, boolean options,\noptions carrying a value, default values, how a long flag becomes a camelcased attribute name,\nwhether an option is boolean, which flags an option recognises, how flags split into short and\nlong forms, and value choices.\n\nOnly `test/option.test.js` may be changed. Do not change the library to make a test pass.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T13:17:09.741Z",
+  "finishedAt": "2026-08-22T13:17:59.545Z",
+  "durationMs": 49803,
+  "phaseTimings": {
+    "worktreeSetupMs": 32,
+    "queueWaitMs": 92649.733023,
+    "agentExecutionMs": 48644,
+    "validationMs": 976,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 22,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 49803
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "finalTreeHash": "590fc194bbbb452a2fc04b673eb72e2cb55b302b",
+  "filesChanged": [
+    "test/option.test.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-option-test-repair-84498a65",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `test/option.test.js` is a node:test suite covering option parsing. It was written against older\nexpectations and now fails: run `node --test test/option.test.js` to see it.\n\nRepair the suite so that it passes against the library as it actually behaves, and so that it\nstill genuinely characterises that behaviour. Correct the wrong expectations rather than deleting\nor weakening the assertions: the suite must continue to cover, at minimum, boolean options,\noptions carrying a value, default values, how a long flag becomes a camelcased attribute name,\nwhether an option is boolean, which flags an option recognises, how flags split into short and\nlong forms, and value choices.\n\nOnly `test/option.test.js` may be changed. Do not change the library to make a test pass.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/cli-option-tests.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 25729,
+    "outputTokens": 1642,
+    "cachedInputTokens": 52480,
+    "reasoningTokens": 1043,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T13:17:09.786Z",
+      "processFinishedAt": "2026-08-22T13:17:58.429Z",
+      "firstStructuredEventAt": "2026-08-22T13:17:16.558Z",
+      "firstModelResponseAt": "2026-08-22T13:17:18.474Z",
+      "lastModelResponseAt": "2026-08-22T13:17:58.295Z",
+      "providerWaitMs": 26596,
+      "providerEventCount": 12,
+      "modelStepCount": 6,
+      "toolEventCount": 12,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787404636558,
+        "endMs": 1787404638474
+      },
+      {
+        "startMs": 1787404641157,
+        "endMs": 1787404642755
+      },
+      {
+        "startMs": 1787404645661,
+        "endMs": 1787404647608
+      },
+      {
+        "startMs": 1787404651562,
+        "endMs": 1787404671349
+      },
+      {
+        "startMs": 1787404674128,
+        "endMs": 1787404674748
+      },
+      {
+        "startMs": 1787404677567,
+        "endMs": 1787404678295
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 41737,
+      "providerWaitMs": 26596,
+      "interStepGapMs": 15141,
+      "outsideWindowMs": 6907,
+      "providerWaitFraction": 0.5467478003453663,
+      "interStepGapFraction": 0.3112614094235671,
+      "unobservedFraction": 0.14199079023106653
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1346,
+        489,
+        81,
+        2683,
+        724,
+        734,
+        140,
+        2906,
+        1451,
+        444,
+        52,
+        3954,
+        14911,
+        1014,
+        1365,
+        1076,
+        1133,
+        198,
+        90,
+        2779,
+        574,
+        46,
+        2819,
+        669,
+        59
+      ],
+      "handoffGapsMs": [
+        2683,
+        2906,
+        3954,
+        2779,
+        2819
+      ],
+      "launchToFirstEventMs": 6772
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-option-test-repair-84498a65/agent.stdout.log",
+    "stdoutSha256": "fdb4bb74ea28f4e05620dd7b2d9641e04933390cb8b79d52af5d2abd1aaddecc",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-option-test-repair-84498a65/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-option-test-repair-84498a65/validation.json",
+    "validationSha256": "3aaabc39089c9363cab896332634c26bce435c66059a9fb31037e93b742cd870",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-option-test-repair-84498a65/change.patch",
+    "patchSha256": "38ee650a76c14616e2a508fda2b5f18ad7bffe330051e2a6fb6650066628133d"
+  }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/cli-argument.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T13:26:59.373Z",
+    "finishedAt": "2026-08-22T13:26:59.460Z",
+    "durationMs": 87,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,73 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..b7240520946c84f8272c8b4a78b356e02afdd17c 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -13,24 +13,61 @@ const diff = (version1, version2) => {
+ 
+   const v1Higher = comparison > 0
+   const highVersion = v1Higher ? v1 : v2
++  const lowVersion = v1Higher ? v2 : v1
+   const highHasPre = !!highVersion.prerelease.length
++  const lowHasPre = !!lowVersion.prerelease.length
+ 
+-  // add the `pre` prefix if we are going to a prerelease version
++  // stepping OUT of a prerelease: the higher version is a release while the
++  // lower version is a prerelease.
++  if (!highHasPre && lowHasPre) {
++    if (highVersion.major !== lowVersion.major) {
++      return 'major'
++    }
++    if (highVersion.minor !== lowVersion.minor) {
++      return 'minor'
++    }
++    if (highVersion.patch !== lowVersion.patch) {
++      return 'patch'
++    }
++    // the main version is unchanged: classify by how much is left behind
++    if (lowVersion.minor === 0 && lowVersion.patch === 0) {
++      return 'major'
++    }
++    if (lowVersion.minor !== 0 && lowVersion.patch === 0) {
++      return 'minor'
++    }
++    return 'patch'
++  }
++
++  // add the `pre` prefix when moving to/within a prerelease version
+   const prefix = highHasPre ? 'pre' : ''
+ 
+-  if (v1.major !== v2.major) {
+-    return prefix + 'major'
++  // two prereleases of the same main version, or with a differing main version
++  if (highHasPre && lowHasPre) {
++    if (highVersion.major !== lowVersion.major) {
++      return 'major'
++    }
++    if (highVersion.minor !== lowVersion.minor) {
++      return 'minor'
++    }
++    if (highVersion.patch !== lowVersion.patch) {
++      return 'patch'
++    }
++    return 'prerelease'
+   }
+ 
+-  if (v1.minor !== v2.minor) {
++  // ordinary release step, or stepping INTO a prerelease
++  if (highVersion.major !== lowVersion.major) {
++    return prefix + 'major'
++  }
++  if (highVersion.minor !== lowVersion.minor) {
+     return prefix + 'minor'
+   }
+-
+-  if (v1.patch !== v2.patch) {
++  if (highVersion.patch !== lowVersion.patch) {
+     return prefix + 'patch'
+   }
+ 
+-  // high and low are prereleases
++  // high is a prerelease, low is a release, and the main version is unchanged
+   return 'prerelease'
+ }
+ 

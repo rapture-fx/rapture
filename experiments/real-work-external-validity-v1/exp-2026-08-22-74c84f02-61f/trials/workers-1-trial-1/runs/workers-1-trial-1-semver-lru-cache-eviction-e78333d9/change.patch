@@ -1,0 +1,43 @@
+diff --git a/internal/lrucache.js b/internal/lrucache.js
+index 7a2a09aecb156d10af4d430585c86c59ed2b1ef1..7085c45f89aad3be547abeadd5bddadd25409142 100644
+--- a/internal/lrucache.js
++++ b/internal/lrucache.js
+@@ -7,7 +7,15 @@ class LRUCache {
+   }
+ 
+   get (key) {
+-    return this.map.get(key)
++    if (!this.map.has(key)) {
++      return undefined
++    }
++
++    const value = this.map.get(key)
++    this.map.delete(key)
++    this.map.set(key, value)
++
++    return value
+   }
+ 
+   delete (key) {
+@@ -15,10 +23,19 @@ class LRUCache {
+   }
+ 
+   set (key, value) {
+-    if (value !== undefined) {
+-      this.map.set(key, value)
++    if (value === undefined) {
++      return this
+     }
+ 
++    if (this.map.has(key)) {
++      this.map.delete(key)
++    } else if (this.map.size >= this.max) {
++      const oldest = this.map.keys().next().value
++      this.map.delete(oldest)
++    }
++
++    this.map.set(key, value)
++
+     return this
+   }
+ }

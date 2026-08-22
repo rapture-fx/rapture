@@ -1,0 +1,230 @@
+{
+  "runId": "workers-1-trial-1-cli-suggest-similar-d4bb64d7",
+  "logicalRunId": "319a3bb23d7ef248dcf5417856c9ec8c5931a11aa9551dd218835d154e64414d",
+  "attemptId": "workers-1-trial-1-cli-suggest-similar-d4bb64d7",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-fe965730-47c",
+  "trialId": "workers-1-trial-1",
+  "repetition": 1,
+  "taskId": "cli-suggest-similar",
+  "repositoryId": "cli-command-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "small_feature",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "unit_test",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "moderate",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "baseTreeHash": "5fa201e53df4a223c5a20b9f6a93299b70f3ba36",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-suggest-similar-d4bb64d7",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: `suggestSimilar(word, candidates)` currently only recognises an exact match, so a mistyped\ncommand or flag produces no 'did you mean' hint. Implement real similarity matching in\n`lib/suggestSimilar.js`.\n\nRequirements:\n- compare `word` against `candidates` using an edit distance that also counts a transposition of\n  two adjacent characters as a single edit;\n- only consider candidates within 3 edits, and reject any whose similarity, measured as\n  (length - distance) / length against the longer of the two strings, is not greater than 0.4;\n- candidates of one character or shorter are never suggested;\n- keep only the closest candidates: a strictly better distance discards previous matches, an\n  equal distance joins them;\n- de-duplicate candidates, and sort the surviving suggestions with localeCompare;\n- when `word` starts with '--', compare without the leading dashes but restore them in the output;\n- return '' when nothing qualifies, '\\n(Did you mean X?)' for one match, and\n  '\\n(Did you mean one of A, B?)' for several;\n- return '' when candidates is empty, null or undefined.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T13:19:25.481Z",
+  "finishedAt": "2026-08-22T13:21:37.641Z",
+  "durationMs": 132157,
+  "phaseTimings": {
+    "worktreeSetupMs": 36,
+    "queueWaitMs": 228385.130401,
+    "agentExecutionMs": 131854,
+    "validationMs": 93,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 26,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 132157
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+  "finalTreeHash": "cf665afffb9123e56e4aae956bc0674cc545071a",
+  "filesChanged": [
+    "lib/suggestSimilar.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/cli-command-core/exp-2026-08-22-fe965730-47c/.worktrees/workers-1-trial-1-cli-suggest-similar-d4bb64d7",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: `suggestSimilar(word, candidates)` currently only recognises an exact match, so a mistyped\ncommand or flag produces no 'did you mean' hint. Implement real similarity matching in\n`lib/suggestSimilar.js`.\n\nRequirements:\n- compare `word` against `candidates` using an edit distance that also counts a transposition of\n  two adjacent characters as a single edit;\n- only consider candidates within 3 edits, and reject any whose similarity, measured as\n  (length - distance) / length against the longer of the two strings, is not greater than 0.4;\n- candidates of one character or shorter are never suggested;\n- keep only the closest candidates: a strictly better distance discards previous matches, an\n  equal distance joins them;\n- de-duplicate candidates, and sort the surviving suggestions with localeCompare;\n- when `word` starts with '--', compare without the leading dashes but restore them in the output;\n- return '' when nothing qualifies, '\\n(Did you mean X?)' for one match, and\n  '\\n(Did you mean one of A, B?)' for several;\n- return '' when candidates is empty, null or undefined.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/cli-suggest-similar.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 28117,
+    "outputTokens": 2350,
+    "cachedInputTokens": 96768,
+    "reasoningTokens": 4285,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T13:19:25.534Z",
+      "processFinishedAt": "2026-08-22T13:21:37.389Z",
+      "firstStructuredEventAt": "2026-08-22T13:19:33.667Z",
+      "firstModelResponseAt": "2026-08-22T13:19:35.539Z",
+      "lastModelResponseAt": "2026-08-22T13:21:37.205Z",
+      "providerWaitMs": 96901,
+      "providerEventCount": 20,
+      "modelStepCount": 10,
+      "toolEventCount": 10,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787404773667,
+        "endMs": 1787404775539
+      },
+      {
+        "startMs": 1787404778168,
+        "endMs": 1787404780698
+      },
+      {
+        "startMs": 1787404783081,
+        "endMs": 1787404785178
+      },
+      {
+        "startMs": 1787404789123,
+        "endMs": 1787404791221
+      },
+      {
+        "startMs": 1787404794143,
+        "endMs": 1787404797655
+      },
+      {
+        "startMs": 1787404800430,
+        "endMs": 1787404870058
+      },
+      {
+        "startMs": 1787404873484,
+        "endMs": 1787404874415
+      },
+      {
+        "startMs": 1787404877146,
+        "endMs": 1787404878522
+      },
+      {
+        "startMs": 1787404881491,
+        "endMs": 1787404885694
+      },
+      {
+        "startMs": 1787404888551,
+        "endMs": 1787404897205
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 123538,
+      "providerWaitMs": 96901,
+      "interStepGapMs": 26637,
+      "outsideWindowMs": 8316,
+      "providerWaitFraction": 0.7349113413320795,
+      "interStepGapFraction": 0.20201889969208367,
+      "unobservedFraction": 0.06306975897583691
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        1483,
+        327,
+        62,
+        2629,
+        2464,
+        66,
+        2383,
+        1938,
+        159,
+        3945,
+        1999,
+        99,
+        2922,
+        3347,
+        165,
+        2775,
+        69402,
+        103,
+        123,
+        3426,
+        880,
+        51,
+        2731,
+        1331,
+        45,
+        2969,
+        4142,
+        7,
+        54,
+        2857,
+        8584,
+        70
+      ],
+      "handoffGapsMs": [
+        2629,
+        2383,
+        3945,
+        2922,
+        2775,
+        3426,
+        2731,
+        2969,
+        2857
+      ],
+      "launchToFirstEventMs": 8133
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-d4bb64d7/agent.stdout.log",
+    "stdoutSha256": "9f9e3cf8e589c975d3a6ec25641b264915201bafb0100e89a629e7b8d9fc9635",
+    "stderr": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-d4bb64d7/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-d4bb64d7/validation.json",
+    "validationSha256": "4021601eb95a1b44b3d67f878583e1a31e9091969715fd6f490e1733b3d2040a",
+    "patch": "trials/workers-1-trial-1/runs/workers-1-trial-1-cli-suggest-similar-d4bb64d7/change.patch",
+    "patchSha256": "74c599d534fb10378e5d23d1ee06b2546afc49c5f7293bbb4f8f80317fb99f4d"
+  }
+}

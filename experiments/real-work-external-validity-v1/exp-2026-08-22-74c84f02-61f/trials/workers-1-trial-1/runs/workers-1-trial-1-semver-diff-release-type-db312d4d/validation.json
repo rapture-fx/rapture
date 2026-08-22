@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-real-work-v1/benchmarks/real-work-v1/validators/semver-diff.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T09:01:58.912Z",
+    "finishedAt": "2026-08-22T09:01:59.025Z",
+    "durationMs": 112,
+    "exitCode": 1,
+    "timedOut": false,
+    "stdout": "{\"status\":\"rejected\",\"detail\":\"diff(1.0.0-1, 1.1.1)\\n\\n'minor' !== 'major'\\n\"}\n",
+    "stderr": ""
+  }
+]

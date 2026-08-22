@@ -1,0 +1,21 @@
+diff --git a/package.json b/package.json
+index aeec5aba510f17abe1028844361f308bff2ff0d7..e0f41d7c9da48ceb31f46df4d28b34143db0aed4 100644
+--- a/package.json
++++ b/package.json
+@@ -5,6 +5,16 @@
+   "main": "index.js",
+   "license": "MIT",
+   "sideEffects": false,
++  "exports": {
++    ".": "./index.js",
++    "./scan": "./lib/scan.js",
++    "./utils": "./lib/utils.js",
++    "./package.json": "./package.json"
++  },
++  "files": [
++    "index.js",
++    "lib/"
++  ],
+   "engines": {
+     "node": ">=12"
+   }

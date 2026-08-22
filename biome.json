@@ -7,16 +7,9 @@
       "!!**/node_modules",
       "!!runs",
       "!!fixtures/repository",
-      "!!experiments/fake-preflight-1v2x3",
-      "!!experiments/real-scale-2",
-      "!!experiments/real-scale-4",
-      "!!experiments/opencode-scale-4",
-      "!!experiments/opencode-scale-4-diagnostic",
-      "!!experiments/opencode-capacity-curve",
-      "!!experiments/opencode-runtime-attribution-3v4",
-      "!!experiments/*.frozen.json",
-      "!!experiments/*.integrity.json",
-      "!!experiments/derived"
+      "!!experiments",
+      "!!benchmarks",
+      "!!fixtures/ledger-kit"
     ]
   },
   "formatter": {

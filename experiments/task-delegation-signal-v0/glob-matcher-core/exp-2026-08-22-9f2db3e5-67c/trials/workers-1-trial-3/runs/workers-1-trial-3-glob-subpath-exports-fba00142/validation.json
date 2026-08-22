@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/glob-exports.mjs",
+      "."
+    ],
+    "startedAt": "2026-08-22T13:14:27.523Z",
+    "finishedAt": "2026-08-22T13:14:28.231Z",
+    "durationMs": 708,
+    "exitCode": 0,
+    "timedOut": false,
+    "stdout": "{\"status\":\"accepted\"}\n",
+    "stderr": ""
+  }
+]

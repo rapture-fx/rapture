@@ -1,0 +1,25 @@
+diff --git a/package.json b/package.json
+index 150220b0a9c10779fe34832275409a433b9e9e2e..2f5225b66b6c0b49a58ba5ab6730c0828b193b86 100644
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,20 @@
+   "description": "Semantic version parsing, comparison and range matching.",
+   "main": "index.js",
+   "license": "ISC",
++  "exports": {
++    ".": "./index.js",
++    "./classes/*": "./classes/*.js",
++    "./functions/*": "./functions/*.js",
++    "./ranges/*": "./ranges/*.js",
++    "./package.json": "./package.json"
++  },
++  "files": [
++    "classes/",
++    "functions/",
++    "internal/",
++    "ranges/",
++    "index.js"
++  ],
+   "engines": {
+     "node": ">=10"
+   }

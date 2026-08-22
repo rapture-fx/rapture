@@ -1,0 +1,55 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..6bc2667b167b3c47ea929f63bd730b8201758aa8 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -13,24 +13,46 @@ const diff = (version1, version2) => {
+ 
+   const v1Higher = comparison > 0
+   const highVersion = v1Higher ? v1 : v2
++  const lowVersion = v1Higher ? v2 : v1
++
+   const highHasPre = !!highVersion.prerelease.length
++  const lowHasPre = !!lowVersion.prerelease.length
+ 
+   // add the `pre` prefix if we are going to a prerelease version
+   const prefix = highHasPre ? 'pre' : ''
+ 
+-  if (v1.major !== v2.major) {
++  // leaving a prerelease: no prefix, classify by how much of the main version
++  // is being left behind (based on the prerelease version itself)
++  if (lowHasPre && !highHasPre) {
++    const pre = lowVersion
++    if (pre.minor === 0 && pre.patch === 0) {
++      return 'major'
++    }
++    if (pre.minor !== 0 && pre.patch === 0) {
++      return 'minor'
++    }
++    return 'patch'
++  }
++
++  // two prereleases of the same main version
++  if (highHasPre && lowHasPre && highVersion.compareMain(lowVersion) === 0) {
++    return 'prerelease'
++  }
++
++  // ordinary release steps, plus steps into a prerelease (which keep the prefix)
++  if (highVersion.major !== lowVersion.major) {
+     return prefix + 'major'
+   }
+ 
+-  if (v1.minor !== v2.minor) {
++  if (highVersion.minor !== lowVersion.minor) {
+     return prefix + 'minor'
+   }
+ 
+-  if (v1.patch !== v2.patch) {
++  if (highVersion.patch !== lowVersion.patch) {
+     return prefix + 'patch'
+   }
+ 
+-  // high and low are prereleases
++  // high and low are prereleases of the same main version
+   return 'prerelease'
+ }
+ 

@@ -15,6 +15,41 @@ export const benchmarkTaskClasses = [
   "test_repair",
   "repository_exploration",
   "build_or_typecheck_heavy",
+  "config_change",
+  "api_change",
+] as const;
+
+/**
+ * Pre-registered structural characteristics of a task.
+ *
+ * Recorded in the manifest before any agent runs, so a delegation analysis cannot invent
+ * an explanatory label after seeing which tasks succeeded. Optional at the schema level so
+ * that suites frozen before this existed keep parsing, and keep their fingerprints.
+ */
+const delegationFeaturesSchema = z
+  .object({
+    acceptanceCriteriaType: z.enum([
+      "unit_test",
+      "integration_test",
+      "type_contract",
+      "static_analysis",
+      "behavioral_contract",
+    ]),
+    editableFileCount: z.number().int().positive(),
+    expectedChangeBreadth: z.enum(["single_file", "multi_file_single_module", "cross_module"]),
+    specificationClarity: z.enum(["explicit", "moderate", "underspecified"]),
+    verificationCostClass: z.enum(["cheap", "moderate", "expensive"]),
+    reversibility: z.enum(["fully_reversible", "reversible_with_review", "high_consequence"]),
+  })
+  .strict();
+
+export const delegationFeatureNames = [
+  "taskClass",
+  "acceptanceCriteriaType",
+  "expectedChangeBreadth",
+  "specificationClarity",
+  "verificationCostClass",
+  "reversibility",
 ] as const;
 
 const relativePathSchema = z
@@ -29,17 +64,43 @@ const relativePathSchema = z
 const sha256Schema = z.string().regex(/^[a-f0-9]{64}$/u);
 const revisionSchema = z.string().regex(/^[a-f0-9]{40}$/u);
 
+/**
+ * A fixture authored inside this repository and pinned by its own revision. Suite 0.1.1
+ * fixtures use this shape and must keep parsing byte-identically.
+ */
+const vendoredSourceSchema = z
+  .object({
+    type: z.literal("vendored"),
+    upstreamUrl: z.string().url(),
+    upstreamRevision: z.string().trim().min(1),
+    fixturePath: relativePathSchema,
+  })
+  .strict();
+
+/**
+ * A fixture acquired from a third-party upstream repository. It carries the provenance a
+ * vendored fixture does not need: what was acquired, when, whether the snapshot is exact,
+ * and a fingerprint of the retained upstream bytes taken before any Rapture transformation.
+ * The transformation log itself lives in the protected `provenance.json` sidecar.
+ */
+const upstreamDerivedSourceSchema = z
+  .object({
+    type: z.literal("upstream_derived"),
+    upstreamUrl: z.string().url(),
+    upstreamRevision: revisionSchema,
+    upstreamRef: z.string().trim().min(1),
+    acquiredAt: z.string().datetime({ offset: true }),
+    snapshot: z.enum(["exact_vendored_snapshot", "minimized_derived_snapshot"]),
+    upstreamSourceSha256: sha256Schema,
+    provenancePath: relativePathSchema,
+    fixturePath: relativePathSchema,
+  })
+  .strict();
+
 const repositorySchema = z
   .object({
     id: z.string().trim().min(1),
-    source: z
-      .object({
-        type: z.literal("vendored"),
-        upstreamUrl: z.string().url(),
-        upstreamRevision: z.string().trim().min(1),
-        fixturePath: relativePathSchema,
-      })
-      .strict(),
+    source: z.discriminatedUnion("type", [vendoredSourceSchema, upstreamDerivedSourceSchema]),
     license: z
       .object({
         spdx: z.string().trim().min(1),
@@ -83,6 +144,7 @@ const taskSchema = z
       .strict(),
     timeoutHintSeconds: z.number().int().positive(),
     knownGoodPatch: z.object({ path: relativePathSchema, sha256: sha256Schema }).strict(),
+    delegationFeatures: delegationFeaturesSchema.optional(),
     metadata: z
       .object({
         representativeReason: z.string().trim().min(1),
@@ -147,6 +209,16 @@ export const benchmarkSuiteSchema = z
           code: "custom",
           path: ["tasks", index, "baseRevision"],
           message: "task baseRevision must equal its repository baseRevision",
+        });
+      }
+      if (
+        task.delegationFeatures !== undefined &&
+        task.delegationFeatures.editableFileCount !== task.editableScope.length
+      ) {
+        context.addIssue({
+          code: "custom",
+          path: ["tasks", index, "delegationFeatures", "editableFileCount"],
+          message: `editableFileCount ${task.delegationFeatures.editableFileCount} must equal the editable scope size ${task.editableScope.length}`,
         });
       }
     });
@@ -278,6 +350,16 @@ export async function verifyBenchmarkAssets(
     await stat(
       assetPath(manifestPath, join(repository.source.fixturePath, repository.license.path)),
     );
+    if (repository.source.type === "upstream_derived") {
+      const provenancePath = repository.source.provenancePath;
+      const expected = suite.integrity.protectedAssets[provenancePath];
+      if (expected === undefined) {
+        throw new BenchmarkIntegrityError(
+          `upstream provenance is not integrity-protected: ${provenancePath}`,
+        );
+      }
+      await verifyFile(assetPath(manifestPath, provenancePath), expected);
+    }
   }
   for (const task of suite.tasks) {
     await verifyFile(assetPath(manifestPath, task.validator.path), task.validator.sha256);
@@ -473,6 +555,9 @@ export function benchmarkTasksForRepository(input: {
           repositoryId: task.repositoryId,
           editableScope: task.editableScope,
           taskClass: task.class,
+          ...(task.delegationFeatures === undefined
+            ? {}
+            : { delegationFeatures: task.delegationFeatures }),
         },
       };
     });

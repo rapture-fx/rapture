@@ -1,0 +1,85 @@
+diff --git a/functions/diff.js b/functions/diff.js
+index 17ad8be252ca5026b64b655c947df364eeb3797e..484a0cc9e9f09382268e6e34b3f6f047562b08b4 100644
+--- a/functions/diff.js
++++ b/functions/diff.js
+@@ -2,36 +2,67 @@
+ 
+ const parse = require('./parse.js')
+ 
++const mainType = (v1, v2) => {
++  if (v1.major !== v2.major) {
++    return 'major'
++  }
++  if (v1.minor !== v2.minor) {
++    return 'minor'
++  }
++  if (v1.patch !== v2.patch) {
++    return 'patch'
++  }
++  return null
++}
++
+ const diff = (version1, version2) => {
+   const v1 = parse(version1, null, true)
+   const v2 = parse(version2, null, true)
++
+   const comparison = v1.compare(v2)
+ 
+   if (comparison === 0) {
+     return null
+   }
+ 
+-  const v1Higher = comparison > 0
+-  const highVersion = v1Higher ? v1 : v2
+-  const highHasPre = !!highVersion.prerelease.length
++  // Always treat the lower-precedence version as the starting point, so the
++  // result does not depend on argument order.
++  const low = comparison > 0 ? v2 : v1
++  const high = comparison > 0 ? v1 : v2
+ 
+-  // add the `pre` prefix if we are going to a prerelease version
+-  const prefix = highHasPre ? 'pre' : ''
++  const lowHasPre = !!low.prerelease.length
++  const highHasPre = !!high.prerelease.length
+ 
+-  if (v1.major !== v2.major) {
+-    return prefix + 'major'
++  const type = mainType(v1, v2)
++
++  // Two prereleases of the same main version.
++  if (lowHasPre && highHasPre) {
++    return type === null ? 'prerelease' : 'pre' + type
+   }
+ 
+-  if (v1.minor !== v2.minor) {
+-    return prefix + 'minor'
++  // Stepping out of a prerelease: the higher version is a plain release and
++  // the lower version is a prerelease.
++  if (lowHasPre && !highHasPre) {
++    if (type === null) {
++      // The main version is unchanged, so classify by what is being left behind.
++      if (low.minor === 0 && low.patch === 0) {
++        return 'major'
++      }
++      if (low.minor !== 0 && low.patch === 0) {
++        return 'minor'
++      }
++      return 'patch'
++    }
++    return type
+   }
+ 
+-  if (v1.patch !== v2.patch) {
+-    return prefix + 'patch'
++  // Stepping into a prerelease: the higher version is a prerelease.
++  if (!lowHasPre && highHasPre) {
++    return 'pre' + (type === null ? 'patch' : type)
+   }
+ 
+-  // high and low are prereleases
+-  return 'prerelease'
++  // Ordinary release step.
++  return type
+ }
+ 
+ module.exports = diff

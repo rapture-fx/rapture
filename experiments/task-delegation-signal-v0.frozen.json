@@ -1,0 +1,131 @@
+{
+  "experimentName": "task-delegation-signal-v0",
+  "status": "not_executed",
+  "frozenAt": "2026-08-22T00:00:00.000Z",
+  "purpose": "Test whether measurable engineering-task characteristics explain meaningful variation in independently verified autonomous-agent outcomes, strongly enough to support future delegation decisions. This is a capability-signal experiment, not a concurrency experiment and not an economic one.",
+  "northStarQuestion": "Do task characteristics provide stable, decision-relevant signal about which engineering work is suitable for autonomous delegation?",
+  "whyConcurrencyResearchWasPaused": "The concurrency programme produced rigorous measurement infrastructure but increasingly predictable results and no decision consumer. REAL_WORK_SCALING_SIGNAL_OBSERVED confirmed that two workers finish faster than one, which queueing theory already implies, while PREDICTION_NO_INCREMENTAL_VALUE showed the interesting version of the question failed. This workstream redirects the same instrument at a decision teams actually face repeatedly: which work to delegate.",
+  "baseline": {
+    "originMain": "321d9c00df65add0d1fd2cf35d8c1691753dc726",
+    "branchedFrom": "56af0afe706e2fe2392ab65515fd1c10789d4564",
+    "note": "origin/main was unchanged at the known head. This branch stacks on the unmerged research/real-work-external-validity-v1 lineage (draft PR #8) because it reuses that workstream's semver-derived fixture and closes the formatter risk that workstream discovered."
+  },
+  "benchmark": {
+    "suiteId": "rapture-delegation-v0",
+    "suiteVersion": "0.1.0",
+    "manifest": "benchmarks/delegation-v0/manifest.json",
+    "suiteSha256": "4ed10042f9daa33634f2ed930adf5b7715377f7a33fffd889555b891b2bf01e2",
+    "design": "fully crossed: 3 repositories x 5 task classes x 1 task per cell = 15 tasks",
+    "repositories": [
+      {
+        "id": "version-core",
+        "upstream": "https://github.com/npm/node-semver",
+        "revision": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
+        "ref": "v7.8.5",
+        "license": "ISC",
+        "baseRevision": "c5228eedacc10e4f06d5500a6db8abf56f6aeb94",
+        "fixtureSha256": "945053bb6456c3f8"
+      },
+      {
+        "id": "glob-matcher-core",
+        "upstream": "https://github.com/micromatch/picomatch",
+        "revision": "4f41a8edade7a5ab19832f7b40ecce46b288767f",
+        "ref": "4.0.5",
+        "license": "MIT",
+        "baseRevision": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+        "fixtureSha256": "c46589a1cd641b3e"
+      },
+      {
+        "id": "cli-command-core",
+        "upstream": "https://github.com/tj/commander.js",
+        "revision": "ba6d13ddb4243e5913367734f8c159089ffe7834",
+        "ref": "v15.0.0",
+        "license": "MIT",
+        "baseRevision": "e60bc2c224f353e8339744eb1f9f799f85bdf234",
+        "fixtureSha256": "644ccc8f4b207ea6"
+      }
+    ]
+  },
+  "configuration": {
+    "agent": "opencode",
+    "agentVersion": "1.18.21",
+    "agentModel": "opencode/hy3-free",
+    "workerCounts": [
+      1
+    ],
+    "repetitions": 3,
+    "taskCount": 15,
+    "logicalRuns": 45,
+    "timeoutSecondsPerTask": 900,
+    "integration": false,
+    "executionOrder": "repetition-major",
+    "seed": 20260823,
+    "hostTelemetry": true,
+    "phaseTiming": true,
+    "resumable": true,
+    "pricingContext": null,
+    "executionStructure": "Three separate runner invocations, one per repository, because a run materializes worktrees from a single --repo at a single base revision. Each invocation is workers=1, repetitions=3 over that repository's 5 tasks, giving 15 logical runs per repository and 45 in total. Acceptance, not throughput, is the primary measurement, so splitting by repository does not affect the comparison; trial wall-clock times are per-repository and are not pooled."
+  },
+  "modelSelection": {
+    "constraint": "OpenCode only. Codex must not be executed and must not consume quota. No paid provider experiment was authorized, so selection was restricted to free-tier OpenCode models.",
+    "selected": "opencode/hy3-free",
+    "reason": "Availability re-verified by standalone probe immediately before freezing (cost 0, structured token usage). The same model was used by opencode-capacity-curve and real-work-external-validity-v1, so provider surface stays comparable with prior evidence. No pre-freeze capability probing was done against this corpus: outcome variation across tasks is the measurement, so probing it first would contaminate the result.",
+    "noPreFreezeProbing": true
+  },
+  "preRegisteredFeatures": [
+    "taskClass",
+    "repositoryId",
+    "acceptanceCriteriaType",
+    "editableFileCount",
+    "expectedChangeBreadth",
+    "specificationClarity",
+    "verificationCostClass",
+    "reversibility"
+  ],
+  "knownFeatureLimitations": [
+    "acceptanceCriteriaType is collinear with taskClass in this corpus: every task of a class shares one criteria type, so the two cannot be separated.",
+    "editableFileCount is 1 for all 15 tasks and expectedChangeBreadth is single_file for all 15, so neither varies and neither can be evaluated.",
+    "specificationClarity, verificationCostClass and reversibility vary but are partly determined by class.",
+    "These limitations are recorded before execution. They are corpus-design constraints, not findings, and must not be presented as results."
+  ],
+  "signalCriterion": {
+    "baseline": "overall corpus acceptance rate with no task information",
+    "positive": [
+      "At least two pre-registered task classes or structural buckets differ from the corpus-wide acceptance rate by >= 20 percentage points.",
+      "The direction is consistent across at least 2 of 3 repetitions.",
+      "The effect is not explained solely by provider or infrastructure failures.",
+      "Within-class results are not dominated by a single task instance."
+    ],
+    "note": "Fixed before execution. If corpus construction makes this threshold inappropriate, the issue is recorded and the evidence classified inconclusive rather than the threshold being changed."
+  },
+  "runtimeFingerprint": {
+    "node": "v22.14.0",
+    "pnpm": "10.12.1",
+    "opencodeCli": "1.18.21",
+    "platform": "darwin",
+    "osRelease": "22.6.0",
+    "productVersion": "macOS 13.7.8 (22H730)",
+    "arch": "x64",
+    "cpuCount": 4,
+    "cpuModel": "Intel(R) Core(TM) i5-7360U CPU @ 2.30GHz",
+    "totalMemBytes": 8589934592
+  },
+  "allowedDecisions": [
+    "TASK_DELEGATION_SIGNAL_OBSERVED",
+    "DELEGATION_SIGNAL_NOT_DEMONSTRATED",
+    "DELEGATION_SIGNAL_INCONCLUSIVE",
+    "DELEGATION_BENCHMARK_INVALID",
+    "DELEGATION_CONFIDENTIALITY_BLOCKED",
+    "DELEGATION_PROVIDER_BLOCKED",
+    "DELEGATION_INFRA_BLOCKED"
+  ],
+  "prohibitedConclusions": [
+    "Instance-level prediction of whether a given future ticket will succeed.",
+    "A universal delegation rule.",
+    "Commercial validation or positive ROI.",
+    "Generalization across all repositories, models or agents.",
+    "Any claim that a router, scheduler or predictor is justified."
+  ],
+  "deviations": [],
+  "intendedCommand": "for repo in version-core glob-matcher-core cli-command-core; do node apps/cli/dist/index.js benchmark-materialize --manifest benchmarks/delegation-v0/manifest.json --repository $repo --destination <checkout>/$repo --tasks-output <tasks>/$repo.json; done && node apps/cli/dist/index.js run --repo <checkout>/<repo> --tasks <tasks>/<repo>.json --workers 1 --repetitions 3 --seed 20260823 --agent opencode --agent-model opencode/hy3-free --order repetition-major --output experiments/task-delegation-signal-v0/<repo>"
+}

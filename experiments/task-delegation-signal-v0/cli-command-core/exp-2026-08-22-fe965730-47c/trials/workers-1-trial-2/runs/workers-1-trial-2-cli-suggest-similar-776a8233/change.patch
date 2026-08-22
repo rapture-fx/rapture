@@ -1,0 +1,127 @@
+diff --git a/lib/suggestSimilar.js b/lib/suggestSimilar.js
+index 74777424578340ad3222fc6bfd46e03aa0ed73c0..c70f09fcd36aa451faaf3efe9752bb02faa47d15 100644
+--- a/lib/suggestSimilar.js
++++ b/lib/suggestSimilar.js
+@@ -1,21 +1,118 @@
+ const maxDistance = 3;
+ 
+ /**
+- * Find close matches, restricted to same number of edits.
++ * Find close matches, restricted to the closest candidates within a small edit
++ * distance.
+  *
+  * @param {string} word
+  * @param {string[]} candidates
+  * @returns {string}
+  */
+ 
++function damerauLevenshtein(a, b, limit) {
++  if (a.length === 0) return b.length;
++  if (b.length === 0) return a.length;
++
++  const matrix = [];
++
++  for (let i = 0; i <= a.length; i++) {
++    matrix[i] = [i];
++  }
++
++  for (let j = 0; j <= b.length; j++) {
++    matrix[0][j] = j;
++  }
++
++  for (let i = 1; i <= a.length; i++) {
++    let rowMin = Infinity;
++
++    for (let j = 1; j <= b.length; j++) {
++      if (a.charAt(i - 1) === b.charAt(j - 1)) {
++        matrix[i][j] = matrix[i - 1][j - 1];
++      } else {
++        const del = matrix[i - 1][j] + 1;
++        const ins = matrix[i][j - 1] + 1;
++        const sub = matrix[i - 1][j - 1] + 1;
++        matrix[i][j] = Math.min(del, ins, sub);
++      }
++
++      if (
++        i > 1 &&
++        j > 1 &&
++        a.charAt(i - 1) === b.charAt(j - 2) &&
++        a.charAt(i - 2) === b.charAt(j - 1)
++      ) {
++        matrix[i][j] = Math.min(matrix[i][j], matrix[i - 2][j - 2] + 1);
++      }
++
++      if (matrix[i][j] < rowMin) rowMin = matrix[i][j];
++    }
++
++    if (rowMin > limit) return rowMin;
++  }
++
++  return matrix[a.length][b.length];
++}
++
+ export function suggestSimilar(word, candidates) {
+   if (!candidates || candidates.length === 0) return '';
+ 
+   const searchingOptions = word.startsWith('--');
+-  const similar = candidates.filter((candidate) => candidate === word);
+ 
+-  if (similar.length === 1) {
+-    return `\n(Did you mean ${similar[0]}?)`;
++  if (searchingOptions) {
++    word = word.slice(2);
++    candidates = candidates.map((candidate) => candidate.slice(2));
++  }
++
++  const seen = new Set();
++  candidates = candidates.filter((candidate) => {
++    if (seen.has(candidate)) return false;
++    seen.add(candidate);
++    return true;
++  });
++
++  let bestDistance = Infinity;
++  const matches = [];
++
++  for (const candidate of candidates) {
++    if (candidate.length <= 1) continue;
++
++    const distance = damerauLevenshtein(
++      word,
++      candidate,
++      Math.min(bestDistance, maxDistance)
++    );
++
++    if (distance > maxDistance) continue;
++
++    const longest = Math.max(word.length, candidate.length);
++    const similarity = (longest - distance) / longest;
++
++    if (similarity <= 0.4) continue;
++
++    if (distance < bestDistance) {
++      bestDistance = distance;
++      matches.length = 0;
++      matches.push(candidate);
++    } else if (distance === bestDistance) {
++      matches.push(candidate);
++    }
++  }
++
++  if (searchingOptions) {
++    matches.forEach((match, index) => {
++      matches[index] = `--${match}`;
++    });
++    word = `--${word}`;
++  }
++
++  matches.sort((a, b) => a.localeCompare(b));
++
++  if (matches.length === 1) {
++    return `\n(Did you mean ${matches[0]}?)`;
++  }
++  if (matches.length > 1) {
++    return `\n(Did you mean one of ${matches.join(', ')}?)`;
+   }
+   return '';
+ }

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "status": "completed",
+  "startedAt": "2026-08-22T08:58:52.122Z",
+  "finishedAt": "2026-08-22T09:05:04.331Z",
+  "durationMs": 372222,
+  "taskOrder": [
+    "semver-range-test-repair",
+    "semver-diff-release-type",
+    "semver-lru-cache-eviction",
+    "semver-coerce-options"
+  ],
+  "trialSeed": 493189761
+}

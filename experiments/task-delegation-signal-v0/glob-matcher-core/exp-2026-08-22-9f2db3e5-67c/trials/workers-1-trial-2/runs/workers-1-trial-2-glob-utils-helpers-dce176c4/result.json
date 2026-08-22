@@ -1,0 +1,289 @@
+{
+  "runId": "workers-1-trial-2-glob-utils-helpers-dce176c4",
+  "logicalRunId": "d24a40341a2337fc8bbfaf33444ad04b528be10522e94b81fb9f98305b9369bf",
+  "attemptId": "workers-1-trial-2-glob-utils-helpers-dce176c4",
+  "runState": "accepted",
+  "experimentId": "exp-2026-08-22-9f2db3e5-67c",
+  "trialId": "workers-1-trial-2",
+  "repetition": 2,
+  "taskId": "glob-utils-helpers",
+  "repositoryId": "glob-matcher-core",
+  "benchmarkSuiteId": "rapture-delegation-v0",
+  "benchmarkSuiteVersion": "0.1.0",
+  "benchmarkTaskClass": "refactor",
+  "benchmarkDelegationFeatures": {
+    "acceptanceCriteriaType": "behavioral_contract",
+    "editableFileCount": 1,
+    "expectedChangeBreadth": "single_file",
+    "specificationClarity": "explicit",
+    "verificationCostClass": "cheap",
+    "reversibility": "fully_reversible"
+  },
+  "baseCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "baseTreeHash": "a208cfd7db9ed8c6b8e0a882bcbae298e7e057a5",
+  "workerId": "w1-1",
+  "workerCount": 1,
+  "activeAgentsAtStart": 1,
+  "activeAgentsAtEnd": 1,
+  "agentProvider": "opencode",
+  "agentModel": "opencode/hy3-free",
+  "agentVersion": "1.18.21",
+  "agentCommand": [
+    "opencode",
+    "run",
+    "--dir",
+    "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-2-glob-utils-helpers-dce176c4",
+    "--model",
+    "opencode/hy3-free",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+  ],
+  "startedAt": "2026-08-22T13:03:35.576Z",
+  "finishedAt": "2026-08-22T13:05:16.405Z",
+  "durationMs": 100828,
+  "phaseTimings": {
+    "worktreeSetupMs": 30,
+    "queueWaitMs": 167409.00025499996,
+    "agentExecutionMs": 100554,
+    "validationMs": 78,
+    "artifactPersistenceMs": 2,
+    "integrationMs": null,
+    "worktreeCleanupMs": 25,
+    "otherOrchestrationMs": 0,
+    "totalRunMs": 100828
+  },
+  "processExitCode": 0,
+  "timedOut": false,
+  "finalCommit": "ece3d07c9b6dcfddbf99fd2963a3fbf13bbdf807",
+  "finalTreeHash": "e8c8d3433b1643785cee4637d691ba7b75c7a71e",
+  "filesChanged": [
+    "lib/utils.js"
+  ],
+  "commands": [
+    [
+      "opencode",
+      "run",
+      "--dir",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/experiments/task-delegation-signal-v0/glob-matcher-core/exp-2026-08-22-9f2db3e5-67c/.worktrees/workers-1-trial-2-glob-utils-helpers-dce176c4",
+      "--model",
+      "opencode/hy3-free",
+      "--agent",
+      "build",
+      "--format",
+      "json",
+      "Complete this repository task: The helpers in `lib/utils.js` have been reduced to naive implementations that no longer honour\ntheir contract. Reimplement them, keeping every current export and signature:\n- `basename(path, { windows })` returns the last non-empty segment, treats a backslash as a\n  separator only when `windows` is set, and returns the last real segment when the path ends in\n  a separator;\n- `escapeLast(input, char, lastIdx)` escapes the last occurrence of `char` at or before `lastIdx`,\n  but skips an occurrence that is already escaped and continues searching leftwards;\n- `removePrefix(input, state)` strips a single leading './' and records it as `state.prefix`,\n  leaves `state` untouched when there was no prefix, and still works when `state` is omitted.\n\nThe other helpers already behave correctly and must keep doing so. The wider library must be\nunaffected, including `matchBase`, which routes through `basename`.\nWork only in the current repository. Do not push, open a PR, deploy, or access secrets.\nMake the smallest correct change and run relevant local checks."
+    ],
+    [
+      "/Users/wira/.nvm/versions/node/v22.14.0/bin/node",
+      "/Users/wira/Documents/rapture/rapture-task-delegation-v0/benchmarks/delegation-v0/validators/glob-utils.mjs",
+      "."
+    ]
+  ],
+  "testInvocations": [],
+  "buildInvocations": [],
+  "tokenUsage": null,
+  "providerCost": null,
+  "usage": {
+    "inputTokens": 34130,
+    "outputTokens": 2645,
+    "cachedInputTokens": 219904,
+    "reasoningTokens": 1970,
+    "providerReportedCost": 0,
+    "currency": null,
+    "usageSource": "cli_structured",
+    "uncategorizedTokenCategories": []
+  },
+  "validationResult": "passed",
+  "integrationResult": "not_requested",
+  "failureClassification": null,
+  "accepted": true,
+  "runtimeObservability": {
+    "streamAvailable": true,
+    "provider": {
+      "processStartedAt": "2026-08-22T13:03:35.621Z",
+      "processFinishedAt": "2026-08-22T13:05:16.174Z",
+      "firstStructuredEventAt": "2026-08-22T13:03:42.231Z",
+      "firstModelResponseAt": "2026-08-22T13:03:43.117Z",
+      "lastModelResponseAt": "2026-08-22T13:05:16.046Z",
+      "providerWaitMs": 47377,
+      "providerEventCount": 34,
+      "modelStepCount": 17,
+      "toolEventCount": 16,
+      "providerRetryCount": null,
+      "providerErrorCount": 0,
+      "providerRateLimitSignal": null,
+      "unmatchedStepStartCount": 0
+    },
+    "providerSpans": [
+      {
+        "startMs": 1787403822231,
+        "endMs": 1787403823117
+      },
+      {
+        "startMs": 1787403826002,
+        "endMs": 1787403827053
+      },
+      {
+        "startMs": 1787403829796,
+        "endMs": 1787403831337
+      },
+      {
+        "startMs": 1787403834181,
+        "endMs": 1787403835209
+      },
+      {
+        "startMs": 1787403837657,
+        "endMs": 1787403849418
+      },
+      {
+        "startMs": 1787403852323,
+        "endMs": 1787403854298
+      },
+      {
+        "startMs": 1787403856907,
+        "endMs": 1787403858012
+      },
+      {
+        "startMs": 1787403860718,
+        "endMs": 1787403863472
+      },
+      {
+        "startMs": 1787403867238,
+        "endMs": 1787403876972
+      },
+      {
+        "startMs": 1787403880053,
+        "endMs": 1787403880896
+      },
+      {
+        "startMs": 1787403883697,
+        "endMs": 1787403884566
+      },
+      {
+        "startMs": 1787403887548,
+        "endMs": 1787403888295
+      },
+      {
+        "startMs": 1787403891031,
+        "endMs": 1787403892281
+      },
+      {
+        "startMs": 1787403895539,
+        "endMs": 1787403898257
+      },
+      {
+        "startMs": 1787403901167,
+        "endMs": 1787403904392
+      },
+      {
+        "startMs": 1787403907255,
+        "endMs": 1787403911449
+      },
+      {
+        "startMs": 1787403914350,
+        "endMs": 1787403916046
+      }
+    ],
+    "decomposition": {
+      "observedWindowMs": 93815,
+      "providerWaitMs": 47377,
+      "interStepGapMs": 46438,
+      "outsideWindowMs": 6739,
+      "providerWaitFraction": 0.4711597748473457,
+      "interStepGapFraction": 0.46182150884102074,
+      "unobservedFraction": 0.06701871631163354
+    },
+    "gaps": {
+      "interEventGapsMs": [
+        740,
+        146,
+        2885,
+        978,
+        73,
+        2743,
+        1454,
+        30,
+        57,
+        2844,
+        910,
+        118,
+        2448,
+        11582,
+        85,
+        94,
+        2905,
+        1800,
+        175,
+        2609,
+        1003,
+        51,
+        51,
+        2706,
+        2710,
+        44,
+        3766,
+        2600,
+        7069,
+        65,
+        3081,
+        789,
+        54,
+        2801,
+        767,
+        102,
+        2982,
+        692,
+        55,
+        2736,
+        1194,
+        56,
+        3258,
+        2430,
+        288,
+        2910,
+        2805,
+        338,
+        82,
+        2863,
+        4086,
+        55,
+        53,
+        2901,
+        1639,
+        57
+      ],
+      "handoffGapsMs": [
+        2885,
+        2743,
+        2844,
+        2448,
+        2905,
+        2609,
+        2706,
+        3766,
+        3081,
+        2801,
+        2982,
+        2736,
+        3258,
+        2910,
+        2863,
+        2901
+      ],
+      "launchToFirstEventMs": 6610
+    }
+  },
+  "artifacts": {
+    "stdout": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-dce176c4/agent.stdout.log",
+    "stdoutSha256": "1dc89fb3d941ccefcda40c8000b3b61b2d83a65ed403f3923e8f391799c20386",
+    "stderr": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-dce176c4/agent.stderr.log",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validation": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-dce176c4/validation.json",
+    "validationSha256": "bdcb23ec1a3142e71dc3125d317ee72ac3ff0ca5432c7ea496aeeea35ee86c08",
+    "patch": "trials/workers-1-trial-2/runs/workers-1-trial-2-glob-utils-helpers-dce176c4/change.patch",
+    "patchSha256": "dbbfc9920e6e644b0cdda8894088cd09107191e514e91b2a78b55c0dd1ff8001"
+  }
+}

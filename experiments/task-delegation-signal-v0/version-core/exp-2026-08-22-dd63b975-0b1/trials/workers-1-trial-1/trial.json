@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "trialId": "workers-1-trial-1",
+  "experimentId": "exp-2026-08-22-dd63b975-0b1",
+  "workerCount": 1,
+  "repetition": 1,
+  "trialSeed": 3006128336,
+  "taskOrder": [
+    "version-lru-cache-eviction",
+    "version-subpath-exports",
+    "version-range-test-repair",
+    "version-diff-release-type",
+    "version-coerce-options"
+  ],
+  "startedAt": "2026-08-22T12:29:21.101Z"
+}
