@@ -252,7 +252,7 @@ it("propagates suite, repository, and task-class provenance through a fake-agent
     accepted: true,
     repositoryId: "commerce-service",
     benchmarkSuiteId: "rapture-real-work-v0",
-    benchmarkSuiteVersion: "0.1.0",
+    benchmarkSuiteVersion: suite.version,
     benchmarkTaskClass: "bug_fix",
   });
   const manifest = JSON.parse(
@@ -260,7 +260,7 @@ it("propagates suite, repository, and task-class provenance through a fake-agent
   ) as Record<string, unknown>;
   expect(manifest.benchmark).toEqual({
     suiteIds: ["rapture-real-work-v0"],
-    suiteVersions: ["0.1.0"],
+    suiteVersions: [suite.version],
     repositoryIds: ["commerce-service"],
     taskClasses: ["bug_fix"],
   });
