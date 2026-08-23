@@ -13,6 +13,14 @@ export {
 } from "./evidence/artifacts.js";
 export type { IntegrityManifest } from "./evidence/integrity.js";
 export { computeIntegrity, driftPaths, listTreeFiles } from "./evidence/integrity.js";
+export type { InMemoryExecutor, InMemoryExecutorScript } from "./exec/in-memory.js";
+export { createInMemoryExecutor } from "./exec/in-memory.js";
+export type {
+  Executor,
+  ExecutorPrepareInput,
+  ExecutorRunOptions,
+  PreparedSandbox,
+} from "./exec/types.js";
 export type { JsonlAppender } from "./journal/jsonl.js";
 export { createJsonlAppender, exclusiveCreateFile, readJsonlLines } from "./journal/jsonl.js";
 export type { ValidatorClassification, ValidatorRunResult } from "./judge/validator.js";
@@ -45,5 +53,6 @@ export {
   detectIntegritySignals,
   hasWeakeningSignals,
   integritySignalKinds,
+  isLikelyTestFile,
 } from "./signals/detect.js";
 export type { JsonValue, ProcessResult } from "./types.js";
