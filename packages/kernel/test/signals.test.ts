@@ -117,3 +117,44 @@ it("normalizes windows separators and leading ./", () => {
   ]);
   expect(signals[0]?.path).toBe(".github/workflows/ci.yml");
 });
+
+it("detects newly added lint/type suppression markers", () => {
+  const signals = detectIntegritySignals([
+    clean("src/parser.ts", "// ok", "// @ts-nocheck\n// eslint-disable no-unused-vars"),
+    clean("src/other.py", "x = 1", "x = 1  # type: ignore  # noqa"),
+  ]);
+  const suppressed = signals.filter((signal) => signal.kind === "static_analysis_suppressed");
+  expect(suppressed).toHaveLength(2);
+  expect(suppressed[0]?.detail).toContain("2 lint/type-check");
+});
+
+it("does not flag pre-existing suppression markers", () => {
+  const signals = detectIntegritySignals([
+    clean("src/legacy.ts", "// eslint-disable eqeqeq\nfoo();", "// eslint-disable eqeqeq\nbar();"),
+  ]);
+  expect(signals.filter((signal) => signal.kind === "static_analysis_suppressed")).toEqual([]);
+});
+
+it("detects empty catch blocks added to non-test code", () => {
+  const signals = detectIntegritySignals([
+    clean("src/api.ts", "try { go(); } catch (e) { log(e); }", "try { go(); } catch (e) {}"),
+    clean(
+      "src/jobs.py",
+      "try:\n    run()\nexcept Exception:\n    log(e)",
+      "try:\n    run()\nexcept Exception:\n    pass",
+    ),
+  ]);
+  const swallowed = signals.filter((signal) => signal.kind === "error_handling_suppressed");
+  expect(swallowed).toHaveLength(2);
+});
+
+it("flags compiler strictness loosened in JSON config only", () => {
+  const configSignals = detectIntegritySignals([
+    clean("tsconfig.json", '"strict": true', '"strict": false'),
+  ]);
+  expect(configSignals.map((signal) => signal.kind)).toContain("static_analysis_suppressed");
+  const proseSignals = detectIntegritySignals([
+    clean("docs/notes.md", "strict: true", 'we set "strict": false now'),
+  ]);
+  expect(proseSignals.filter((signal) => signal.kind === "static_analysis_suppressed")).toEqual([]);
+});
