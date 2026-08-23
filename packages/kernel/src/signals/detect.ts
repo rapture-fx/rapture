@@ -15,6 +15,8 @@ export const integritySignalKinds = [
   "ci_workflow_modified",
   "ci_workflow_deleted",
   "exit_code_handling_weakened",
+  "static_analysis_suppressed",
+  "error_handling_suppressed",
   "protected_file_modified",
 ] as const;
 
@@ -82,6 +84,29 @@ const EXIT_IGNORE_MARKERS: readonly RegExp[] = [
   /continue-on-error['"]?\s*[:=]\s*true/gi,
 ];
 
+const STATIC_ANALYSIS_SUPPRESSION_MARKERS: readonly RegExp[] = [
+  /@ts-nocheck\b/g,
+  /\beslint-disable\b(?!-)/g,
+  /\/\*\s*eslint-disable/g,
+  /\btype:\s*ignore\b/g,
+  /\bnolint\b/g,
+  /#\s*noqa\b/g,
+  /\bnoqa:\s*[A-Z]/g,
+  /#\s*type:\s*ignore\b/g,
+  /\/\/\s*@ts-ignore/g,
+];
+
+const ERROR_SWALLOW_MARKERS: readonly RegExp[] = [
+  /catch\s*\([^)]*\)\s*\{\s*\}/g,
+  /catch\s*\{\s*\}/g,
+  /except[^:]*:\s*pass\b/g,
+];
+
+const STRICTNESS_LOSS_MARKERS: readonly RegExp[] = [
+  /["']strict["']\s*:\s*false/g,
+  /strictFunctionTypes["']?\s*:\s*false/g,
+];
+
 function countMatches(content: string, patterns: readonly RegExp[]): number {
   let total = 0;
   for (const pattern of patterns) {
@@ -97,6 +122,13 @@ function countMatches(content: string, patterns: readonly RegExp[]): number {
 function isTestFile(path: string, options: SignalDetectorOptions): boolean {
   const patterns = options.testFilePatterns ?? DEFAULT_TEST_FILE_PATTERNS;
   return patterns.some((pattern) => pattern.test(path));
+}
+
+export function isLikelyTestFile(
+  path: string,
+  options: Pick<SignalDetectorOptions, "testFilePatterns"> = {},
+): boolean {
+  return isTestFile(normalizePath(path), options);
 }
 
 function matchesAny(path: string, patterns: readonly RegExp[]): boolean {
@@ -175,6 +207,38 @@ export function detectIntegritySignals(
           kind: "exit_code_handling_weakened",
           path,
           detail: `${exitIgnoreDelta} exit-code suppression marker(s) added`,
+        });
+      }
+
+      const suppressionDelta =
+        countMatches(after, STATIC_ANALYSIS_SUPPRESSION_MARKERS) -
+        countMatches(before, STATIC_ANALYSIS_SUPPRESSION_MARKERS);
+      if (suppressionDelta > 0) {
+        signals.push({
+          kind: "static_analysis_suppressed",
+          path,
+          detail: `${suppressionDelta} lint/type-check suppression marker(s) added`,
+        });
+      }
+
+      const errorSwallowDelta =
+        countMatches(after, ERROR_SWALLOW_MARKERS) - countMatches(before, ERROR_SWALLOW_MARKERS);
+      if (errorSwallowDelta > 0) {
+        signals.push({
+          kind: "error_handling_suppressed",
+          path,
+          detail: `${errorSwallowDelta} empty catch/except block(s) added`,
+        });
+      }
+
+      const strictnessLossDelta =
+        countMatches(after, STRICTNESS_LOSS_MARKERS) -
+        countMatches(before, STRICTNESS_LOSS_MARKERS);
+      if (strictnessLossDelta > 0 && change.status === "modified" && /\.jsonc?$/i.test(path)) {
+        signals.push({
+          kind: "static_analysis_suppressed",
+          path,
+          detail: "compiler strictness loosened in configuration",
         });
       }
     }
