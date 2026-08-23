@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { mkdir, readFile, rmdir } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { performance } from "node:perf_hooks";
+import { classifyRunOutcome, detectIntegritySignals } from "@rapture/kernel";
 import { codexAgentAdapter } from "./adapters/codex.js";
 import { fakeAgentAdapter } from "./adapters/fake.js";
 import { opencodeAgentAdapter } from "./adapters/opencode.js";
@@ -28,6 +29,7 @@ import type { PricingContext } from "./economics.js";
 import { createEventWriter, type EventWriter } from "./events.js";
 import {
   changedFiles,
+  collectFileChanges,
   currentCommit,
   repositoryFingerprint,
   resolveCommit,
@@ -1104,6 +1106,13 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
       const patch = await stagedPatch(worktree);
       const patchHash = await writeRawTextArtifact(patchPath, patch);
       const finalCommit = await currentCommit(worktree);
+      const fileChanges = await collectFileChanges(worktree, input.task.baseCommit, filesChanged);
+      const integritySignals = detectIntegritySignals(fileChanges);
+      const integritySignalsPath = join(runDirectory, "integrity-signals.json");
+      const integritySignalsHash = await writeJsonArtifact(integritySignalsPath, {
+        schemaVersion: 1,
+        signals: integritySignals,
+      });
       await input.events.emit("git_snapshot", {
         runId: attemptId,
         trialId: input.trialId,
@@ -1111,39 +1120,23 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         finalTreeHash,
         filesChanged,
         patchSha256: patchHash,
+        integritySignalCount: integritySignals.length,
+        integritySignalKinds: [...new Set(integritySignals.map((signal) => signal.kind))],
       });
 
       const validationCommands = validation.value.results.map((result) => result.command);
       const commands = [agent.value.process.command, ...validationCommands];
       const groups = commandGroups(validationCommands);
-      const timedOut = agent.value.process.timedOut;
-      const validatorInfrastructureFailed =
-        input.task.benchmark !== undefined &&
-        validation.value.results.some(
-          (result) =>
-            result.timedOut ||
-            result.exitCode === null ||
-            (result.exitCode !== null && result.exitCode > 1),
-        );
-      const runState: LogicalRunState = validatorInfrastructureFailed
-        ? "infrastructure_failed"
-        : validation.value.passed && outOfScopeFiles.length === 0
-          ? "accepted"
-          : timedOut
-            ? "timed_out"
-            : "rejected";
-      const failureClassification =
-        runState === "accepted"
-          ? agent.value.process.exitCode !== 0
-            ? "agent_exit_nonzero_validation_passed"
-            : null
-          : validatorInfrastructureFailed
-            ? "validator_infrastructure_failure"
-            : outOfScopeFiles.length > 0
-              ? `editable_scope_violation:${outOfScopeFiles.join(",")}`
-              : runState === "timed_out"
-                ? "agent_timeout"
-                : "validation_failed";
+      const outcome = classifyRunOutcome({
+        agentTimedOut: agent.value.process.timedOut,
+        agentExitCode: agent.value.process.exitCode,
+        validationPassed: validation.value.passed,
+        validationResults: validation.value.results,
+        benchmarkScoped: input.task.benchmark !== undefined,
+        outOfScopeFiles,
+      });
+      const runState: LogicalRunState = outcome.runState;
+      const failureClassification = outcome.failureClassification;
       const cleanup = await timePhase(() => input.worktrees.remove(attemptId));
       worktreeCleanupMs = cleanup.durationMs;
       created = false;
@@ -1176,7 +1169,7 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
         durationMs: timings.totalRunMs,
         phaseTimings: timings,
         processExitCode: agent.value.process.exitCode,
-        timedOut,
+        timedOut: agent.value.process.timedOut,
         finalCommit,
         finalTreeHash,
         filesChanged,
@@ -1200,6 +1193,8 @@ async function runTask(input: RunTaskInput): Promise<EngineeringTaskRun> {
           validationSha256: validationHash,
           patch: relative(input.directory, patchPath),
           patchSha256: patchHash,
+          integritySignals: relative(input.directory, integritySignalsPath),
+          integritySignalsSha256: integritySignalsHash,
         },
       };
       await input.ledger.record({
