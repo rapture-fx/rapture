@@ -1,6 +1,5 @@
-import { open, readFile } from "node:fs/promises";
 import { cpus, type as osType, platform, release, totalmem } from "node:os";
-import pLimit from "p-limit";
+import { createJsonlAppender, readJsonlLines } from "@rapture/kernel";
 import { runGit } from "./git.js";
 import type { ContinuationRecord } from "./models.js";
 import { runProcess } from "./process.js";
@@ -10,33 +9,14 @@ export interface ContinuationProvenance {
   readonly readAll: () => Promise<readonly ContinuationRecord[]>;
 }
 
-async function readContinuationLines(path: string): Promise<string[]> {
-  try {
-    const content = await readFile(path, "utf8");
-    return content.split("\n").filter((line) => line.length > 0);
-  } catch (error: unknown) {
-    if (error instanceof Error && "code" in error && error.code === "ENOENT") return [];
-    throw error;
-  }
-}
-
 export async function createContinuationProvenance(path: string): Promise<ContinuationProvenance> {
-  const handle = await open(path, "a");
-  await handle.close();
-  const serialize = pLimit(1);
+  const appender = await createJsonlAppender(path);
   return {
-    record: (record) =>
-      serialize(async () => {
-        const appendHandle = await open(path, "a");
-        try {
-          await appendHandle.write(`${JSON.stringify(record)}\n`);
-          await appendHandle.sync();
-        } finally {
-          await appendHandle.close();
-        }
-      }),
+    record: async (record) => {
+      await appender.appendLine(JSON.stringify(record));
+    },
     readAll: async () => {
-      const lines = await readContinuationLines(path);
+      const lines = await readJsonlLines(path);
       return lines.map((line) => JSON.parse(line) as ContinuationRecord);
     },
   };
