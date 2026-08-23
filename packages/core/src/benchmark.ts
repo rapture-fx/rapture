@@ -1,6 +1,7 @@
 import { cp, mkdir, mkdtemp, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { runExternalValidator } from "@rapture/kernel";
 import { z } from "zod";
 import { sha256 } from "./artifacts.js";
 import { ConfigurationError } from "./config.js";
@@ -397,57 +398,13 @@ export async function runBenchmarkValidator(input: {
   readonly task: BenchmarkTask;
   readonly repository: string;
 }): Promise<BenchmarkValidatorResult> {
-  try {
-    const validator = assetPath(input.manifestPath, input.task.validator.path);
-    await verifyFile(validator, input.task.validator.sha256);
-    if (inside(resolve(input.repository), validator)) {
-      return {
-        classification: "infrastructure_failure",
-        process: null,
-        detail: "validator entered candidate repository",
-      };
-    }
-    const processResult = await runProcess(
-      process.execPath,
-      [validator, resolve(input.repository)],
-      {
-        cwd: dirname(resolve(input.manifestPath)),
-        timeoutMs: input.task.validator.timeoutMs,
-      },
-    );
-    if (processResult.timedOut) {
-      return {
-        classification: "infrastructure_failure",
-        process: processResult,
-        detail: "validator timed out",
-      };
-    }
-    if (processResult.exitCode === 0) {
-      return {
-        classification: "accepted",
-        process: processResult,
-        detail: "validator accepted task",
-      };
-    }
-    if (processResult.exitCode === 1) {
-      return {
-        classification: "rejected",
-        process: processResult,
-        detail: "validator rejected task",
-      };
-    }
-    return {
-      classification: "infrastructure_failure",
-      process: processResult,
-      detail: `validator exited ${processResult.exitCode ?? "without status"}`,
-    };
-  } catch (error: unknown) {
-    return {
-      classification: "infrastructure_failure",
-      process: null,
-      detail: error instanceof Error ? error.message : String(error),
-    };
-  }
+  return runExternalValidator({
+    validatorPath: assetPath(input.manifestPath, input.task.validator.path),
+    expectedSha256: input.task.validator.sha256,
+    repositoryPath: input.repository,
+    cwd: dirname(resolve(input.manifestPath)),
+    timeoutMs: input.task.validator.timeoutMs,
+  });
 }
 
 export function benchmarkTasksForRepository(input: {
