@@ -35,6 +35,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@rapture/kernel':
+        specifier: workspace:*
+        version: link:../kernel
       execa:
         specifier: ^9.6.0
         version: 9.6.1
@@ -44,6 +47,15 @@ importers:
       zod:
         specifier: ^4.0.0
         version: 4.4.3
+
+  packages/kernel:
+    dependencies:
+      execa:
+        specifier: ^9.6.0
+        version: 9.6.1
+      p-limit:
+        specifier: ^7.1.0
+        version: 7.3.1
 
 packages:
 
