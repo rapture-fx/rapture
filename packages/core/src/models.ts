@@ -1,10 +1,6 @@
-export type JsonValue =
-  | null
-  | boolean
-  | number
-  | string
-  | readonly JsonValue[]
-  | { readonly [key: string]: JsonValue };
+import type { JsonValue, ProcessResult } from "@rapture/kernel";
+
+export type { JsonValue, ProcessResult };
 
 export type UsageSource = import("./economics.js").UsageSource;
 export type AgentUsage = import("./economics.js").AgentUsage;
@@ -84,17 +80,6 @@ export interface ExperimentConfig {
    */
   readonly executionOrder?: ExecutionOrder | undefined;
   readonly pricing?: PricingContext | null;
-}
-
-export interface ProcessResult {
-  readonly command: readonly string[];
-  readonly startedAt: string;
-  readonly finishedAt: string;
-  readonly durationMs: number;
-  readonly exitCode: number | null;
-  readonly timedOut: boolean;
-  readonly stdout: string;
-  readonly stderr: string;
 }
 
 export type ValidationResult = "passed" | "failed" | "not_run";
