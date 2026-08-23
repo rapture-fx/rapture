@@ -1,4 +1,4 @@
-import { open, readFile } from "node:fs/promises";
+import { createJsonlAppender, readJsonlLines } from "@rapture/kernel";
 import pLimit from "p-limit";
 import type { LogicalRunState } from "./logical-run.js";
 import type { RunStateSummary } from "./models.js";
@@ -22,16 +22,6 @@ export interface RunLedger {
   readonly countByState: () => Readonly<Record<LogicalRunState, number>>;
 }
 
-async function readLedgerLines(path: string): Promise<string[]> {
-  try {
-    const content = await readFile(path, "utf8");
-    return content.split("\n").filter((line) => line.length > 0);
-  } catch (error: unknown) {
-    if (error instanceof Error && "code" in error && error.code === "ENOENT") return [];
-    throw error;
-  }
-}
-
 function entryFromLine(line: string): LedgerEntry {
   const parsed = JSON.parse(line) as LedgerEntry;
   return {
@@ -48,9 +38,8 @@ function entryFromLine(line: string): LedgerEntry {
 }
 
 export async function createRunLedger(path: string): Promise<RunLedger> {
-  const handle = await open(path, "a");
-  await handle.close();
-  const entries = await readLedgerLines(path).then((lines) => lines.map(entryFromLine));
+  const appender = await createJsonlAppender(path);
+  const entries = await readJsonlLines(path).then((lines) => lines.map(entryFromLine));
   const map = new Map<string, LedgerEntry>();
   for (const entry of entries) map.set(entry.logicalRunId, entry);
   const serialize = pLimit(1);
@@ -60,13 +49,7 @@ export async function createRunLedger(path: string): Promise<RunLedger> {
     record: (entry) =>
       serialize(async () => {
         map.set(entry.logicalRunId, entry);
-        const appendHandle = await open(path, "a");
-        try {
-          await appendHandle.write(`${JSON.stringify(entry)}\n`);
-          await appendHandle.sync();
-        } finally {
-          await appendHandle.close();
-        }
+        await appender.appendLine(JSON.stringify(entry));
       }),
     countByState: () => {
       const counts = {} as Record<LogicalRunState, number>;
