@@ -141,6 +141,7 @@ export type {
 } from "./economics-metrics.js";
 export { deriveEconomics, type EconomicsReport } from "./economics-metrics.js";
 export { readEvents } from "./events.js";
+export { createLocalWorktreeExecutor } from "./exec/local-worktree.js";
 export { resumeExperiment, runExperiment } from "./experiment.js";
 export {
   frozenSemanticMismatches,
@@ -164,6 +165,12 @@ export {
   frozenIntegrityPath,
   loadExpectedIntegrity,
 } from "./integrity.js";
+export type { VerificationIntegrityReport } from "./integrity-report.js";
+export {
+  collectChangesBetween,
+  formatVerificationIntegrity,
+  runVerificationIntegrity,
+} from "./integrity-report.js";
 export type {
   KneeDetection,
   KneeDetectorThresholds,
