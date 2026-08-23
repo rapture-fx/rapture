@@ -1,4 +1,5 @@
-import { open, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
+import { createJsonlAppender, exclusiveCreateFile } from "@rapture/kernel";
 import pLimit from "p-limit";
 import { z } from "zod";
 import type { JsonValue } from "./models.js";
@@ -80,17 +81,14 @@ export async function createEventWriter(
   experimentId: string,
   options: CreateEventWriterOptions = {},
 ): Promise<EventWriter> {
+  let baseSequence = 0;
   if (options.append === true) {
     const existing = await readEvents(path).catch(() => []);
-    const baseSequence = existing.length;
-    return appendEventWriter(path, experimentId, baseSequence);
+    baseSequence = existing.length;
+  } else {
+    await exclusiveCreateFile(path);
   }
-  const handle = await open(path, "wx");
-  await handle.close();
-  return appendEventWriter(path, experimentId, 0);
-}
-
-function appendEventWriter(path: string, experimentId: string, baseSequence: number): EventWriter {
+  const appender = await createJsonlAppender(path);
   const serialize = pLimit(1);
   let sequence = baseSequence;
   return {
@@ -106,13 +104,7 @@ function appendEventWriter(path: string, experimentId: string, baseSequence: num
           timestamp: new Date().toISOString(),
           data,
         });
-        const appendHandle = await open(path, "a");
-        try {
-          await appendHandle.write(`${JSON.stringify(event)}\n`);
-          await appendHandle.sync();
-        } finally {
-          await appendHandle.close();
-        }
+        await appender.appendLine(JSON.stringify(event));
         return event;
       }),
   };
