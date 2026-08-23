@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import type { CapacityContext, EdgeComparison } from "@rapture/core";
+import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import {
   benchmarkTasksForRepository,
   buildExperimentConfig,
@@ -16,6 +17,7 @@ import {
   formatDoctor,
   formatFactor,
   formatReport,
+  formatVerificationIntegrity,
   inspectExperiment,
   loadBenchmarkSuite,
   loadCapacityContext,
@@ -30,6 +32,7 @@ import {
   runBenchmarkDoctor,
   runDoctor,
   runExperiment,
+  runVerificationIntegrity,
   simulateControllerStop,
 } from "@rapture/core";
 import { Command, InvalidArgumentError, Option } from "commander";
@@ -67,6 +70,43 @@ program
   .action(async (options: { readonly tasks: string }) => {
     const tasks = await loadTasks(options.tasks);
     process.stdout.write(`valid: ${tasks.length} task(s)\n`);
+  });
+
+const verifyOptionsSchema = z.object({
+  repo: z.string().min(1),
+  base: z.string().min(1),
+  candidate: z.string().min(1),
+  json: z.boolean(),
+  write: z.string().optional(),
+});
+
+program
+  .command("verify")
+  .description("verify that a change did not weaken the verification surface (tests, CI, checks)")
+  .requiredOption("--repo <path>", "git repository to inspect")
+  .requiredOption("--base <ref>", "base git ref (trusted verification surface)")
+  .requiredOption("--candidate <ref>", "candidate git ref under evaluation")
+  .option("--json", "emit machine-readable output", false)
+  .option("--write <path>", "also write the report to a file")
+  .action(async (rawOptions: unknown) => {
+    const options = verifyOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const report = await runVerificationIntegrity({
+      repository: resolve(invocationRoot, options.repo),
+      baseRef: options.base,
+      candidateRef: options.candidate,
+    });
+    if (options.write !== undefined) {
+      const target = resolve(invocationRoot, options.write);
+      await writeFile(
+        target,
+        options.json ? `${JSON.stringify(report, null, 2)}\n` : formatVerificationIntegrity(report),
+      );
+      process.stderr.write(`report written: ${target}\n`);
+    }
+    if (options.json) printJson(report);
+    else process.stdout.write(formatVerificationIntegrity(report));
+    process.exitCode = report.verdict === "REJECT" ? 2 : report.verdict === "WARN" ? 1 : 0;
   });
 
 const benchmarkDoctorOptionsSchema = z.object({
