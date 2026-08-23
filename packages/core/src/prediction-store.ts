@@ -1,4 +1,4 @@
-import { appendFile, readFile } from "node:fs/promises";
+import { createJsonlAppender, readJsonlLines } from "@rapture/kernel";
 import { z } from "zod";
 
 /**
@@ -77,19 +77,10 @@ export function predictionKey(
 }
 
 export async function createPredictionStore(path: string): Promise<PredictionStore> {
-  const appendLine = async (record: CapacityStoreRecord): Promise<void> => {
-    await appendFile(path, `${JSON.stringify(record)}\n`, { encoding: "utf8" });
-  };
+  const appender = await createJsonlAppender(path);
   const lines = async (): Promise<CapacityStoreRecord[]> => {
-    let content: string;
-    try {
-      content = await readFile(path, "utf8");
-    } catch (error: unknown) {
-      if (error instanceof Error && "code" in error && error.code === "ENOENT") return [];
-      throw error;
-    }
-    return content
-      .split("\n")
+    const raw = await readJsonlLines(path);
+    return raw
       .filter((line) => line.trim().length > 0)
       .map((line) => {
         const value: { kind?: string } = JSON.parse(line);
@@ -117,7 +108,7 @@ export async function createPredictionStore(path: string): Promise<PredictionSto
       ) {
         throw new PredictionAlreadyExistsError(predictionKey(parsed));
       }
-      await appendLine(parsed);
+      await appender.appendLine(JSON.stringify(parsed));
     },
     async appendOutcome(record: OutcomeRecord): Promise<void> {
       const parsed = outcomeRecordSchema.parse(record);
@@ -132,7 +123,7 @@ export async function createPredictionStore(path: string): Promise<PredictionSto
       ) {
         throw new OutcomeAlreadyExistsError(`${parsed.experimentId}/N=${parsed.targetWorkerCount}`);
       }
-      await appendLine(parsed);
+      await appender.appendLine(JSON.stringify(parsed));
     },
     async read() {
       const records = await lines();
