@@ -1,11 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
+import type { FileChange, IntegritySignal, SignalDetectorOptions } from "./detect.js";
 import { globToRegExp } from "./glob.js";
-import type {
-  FileChange,
-  IntegritySignal,
-  SignalDetectorOptions,
-} from "./detect.js";
 
 export const invariantsSchema = z
   .object({
@@ -31,9 +27,7 @@ export function emptyInvariants(): InvariantsConfig {
   return invariantsSchema.parse({ schemaVersion: 1 });
 }
 
-export function invariantsToDetectorOptions(
-  invariants: InvariantsConfig,
-): SignalDetectorOptions {
+export function invariantsToDetectorOptions(invariants: InvariantsConfig): SignalDetectorOptions {
   return {
     ...(invariants.protectedPaths.length > 0
       ? { protectedPaths: [...invariants.protectedPaths] }
@@ -50,9 +44,7 @@ export function filterIgnoredSignals(
 ): readonly IntegritySignal[] {
   if (invariants.ignorePaths.length === 0) return signals;
   const ignorePatterns = invariants.ignorePaths.map(globToRegExp);
-  return signals.filter(
-    (signal) => !ignorePatterns.some((pattern) => pattern.test(signal.path)),
-  );
+  return signals.filter((signal) => !ignorePatterns.some((pattern) => pattern.test(signal.path)));
 }
 
 export function isIgnoredPath(path: string, invariants: InvariantsConfig): boolean {
@@ -67,7 +59,5 @@ export function changesWithInvariantContext(
 ): readonly FileChange[] {
   if (invariants.ignorePaths.length === 0) return changes;
   const ignorePatterns = invariants.ignorePaths.map(globToRegExp);
-  return changes.filter(
-    (change) => !ignorePatterns.some((pattern) => pattern.test(change.path)),
-  );
+  return changes.filter((change) => !ignorePatterns.some((pattern) => pattern.test(change.path)));
 }
