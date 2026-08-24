@@ -1,5 +1,20 @@
-import type { FileChange, IntegritySignal, IntegritySignalKind } from "@rapture/kernel";
-import { detectIntegritySignals, isLikelyTestFile } from "@rapture/kernel";
+import type {
+  FileChange,
+  IntegritySignal,
+  IntegritySignalKind,
+  InvariantsConfig,
+} from "@rapture/kernel";
+import {
+  changesWithInvariantContext,
+  detectIntegritySignals,
+  emptyInvariants,
+  filterIgnoredSignals,
+  invariantsToDetectorOptions,
+  isLikelyTestFile,
+  parseInvariantsFile,
+} from "@rapture/kernel";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { runGit } from "./git.js";
 
 export interface VerificationIntegrityReport {
@@ -129,17 +144,42 @@ function isNonProductionPath(path: string): boolean {
   );
 }
 
+export async function loadInvariantsFromRepo(
+  repository: string,
+): Promise<InvariantsConfig | null> {
+  const path = join(repository, ".rapture", "invariants.json");
+  try {
+    await readFile(path, "utf8");
+  } catch (error: unknown) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") return null;
+    throw error;
+  }
+  return parseInvariantsFile(path);
+}
+
 export async function runVerificationIntegrity(input: {
   readonly repository: string;
   readonly baseRef: string;
   readonly candidateRef: string;
+  readonly invariants?: InvariantsConfig;
 }): Promise<VerificationIntegrityReport> {
-  const changes = await collectChangesBetween(input.repository, input.baseRef, input.candidateRef);
-  const signals = detectIntegritySignals(changes);
+  const invariants = input.invariants ?? emptyInvariants();
+  const detectorOptions = invariantsToDetectorOptions(invariants);
+  const rawChanges = await collectChangesBetween(
+    input.repository,
+    input.baseRef,
+    input.candidateRef,
+  );
+  const changes = changesWithInvariantContext(rawChanges, invariants);
+  let signals = detectIntegritySignals(changes, detectorOptions);
+  signals = filterIgnoredSignals(signals, invariants);
   const hasHardFailure = signals.some((signal) => HARD_FAILURE_KINDS.includes(signal.kind));
-  const touchedTests = changes.some((change) => isLikelyTestFile(change.path));
+  const touchedTests = changes.some((change) =>
+    isLikelyTestFile(change.path, detectorOptions),
+  );
   const touchedProduction = changes.some(
-    (change) => !isLikelyTestFile(change.path) && !isNonProductionPath(change.path),
+    (change) =>
+      !isLikelyTestFile(change.path, detectorOptions) && !isNonProductionPath(change.path),
   );
   const productionChangeWithoutTestEvidence = touchedProduction && !touchedTests;
   const verdict = hasHardFailure
