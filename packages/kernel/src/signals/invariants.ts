@@ -1,8 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
 import { globToRegExp } from "./glob.js";
-
-export type {
+import type {
   FileChange,
   IntegritySignal,
   SignalDetectorOptions,
