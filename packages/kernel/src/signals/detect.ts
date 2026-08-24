@@ -1,3 +1,5 @@
+import { globToRegExp } from "./glob.js";
+
 export type FileChangeStatus = "added" | "modified" | "deleted";
 
 export interface FileChange {
@@ -144,22 +146,33 @@ export function detectIntegritySignals(
   options: SignalDetectorOptions = {},
 ): readonly IntegritySignal[] {
   const signals: IntegritySignal[] = [];
-  const protectedPaths = new Set((options.protectedPaths ?? []).map(normalizePath));
+  const protectedExact = new Set(
+    (options.protectedPaths ?? []).map(normalizePath).filter((path) => !path.includes("*")),
+  );
+  const protectedGlobs = (options.protectedPaths ?? [])
+    .map(normalizePath)
+    .filter((path) => path.includes("*"))
+    .map(globToRegExp);
+  const isProtected = (path: string): boolean =>
+    protectedExact.has(path) || protectedGlobs.some((pattern) => pattern.test(path));
 
   for (const change of changes) {
     const path = normalizePath(change.path);
     const before = change.before ?? "";
     const after = change.after ?? "";
 
-    if (protectedPaths.has(path) && change.status === "modified") {
+    if (isProtected(path) && change.status !== "deleted") {
       signals.push({
         kind: "protected_file_modified",
         path,
-        detail: "protected verification file modified",
+        detail:
+          change.status === "modified"
+            ? "protected verification file modified"
+            : "file created inside protected verification surface",
       });
     }
 
-    if (change.status === "deleted" && (isTestFile(path, options) || protectedPaths.has(path))) {
+    if (change.status === "deleted" && (isTestFile(path, options) || isProtected(path))) {
       signals.push({ kind: "test_file_deleted", path, detail: "test file deleted" });
       continue;
     }
