@@ -62,6 +62,18 @@ export type {
   SignalDetectorOptions,
 } from "./signals/detect.js";
 export {
+  changesWithInvariantContext,
+  emptyInvariants,
+  filterIgnoredSignals,
+  globToRegExp,
+  invariantsSchema,
+  invariantsToDetectorOptions,
+  isIgnoredPath,
+  parseInvariants,
+  parseInvariantsFile,
+} from "./signals/invariants.js";
+export type { InvariantsConfig } from "./signals/invariants.js";
+export {
   detectIntegritySignals,
   hasWeakeningSignals,
   integritySignalKinds,
