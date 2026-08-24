@@ -254,7 +254,10 @@ export { buildTrustMap, formatTrustMapMarkdown } from "./trustmap.js";
 export { parseCommand, validateCommands } from "./validation.js";
 export type { VerificationReceiptPayload } from "./verification-receipt.js";
 export {
+  createScanReceipt,
   createVerificationReceipt,
+  parseReceipt,
+  parseScanReceipt,
   parseVerificationReceipt,
   VERIFICATION_RECEIPT_SCHEMA_VERSION,
 } from "./verification-receipt.js";
