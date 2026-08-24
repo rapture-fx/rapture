@@ -3,11 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, expect, it } from "vitest";
 import { runGit } from "../src/git.js";
-import {
-  formatScanMarkdown,
-  runVerificationScan,
-} from "../src/verification-scan.js";
 import { signalSeverity } from "../src/severity.js";
+import { formatScanMarkdown, runVerificationScan } from "../src/verification-scan.js";
 
 let repo: string;
 
@@ -37,12 +34,12 @@ afterAll(async () => {
 });
 
 it("assigns severity by kind and escalates sensitive paths", () => {
-  expect(
-    signalSeverity({ kind: "test_file_deleted", path: "src/a.test.ts", detail: "" }),
-  ).toBe("critical");
-  expect(
-    signalSeverity({ kind: "test_skipped", path: "tests/x.test.ts", detail: "" }),
-  ).toBe("high");
+  expect(signalSeverity({ kind: "test_file_deleted", path: "src/a.test.ts", detail: "" })).toBe(
+    "critical",
+  );
+  expect(signalSeverity({ kind: "test_skipped", path: "tests/x.test.ts", detail: "" })).toBe(
+    "high",
+  );
   const authSkip = signalSeverity({
     kind: "test_skipped",
     path: "tests/auth-login.test.ts",
