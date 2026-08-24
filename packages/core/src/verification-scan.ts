@@ -1,4 +1,4 @@
-import type { IntegritySignal } from "@rapture/kernel";
+import type { InvariantsConfig, IntegritySignal } from "@rapture/kernel";
 import { runGit } from "./git.js";
 import { runVerificationIntegrity, type VerificationIntegrityReport } from "./integrity-report.js";
 import { blastRadiusLabel, type SignalSeverity, signalSeverity } from "./severity.js";
@@ -54,6 +54,7 @@ export async function runVerificationScan(input: {
   readonly repository: string;
   readonly baseRef: string;
   readonly headRef: string;
+  readonly invariants?: InvariantsConfig;
 }): Promise<VerificationScan> {
   const commits = await commitsInRange(input.repository, input.baseRef, input.headRef);
   const findings: CommitFinding[] = [];
@@ -63,6 +64,7 @@ export async function runVerificationScan(input: {
       repository: input.repository,
       baseRef: cursor,
       candidateRef: commit.sha,
+      ...(input.invariants === undefined ? {} : { invariants: input.invariants }),
     });
     findings.push({
       commit: commit.sha,
