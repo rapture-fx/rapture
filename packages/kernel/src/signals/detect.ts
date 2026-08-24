@@ -133,6 +133,16 @@ export function isLikelyTestFile(
   return isTestFile(normalizePath(path), options);
 }
 
+export type VerificationSurfaceKind = "test" | "ci" | "coverage-config" | "unknown";
+
+export function verificationSurfaceKind(path: string): VerificationSurfaceKind {
+  const normalized = normalizePath(path);
+  if (matchesAny(normalized, VERIFICATION_CONFIG_PATTERNS)) return "coverage-config";
+  if (matchesAny(normalized, CI_WORKFLOW_PATTERNS)) return "ci";
+  if (isTestFile(normalized, {})) return "test";
+  return "unknown";
+}
+
 function matchesAny(path: string, patterns: readonly RegExp[]): boolean {
   return patterns.some((pattern) => pattern.test(path));
 }
