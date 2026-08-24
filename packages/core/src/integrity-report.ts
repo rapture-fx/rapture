@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import type {
   FileChange,
   IntegritySignal,
@@ -13,8 +15,6 @@ import {
   isLikelyTestFile,
   parseInvariantsFile,
 } from "@rapture/kernel";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { runGit } from "./git.js";
 
 export interface VerificationIntegrityReport {
@@ -144,9 +144,7 @@ function isNonProductionPath(path: string): boolean {
   );
 }
 
-export async function loadInvariantsFromRepo(
-  repository: string,
-): Promise<InvariantsConfig | null> {
+export async function loadInvariantsFromRepo(repository: string): Promise<InvariantsConfig | null> {
   const path = join(repository, ".rapture", "invariants.json");
   try {
     await readFile(path, "utf8");
@@ -174,9 +172,7 @@ export async function runVerificationIntegrity(input: {
   let signals = detectIntegritySignals(changes, detectorOptions);
   signals = filterIgnoredSignals(signals, invariants);
   const hasHardFailure = signals.some((signal) => HARD_FAILURE_KINDS.includes(signal.kind));
-  const touchedTests = changes.some((change) =>
-    isLikelyTestFile(change.path, detectorOptions),
-  );
+  const touchedTests = changes.some((change) => isLikelyTestFile(change.path, detectorOptions));
   const touchedProduction = changes.some(
     (change) =>
       !isLikelyTestFile(change.path, detectorOptions) && !isNonProductionPath(change.path),
