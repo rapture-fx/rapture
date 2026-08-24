@@ -249,6 +249,8 @@ export type { SignalSeverity } from "./severity.js";
 export { blastRadiusLabel, signalSeverity } from "./severity.js";
 export { incompletePhaseTimings, raptureOverheadMs, timePhase } from "./timing.js";
 export { deriveTrialSeed, orderTasks, seededShuffle, trialIdFor } from "./trial.js";
+export type { TrustMap, TrustMapRow } from "./trustmap.js";
+export { buildTrustMap, formatTrustMapMarkdown } from "./trustmap.js";
 export { parseCommand, validateCommands } from "./validation.js";
 export type { VerificationReceiptPayload } from "./verification-receipt.js";
 export {
