@@ -42,6 +42,18 @@ export {
 } from "./policy/logical-run.js";
 export type { RunProcessOptions } from "./process/run.js";
 export { runProcess } from "./process/run.js";
+export type { GeneratedKeyPair, ReceiptEnvelope } from "./receipts/receipt.js";
+export {
+  canonicalize,
+  generateSigningKeyPair,
+  keyIdFor,
+  pae,
+  RECEIPT_PAYLOAD_TYPE,
+  RECEIPT_SCHEMA_VERSION,
+  ReceiptSignatureError,
+  signPayload,
+  verifyReceipt,
+} from "./receipts/receipt.js";
 export type {
   FileChange,
   FileChangeStatus,
