@@ -6,6 +6,7 @@ import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import {
   benchmarkTasksForRepository,
   buildExperimentConfig,
+  buildTrustMap,
   ConfigurationError,
   compareWorkerEdge,
   createPredictionStore,
@@ -19,6 +20,7 @@ import {
   formatFactor,
   formatReport,
   formatScanMarkdown,
+  formatTrustMapMarkdown,
   formatVerificationIntegrity,
   inspectExperiment,
   loadBenchmarkSuite,
@@ -40,13 +42,13 @@ import {
   runVerificationScan,
   simulateControllerStop,
 } from "@rapture/core";
+import type { InvariantsConfig } from "@rapture/kernel";
 import {
   generateSigningKeyPair,
   keyIdFor,
   parseInvariantsFile,
   type ReceiptEnvelope,
 } from "@rapture/kernel";
-import type { InvariantsConfig } from "@rapture/kernel";
 import { Command, InvalidArgumentError, Option } from "commander";
 import { z } from "zod";
 
@@ -119,7 +121,10 @@ program
     "ed25519 private key PEM; when set, emits a signed verification receipt",
   )
   .option("--receipt-out <path>", "where to write the signed receipt", "verification-receipt.json")
-  .option("--invariants <path>", "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)")
+  .option(
+    "--invariants <path>",
+    "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)",
+  )
   .action(async (rawOptions: unknown) => {
     const options = verifyOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
@@ -233,7 +238,10 @@ program
   .requiredOption("--base <ref>", "trusted base ref")
   .requiredOption("--head <ref>", "head ref of the window")
   .option("--out <path>", "write the markdown audit report to a file")
-  .option("--invariants <path>", "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)")
+  .option(
+    "--invariants <path>",
+    "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)",
+  )
   .action(async (rawOptions: unknown) => {
     const options = scanOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
@@ -254,6 +262,42 @@ program
     process.stdout.write(markdown);
     process.exitCode =
       scan.overallVerdict === "REJECT" ? 2 : scan.overallVerdict === "WARN" ? 1 : 0;
+  });
+
+const trustmapOptionsSchema = z.object({
+  repo: z.string().min(1),
+  ref: z.string().min(1),
+  out: z.string().optional(),
+  invariants: z.string().optional(),
+});
+
+program
+  .command("trustmap")
+  .description("map which acceptance claims rest on evidence the agent can modify")
+  .requiredOption("--repo <path>", "git repository to inspect")
+  .option("--ref <ref>", "ref to analyze", "HEAD")
+  .option("--out <path>", "write the markdown trust map to a file")
+  .option(
+    "--invariants <path>",
+    "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)",
+  )
+  .action(async (rawOptions: unknown) => {
+    const options = trustmapOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const repoPath = resolve(invocationRoot, options.repo);
+    const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
+    const map = await buildTrustMap({
+      repository: repoPath,
+      ref: options.ref,
+      ...(invariants === null ? {} : { invariants }),
+    });
+    const markdown = formatTrustMapMarkdown(map);
+    if (options.out !== undefined) {
+      const target = resolve(invocationRoot, options.out);
+      await writeFile(target, markdown);
+      process.stderr.write(`trust map written: ${target}\n`);
+    }
+    process.stdout.write(markdown);
   });
 
 const benchmarkDoctorOptionsSchema = z.object({
