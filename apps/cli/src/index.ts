@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import type { CapacityContext, EdgeComparison } from "@rapture/core";
 import {
   benchmarkTasksForRepository,
@@ -9,6 +9,7 @@ import {
   ConfigurationError,
   compareWorkerEdge,
   createPredictionStore,
+  createVerificationReceipt,
   DoctorError,
   detectCapacityKnee,
   type distributionStats,
@@ -17,6 +18,7 @@ import {
   formatDoctor,
   formatFactor,
   formatReport,
+  formatScanMarkdown,
   formatVerificationIntegrity,
   inspectExperiment,
   loadBenchmarkSuite,
@@ -25,6 +27,7 @@ import {
   loadTasks,
   materializeBenchmarkRepository,
   observeOutcomes,
+  parseVerificationReceipt,
   persistDoctorArtifacts,
   regenerateReport,
   regenerateStepPredictions,
@@ -33,8 +36,10 @@ import {
   runDoctor,
   runExperiment,
   runVerificationIntegrity,
+  runVerificationScan,
   simulateControllerStop,
 } from "@rapture/core";
+import { generateSigningKeyPair, keyIdFor, type ReceiptEnvelope } from "@rapture/kernel";
 import { Command, InvalidArgumentError, Option } from "commander";
 import { z } from "zod";
 
@@ -78,6 +83,8 @@ const verifyOptionsSchema = z.object({
   candidate: z.string().min(1),
   json: z.boolean(),
   write: z.string().optional(),
+  signingKey: z.string().optional(),
+  receiptOut: z.string().optional(),
 });
 
 program
@@ -88,6 +95,11 @@ program
   .requiredOption("--candidate <ref>", "candidate git ref under evaluation")
   .option("--json", "emit machine-readable output", false)
   .option("--write <path>", "also write the report to a file")
+  .option(
+    "--signing-key <path>",
+    "ed25519 private key PEM; when set, emits a signed verification receipt",
+  )
+  .option("--receipt-out <path>", "where to write the signed receipt", "verification-receipt.json")
   .action(async (rawOptions: unknown) => {
     const options = verifyOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
@@ -104,9 +116,116 @@ program
       );
       process.stderr.write(`report written: ${target}\n`);
     }
+    if (options.signingKey !== undefined) {
+      if (options.json) {
+        throw new ConfigurationError("--signing-key cannot be combined with --json");
+      }
+      const privateKeyPem = await readFile(resolve(invocationRoot, options.signingKey), "utf8");
+      const envelope = createVerificationReceipt({ report, privateKeyPem });
+      const receiptPath = resolve(
+        invocationRoot,
+        options.receiptOut ?? "verification-receipt.json",
+      );
+      await writeFile(receiptPath, `${JSON.stringify(envelope, null, 2)}\n`);
+      process.stderr.write(`signed receipt written: ${receiptPath}\n`);
+    }
     if (options.json) printJson(report);
     else process.stdout.write(formatVerificationIntegrity(report));
     process.exitCode = report.verdict === "REJECT" ? 2 : report.verdict === "WARN" ? 1 : 0;
+  });
+
+const keygenOptionsSchema = z.object({
+  dir: z.string().min(1),
+});
+
+program
+  .command("keygen")
+  .description("generate an ed25519 signing key pair for verification receipts")
+  .requiredOption("--dir <path>", "directory to write rapture-signing-key.pem and public key")
+  .action(async (rawOptions: unknown) => {
+    const options = keygenOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const dir = resolve(invocationRoot, options.dir);
+    await mkdir(dir, { recursive: true });
+    const keys = generateSigningKeyPair();
+    const privatePath = join(dir, "rapture-signing-key.pem");
+    const publicPath = join(dir, "rapture-signing-pub.pem");
+    await writeFile(privatePath, keys.privateKeyPem, { mode: 0o600 });
+    await writeFile(publicPath, keys.publicKeyPem);
+    process.stdout.write(
+      `private key: ${privatePath}\npublic key:  ${publicPath}\nkey id:     ${keys.keyId}\n`,
+    );
+  });
+
+const receiptsVerifyOptionsSchema = z.object({
+  receipt: z.string().min(1),
+  key: z.array(z.string()).min(1),
+});
+
+program
+  .command("receipts-verify")
+  .description("offline-verify a signed verification receipt against trusted public keys")
+  .requiredOption("--receipt <path>", "signed receipt JSON")
+  .requiredOption(
+    "--key <path>",
+    "trusted ed25519 public key PEM; repeat for multiple keys",
+    (value: string, previous: readonly string[]) => [...previous, value],
+    [],
+  )
+  .action(async (rawOptions: unknown) => {
+    const options = receiptsVerifyOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const envelope = JSON.parse(
+      await readFile(resolve(invocationRoot, options.receipt), "utf8"),
+    ) as ReceiptEnvelope;
+    const trustedKeys: Record<string, string> = {};
+    for (const keyPath of options.key) {
+      const pem = await readFile(resolve(invocationRoot, keyPath), "utf8");
+      trustedKeys[keyIdFor(pem)] = pem;
+    }
+    const result = parseVerificationReceipt(envelope, trustedKeys);
+    if (!result.valid) {
+      process.stdout.write("RECEIPT: INVALID — signature does not match any trusted key\n");
+      process.exitCode = 2;
+      return;
+    }
+    process.stdout.write("RECEIPT: VALID\n");
+    printJson(result.payload);
+  });
+
+const scanOptionsSchema = z.object({
+  repo: z.string().min(1),
+  base: z.string().min(1),
+  head: z.string().min(1),
+  out: z.string().optional(),
+});
+
+program
+  .command("scan")
+  .description(
+    "audit an entire commit window for verification-weakening changes, attributed per commit",
+  )
+  .requiredOption("--repo <path>", "git repository to inspect")
+  .requiredOption("--base <ref>", "trusted base ref")
+  .requiredOption("--head <ref>", "head ref of the window")
+  .option("--out <path>", "write the markdown audit report to a file")
+  .action(async (rawOptions: unknown) => {
+    const options = scanOptionsSchema.parse(rawOptions);
+    const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const scan = await runVerificationScan({
+      repository: resolve(invocationRoot, options.repo),
+      baseRef: options.base,
+      headRef: options.head,
+    });
+    const markdown = formatScanMarkdown(scan);
+    if (options.out !== undefined) {
+      const target = resolve(invocationRoot, options.out);
+      await writeFile(target, markdown);
+      process.stderr.write(`audit report written: ${target}\n`);
+    }
+    process.stdout.write(markdown);
+    process.exitCode =
+      scan.overallVerdict === "REJECT" ? 2 : scan.overallVerdict === "WARN" ? 1 : 0;
   });
 
 const benchmarkDoctorOptionsSchema = z.object({
