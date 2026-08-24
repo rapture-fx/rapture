@@ -60,8 +60,17 @@ export type {
   IntegritySignal,
   IntegritySignalKind,
   SignalDetectorOptions,
+  VerificationSurfaceKind,
+} from "./signals/detect.js";
+export {
+  detectIntegritySignals,
+  hasWeakeningSignals,
+  integritySignalKinds,
+  isLikelyTestFile,
+  verificationSurfaceKind,
 } from "./signals/detect.js";
 export { globToRegExp } from "./signals/glob.js";
+export type { InvariantsConfig } from "./signals/invariants.js";
 export {
   changesWithInvariantContext,
   emptyInvariants,
@@ -72,11 +81,4 @@ export {
   parseInvariants,
   parseInvariantsFile,
 } from "./signals/invariants.js";
-export type { InvariantsConfig } from "./signals/invariants.js";
-export {
-  detectIntegritySignals,
-  hasWeakeningSignals,
-  integritySignalKinds,
-  isLikelyTestFile,
-} from "./signals/detect.js";
 export type { JsonValue, ProcessResult } from "./types.js";
