@@ -96,7 +96,7 @@ export async function buildTrustMap(input: {
           ? `config file(s): ${samplePaths(groups["coverage-config"])}`
           : "none found — no coverage enforcement detected",
       surfaceFiles: groups["coverage-config"],
-      agentModifiable: true,
+      agentModifiable: groups["coverage-config"].length > 0,
       independent: false,
     },
     {
