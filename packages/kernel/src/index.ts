@@ -61,11 +61,11 @@ export type {
   IntegritySignalKind,
   SignalDetectorOptions,
 } from "./signals/detect.js";
+export { globToRegExp } from "./signals/glob.js";
 export {
   changesWithInvariantContext,
   emptyInvariants,
   filterIgnoredSignals,
-  globToRegExp,
   invariantsSchema,
   invariantsToDetectorOptions,
   isIgnoredPath,
