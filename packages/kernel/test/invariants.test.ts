@@ -1,4 +1,6 @@
 import { expect, it } from "vitest";
+import { detectIntegritySignals } from "../src/signals/detect.js";
+import { globToRegExp } from "../src/signals/glob.js";
 import {
   changesWithInvariantContext,
   emptyInvariants,
@@ -7,8 +9,6 @@ import {
   isIgnoredPath,
   parseInvariants,
 } from "../src/signals/invariants.js";
-import { globToRegExp } from "../src/signals/glob.js";
-import { detectIntegritySignals } from "../src/signals/detect.js";
 
 it("translates glob patterns to anchored regexes", () => {
   const pattern = globToRegExp("tests/**/*.test.ts");
@@ -78,8 +78,6 @@ it("suppresses signals on ignored paths only", () => {
   expect(filtered.map((signal) => signal.path)).toEqual(["scripts/run.sh"]);
   expect(isIgnoredPath("vendor/new/thing.js", config)).toBe(true);
   expect(isIgnoredPath("src/app.ts", config)).toBe(false);
-  expect(filterIgnoredSignals(signals, emptyInvariants())).toHaveLength(
-    signals.length,
-  );
+  expect(filterIgnoredSignals(signals, emptyInvariants())).toHaveLength(signals.length);
   void changesWithInvariantContext;
 });
