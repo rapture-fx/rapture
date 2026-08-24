@@ -1,14 +1,10 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { emptyInvariants, parseInvariants } from "@rapture/kernel";
 import { afterAll, beforeAll, expect, it } from "vitest";
-import {
-  emptyInvariants,
-  parseInvariants,
-} from "@rapture/kernel";
-import { loadInvariantsFromRepo } from "../src/integrity-report.js";
-import { runVerificationIntegrity } from "../src/integrity-report.js";
 import { runGit } from "../src/git.js";
+import { loadInvariantsFromRepo, runVerificationIntegrity } from "../src/integrity-report.js";
 
 let repo: string;
 
@@ -56,10 +52,13 @@ it("loads .rapture/invariants.json when present and null when absent", async () 
 
 it("honors protectedPaths declared by the repository", async () => {
   const base = await commitAll("pre-invariants");
-  await writeFile(join(repo, ".rapture", "invariants.json"), JSON.stringify({
-    schemaVersion: 1,
-    protectedPaths: ["tools/verify.mjs"],
-  }));
+  await writeFile(
+    join(repo, ".rapture", "invariants.json"),
+    JSON.stringify({
+      schemaVersion: 1,
+      protectedPaths: ["tools/verify.mjs"],
+    }),
+  );
   await commitAll("declare invariants");
   await mkdir(join(repo, "tools"), { recursive: true });
   await writeFile(join(repo, "tools", "verify.mjs"), "process.exit(0);\n");
@@ -80,7 +79,9 @@ it("honors protectedPaths declared by the repository", async () => {
     }),
   });
 
-  expect(withoutPack.signals.some((signal) => signal.kind === "protected_file_modified")).toBe(false);
+  expect(withoutPack.signals.some((signal) => signal.kind === "protected_file_modified")).toBe(
+    false,
+  );
   expect(withPack.signals.some((signal) => signal.kind === "protected_file_modified")).toBe(true);
 });
 
