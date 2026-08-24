@@ -5,6 +5,7 @@ import {
   verifyReceipt,
 } from "@rapture/kernel";
 import type { VerificationIntegrityReport } from "./integrity-report.js";
+import type { VerificationScan } from "./verification-scan.js";
 
 export const VERIFICATION_RECEIPT_SCHEMA_VERSION = 1;
 
@@ -28,6 +29,97 @@ export function createVerificationReceipt(input: {
     },
     privateKeyPem: input.privateKeyPem,
   });
+}
+
+export interface ScanReceiptPayload {
+  readonly schemaVersion: 1;
+  readonly kind: "verification-scan";
+  readonly scanSummary: {
+    readonly repository: string;
+    readonly baseRef: string;
+    readonly headRef: string;
+    readonly commitsScanned: number;
+    readonly overallVerdict: "ACCEPT" | "WARN" | "REJECT";
+    readonly totalSignals: number;
+    readonly criticalCount: number;
+    readonly highCount: number;
+    readonly mediumCount: number;
+    readonly generatedAt: string;
+  };
+}
+
+export function createScanReceipt(input: {
+  readonly scan: Pick<
+    VerificationScan,
+    | "repository"
+    | "baseRef"
+    | "headRef"
+    | "commitsScanned"
+    | "overallVerdict"
+    | "totalSignals"
+    | "criticalCount"
+    | "highCount"
+    | "mediumCount"
+    | "generatedAt"
+  >;
+  readonly privateKeyPem: string;
+}): ReceiptEnvelope {
+  const { privateKeyPem, scan } = input;
+  return signPayload({
+    payloadObject: {
+      schemaVersion: VERIFICATION_RECEIPT_SCHEMA_VERSION,
+      kind: "verification-scan",
+      scanSummary: {
+        repository: scan.repository,
+        baseRef: scan.baseRef,
+        headRef: scan.headRef,
+        commitsScanned: scan.commitsScanned,
+        overallVerdict: scan.overallVerdict,
+        totalSignals: scan.totalSignals,
+        criticalCount: scan.criticalCount,
+        highCount: scan.highCount,
+        mediumCount: scan.mediumCount,
+        generatedAt: scan.generatedAt,
+      },
+    },
+    privateKeyPem,
+  });
+}
+
+export function parseScanReceipt(
+  envelope: ReceiptEnvelope,
+  trustedKeys: Readonly<Record<string, string>>,
+): { valid: boolean; payload: ScanReceiptPayload } {
+  const result = verifyReceipt(envelope, trustedKeys);
+  const payload = result.payload as Partial<ScanReceiptPayload> | null;
+  const wellFormed =
+    payload !== null &&
+    typeof payload === "object" &&
+    payload.kind === "verification-scan" &&
+    payload.schemaVersion === 1 &&
+    typeof payload.scanSummary === "object";
+  if (!wellFormed && result.valid) {
+    throw new Error("receipt signature valid but payload is not a verification-scan receipt");
+  }
+  return { valid: result.valid && wellFormed, payload: result.payload as ScanReceiptPayload };
+}
+
+export type AnyVerificationReceiptPayload = VerificationReceiptPayload | ScanReceiptPayload;
+
+export function parseReceipt(
+  envelope: ReceiptEnvelope,
+  trustedKeys: Readonly<Record<string, string>>,
+): { valid: boolean; payload: AnyVerificationReceiptPayload } {
+  const result = verifyReceipt(envelope, trustedKeys);
+  if (!result.valid) {
+    return { valid: false, payload: result.payload as AnyVerificationReceiptPayload };
+  }
+  const payload = result.payload as Partial<AnyVerificationReceiptPayload> | null;
+  const kind = payload?.kind;
+  if (kind === "verification-integrity" || kind === "verification-scan") {
+    return { valid: true, payload: result.payload as AnyVerificationReceiptPayload };
+  }
+  throw new Error(`receipt signature valid but payload kind is unrecognized: ${String(kind)}`);
 }
 
 export function parseVerificationReceipt(
