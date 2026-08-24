@@ -3,11 +3,11 @@ import {
   changesWithInvariantContext,
   emptyInvariants,
   filterIgnoredSignals,
-  globToRegExp,
   invariantsToDetectorOptions,
   isIgnoredPath,
   parseInvariants,
 } from "../src/signals/invariants.js";
+import { globToRegExp } from "../src/signals/glob.js";
 import { detectIntegritySignals } from "../src/signals/detect.js";
 
 it("translates glob patterns to anchored regexes", () => {
