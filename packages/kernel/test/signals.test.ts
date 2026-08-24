@@ -94,6 +94,22 @@ it("flags protected verification files supplied by the caller", () => {
   expect(signals.map((signal) => signal.kind)).toContain("protected_file_modified");
 });
 
+it("flags new files created inside a protected surface", () => {
+  const signals = detectIntegritySignals(
+    [
+      {
+        path: "validation/new-check.mjs",
+        status: "added",
+        before: null,
+        after: "process.exit(0);",
+      },
+    ],
+    { protectedPaths: ["validation/**"] },
+  );
+  expect(signals.map((signal) => signal.kind)).toContain("protected_file_modified");
+  expect(signals[0]?.detail).toBe("file created inside protected verification surface");
+});
+
 it("treats a deleted protected file as a deleted test/verification file", () => {
   const signals = detectIntegritySignals(
     [{ path: "validation/sku.ts", status: "deleted", before: "x", after: null }],
