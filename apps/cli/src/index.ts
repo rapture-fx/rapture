@@ -85,7 +85,19 @@ const verifyOptionsSchema = z.object({
   write: z.string().optional(),
   signingKey: z.string().optional(),
   receiptOut: z.string().optional(),
+  invariants: z.string().optional(),
 });
+
+async function resolveInvariants(
+  invocationRoot: string,
+  repoPath: string,
+  override?: string,
+): Promise<InvariantsConfig | null> {
+  if (override !== undefined) {
+    return parseInvariantsFile(resolve(invocationRoot, override));
+  }
+  return loadInvariantsFromRepo(repoPath);
+}
 
 program
   .command("verify")
@@ -100,13 +112,17 @@ program
     "ed25519 private key PEM; when set, emits a signed verification receipt",
   )
   .option("--receipt-out <path>", "where to write the signed receipt", "verification-receipt.json")
+  .option("--invariants <path>", "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)")
   .action(async (rawOptions: unknown) => {
     const options = verifyOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const repoPath = resolve(invocationRoot, options.repo);
+    const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
     const report = await runVerificationIntegrity({
-      repository: resolve(invocationRoot, options.repo),
+      repository: repoPath,
       baseRef: options.base,
       candidateRef: options.candidate,
+      ...(invariants === null ? {} : { invariants }),
     });
     if (options.write !== undefined) {
       const target = resolve(invocationRoot, options.write);
@@ -209,13 +225,17 @@ program
   .requiredOption("--base <ref>", "trusted base ref")
   .requiredOption("--head <ref>", "head ref of the window")
   .option("--out <path>", "write the markdown audit report to a file")
+  .option("--invariants <path>", "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)")
   .action(async (rawOptions: unknown) => {
     const options = scanOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
+    const repoPath = resolve(invocationRoot, options.repo);
+    const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
     const scan = await runVerificationScan({
-      repository: resolve(invocationRoot, options.repo),
+      repository: repoPath,
       baseRef: options.base,
       headRef: options.head,
+      ...(invariants === null ? {} : { invariants }),
     });
     const markdown = formatScanMarkdown(scan);
     if (options.out !== undefined) {
