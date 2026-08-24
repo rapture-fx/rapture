@@ -169,6 +169,7 @@ export type { VerificationIntegrityReport } from "./integrity-report.js";
 export {
   collectChangesBetween,
   formatVerificationIntegrity,
+  loadInvariantsFromRepo,
   runVerificationIntegrity,
 } from "./integrity-report.js";
 export type {
