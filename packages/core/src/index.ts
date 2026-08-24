@@ -244,7 +244,17 @@ export {
 } from "./report.js";
 export type { RuntimeCapabilityFingerprint } from "./runtime-fingerprint.js";
 export { persistRuntimeFingerprint, platformSummary } from "./runtime-fingerprint.js";
+export type { SignalSeverity } from "./severity.js";
+export { blastRadiusLabel, signalSeverity } from "./severity.js";
 export { incompletePhaseTimings, raptureOverheadMs, timePhase } from "./timing.js";
 export { deriveTrialSeed, orderTasks, seededShuffle, trialIdFor } from "./trial.js";
 export { parseCommand, validateCommands } from "./validation.js";
+export type { VerificationReceiptPayload } from "./verification-receipt.js";
+export {
+  createVerificationReceipt,
+  parseVerificationReceipt,
+  VERIFICATION_RECEIPT_SCHEMA_VERSION,
+} from "./verification-receipt.js";
+export type { CommitFinding, VerificationScan } from "./verification-scan.js";
+export { formatScanMarkdown, runVerificationScan } from "./verification-scan.js";
 export { createWorktreeManager } from "./worktree.js";
