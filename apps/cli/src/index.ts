@@ -10,6 +10,7 @@ import {
   ConfigurationError,
   compareWorkerEdge,
   createPredictionStore,
+  createScanReceipt,
   createVerificationReceipt,
   DoctorError,
   detectCapacityKnee,
@@ -30,7 +31,7 @@ import {
   loadTasks,
   materializeBenchmarkRepository,
   observeOutcomes,
-  parseVerificationReceipt,
+  parseReceipt,
   persistDoctorArtifacts,
   regenerateReport,
   regenerateStepPredictions,
@@ -211,13 +212,15 @@ program
       const pem = await readFile(resolve(invocationRoot, keyPath), "utf8");
       trustedKeys[keyIdFor(pem)] = pem;
     }
-    const result = parseVerificationReceipt(envelope, trustedKeys);
+    const result = parseReceipt(envelope, trustedKeys);
     if (!result.valid) {
       process.stdout.write("RECEIPT: INVALID — signature does not match any trusted key\n");
       process.exitCode = 2;
       return;
     }
-    process.stdout.write("RECEIPT: VALID\n");
+    process.stdout.write(
+      `RECEIPT: VALID (${result.payload.kind === "verification-scan" ? "scan audit" : "single verification"})\n`,
+    );
     printJson(result.payload);
   });
 
@@ -227,6 +230,8 @@ const scanOptionsSchema = z.object({
   head: z.string().min(1),
   out: z.string().optional(),
   invariants: z.string().optional(),
+  signingKey: z.string().optional(),
+  receiptOut: z.string().optional(),
 });
 
 program
@@ -242,6 +247,8 @@ program
     "--invariants <path>",
     "path to an invariants JSON (defaults to <repo>/.rapture/invariants.json)",
   )
+  .option("--signing-key <path>", "ed25519 private key PEM; when set, emits a signed audit receipt")
+  .option("--receipt-out <path>", "where to write the signed audit receipt", "audit-receipt.json")
   .action(async (rawOptions: unknown) => {
     const options = scanOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
@@ -253,7 +260,22 @@ program
       headRef: options.head,
       ...(invariants === null ? {} : { invariants }),
     });
-    const markdown = formatScanMarkdown(scan);
+    let markdown = formatScanMarkdown(scan);
+    if (invariants !== null) {
+      const trustMap = await buildTrustMap({
+        repository: repoPath,
+        ref: options.head,
+        invariants,
+      });
+      markdown = `${markdown}\n---\n\n${formatTrustMapMarkdown(trustMap)}`;
+    }
+    if (options.signingKey !== undefined) {
+      const privateKeyPem = await readFile(resolve(invocationRoot, options.signingKey), "utf8");
+      const envelope = createScanReceipt({ scan, privateKeyPem });
+      const receiptPath = resolve(invocationRoot, options.receiptOut ?? "audit-receipt.json");
+      await writeFile(receiptPath, `${JSON.stringify(envelope, null, 2)}\n`);
+      process.stderr.write(`signed audit receipt written: ${receiptPath}\n`);
+    }
     if (options.out !== undefined) {
       const target = resolve(invocationRoot, options.out);
       await writeFile(target, markdown);
