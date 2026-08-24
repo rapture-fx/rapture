@@ -1,4 +1,4 @@
-import type { InvariantsConfig, IntegritySignal } from "@rapture/kernel";
+import type { IntegritySignal, InvariantsConfig } from "@rapture/kernel";
 import { runGit } from "./git.js";
 import { runVerificationIntegrity, type VerificationIntegrityReport } from "./integrity-report.js";
 import { blastRadiusLabel, type SignalSeverity, signalSeverity } from "./severity.js";
