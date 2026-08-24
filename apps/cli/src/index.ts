@@ -23,6 +23,7 @@ import {
   inspectExperiment,
   loadBenchmarkSuite,
   loadCapacityContext,
+  loadInvariantsFromRepo,
   loadRunObservations,
   loadTasks,
   materializeBenchmarkRepository,
@@ -39,7 +40,13 @@ import {
   runVerificationScan,
   simulateControllerStop,
 } from "@rapture/core";
-import { generateSigningKeyPair, keyIdFor, type ReceiptEnvelope } from "@rapture/kernel";
+import {
+  generateSigningKeyPair,
+  keyIdFor,
+  parseInvariantsFile,
+  type ReceiptEnvelope,
+} from "@rapture/kernel";
+import type { InvariantsConfig } from "@rapture/kernel";
 import { Command, InvalidArgumentError, Option } from "commander";
 import { z } from "zod";
 
@@ -214,6 +221,7 @@ const scanOptionsSchema = z.object({
   base: z.string().min(1),
   head: z.string().min(1),
   out: z.string().optional(),
+  invariants: z.string().optional(),
 });
 
 program
