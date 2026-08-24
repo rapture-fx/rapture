@@ -55,20 +55,14 @@ export function emptyInvariants(): InvariantsConfig {
 export function invariantsToDetectorOptions(
   invariants: InvariantsConfig,
 ): SignalDetectorOptions {
-  const options: {
-    readonly protectedPaths?: readonly string[];
-    readonly testFilePatterns?: readonly RegExp[];
-  } = {};
-  if (invariants.protectedPaths.length > 0) {
-    (options as { protectedPaths?: readonly string[] }).protectedPaths = [
-      ...invariants.protectedPaths,
-    ];
-  }
-  if (invariants.testFilePatterns.length > 0) {
-    (options as { testFilePatterns?: readonly RegExp[] }).testFilePatterns =
-      invariants.testFilePatterns.map(globToRegExp);
-  }
-  return options;
+  return {
+    ...(invariants.protectedPaths.length > 0
+      ? { protectedPaths: [...invariants.protectedPaths] }
+      : {}),
+    ...(invariants.testFilePatterns.length > 0
+      ? { testFilePatterns: invariants.testFilePatterns.map(globToRegExp) }
+      : {}),
+  };
 }
 
 export function filterIgnoredSignals(
