@@ -1,18 +1,6 @@
 {
   "schemaVersion": 1,
-  "protectedPaths": [
-    "validation/**",
-    "tools/verify.mjs",
-    ".github/workflows/deploy.yml"
-  ],
-  "testFilePatterns": [
-    "**/*.test.ts",
-    "**/*.spec.ts",
-    "tests/**/*.py"
-  ],
-  "ignorePaths": [
-    "generated/**",
-    "vendor/**",
-    "**/*.snap"
-  ]
+  "protectedPaths": ["validation/**", "tools/verify.mjs", ".github/workflows/deploy.yml"],
+  "testFilePatterns": ["**/*.test.ts", "**/*.spec.ts", "tests/**/*.py"],
+  "ignorePaths": ["generated/**", "vendor/**", "**/*.snap"]
 }

@@ -103,7 +103,7 @@ it("honors ignorePaths declared by the repository", async () => {
     baseRef: base,
     candidateRef: head,
   });
-  expect(unfiltered.totalSignals ?? 0).toBeGreaterThanOrEqual(0);
+  expect(unfiltered.signals.length).toBeGreaterThanOrEqual(0);
   expect(report.signals.length).toBeLessThanOrEqual(unfiltered.signals.length);
   expect(report.signals.some((signal) => signal.path.startsWith("generated/"))).toBe(false);
 });

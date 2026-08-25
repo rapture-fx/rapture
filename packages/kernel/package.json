@@ -2,8 +2,13 @@
   "name": "@rapture/kernel",
   "version": "0.1.0",
   "type": "module",
-  "files": ["dist", "README.md"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./src/index.ts",

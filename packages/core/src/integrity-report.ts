@@ -21,13 +21,21 @@ export interface VerificationIntegrityReport {
   readonly schemaVersion: 1;
   readonly repository: string;
   readonly baseRef: string;
+  readonly baseSha: string | null;
   readonly candidateRef: string;
+  readonly candidateSha: string | null;
   readonly generatedAt: string;
   readonly filesChanged: number;
   readonly signals: readonly IntegritySignal[];
   readonly signalCounts: Readonly<Record<string, number>>;
   readonly productionChangeWithoutTestEvidence: boolean;
   readonly verdict: "ACCEPT" | "WARN" | "REJECT";
+  readonly invariants: {
+    readonly source: "explicit" | "auto" | "none";
+    readonly path: string | null;
+    readonly protectedPaths: readonly string[];
+    readonly ignorePaths: readonly string[];
+  };
 }
 
 const HARD_FAILURE_KINDS: readonly IntegritySignalKind[] = [
@@ -160,6 +168,8 @@ export async function runVerificationIntegrity(input: {
   readonly baseRef: string;
   readonly candidateRef: string;
   readonly invariants?: InvariantsConfig;
+  readonly invariantsSource?: "explicit" | "auto" | "none";
+  readonly invariantsPath?: string | null;
 }): Promise<VerificationIntegrityReport> {
   const invariants = input.invariants ?? emptyInvariants();
   const detectorOptions = invariantsToDetectorOptions(invariants);
@@ -183,32 +193,56 @@ export async function runVerificationIntegrity(input: {
     : productionChangeWithoutTestEvidence
       ? "WARN"
       : "ACCEPT";
+  const baseSha = await resolveCommit(input.repository, input.baseRef).catch(() => null);
+  const candidateSha = await resolveCommit(input.repository, input.candidateRef).catch(() => null);
   return {
     schemaVersion: 1,
     repository: input.repository,
     baseRef: input.baseRef,
+    baseSha,
     candidateRef: input.candidateRef,
+    candidateSha,
     generatedAt: new Date().toISOString(),
     filesChanged: changes.length,
     signals,
     signalCounts: countByKind(signals),
     productionChangeWithoutTestEvidence,
     verdict,
+    invariants: {
+      source: input.invariantsSource ?? (invariants === null ? "none" : "auto"),
+      path: input.invariantsPath ?? null,
+      protectedPaths: [...(invariants.protectedPaths ?? [])],
+      ignorePaths: [...(invariants.ignorePaths ?? [])],
+    },
   };
 }
+
+import { resolveCommit } from "./git.js";
+import { signalSeverity } from "./severity.js";
 
 export function formatVerificationIntegrity(report: VerificationIntegrityReport): string {
   const lines: string[] = [];
   lines.push("VERIFICATION INTEGRITY");
+  const baseLabel =
+    report.baseSha === null ? report.baseRef : `${report.baseRef} (${report.baseSha.slice(0, 7)})`;
+  const candidateLabel =
+    report.candidateSha === null
+      ? report.candidateRef
+      : `${report.candidateRef} (${report.candidateSha.slice(0, 7)})`;
   lines.push(
-    `repo: ${report.repository} · base: ${report.baseRef} · candidate: ${report.candidateRef} · files changed: ${report.filesChanged}`,
+    `repo: ${report.repository} · base: ${baseLabel} · candidate: ${candidateLabel} · files changed: ${report.filesChanged}`,
   );
   lines.push("");
   if (report.signals.length === 0 && !report.productionChangeWithoutTestEvidence) {
-    lines.push("PASS  verification surface intact");
+    lines.push(
+      "PASS  verification surface intact — CI success and verification weakening are distinct",
+    );
   }
   for (const signal of report.signals) {
-    lines.push(`FAIL  ${signal.kind}: ${signal.path} — ${signal.detail}`);
+    const severity = signalSeverity(signal);
+    lines.push(
+      `FAIL  [${severity.toUpperCase()}] ${signal.kind}: ${signal.path} — ${signal.detail}`,
+    );
   }
   if (report.productionChangeWithoutTestEvidence && report.verdict !== "REJECT") {
     lines.push(
@@ -217,5 +251,10 @@ export function formatVerificationIntegrity(report: VerificationIntegrityReport)
   }
   lines.push("");
   lines.push(`VERDICT: ${report.verdict}`);
+  if (report.verdict === "REJECT") {
+    lines.push("This change weakened the evidence used to accept itself. CI may still be green.");
+  } else if (report.verdict === "WARN") {
+    lines.push("Verification surface intact, but production changed without test evidence.");
+  }
   return `${lines.join("\n")}\n`;
 }

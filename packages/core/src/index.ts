@@ -153,6 +153,7 @@ export {
   REAL_SCALE_2_EXPECTED,
   REAL_SCALE_4_EXPECTED,
 } from "./frozen.js";
+export { defaultBranch, findGitRoot, mergeBase, resolveBaseRef } from "./git.js";
 export type { HostStateSnapshot } from "./host-state.js";
 export {
   captureHostState,

@@ -35,6 +35,7 @@ import {
   persistDoctorArtifacts,
   regenerateReport,
   regenerateStepPredictions,
+  resolveBaseRef,
   resumeExperiment,
   runBenchmarkDoctor,
   runDoctor,
@@ -88,9 +89,9 @@ program
   });
 
 const verifyOptionsSchema = z.object({
-  repo: z.string().min(1),
-  base: z.string().min(1),
-  candidate: z.string().min(1),
+  repo: z.string().optional(),
+  base: z.string().optional(),
+  candidate: z.string().min(1).default("HEAD"),
   json: z.boolean(),
   write: z.string().optional(),
   signingKey: z.string().optional(),
@@ -109,12 +110,27 @@ async function resolveInvariants(
   return loadInvariantsFromRepo(repoPath);
 }
 
+async function resolveRepoPath(
+  invocationRoot: string,
+  explicitRepo: string | undefined,
+): Promise<string> {
+  if (explicitRepo !== undefined) return resolve(invocationRoot, explicitRepo);
+  const { findGitRoot } = await import("@rapture/core");
+  const discovered = await findGitRoot(invocationRoot);
+  if (discovered === null) {
+    throw new ConfigurationError(
+      "not a git repository: run rapture verify from inside a git checkout or supply --repo",
+    );
+  }
+  return discovered;
+}
+
 program
   .command("verify")
   .description("verify that a change did not weaken the verification surface (tests, CI, checks)")
-  .requiredOption("--repo <path>", "git repository to inspect")
-  .requiredOption("--base <ref>", "base git ref (trusted verification surface)")
-  .requiredOption("--candidate <ref>", "candidate git ref under evaluation")
+  .option("--repo <path>", "git repository to inspect (defaults to current git root)")
+  .option("--base <ref>", "base git ref (auto-detected when omitted)")
+  .option("--candidate <ref>", "candidate git ref under evaluation", "HEAD")
   .option("--json", "emit machine-readable output", false)
   .option("--write <path>", "also write the report to a file")
   .option(
@@ -129,13 +145,25 @@ program
   .action(async (rawOptions: unknown) => {
     const options = verifyOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
-    const repoPath = resolve(invocationRoot, options.repo);
+    const repoPath = await resolveRepoPath(invocationRoot, options.repo);
     const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
+    const baseRef = await resolveBaseRef(repoPath, options.base, options.candidate);
+    if (options.base === undefined) {
+      process.stderr.write(`using auto-detected base: ${baseRef}\n`);
+    }
     const report = await runVerificationIntegrity({
       repository: repoPath,
-      baseRef: options.base,
+      baseRef,
       candidateRef: options.candidate,
-      ...(invariants === null ? {} : { invariants }),
+      ...(invariants === null
+        ? {}
+        : {
+            invariants,
+            invariantsSource: options.invariants ? "explicit" : "auto",
+            invariantsPath: options.invariants
+              ? resolve(invocationRoot, options.invariants)
+              : `${repoPath}/.rapture/invariants.json`,
+          }),
     });
     if (options.write !== undefined) {
       const target = resolve(invocationRoot, options.write);
@@ -225,9 +253,9 @@ program
   });
 
 const scanOptionsSchema = z.object({
-  repo: z.string().min(1),
-  base: z.string().min(1),
-  head: z.string().min(1),
+  repo: z.string().optional(),
+  base: z.string().optional(),
+  head: z.string().min(1).default("HEAD"),
   out: z.string().optional(),
   invariants: z.string().optional(),
   signingKey: z.string().optional(),
@@ -239,9 +267,9 @@ program
   .description(
     "audit an entire commit window for verification-weakening changes, attributed per commit",
   )
-  .requiredOption("--repo <path>", "git repository to inspect")
-  .requiredOption("--base <ref>", "trusted base ref")
-  .requiredOption("--head <ref>", "head ref of the window")
+  .option("--repo <path>", "git repository to inspect (defaults to current git root)")
+  .option("--base <ref>", "trusted base ref (auto-detected when omitted)")
+  .option("--head <ref>", "head ref of the window", "HEAD")
   .option("--out <path>", "write the markdown audit report to a file")
   .option(
     "--invariants <path>",
@@ -252,11 +280,15 @@ program
   .action(async (rawOptions: unknown) => {
     const options = scanOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
-    const repoPath = resolve(invocationRoot, options.repo);
+    const repoPath = await resolveRepoPath(invocationRoot, options.repo);
     const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
+    const baseRef = await resolveBaseRef(repoPath, options.base, options.head);
+    if (options.base === undefined) {
+      process.stderr.write(`using auto-detected base: ${baseRef}\n`);
+    }
     const scan = await runVerificationScan({
       repository: repoPath,
-      baseRef: options.base,
+      baseRef,
       headRef: options.head,
       ...(invariants === null ? {} : { invariants }),
     });
@@ -287,8 +319,8 @@ program
   });
 
 const trustmapOptionsSchema = z.object({
-  repo: z.string().min(1),
-  ref: z.string().min(1),
+  repo: z.string().optional(),
+  ref: z.string().min(1).default("HEAD"),
   out: z.string().optional(),
   invariants: z.string().optional(),
 });
@@ -296,7 +328,7 @@ const trustmapOptionsSchema = z.object({
 program
   .command("trustmap")
   .description("map which acceptance claims rest on evidence the agent can modify")
-  .requiredOption("--repo <path>", "git repository to inspect")
+  .option("--repo <path>", "git repository to inspect (defaults to current git root)")
   .option("--ref <ref>", "ref to analyze", "HEAD")
   .option("--out <path>", "write the markdown trust map to a file")
   .option(
@@ -306,7 +338,7 @@ program
   .action(async (rawOptions: unknown) => {
     const options = trustmapOptionsSchema.parse(rawOptions);
     const invocationRoot = process.env.INIT_CWD ?? process.cwd();
-    const repoPath = resolve(invocationRoot, options.repo);
+    const repoPath = await resolveRepoPath(invocationRoot, options.repo);
     const invariants = await resolveInvariants(invocationRoot, repoPath, options.invariants);
     const map = await buildTrustMap({
       repository: repoPath,

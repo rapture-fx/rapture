@@ -102,6 +102,63 @@ export async function repositoryFingerprint(repository: string, commit: string):
   return sha256(`${remote.stdout.trim()}\0${commit}`);
 }
 
+export async function findGitRoot(startPath: string): Promise<string | null> {
+  const result = await runGit(startPath, ["rev-parse", "--show-toplevel"], {
+    allowFailure: true,
+  });
+  return result.exitCode === 0 ? result.stdout.trim() : null;
+}
+
+export async function defaultBranch(repository: string): Promise<string | null> {
+  const symbolic = await runGit(
+    repository,
+    ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
+    { allowFailure: true },
+  );
+  if (symbolic.exitCode === 0) {
+    const ref = symbolic.stdout.trim().replace(/^origin\//u, "");
+    if (ref.length > 0) {
+      const check = await runGit(repository, ["rev-parse", "--verify", ref], {
+        allowFailure: true,
+      });
+      if (check.exitCode === 0) return ref;
+    }
+  }
+  for (const candidate of ["origin/main", "origin/master", "main", "master"]) {
+    const check = await runGit(repository, ["rev-parse", "--verify", candidate], {
+      allowFailure: true,
+    });
+    if (check.exitCode === 0) return candidate;
+  }
+  return null;
+}
+
+export async function mergeBase(repository: string, a: string, b: string): Promise<string | null> {
+  const result = await runGit(repository, ["merge-base", a, b], { allowFailure: true });
+  return result.exitCode === 0 ? result.stdout.trim() : null;
+}
+
+export async function resolveBaseRef(
+  repository: string,
+  explicitBase: string | undefined,
+  candidateRef: string,
+): Promise<string> {
+  if (explicitBase !== undefined) return explicitBase;
+  const branch = await defaultBranch(repository);
+  if (branch === null) {
+    throw new GitError(
+      "unable to determine trusted base: no remote default branch and no main/master branch found; supply --base explicitly",
+    );
+  }
+  const base = await mergeBase(repository, candidateRef, branch);
+  if (base === null) {
+    throw new GitError(
+      `unable to determine trusted base: no merge-base between ${candidateRef} and ${branch}; supply --base explicitly`,
+    );
+  }
+  return base;
+}
+
 export function relativeArtifact(root: string, path: string): string {
   return relative(root, path);
 }
