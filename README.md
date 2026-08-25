@@ -2,12 +2,15 @@
 
 Rapture is performance engineering for autonomous software factories. It measures how efficiently
 coding-agent fleets turn compute into independently validated, integrated software. It is a
-local-first research CLI—not an agent launcher, command center, memory product, code reviewer, or
-dashboard.
+local-first research CLI — and now a **verification-integrity toolkit** for the second half of
+agent reliability: *not* "did it execute?" but **"can we trust what passing means after this change?"**
 
-The research question is straightforward: as worker concurrency rises from 1 to 2 to 4 and beyond,
-where does useful engineering throughput stop scaling, why, and what integration or future rework
-does that concurrency create?
+Two questions, one system:
+
+- **Scaling research:** as worker concurrency rises 1→2→4+, where does useful throughput stop scaling and why?
+- **Verification integrity:** did the change weaken the evidence (tests, CI, coverage, validators) that judges it?
+
+> One-liner: **Rapture makes an autonomous agent's claim of "done" independently provable.**
 
 ## What V0 measures
 
@@ -23,6 +26,23 @@ Rapture does not treat session count, process exit code, generated lines, natura
 claims, or PR count as accepted engineering output. In V0, task acceptance requires every explicit
 deterministic validation command to pass. When integration is requested, throughput counts validated
 tasks only if the combined patches and post-integration validation also pass.
+
+## How it works
+
+```
+git diff (base..candidate)
+        ↓
+  10 structural detectors: deleted tests, skip markers, assertion drops,
+  CI workflow changes, coverage/config drift, exit-code suppression,
+  lint/type suppression, empty catches, strictness loosening,
+  protected-path violations (via .rapture/invariants.json)
+        ↓
+  severity (critical/high/medium) + per-commit attribution
+        ↓
+  VERDICT: ACCEPT / WARN / REJECT  →  optional DSSE ed25519 receipt (offline-verifiable)
+```
+
+Complementary to AI reviewers (probabilistic opinions) and static analysis (code rules). Rapture checks **the checker**.
 
 ## Requirements
 
@@ -49,6 +69,58 @@ node apps/cli/dist/index.js run \
   --integration \
   --integration-validation "node -e \"Promise.all([import('./add.mjs'), import('./multiply.mjs'), import('./divide.mjs'), import('./modulo.mjs')])\""
 ```
+
+### Verification integrity — quick try (no agent needed)
+
+```sh
+# single change
+node apps/cli/dist/index.js verify --repo . --base origin/main --candidate HEAD
+
+# window audit with trust map + severity
+node apps/cli/dist/index.js scan --repo . --base v1.0.0 --head HEAD --out audit.md
+
+# trust map at a ref
+node apps/cli/dist/index.js trustmap --repo . --ref HEAD
+
+# signed, offline-verifiable
+node apps/cli/dist/index.js keygen --dir ./keys
+node apps/cli/dist/index.js scan --repo . --base v1.0.0 --head HEAD \
+  --signing-key ./keys/rapture-signing-key.pem --receipt-out audit-receipt.json
+node apps/cli/dist/index.js receipts-verify --receipt audit-receipt.json --key ./keys/rapture-signing-pub.pem
+
+# per-repo invariant pack (auto-loaded from .rapture/invariants.json)
+cat fixtures/invariants.example.json
+```
+
+### Install / Test / Adopt
+
+**Install (today, private):**
+
+```sh
+git clone <rapture> && cd rapture
+pnpm install && pnpm -r build
+# binary is at apps/cli/dist/index.js ; alias it:
+alias rapture="node $PWD/apps/cli/dist/index.js"
+```
+
+Publishing to npm (`@rapture/cli`, `@rapture/kernel`) is one PR away — gated on first paying audit.
+
+**Test:**
+
+```sh
+pnpm test          # kernel 72/72 + core 226 passing (+4 known Node-v20 env failures)
+pnpm check         # Biome
+pnpm -r build && pnpm --filter @rapture/cli typecheck
+```
+
+Requires Node ≥22. On Node 20, `fixtures/ledger-kit` validators (`--experimental-strip-types`) fail.
+
+**Adopt (free → paid):**
+
+1. Developer reflex: `rapture verify` in a pre-merge hook (free, 2s)
+2. Platform audit: `rapture scan` on a real window → markdown + signed receipt (fixed-fee service)
+3. Enforcement: GitHub Action posting checks (`.github/actions/verify` — see below)
+4. Embed: `@rapture/kernel` in agent tooling (commercial tier later)
 
 The built package also exposes the `rapture` binary when linked or installed. The CLI commands are:
 
