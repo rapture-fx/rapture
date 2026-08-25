@@ -1,0 +1,61 @@
+name: Rapture Verify
+description: Deterministic verification-integrity check — did the change weaken the tests/CI that verify it?
+inputs:
+  repo:
+    description: Path to the git repository
+    required: false
+    default: .
+  base:
+    description: Trusted base ref
+    required: true
+  head:
+    description: Candidate head ref
+    required: false
+    default: HEAD
+  mode:
+    description: verify (single diff) or scan (window)
+    required: false
+    default: verify
+  invariants:
+    description: Path to invariants JSON (defaults to <repo>/.rapture/invariants.json)
+    required: false
+    default: ""
+  signing-key:
+    description: Path to ed25519 private key PEM for signed receipt
+    required: false
+    default: ""
+outputs:
+  verdict:
+    description: ACCEPT, WARN, or REJECT
+    value: ${{ steps.run.outputs.verdict }}
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 10.12.1
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: pnpm
+    - shell: bash
+      run: pnpm install --frozen-lockfile
+    - shell: bash
+      run: pnpm -r build
+    - id: run
+      shell: bash
+      run: |
+        set -euo pipefail
+        ARGS=(--repo "${{ inputs.repo }}" --base "${{ inputs.base }}" --head "${{ inputs.head }}")
+        if [ -n "${{ inputs.invariants }}" ]; then ARGS+=(--invariants "${{ inputs.invariants }}"); fi
+        if [ "${{ inputs.mode }}" = "scan" ]; then
+          node apps/cli/dist/index.js scan "${ARGS[@]}" ${{ inputs.signing-key != '' && format('--signing-key {0}', inputs.signing-key) || '' }} 2>&1 | tee /tmp/rapture-audit.md
+        else
+          node apps/cli/dist/index.js verify --repo "${{ inputs.repo }}" --base "${{ inputs.base }}" --candidate "${{ inputs.head }}" ${{ inputs.invariants != '' && format('--invariants {0}', inputs.invariants) || '' }} 2>&1 | tee /tmp/rapture-verify.txt
+        fi
+        VERDICT=$(grep -oE 'VERDICT: (ACCEPT|WARN|REJECT)|OVERALL VERDICT: (ACCEPT|WARN|REJECT)' /tmp/rapture-audit.md /tmp/rapture-verify.txt 2>/dev/null | grep -oE 'ACCEPT|WARN|REJECT' | tail -1 || echo UNKNOWN)
+        echo "verdict=$VERDICT" >> "$GITHUB_OUTPUT"
+        if [ "$VERDICT" = "REJECT" ]; then exit 2; elif [ "$VERDICT" = "WARN" ]; then exit 1; else exit 0; fi
+branding:
+  icon: shield
+  color: blue
