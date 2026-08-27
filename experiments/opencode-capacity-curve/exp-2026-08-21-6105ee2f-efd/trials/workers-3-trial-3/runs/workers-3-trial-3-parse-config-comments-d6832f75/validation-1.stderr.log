@@ -1,9 +1,0 @@
-file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-3-trial-3-parse-config-comments-d6832f75/src/config.ts:10
-      throw new SyntaxError(`invalid config line: ${line}`);
-            ^
-
-SyntaxError: invalid config line: # heading
-    at parseConfig (file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-3-trial-3-parse-config-comments-d6832f75/src/config.ts:10:13)
-    at file:///Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/config.ts:8:16
-
-Node.js v22.14.0

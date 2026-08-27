@@ -25,7 +25,7 @@ function run(workspace: Awaited<ReturnType<typeof makeWorkspace>>, timeoutMs = 3
   return runExternalValidator({
     validatorPath: workspace.validatorPath,
     expectedSha256: workspace.hash,
-    repositoryPath: workspace.repo,
+    subjectPath: workspace.repo,
     cwd: workspace.root,
     timeoutMs,
   });
@@ -35,7 +35,7 @@ it("classifies exit code zero as accepted", async () => {
   const workspace = await makeWorkspace("process.exit(0);\n");
   const result = await run(workspace);
   expect(result.classification).toBe("accepted");
-  expect(result.detail).toBe("validator accepted task");
+  expect(result.detail).toBe("validator accepted subject");
 });
 
 it("classifies exit code one as rejected", async () => {
@@ -68,19 +68,19 @@ it("refuses to run a tampered validator", async () => {
   expect(result.detail).toContain("asset drift");
 });
 
-it("refuses a validator that lives inside the candidate repository", async () => {
+it("refuses a validator that lives inside the subject being validated", async () => {
   const workspace = await makeWorkspace("process.exit(0);\n");
   const insidePath = join(workspace.repo, "validator.mjs");
   await writeFile(insidePath, "process.exit(0);\n");
   const result = await runExternalValidator({
     validatorPath: insidePath,
     expectedSha256: await sha256File(insidePath),
-    repositoryPath: workspace.repo,
+    subjectPath: workspace.repo,
     cwd: workspace.root,
     timeoutMs: 30_000,
   });
   expect(result.classification).toBe("infrastructure_failure");
-  expect(result.detail).toBe("validator entered candidate repository");
+  expect(result.detail).toBe("validator is inside the subject being validated");
 });
 
 it("exposes asset drift as a typed error when verified directly", async () => {

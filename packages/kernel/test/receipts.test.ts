@@ -30,26 +30,26 @@ it("encodes DSSE PAE with length prefixes", () => {
 it("signs and verifies a payload roundtrip", () => {
   const keys = generateSigningKeyPair();
   const envelope = signPayload({
-    payloadObject: { verdict: "ACCEPT", filesChanged: 3 },
+    payloadObject: { status: "PASS", expectationCount: 3 },
     privateKeyPem: keys.privateKeyPem,
   });
   expect(envelope.payloadType).toBe(RECEIPT_PAYLOAD_TYPE);
   expect(envelope.signatures[0]?.keyid).toBe(keys.keyId);
   const result = verifyReceipt(envelope, { [keys.keyId]: keys.publicKeyPem });
   expect(result.valid).toBe(true);
-  expect(result.payload).toEqual({ verdict: "ACCEPT", filesChanged: 3 });
+  expect(result.payload).toEqual({ status: "PASS", expectationCount: 3 });
 });
 
 it("rejects a tampered payload", () => {
   const keys = generateSigningKeyPair();
   const envelope = signPayload({
-    payloadObject: { verdict: "REJECT" },
+    payloadObject: { status: "FAIL" },
     privateKeyPem: keys.privateKeyPem,
   });
   const forged = JSON.parse(Buffer.from(envelope.payload, "base64").toString("utf8")) as {
-    verdict: string;
+    status: string;
   };
-  forged.verdict = "ACCEPT";
+  forged.status = "PASS";
   const tampered = {
     ...envelope,
     payload: Buffer.from(JSON.stringify(forged), "utf8").toString("base64"),

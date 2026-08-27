@@ -1,6 +1,0 @@
-{
-  "schemaVersion": 1,
-  "files": {
-    "src/idempotency.mjs": "export class IdempotencyRegistry {\n  #operations = new Map();\n\n  async executeOnce(key, operation) {\n    const existing = this.#operations.get(key);\n    if (existing !== undefined) return existing;\n    const pending = Promise.resolve().then(operation);\n    this.#operations.set(key, pending);\n    try {\n      return await pending;\n    } catch (error) {\n      this.#operations.delete(key);\n      throw error;\n    }\n  }\n}\n"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "schemaVersion": 1,
-  "files": {
-    "src/merge.mjs": "function isRecord(value) { return value !== null && typeof value === \"object\" && !Array.isArray(value); }\nfunction clone(value) {\n  if (Array.isArray(value)) return value.map(clone);\n  if (isRecord(value)) return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, clone(item)]));\n  return value;\n}\n\nexport function mergeConfig(base, override) {\n  const result = clone(base);\n  for (const [key, value] of Object.entries(override)) {\n    result[key] = isRecord(value) && isRecord(base[key]) ? mergeConfig(base[key], value) : clone(value);\n  }\n  return result;\n}\n"
-  }
-}

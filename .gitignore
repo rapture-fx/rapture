@@ -7,15 +7,8 @@ coverage/
 *.log
 .DS_Store
 /runs/
-experiments/real-scale-2/
-experiments/real-scale-4/
-experiments/opencode-scale-4/
+/benchmarks/
+/experiments/
+/fixtures/
 .tmp/
-fixtures/repository/
 .turbo/
-
-# Research artifacts: keep raw agent/validation streams under experiments/
-!experiments/**/agent.stdout.log
-!experiments/**/agent.stderr.log
-!experiments/**/validation-*.stdout.log
-!experiments/**/validation-*.stderr.log

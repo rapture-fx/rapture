@@ -1,9 +1,0 @@
-file:///Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-5-fix-parse-money-5979e288/src/money.ts:10
-    throw new TypeError("invalid money amount");
-          ^
-
-TypeError: invalid money amount
-    at parseMoney (file:///Users/wira/Documents/rapture/rapture-provider-runtime-attribution/experiments/opencode-runtime-attribution-3v4/exp-2026-08-22-f275370a-ec7/.worktrees/workers-3-trial-5-fix-parse-money-5979e288/src/money.ts:10:11)
-    at file:///Users/wira/Documents/rapture/rapture-provider-runtime-attribution/fixtures/ledger-kit/validation/money.ts:13:14
-
-Node.js v22.14.0

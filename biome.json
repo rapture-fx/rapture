@@ -1,23 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
   "files": {
-    "includes": [
-      "**",
-      "!!**/dist",
-      "!!**/node_modules",
-      "!!runs",
-      "!!fixtures/repository",
-      "!!experiments/fake-preflight-1v2x3",
-      "!!experiments/real-scale-2",
-      "!!experiments/real-scale-4",
-      "!!experiments/opencode-scale-4",
-      "!!experiments/opencode-scale-4-diagnostic",
-      "!!experiments/opencode-capacity-curve",
-      "!!experiments/opencode-runtime-attribution-3v4",
-      "!!experiments/*.frozen.json",
-      "!!experiments/*.integrity.json",
-      "!!experiments/derived"
-    ]
+    "includes": ["**", "!!**/dist", "!!**/node_modules", "!!experiments", "!!runs"]
   },
   "formatter": {
     "enabled": true,

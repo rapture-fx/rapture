@@ -1,9 +1,0 @@
-file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-2-trial-2-add-volume-discount-c711cda1/src/discount.ts:2
-  throw new Error("not implemented");
-        ^
-
-Error: not implemented
-    at applyVolumeDiscount (file:///Users/wira/Documents/rapture/rapture/experiments/opencode-capacity-curve/exp-2026-08-21-6105ee2f-efd/.worktrees/workers-2-trial-2-add-volume-discount-c711cda1/src/discount.ts:2:9)
-    at file:///Users/wira/Documents/rapture/rapture/fixtures/ledger-kit/validation/discount.ts:8:14
-
-Node.js v22.14.0

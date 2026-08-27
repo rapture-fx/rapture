@@ -7,7 +7,7 @@ import {
   generateKeyPairSync,
 } from "node:crypto";
 
-export const RECEIPT_PAYLOAD_TYPE = "https://rapture.dev/verification-integrity/v1";
+export const RECEIPT_PAYLOAD_TYPE = "https://rapture.dev/scenario-receipt/v1";
 export const RECEIPT_SCHEMA_VERSION = 1;
 
 export function canonicalize(value: unknown): string {

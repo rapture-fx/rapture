@@ -35,22 +35,22 @@ async function verifyFile(path: string, expected: string): Promise<void> {
 export async function runExternalValidator(input: {
   readonly validatorPath: string;
   readonly expectedSha256: string;
-  readonly repositoryPath: string;
+  readonly subjectPath: string;
   readonly cwd: string;
   readonly timeoutMs: number;
 }): Promise<ValidatorRunResult> {
   try {
     const validator = resolve(input.validatorPath);
     await verifyFile(validator, input.expectedSha256);
-    const repository = resolve(input.repositoryPath);
-    if (inside(repository, validator)) {
+    const subject = resolve(input.subjectPath);
+    if (inside(subject, validator)) {
       return {
         classification: "infrastructure_failure",
         process: null,
-        detail: "validator entered candidate repository",
+        detail: "validator is inside the subject being validated",
       };
     }
-    const processResult = await runProcess(process.execPath, [validator, repository], {
+    const processResult = await runProcess(process.execPath, [validator, subject], {
       cwd: input.cwd,
       timeoutMs: input.timeoutMs,
     });
@@ -65,14 +65,14 @@ export async function runExternalValidator(input: {
       return {
         classification: "accepted",
         process: processResult,
-        detail: "validator accepted task",
+        detail: "validator accepted subject",
       };
     }
     if (processResult.exitCode === 1) {
       return {
         classification: "rejected",
         process: processResult,
-        detail: "validator rejected task",
+        detail: "validator rejected subject",
       };
     }
     return {
