@@ -15,10 +15,6 @@
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
-    "@rapture/kernel": "workspace:*",
-    "pg": "^8.23.0"
-  },
-  "devDependencies": {
-    "@types/pg": "^8.23.1"
+    "@rapture/kernel": "workspace:*"
   }
 }
