@@ -19,9 +19,5 @@
   },
   "dependencies": {
     "@rapture/core": "workspace:*"
-  },
-  "devDependencies": {
-    "pg": "^8.23.0",
-    "@types/pg": "^8.23.1"
   }
 }
