@@ -5,26 +5,7 @@ export {
   type SeatUpgradeObservation,
   subscriptionSeatUpgradeScenario,
 } from "./reference/subscription-seat-upgrade.js";
-export {
-  assertDisposablePostgresHost,
-  createSubscriptionSeatUpgradePostgresWorld,
-  observeSeatUpgradeState,
-  type PostgresConnection,
-  type PostgresSeatUpgradeWorld,
-  type PostgresSeatUpgradeWorldOptions,
-  resolvePostgresConnection,
-  type SeatUpgradeFault,
-  subscriptionSeatUpgradePostgresScenario,
-  upgradeSubscriptionSeats,
-} from "./reference/subscription-seat-upgrade-postgres.js";
-export {
-  isScenarioWorldKind,
-  listScenarios,
-  runNamedScenario,
-  SCENARIO_WORLD_KINDS,
-  type ScenarioSummary,
-  type ScenarioWorldKind,
-} from "./registry.js";
+export { listScenarios, runNamedScenario, type ScenarioSummary } from "./registry.js";
 export {
   createScenarioJournal,
   defineScenario,
