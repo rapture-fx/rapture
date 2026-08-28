@@ -40,18 +40,6 @@ service, then verifies application seats, billing quantity, permissions, invoice
 history, and confirmation notification state at 15 seats. It uses a deterministic in-memory
 state store and requires no network, LLM, production credentials, or external service.
 
-The same scenario — same fixture, same expectations — can run against a disposable PostgreSQL
-database instead, which creates and drops a fresh database per run:
-
-```sh
-pnpm rapture run subscription-seat-upgrade --world=postgres
-```
-
-That requires a local PostgreSQL server (connection read from `PGHOST`, `PGPORT`, `PGUSER`,
-`PGPASSWORD`, `PGDATABASE`). Rapture refuses to create disposable databases on any non-loopback
-host. See `docs/postgres-world-evaluation.md` for the honest evaluation of whether the world
-abstraction earns its keep against real persistent state.
-
 Example output:
 
 ```text
@@ -100,7 +88,6 @@ Rapture complements these tools. It does not replace them.
   single reference scenario.
 - `apps/cli` — the minimal `scenario list` and `run` interface.
 - `docs/architecture.md` — architecture and reset decisions.
-- `docs/postgres-world-evaluation.md` — PostgreSQL product-world falsification experiment.
 - `docs/migration-inventory.md` — the pre-deletion KEEP/ADAPT/ARCHIVE/DELETE inventory.
 - `HISTORY.md` — research and product transition history.
 
