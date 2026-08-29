@@ -1,0 +1,57 @@
+{
+  "repository": "/Users/wira/Documents/rapture/rapture",
+  "baseTree": "e4cdb69be921caa3e71d6f7bbda0b9015c8800ce",
+  "baseHead": "24dc21bba3301bcf9dd78509f21d58b21779fcbb",
+  "experimentId": "phase0d-2026-08-29",
+  "seed": 20260829,
+  "models": [
+    "openai/gpt-5.4-mini",
+    "openai/gpt-5.4",
+    "openai/gpt-5.6-luna"
+  ],
+  "tasks": [
+    {
+      "id": "PD1-list",
+      "difficulty": "simple",
+      "task": "Inspect this repository and list the major packages/apps and briefly explain what each one does. Do not modify any files.",
+      "evaluator": "read_only",
+      "expectedKeywords": ["profiler", "kernel", "core", "cli"]
+    },
+    {
+      "id": "PD2-trivial-test",
+      "difficulty": "simple",
+      "task": "Add a trivial test file at packages/profiler/test/hash-simple.test.ts that imports sha256Hex from src/hash.ts and asserts it returns a 64-character hex string for input 'hello'. Ensure pnpm --filter @rapture/profiler test passes. Do not modify other files except adding the test.",
+      "evaluator": "test",
+      "testCommand": "pnpm --filter @rapture/profiler test",
+      "testFile": "packages/profiler/test/hash-simple.test.ts"
+    },
+    {
+      "id": "PD3-redact-pattern",
+      "difficulty": "medium",
+      "task": "Extend packages/profiler/src/redact.ts to also redact headers matching 'x-api-key: <value>' case-insensitively, and ensure existing tests in packages/profiler/test still pass. Run pnpm --filter @rapture/profiler test to verify.",
+      "evaluator": "test",
+      "testCommand": "pnpm --filter @rapture/profiler test"
+    },
+    {
+      "id": "PD4-cli-stats",
+      "difficulty": "medium",
+      "task": "Add a new CLI subcommand 'rapture runs stats' in apps/cli/src/cli.ts that prints total run count and average operations per run by reading .rapture/runs. Ensure pnpm --filter @rapture/cli build succeeds. Do not break existing commands.",
+      "evaluator": "build",
+      "buildCommand": "pnpm --filter @rapture/cli build"
+    },
+    {
+      "id": "PD5-waste-analysis",
+      "difficulty": "hard",
+      "task": "Implement a new function computeWasteCategory in packages/profiler/src/analysis.ts that classifies a run's operations into waste categories (useful, duplicate, failed) and add a test file packages/profiler/test/waste.test.ts that verifies it. Ensure pnpm --filter @rapture/profiler test passes.",
+      "evaluator": "test",
+      "testCommand": "pnpm --filter @rapture/profiler test"
+    },
+    {
+      "id": "PD6-trace-version-fix",
+      "difficulty": "hard",
+      "task": "Fix packages/profiler/src/storage.ts so that loadRunTrace handles missing traceVersion gracefully by defaulting to '1' instead of throwing. Add a test that verifies loading a trace without traceVersion still succeeds. Ensure pnpm --filter @rapture/profiler test passes.",
+      "evaluator": "test",
+      "testCommand": "pnpm --filter @rapture/profiler test"
+    }
+  ]
+}

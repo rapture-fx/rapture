@@ -1,0 +1,3184 @@
+{
+  "perRun": [
+    {
+      "runId": "198fe443-17ee-4cc3-861e-b355cf2e29f6",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 14,
+      "totalDurationMs": 116129,
+      "totalInputTokens": 21592,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 12,
+          "pctOps": 85.71428571428571,
+          "estCostPct": 85.71428571428571,
+          "estDurationPct": 85.71428571428571,
+          "estTokensPct": 85.71428571428571
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "a75bfdea-36e3-444d-b29f-d80183ad39f0",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 23,
+      "totalDurationMs": 165026,
+      "totalInputTokens": 41398,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 16,
+          "pctOps": 69.56521739130434,
+          "estCostPct": 69.56521739130434,
+          "estDurationPct": 69.56521739130434,
+          "estTokensPct": 69.56521739130434
+        },
+        "dead_end": {
+          "count": 2,
+          "pctOps": 8.695652173913043,
+          "estCostPct": 8.695652173913043,
+          "estDurationPct": 8.695652173913043,
+          "estTokensPct": 8.695652173913043
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 4,
+          "pctOps": 17.391304347826086,
+          "estCostPct": 17.391304347826086,
+          "estDurationPct": 17.391304347826086,
+          "estTokensPct": 17.391304347826086
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.3478260869565215,
+          "estCostPct": 4.3478260869565215,
+          "estDurationPct": 4.3478260869565215,
+          "estTokensPct": 4.3478260869565215
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "f04c0479-f7b5-4943-a897-1dc2181ae8d7",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 25,
+      "totalDurationMs": 56172,
+      "totalInputTokens": 16897,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 25,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "95cc7ad0-7de9-408b-b70e-ece09a302b3a",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 10,
+      "totalDurationMs": 50023,
+      "totalInputTokens": 21845,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 7,
+          "pctOps": 70,
+          "estCostPct": 70,
+          "estDurationPct": 70,
+          "estTokensPct": 70
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 20,
+          "estCostPct": 20,
+          "estDurationPct": 20,
+          "estTokensPct": 20
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 10,
+          "estCostPct": 10,
+          "estDurationPct": 10,
+          "estTokensPct": 10
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "62a29f60-9665-4194-9c88-51ba007086f8",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 11,
+      "totalDurationMs": 70041,
+      "totalInputTokens": 9950,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 7,
+          "pctOps": 63.63636363636363,
+          "estCostPct": 63.63636363636363,
+          "estDurationPct": 63.63636363636363,
+          "estTokensPct": 63.63636363636363
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 27.27272727272727,
+          "estCostPct": 27.27272727272727,
+          "estDurationPct": 27.27272727272727,
+          "estTokensPct": 27.27272727272727
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 9.090909090909092,
+          "estCostPct": 9.090909090909092,
+          "estDurationPct": 9.090909090909092,
+          "estTokensPct": 9.090909090909092
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "9904fa5c-b5cb-4757-ad6d-f65f8103ae00",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 19,
+      "totalDurationMs": 101470,
+      "totalInputTokens": 22422,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 14,
+          "pctOps": 73.68421052631578,
+          "estCostPct": 73.68421052631578,
+          "estDurationPct": 73.68421052631578,
+          "estTokensPct": 73.68421052631578
+        },
+        "dead_end": {
+          "count": 1,
+          "pctOps": 5.263157894736842,
+          "estCostPct": 5.263157894736842,
+          "estDurationPct": 5.263157894736842,
+          "estTokensPct": 5.263157894736842
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 15.789473684210526,
+          "estCostPct": 15.789473684210526,
+          "estDurationPct": 15.789473684210526,
+          "estTokensPct": 15.789473684210526
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 5.263157894736842,
+          "estCostPct": 5.263157894736842,
+          "estDurationPct": 5.263157894736842,
+          "estTokensPct": 5.263157894736842
+        }
+      },
+      "confidence": "medium",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "7c1e8a00-5fe2-4b58-91de-a7f180781f79",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 16,
+      "totalDurationMs": 113285,
+      "totalInputTokens": 19473,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 13,
+          "pctOps": 81.25,
+          "estCostPct": 81.25,
+          "estDurationPct": 81.25,
+          "estTokensPct": 81.25
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 12.5,
+          "estCostPct": 12.5,
+          "estDurationPct": 12.5,
+          "estTokensPct": 12.5
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 6.25,
+          "estCostPct": 6.25,
+          "estDurationPct": 6.25,
+          "estTokensPct": 6.25
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "4a4837ad-ac40-4fb4-af18-028b470ebfc2",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 32,
+      "totalDurationMs": 155354,
+      "totalInputTokens": 44449,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 23,
+          "pctOps": 71.875,
+          "estCostPct": 71.875,
+          "estDurationPct": 71.875,
+          "estTokensPct": 71.875
+        },
+        "dead_end": {
+          "count": 1,
+          "pctOps": 3.125,
+          "estCostPct": 3.125,
+          "estDurationPct": 3.125,
+          "estTokensPct": 3.125
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 3,
+          "pctOps": 9.375,
+          "estCostPct": 9.375,
+          "estDurationPct": 9.375,
+          "estTokensPct": 9.375
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 4,
+          "pctOps": 12.5,
+          "estCostPct": 12.5,
+          "estDurationPct": 12.5,
+          "estTokensPct": 12.5
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 3.125,
+          "estCostPct": 3.125,
+          "estDurationPct": 3.125,
+          "estTokensPct": 3.125
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 1,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "b6423a44-10fd-4d64-8167-027bfd6fd26e",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 11,
+      "totalDurationMs": 71775,
+      "totalInputTokens": 8238,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 6,
+          "pctOps": 54.54545454545454,
+          "estCostPct": 54.54545454545454,
+          "estDurationPct": 54.54545454545454,
+          "estTokensPct": 54.54545454545454
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 4,
+          "pctOps": 36.36363636363637,
+          "estCostPct": 36.36363636363637,
+          "estDurationPct": 36.36363636363637,
+          "estTokensPct": 36.36363636363637
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 9.090909090909092,
+          "estCostPct": 9.090909090909092,
+          "estDurationPct": 9.090909090909092,
+          "estTokensPct": 9.090909090909092
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "3e664ae1-9d65-4a04-b00c-212b4826f345",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 26,
+      "totalDurationMs": 61898,
+      "totalInputTokens": 39658,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 26,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "ca07ca7c-b03f-4d57-be1f-f2fe66dfab38",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 35,
+      "totalDurationMs": 74316,
+      "totalInputTokens": 33665,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 35,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "6aacba40-a4b1-42ed-9c8f-99e207b3e3e6",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 7,
+      "totalDurationMs": 49156,
+      "totalInputTokens": 18308,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 6,
+          "pctOps": 85.71428571428571,
+          "estCostPct": 85.71428571428571,
+          "estDurationPct": 85.71428571428571,
+          "estTokensPct": 85.71428571428571
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 14.285714285714285,
+          "estCostPct": 14.285714285714285,
+          "estDurationPct": 14.285714285714285,
+          "estTokensPct": 14.285714285714285
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "6d83d118-f800-4db2-becd-f7072722d0d3",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 17,
+      "totalDurationMs": 126369,
+      "totalInputTokens": 19898,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 13,
+          "pctOps": 76.47058823529412,
+          "estCostPct": 76.47058823529412,
+          "estDurationPct": 76.47058823529412,
+          "estTokensPct": 76.47058823529412
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 17.647058823529413,
+          "estCostPct": 17.647058823529413,
+          "estDurationPct": 17.647058823529413,
+          "estTokensPct": 17.647058823529413
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 5.88235294117647,
+          "estCostPct": 5.88235294117647,
+          "estDurationPct": 5.88235294117647,
+          "estTokensPct": 5.88235294117647
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "facb3b84-a44a-43f0-b16c-f0ca99308101",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 23,
+      "totalDurationMs": 138548,
+      "totalInputTokens": 29570,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 19,
+          "pctOps": 82.6086956521739,
+          "estCostPct": 82.6086956521739,
+          "estDurationPct": 82.6086956521739,
+          "estTokensPct": 82.6086956521739
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 13.043478260869565,
+          "estCostPct": 13.043478260869565,
+          "estDurationPct": 13.043478260869565,
+          "estTokensPct": 13.043478260869565
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.3478260869565215,
+          "estCostPct": 4.3478260869565215,
+          "estDurationPct": 4.3478260869565215,
+          "estTokensPct": 4.3478260869565215
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "13eddd26-fb75-4669-a8e2-a0cab43f34be",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 13,
+      "totalDurationMs": 64118,
+      "totalInputTokens": 22414,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 12,
+          "pctOps": 92.3076923076923,
+          "estCostPct": 92.3076923076923,
+          "estDurationPct": 92.3076923076923,
+          "estTokensPct": 92.3076923076923
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.6923076923076925,
+          "estCostPct": 7.6923076923076925,
+          "estDurationPct": 7.6923076923076925,
+          "estTokensPct": 7.6923076923076925
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "5f60830f-014e-4f35-a1c1-3a5588ee2d71",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 9,
+      "totalDurationMs": 71057,
+      "totalInputTokens": 6500,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 6,
+          "pctOps": 66.66666666666666,
+          "estCostPct": 66.66666666666666,
+          "estDurationPct": 66.66666666666666,
+          "estTokensPct": 66.66666666666666
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 22.22222222222222,
+          "estCostPct": 22.22222222222222,
+          "estDurationPct": 22.22222222222222,
+          "estTokensPct": 22.22222222222222
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 11.11111111111111,
+          "estCostPct": 11.11111111111111,
+          "estDurationPct": 11.11111111111111,
+          "estTokensPct": 11.11111111111111
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "7b02d174-29c5-4c42-a3b9-f1c9d474ad75",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 14,
+      "totalDurationMs": 77070,
+      "totalInputTokens": 18859,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 12,
+          "pctOps": 85.71428571428571,
+          "estCostPct": 85.71428571428571,
+          "estDurationPct": 85.71428571428571,
+          "estTokensPct": 85.71428571428571
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "9ca8f9a1-5729-49f3-aaac-63ee11b106ae",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 20,
+      "totalDurationMs": 124084,
+      "totalInputTokens": 19067,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 17,
+          "pctOps": 85,
+          "estCostPct": 85,
+          "estDurationPct": 85,
+          "estTokensPct": 85
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 10,
+          "estCostPct": 10,
+          "estDurationPct": 10,
+          "estTokensPct": 10
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 5,
+          "estCostPct": 5,
+          "estDurationPct": 5,
+          "estTokensPct": 5
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "45e95bee-e9a7-4f94-928a-5545d1eda9d9",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 15,
+      "totalDurationMs": 68679,
+      "totalInputTokens": 10532,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 11,
+          "pctOps": 73.33333333333333,
+          "estCostPct": 73.33333333333333,
+          "estDurationPct": 73.33333333333333,
+          "estTokensPct": 73.33333333333333
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 20,
+          "estCostPct": 20,
+          "estDurationPct": 20,
+          "estTokensPct": 20
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 6.666666666666667,
+          "estCostPct": 6.666666666666667,
+          "estDurationPct": 6.666666666666667,
+          "estTokensPct": 6.666666666666667
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "97b78101-477b-4ba4-983d-7c0e9c9bcfe2",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 15,
+      "totalDurationMs": 66248,
+      "totalInputTokens": 22131,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 12,
+          "pctOps": 80,
+          "estCostPct": 80,
+          "estDurationPct": 80,
+          "estTokensPct": 80
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 13.333333333333334,
+          "estCostPct": 13.333333333333334,
+          "estDurationPct": 13.333333333333334,
+          "estTokensPct": 13.333333333333334
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 6.666666666666667,
+          "estCostPct": 6.666666666666667,
+          "estDurationPct": 6.666666666666667,
+          "estTokensPct": 6.666666666666667
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "a9847c54-c9af-4e6b-8239-82a1ad37753c",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 21,
+      "totalDurationMs": 132787,
+      "totalInputTokens": 34601,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 13,
+          "pctOps": 61.904761904761905,
+          "estCostPct": 61.904761904761905,
+          "estDurationPct": 61.904761904761905,
+          "estTokensPct": 61.904761904761905
+        },
+        "dead_end": {
+          "count": 4,
+          "pctOps": 19.047619047619047,
+          "estCostPct": 19.047619047619047,
+          "estDurationPct": 19.047619047619047,
+          "estTokensPct": 19.047619047619047
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 14.285714285714285,
+          "estCostPct": 14.285714285714285,
+          "estDurationPct": 14.285714285714285,
+          "estTokensPct": 14.285714285714285
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.761904761904762,
+          "estCostPct": 4.761904761904762,
+          "estDurationPct": 4.761904761904762,
+          "estTokensPct": 4.761904761904762
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "7c416c59-f64a-4add-8fbe-2f9c32c44922",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 26,
+      "totalDurationMs": 55445,
+      "totalInputTokens": 27041,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 26,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "c649030c-50aa-48a0-a6d1-1f9c24e8fffa",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 12,
+      "totalDurationMs": 53726,
+      "totalInputTokens": 7809,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 11,
+          "pctOps": 91.66666666666666,
+          "estCostPct": 91.66666666666666,
+          "estDurationPct": 91.66666666666666,
+          "estTokensPct": 91.66666666666666
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 8.333333333333332,
+          "estCostPct": 8.333333333333332,
+          "estDurationPct": 8.333333333333332,
+          "estTokensPct": 8.333333333333332
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "98d6cd08-7b56-43ca-8844-a0beddf4bb5e",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 9,
+      "totalDurationMs": 52021,
+      "totalInputTokens": 21397,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 7,
+          "pctOps": 77.77777777777779,
+          "estCostPct": 77.77777777777779,
+          "estDurationPct": 77.77777777777779,
+          "estTokensPct": 77.77777777777779
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 1,
+          "pctOps": 11.11111111111111,
+          "estCostPct": 11.11111111111111,
+          "estDurationPct": 11.11111111111111,
+          "estTokensPct": 11.11111111111111
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 11.11111111111111,
+          "estCostPct": 11.11111111111111,
+          "estDurationPct": 11.11111111111111,
+          "estTokensPct": 11.11111111111111
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "8f59ccb8-4488-44fc-9d77-fedb025d6713",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 30,
+      "totalDurationMs": 63285,
+      "totalInputTokens": 34533,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 29,
+          "pctOps": 96.66666666666667,
+          "estCostPct": 96.66666666666667,
+          "estDurationPct": 96.66666666666667,
+          "estTokensPct": 96.66666666666667
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 1,
+          "pctOps": 3.3333333333333335,
+          "estCostPct": 3.3333333333333335,
+          "estDurationPct": 3.3333333333333335,
+          "estTokensPct": 3.3333333333333335
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "b2713037-a194-4e50-a7f8-7a204a84414d",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 17,
+      "totalDurationMs": 513529,
+      "totalInputTokens": 17066,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 13,
+          "pctOps": 76.47058823529412,
+          "estCostPct": 76.47058823529412,
+          "estDurationPct": 76.47058823529412,
+          "estTokensPct": 76.47058823529412
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 17.647058823529413,
+          "estCostPct": 17.647058823529413,
+          "estDurationPct": 17.647058823529413,
+          "estTokensPct": 17.647058823529413
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 5.88235294117647,
+          "estCostPct": 5.88235294117647,
+          "estDurationPct": 5.88235294117647,
+          "estTokensPct": 5.88235294117647
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "44ab7f3c-48bb-4148-a196-19cd143935b3",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 22,
+      "totalDurationMs": 133999,
+      "totalInputTokens": 36395,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 14,
+          "pctOps": 63.63636363636363,
+          "estCostPct": 63.63636363636363,
+          "estDurationPct": 63.63636363636363,
+          "estTokensPct": 63.63636363636363
+        },
+        "dead_end": {
+          "count": 4,
+          "pctOps": 18.181818181818183,
+          "estCostPct": 18.181818181818183,
+          "estDurationPct": 18.181818181818183,
+          "estTokensPct": 18.181818181818183
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 13.636363636363635,
+          "estCostPct": 13.636363636363635,
+          "estDurationPct": 13.636363636363635,
+          "estTokensPct": 13.636363636363635
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.545454545454546,
+          "estCostPct": 4.545454545454546,
+          "estDurationPct": 4.545454545454546,
+          "estTokensPct": 4.545454545454546
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "078c1ae8-74b9-4db1-97ce-c45080a6360b",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 26,
+      "totalDurationMs": 115013,
+      "totalInputTokens": 28455,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 23,
+          "pctOps": 88.46153846153845,
+          "estCostPct": 88.46153846153845,
+          "estDurationPct": 88.46153846153845,
+          "estTokensPct": 88.46153846153845
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 7.6923076923076925,
+          "estCostPct": 7.6923076923076925,
+          "estDurationPct": 7.6923076923076925,
+          "estTokensPct": 7.6923076923076925
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 3.8461538461538463,
+          "estCostPct": 3.8461538461538463,
+          "estDurationPct": 3.8461538461538463,
+          "estTokensPct": 3.8461538461538463
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "e3a87c4e-833c-4a6b-97e3-07b32df0ccfa",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 11,
+      "totalDurationMs": 57783,
+      "totalInputTokens": 14176,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 10,
+          "pctOps": 90.9090909090909,
+          "estCostPct": 90.9090909090909,
+          "estDurationPct": 90.9090909090909,
+          "estTokensPct": 90.9090909090909
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 9.090909090909092,
+          "estCostPct": 9.090909090909092,
+          "estDurationPct": 9.090909090909092,
+          "estTokensPct": 9.090909090909092
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "24058eef-4cd2-40b7-a28d-912a6e5b7b70",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 30,
+      "totalDurationMs": 59505,
+      "totalInputTokens": 30330,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 30,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "5569c144-f9ed-40b8-9814-4c01af32f3f7",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 11,
+      "totalDurationMs": 66972,
+      "totalInputTokens": 14459,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 8,
+          "pctOps": 72.72727272727273,
+          "estCostPct": 72.72727272727273,
+          "estDurationPct": 72.72727272727273,
+          "estTokensPct": 72.72727272727273
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 18.181818181818183,
+          "estCostPct": 18.181818181818183,
+          "estDurationPct": 18.181818181818183,
+          "estTokensPct": 18.181818181818183
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 9.090909090909092,
+          "estCostPct": 9.090909090909092,
+          "estDurationPct": 9.090909090909092,
+          "estTokensPct": 9.090909090909092
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "7d9a01f0-7fa5-4c2f-bb7c-3ba01fe43bf6",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.6-luna",
+      "status": "completed",
+      "totalOps": 16,
+      "totalDurationMs": 68957,
+      "totalInputTokens": 18249,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 11,
+          "pctOps": 68.75,
+          "estCostPct": 68.75,
+          "estDurationPct": 68.75,
+          "estTokensPct": 68.75
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 4,
+          "pctOps": 25,
+          "estCostPct": 25,
+          "estDurationPct": 25,
+          "estTokensPct": 25
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 6.25,
+          "estCostPct": 6.25,
+          "estDurationPct": 6.25,
+          "estTokensPct": 6.25
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "1f5a2064-d7b6-45ec-87f9-df8f3e8805a7",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 21,
+      "totalDurationMs": 130670,
+      "totalInputTokens": 36163,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 17,
+          "pctOps": 80.95238095238095,
+          "estCostPct": 80.95238095238095,
+          "estDurationPct": 80.95238095238095,
+          "estTokensPct": 80.95238095238095
+        },
+        "dead_end": {
+          "count": 1,
+          "pctOps": 4.761904761904762,
+          "estCostPct": 4.761904761904762,
+          "estDurationPct": 4.761904761904762,
+          "estTokensPct": 4.761904761904762
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 9.523809523809524,
+          "estCostPct": 9.523809523809524,
+          "estDurationPct": 9.523809523809524,
+          "estTokensPct": 9.523809523809524
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.761904761904762,
+          "estCostPct": 4.761904761904762,
+          "estDurationPct": 4.761904761904762,
+          "estTokensPct": 4.761904761904762
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "8799ec47-fb5e-4588-85de-67923f45ddd3",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 7,
+      "totalDurationMs": 51978,
+      "totalInputTokens": 7705,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 6,
+          "pctOps": 85.71428571428571,
+          "estCostPct": 85.71428571428571,
+          "estDurationPct": 85.71428571428571,
+          "estTokensPct": 85.71428571428571
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 14.285714285714285,
+          "estCostPct": 14.285714285714285,
+          "estDurationPct": 14.285714285714285,
+          "estTokensPct": 14.285714285714285
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "0a089f3a-0b89-48f2-9413-d75cf682a4d5",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 12,
+      "totalDurationMs": 84167,
+      "totalInputTokens": 13024,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 9,
+          "pctOps": 75,
+          "estCostPct": 75,
+          "estDurationPct": 75,
+          "estTokensPct": 75
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 16.666666666666664,
+          "estCostPct": 16.666666666666664,
+          "estDurationPct": 16.666666666666664,
+          "estTokensPct": 16.666666666666664
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 8.333333333333332,
+          "estCostPct": 8.333333333333332,
+          "estDurationPct": 8.333333333333332,
+          "estTokensPct": 8.333333333333332
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "61ccc50b-ad1c-4591-a3ba-c386c025b840",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 22,
+      "totalDurationMs": 145663,
+      "totalInputTokens": 35258,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 19,
+          "pctOps": 86.36363636363636,
+          "estCostPct": 86.36363636363636,
+          "estDurationPct": 86.36363636363636,
+          "estTokensPct": 86.36363636363636
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 9.090909090909092,
+          "estCostPct": 9.090909090909092,
+          "estDurationPct": 9.090909090909092,
+          "estTokensPct": 9.090909090909092
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 4.545454545454546,
+          "estCostPct": 4.545454545454546,
+          "estDurationPct": 4.545454545454546,
+          "estTokensPct": 4.545454545454546
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "8da89219-aec2-440e-89c9-8c12d892ac1e",
+      "taskId": "PD6-trace-version-fix",
+      "cohort": "trajectory-PD6-trace-version-fix",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 14,
+      "totalDurationMs": 80028,
+      "totalInputTokens": 16913,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 11,
+          "pctOps": 78.57142857142857,
+          "estCostPct": 78.57142857142857,
+          "estDurationPct": 78.57142857142857,
+          "estTokensPct": 78.57142857142857
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 14.285714285714285,
+          "estCostPct": 14.285714285714285,
+          "estDurationPct": 14.285714285714285,
+          "estTokensPct": 14.285714285714285
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "be112dd1-5530-498c-9abe-ac8ff9b19ae9",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 15,
+      "totalDurationMs": 109852,
+      "totalInputTokens": 19925,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 13,
+          "pctOps": 86.66666666666667,
+          "estCostPct": 86.66666666666667,
+          "estDurationPct": 86.66666666666667,
+          "estTokensPct": 86.66666666666667
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 1,
+          "pctOps": 6.666666666666667,
+          "estCostPct": 6.666666666666667,
+          "estDurationPct": 6.666666666666667,
+          "estTokensPct": 6.666666666666667
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 6.666666666666667,
+          "estCostPct": 6.666666666666667,
+          "estDurationPct": 6.666666666666667,
+          "estTokensPct": 6.666666666666667
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "cc45f5c0-b597-4ca5-8774-04c0b45e10d4",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 23,
+      "totalDurationMs": 46151,
+      "totalInputTokens": 14611,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 23,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "f3cad327-e507-4f0e-806c-6f40f2001c97",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 13,
+      "totalDurationMs": 67928,
+      "totalInputTokens": 29891,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 12,
+          "pctOps": 92.3076923076923,
+          "estCostPct": 92.3076923076923,
+          "estDurationPct": 92.3076923076923,
+          "estTokensPct": 92.3076923076923
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.6923076923076925,
+          "estCostPct": 7.6923076923076925,
+          "estDurationPct": 7.6923076923076925,
+          "estTokensPct": 7.6923076923076925
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "090eef97-a630-48ee-bf93-77ba9e6debbd",
+      "taskId": "PD2-trivial-test",
+      "cohort": "trajectory-PD2-trivial-test",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 8,
+      "totalDurationMs": 55042,
+      "totalInputTokens": 11982,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 7,
+          "pctOps": 87.5,
+          "estCostPct": 87.5,
+          "estDurationPct": 87.5,
+          "estTokensPct": 87.5
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 12.5,
+          "estCostPct": 12.5,
+          "estDurationPct": 12.5,
+          "estTokensPct": 12.5
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "71509839-cd6f-47d0-b4a7-2feea1875ab6",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 12,
+      "totalDurationMs": 72997,
+      "totalInputTokens": 20941,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 9,
+          "pctOps": 75,
+          "estCostPct": 75,
+          "estDurationPct": 75,
+          "estTokensPct": 75
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 16.666666666666664,
+          "estCostPct": 16.666666666666664,
+          "estDurationPct": 16.666666666666664,
+          "estTokensPct": 16.666666666666664
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 8.333333333333332,
+          "estCostPct": 8.333333333333332,
+          "estDurationPct": 8.333333333333332,
+          "estTokensPct": 8.333333333333332
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "2f7689a5-61d3-45c3-b36d-b508ab0fdee9",
+      "taskId": "PD5-waste-analysis",
+      "cohort": "trajectory-PD5-waste-analysis",
+      "model": "openai/gpt-5.4-mini",
+      "status": "completed",
+      "totalOps": 28,
+      "totalDurationMs": 183503,
+      "totalInputTokens": 51852,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 20,
+          "pctOps": 71.42857142857143,
+          "estCostPct": 71.42857142857143,
+          "estDurationPct": 71.42857142857143,
+          "estTokensPct": 71.42857142857143
+        },
+        "dead_end": {
+          "count": 4,
+          "pctOps": 14.285714285714285,
+          "estCostPct": 14.285714285714285,
+          "estDurationPct": 14.285714285714285,
+          "estTokensPct": 14.285714285714285
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 10.714285714285714,
+          "estCostPct": 10.714285714285714,
+          "estDurationPct": 10.714285714285714,
+          "estTokensPct": 10.714285714285714
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 3.571428571428571,
+          "estCostPct": 3.571428571428571,
+          "estDurationPct": 3.571428571428571,
+          "estTokensPct": 3.571428571428571
+        }
+      },
+      "confidence": "high",
+      "notes": [],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "58951248-3217-400f-aaa8-973415c57e1d",
+      "taskId": "PD1-list",
+      "cohort": "trajectory-PD1-list",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 22,
+      "totalDurationMs": 67138,
+      "totalInputTokens": 23293,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 22,
+          "pctOps": 100,
+          "estCostPct": 100,
+          "estDurationPct": 100,
+          "estTokensPct": 100
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "unclassified": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        }
+      },
+      "confidence": "high",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "1c3963dd-35eb-4cca-8d53-d51a13e7bf52",
+      "taskId": "PD3-redact-pattern",
+      "cohort": "trajectory-PD3-redact-pattern",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 9,
+      "totalDurationMs": 99085,
+      "totalInputTokens": 22797,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 6,
+          "pctOps": 66.66666666666666,
+          "estCostPct": 66.66666666666666,
+          "estDurationPct": 66.66666666666666,
+          "estTokensPct": 66.66666666666666
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 2,
+          "pctOps": 22.22222222222222,
+          "estCostPct": 22.22222222222222,
+          "estDurationPct": 22.22222222222222,
+          "estTokensPct": 22.22222222222222
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 11.11111111111111,
+          "estCostPct": 11.11111111111111,
+          "estDurationPct": 11.11111111111111,
+          "estTokensPct": 11.11111111111111
+        }
+      },
+      "confidence": "low",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    },
+    {
+      "runId": "f3554c39-8075-4193-a2ce-f45444945e46",
+      "taskId": "PD4-cli-stats",
+      "cohort": "trajectory-PD4-cli-stats",
+      "model": "openai/gpt-5.4",
+      "status": "completed",
+      "totalOps": 14,
+      "totalDurationMs": 120357,
+      "totalInputTokens": 24150,
+      "totalCost": 0,
+      "categories": {
+        "useful_path": {
+          "count": 10,
+          "pctOps": 71.42857142857143,
+          "estCostPct": 71.42857142857143,
+          "estDurationPct": 71.42857142857143,
+          "estTokensPct": 71.42857142857143
+        },
+        "dead_end": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "failed_edits": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "recovery": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "validation_loops": {
+          "count": 0,
+          "pctOps": 0,
+          "estCostPct": 0,
+          "estDurationPct": 0,
+          "estTokensPct": 0
+        },
+        "duplicate_work": {
+          "count": 3,
+          "pctOps": 21.428571428571427,
+          "estCostPct": 21.428571428571427,
+          "estDurationPct": 21.428571428571427,
+          "estTokensPct": 21.428571428571427
+        },
+        "unclassified": {
+          "count": 1,
+          "pctOps": 7.142857142857142,
+          "estCostPct": 7.142857142857142,
+          "estDurationPct": 7.142857142857142,
+          "estTokensPct": 7.142857142857142
+        }
+      },
+      "confidence": "medium",
+      "notes": [
+        "no dead-end searches with 0 results detected"
+      ],
+      "retryCount": 0,
+      "failedTestCount": 0
+    }
+  ],
+  "aggregate": {
+    "meanPct": {
+      "useful_path": 81.40558057658237,
+      "dead_end": 1.5948014422979602,
+      "failed_edits": 0,
+      "recovery": 0.20380434782608695,
+      "validation_loops": 0,
+      "duplicate_work": 10.663090607038237,
+      "unclassified": 6.132723026255349
+    },
+    "medianPct": {
+      "useful_path": 81.10119047619048,
+      "dead_end": 0,
+      "failed_edits": 0,
+      "recovery": 0,
+      "validation_loops": 0,
+      "duplicate_work": 10.912698412698411,
+      "unclassified": 6.458333333333334
+    },
+    "byOutcome": {
+      "completed": {
+        "useful_path": 81.40558057658237,
+        "dead_end": 1.5948014422979602,
+        "failed_edits": 0,
+        "recovery": 0.20380434782608695,
+        "validation_loops": 0,
+        "duplicate_work": 10.663090607038239,
+        "unclassified": 6.1327230262553485
+      }
+    },
+    "byModel": {
+      "openai/gpt-5.4": {
+        "useful_path": 80.69670381521593,
+        "dead_end": 1.400560224089636,
+        "failed_edits": 0,
+        "recovery": 0,
+        "validation_loops": 0,
+        "duplicate_work": 11.123156927655197,
+        "unclassified": 6.77957903303924
+      },
+      "openai/gpt-5.4-mini": {
+        "useful_path": 82.72366388308417,
+        "dead_end": 2.2868435911914173,
+        "failed_edits": 0,
+        "recovery": 0,
+        "validation_loops": 0,
+        "duplicate_work": 8.824459223009947,
+        "unclassified": 6.165033302714463
+      },
+      "openai/gpt-5.6-luna": {
+        "useful_path": 80.34425379714571,
+        "dead_end": 0.7625598086124402,
+        "failed_edits": 0,
+        "recovery": 0.8522727272727273,
+        "validation_loops": 0,
+        "duplicate_work": 12.960748558131053,
+        "unclassified": 5.080165108838061
+      }
+    },
+    "correlation": {
+      "totalCostVsWaste": null,
+      "totalDurationVsWaste": 0.23580419763063096
+    },
+    "dominantCategory": null
+  },
+  "totalRuns": 46
+}

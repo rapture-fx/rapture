@@ -1,0 +1,65 @@
+{
+  "seed": 20260829,
+  "order": [
+    {
+      "taskId": "PD4-cli-stats",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    },
+    {
+      "taskId": "PD3-redact-pattern",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    },
+    {
+      "taskId": "PD1-list",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    },
+    {
+      "taskId": "PD5-waste-analysis",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD3-redact-pattern",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD2-trivial-test",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    },
+    {
+      "taskId": "PD2-trivial-test",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD1-list",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD4-cli-stats",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD6-trace-version-fix",
+      "model": "openai/gpt-5.4-mini",
+      "rep": 1
+    },
+    {
+      "taskId": "PD5-waste-analysis",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    },
+    {
+      "taskId": "PD6-trace-version-fix",
+      "model": "openai/gpt-5.4",
+      "rep": 1
+    }
+  ]
+}
