@@ -27,6 +27,15 @@ const processIo: CliIo = {
   stderr: (value) => process.stderr.write(value),
 };
 
+async function repoRoot(): Promise<string> {
+  try {
+    const { execSync } = await import("node:child_process");
+    const out = execSync("git rev-parse --show-toplevel", { encoding: "utf8" }).trim();
+    if (out) return out;
+  } catch {}
+  return process.cwd();
+}
+
 function usage(): string {
   return [
     "Usage:",
@@ -44,6 +53,12 @@ function usage(): string {
     "  rapture change list [--json]",
     "  rapture change show <change-id> [--json]",
     "  rapture change trace <identifier> [--json]",
+    "  rapture production ingest <provider> --file <path>",
+    "  rapture production build",
+    "  rapture production current <service> --env <env> [--json]",
+    "  rapture production history <service> --env <env> [--json]",
+    "  rapture production show <id> [--json]",
+    "  rapture production trace <identifier> [--json]",
     "",
   ].join("\n");
 }
@@ -90,8 +105,8 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
 
   if (argv[0] === "runs" && argv[1] === "list") {
     const json = argv.includes("--json");
-    const repoRoot = process.cwd();
-    const runs = await listRuns(repoRoot);
+    const root = await repoRoot();
+    const runs = await listRuns(root);
     if (json) {
       io.stdout(`${JSON.stringify(runs, null, 2)}\n`);
     } else {
@@ -112,8 +127,8 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
       io.stderr(usage());
       return 2;
     }
-    const repoRoot = process.cwd();
-    const trace = await loadRunTrace(repoRoot, runId);
+    const root = await repoRoot();
+    const trace = await loadRunTrace(root, runId);
     if (!trace) {
       io.stderr(`run not found: ${runId}\n`);
       return 2;
@@ -130,12 +145,12 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
     const args = argv.slice(1);
     const json = args.includes("--json");
     const filtered = args.filter((a) => a !== "--json");
-    const repoRoot = process.cwd();
+    const root = await repoRoot();
     const traces = [];
     if (filtered.length === 1 && filtered[0] === "--all") {
-      const runs = await listRuns(repoRoot);
+      const runs = await listRuns(root);
       for (const r of runs) {
-        const t = await loadRunTrace(repoRoot, r.runId);
+        const t = await loadRunTrace(root, r.runId);
         if (t) traces.push(t);
       }
       if (traces.length === 0) {
@@ -144,7 +159,7 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
       }
     } else if (filtered.length >= 1) {
       for (const id of filtered) {
-        const t = await loadRunTrace(repoRoot, id);
+        const t = await loadRunTrace(root, id);
         if (!t) {
           io.stderr(`run not found: ${id}\n`);
           return 2;
@@ -200,7 +215,14 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
     const sub = argv[1];
     const rest = argv.slice(2);
     const { handleChange } = await import("@rapture/change");
-    return handleChange([sub ?? "", ...rest], io, process.cwd());
+    return handleChange([sub ?? "", ...rest], io, await repoRoot());
+  }
+
+  if (argv[0] === "production") {
+    const sub = argv[1];
+    const rest = argv.slice(2);
+    const { handleProduction } = await import("@rapture/production-change");
+    return handleProduction([sub ?? "", ...rest], io, await repoRoot());
   }
 
   io.stderr(usage());
@@ -239,11 +261,11 @@ async function handleProfile(argv: readonly string[], io: CliIo): Promise<number
     io.stderr(usage());
     return 2;
   }
-  const repoRoot = process.cwd();
+  const root = await repoRoot();
   try {
-    io.stderr(`Profiling opencode task... repo=${repoRoot}\n`);
+    io.stderr(`Profiling opencode task... repo=${root}\n`);
     const trace = await profileOpenCode({
-      repoRoot,
+      repoRoot: root,
       task,
       taskFile,
       persistTaskText,

@@ -29,6 +29,9 @@ importers:
       '@rapture/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@rapture/production-change':
+        specifier: workspace:*
+        version: link:../../packages/production-change
       '@rapture/profiler':
         specifier: workspace:*
         version: link:../../packages/profiler
@@ -53,6 +56,12 @@ importers:
       p-limit:
         specifier: ^7.1.0
         version: 7.3.1
+
+  packages/production-change:
+    dependencies:
+      '@rapture/kernel':
+        specifier: workspace:*
+        version: link:../kernel
 
   packages/profiler:
     dependencies:

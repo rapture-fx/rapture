@@ -20,6 +20,7 @@
   "dependencies": {
     "@rapture/core": "workspace:*",
     "@rapture/profiler": "workspace:*",
-    "@rapture/change": "workspace:*"
+    "@rapture/change": "workspace:*",
+    "@rapture/production-change": "workspace:*"
   }
 }
