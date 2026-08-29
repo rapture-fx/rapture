@@ -1,0 +1,185 @@
+{
+  "seed": 1337,
+  "order": [
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 2,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 3,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 3,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 3,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 2,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 3,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 2,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 2,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 1,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 1,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 1,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 1,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 2,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 1,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 2,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 1,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 1,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 2,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 2,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 1,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 2,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 1,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 3,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 1,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 2,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC2-redact",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 3,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC3-analysis",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 3,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC4-report",
+      "condition": "CONTROL_NORMAL",
+      "repetition": 3,
+      "artifactPath": null
+    },
+    {
+      "taskId": "PC5-profiler-wrap",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 3,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    },
+    {
+      "taskId": "PC1-storage",
+      "condition": "TREATMENT_WORKING_SET",
+      "repetition": 3,
+      "artifactPath": "experiments/phase0c/artifacts/working-set-profiler.md"
+    }
+  ]
+}
