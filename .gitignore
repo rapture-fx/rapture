@@ -9,10 +9,12 @@ coverage/
 /runs/
 /benchmarks/
 /fixtures/
-# phase0b experiment manifests are committed
+# phase0b/c experiment manifests are committed
 /experiments/*
 !experiments/phase0b
 !experiments/phase0b/**
+!experiments/phase0c
+!experiments/phase0c/**
 .tmp/
 .turbo/
 .rapture/

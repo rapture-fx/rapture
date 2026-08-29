@@ -2,10 +2,124 @@ import { sha256Hex } from "./hash.js";
 import { redactString } from "./redact.js";
 import type { NormalizedOperation, OperationClass, RawEvent } from "./schema.js";
 
+export interface MechanicalSearch {
+  readonly pattern: string;
+  readonly path: string | null;
+  readonly normalizedPattern: string;
+  readonly normalizedPath: string | null;
+}
+
+function tokenizeCommand(cmd: string): string[] {
+  const tokens: string[] = [];
+  let cur = "";
+  let inSingle = false;
+  let inDouble = false;
+  let escaped = false;
+  for (let i = 0; i < cmd.length; i++) {
+    const ch = cmd[i] ?? "";
+    if (escaped) {
+      cur += ch;
+      escaped = false;
+      continue;
+    }
+    if (ch === "\\" && !inSingle) {
+      escaped = true;
+      continue;
+    }
+    if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+      continue;
+    }
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+      continue;
+    }
+    if ((ch === " " || ch === "\t") && !inSingle && !inDouble) {
+      if (cur.length > 0) {
+        tokens.push(cur);
+        cur = "";
+      }
+      continue;
+    }
+    cur += ch;
+  }
+  if (cur.length > 0) tokens.push(cur);
+  return tokens;
+}
+
+export function tryParseBashSearch(command: string): MechanicalSearch | null {
+  const tokens = tokenizeCommand(command);
+  if (tokens.length === 0) return null;
+  const first = tokens[0] ?? "";
+  const isRg = first === "rg" || first.endsWith("/rg");
+  const isGrep = first === "grep" || first.endsWith("/grep");
+  if (!isRg && !isGrep) return null;
+  // skip flags
+  let idx = 1;
+  // flags that take an argument: -g, --glob, -t, --type, etc. For conservative correctness, known flag-arg pairs:
+  const flagWithArg = new Set(["-g", "--glob", "-t", "--type", "--type-add", "-A", "-B", "-C", "--after-context", "--before-context", "-m", "--max-count"]);
+  while (idx < tokens.length) {
+    const tok = tokens[idx] ?? "";
+    if (tok.startsWith("-")) {
+      if (flagWithArg.has(tok) && idx + 1 < tokens.length) {
+        idx += 2;
+      } else if (tok.startsWith("--") && tok.includes("=")) {
+        // --glob=foo style
+        idx += 1;
+      } else {
+        // check if token is flag with attached value like -gpattern? skip simple
+        idx += 1;
+      }
+      continue;
+    }
+    break;
+  }
+  if (idx >= tokens.length) return null;
+  const rawPattern = tokens[idx] ?? "";
+  idx++;
+  // next token if exists and not flag is path
+  let rawPath: string | null = null;
+  if (idx < tokens.length) {
+    const maybePath = tokens[idx] ?? "";
+    if (!maybePath.startsWith("-")) rawPath = maybePath;
+    // if remaining tokens, treat first as path (repo search usually single path)
+  }
+  const normalizedPattern = rawPattern.replace(/\s+/g, " ").trim();
+  const normalizedPath = rawPath ? rawPath.replace(/^\.\//, "").trim() || null : null;
+  // handle repo root scope: "." or "./" => null (repo root)
+  const finalPath = normalizedPath === "." || normalizedPath === "./" ? null : normalizedPath;
+  return {
+    pattern: rawPattern,
+    path: rawPath,
+    normalizedPattern,
+    normalizedPath: finalPath,
+  };
+}
+
+export function tryParseBashListing(command: string): string | null {
+  const trimmed = command.trim();
+  // simple ls cases: "ls", "ls -1", "ls -la", "ls path", "ls -1 path"
+  // handle flags with digits like -1, -la, -R
+  const lsMatch = trimmed.match(/^\s*ls(\s+-[\w]+\s*)*\s*(\S+)?\s*$/);
+  if (lsMatch) {
+    const path = lsMatch[2] ?? null;
+    if (path) {
+      const norm = normalizeFilePath(path);
+      return norm === "" ? "." : norm;
+    }
+    return "."; // repo root listing
+  }
+  return null;
+}
+
 function classifyCommand(command: string): OperationClass {
   const cmd = command.trim();
   if (/^\s*git(\s|$)/.test(cmd)) return "git";
   if (/\b(pnpm|npm|yarn|bun)\s+(install|i)(\b|\s)/.test(cmd)) return "install";
+  // mechanical search detection: bash rg/grep
+  if (tryParseBashSearch(cmd)) return "search";
+  // listing equivalence: simple ls -> directory_list where provably equivalent
+  if (tryParseBashListing(cmd) !== null) return "directory_list";
   // test detection must be before build because some test runs include build
   if (
     /\b(vitest|jest|mocha|playwright|cypress|ava|tap)\b/.test(cmd) ||
@@ -267,7 +381,23 @@ function normalizeToolCall(
       normalizedCommand = normalizeCommandValue(cmd);
       workdir = wd ? normalizeFilePath(wd) : ctx.repoRoot;
       opClass = classifyCommand(cmd);
-      displayName = `${opClass}:${normalizedCommand}`;
+      // mechanical search extraction for bash
+      const bashSearch = tryParseBashSearch(cmd);
+      if (bashSearch) {
+        opClass = "search";
+        searchPattern = bashSearch.normalizedPattern;
+        searchPath = bashSearch.normalizedPath;
+        displayName = `search:${bashSearch.normalizedPattern}:${bashSearch.normalizedPath ?? ""}`;
+      } else {
+        const listingPath = tryParseBashListing(cmd);
+        if (listingPath !== null) {
+          opClass = "directory_list";
+          filePath = listingPath;
+          displayName = `directory_list:${listingPath}`;
+        } else {
+          displayName = `${opClass}:${normalizedCommand}`;
+        }
+      }
       // check for git op within bash? already classified
       if (output && typeof output === "string") byteLength = Buffer.byteLength(output, "utf8");
       // extract exit info if present in state

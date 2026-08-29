@@ -1,0 +1,323 @@
+{
+  "version": 1,
+  "repositoryTreeHash": "a5b5483770f1aa709f78c1c509f0138e8838e1c5",
+  "sourceRunIds": [
+    "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+    "31f5a11d-0555-49e3-b280-3256bcc98922",
+    "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+    "6c4d3596-11cd-46f4-b087-73e156e2565a",
+    "b383c385-eb52-47e6-912b-c7cfcda2078f",
+    "db095044-987e-4fd6-88e2-b9039cb17b78"
+  ],
+  "generationTimestamp": "2026-08-29T06:54:24.780Z",
+  "taskDomain": "profiler",
+  "files": [
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/apps/cli/src/cli.ts",
+      "contentHash": "18d721bff40dfd63f05130cfcc09355457a63dc01c1e6c363cb8fecdcb0e45dd",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/apps/cli/src/index.ts",
+      "contentHash": "4f1bba632d4e94d23d0e9a63ab16264bbd81c69a879898425fa3b6e638ba481a",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/apps/cli/test/cli.profiler.test.ts",
+      "contentHash": "53aa746fb07465781c585650b99332d3dd2825bb3eeb2a6f316fa9697698758f",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts",
+      "contentHash": "33ccc244b31667539e5edbdac2c875cdcbfa94efd4b694c9ca2aa91ff21d6161",
+      "sourceRunIds": [
+        "b383c385-eb52-47e6-912b-c7cfcda2078f",
+        "db095044-987e-4fd6-88e2-b9039cb17b78"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts",
+      "contentHash": "594e024479695b5805809a1243e379cda2ace683ca9dc32f5a476ab1396e9ac1",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts",
+      "contentHash": "c037cbdbfa80550487dcb32b4753da3656e79622f0bc54f26bf4a2a99a60858a",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/experiment.ts",
+      "contentHash": "58631aae69b1d98e2b84358a2daa5b48e47b775cda9d62c0505664e672c57d28",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/git.ts",
+      "contentHash": "6dc8c83706cbdb3a56a74b3e99b1b5395448e4a493a21a651cec98efa5a84715",
+      "sourceRunIds": [
+        "6c4d3596-11cd-46f4-b087-73e156e2565a"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/hash.ts",
+      "contentHash": "1802f709c70e7f1d1fede1ea4b261111ed79ce710234a55b9a00004b05cfc15d",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/manifest.ts",
+      "contentHash": "07399e0890c2defbc6537b1fb755b84517758f8d99b7479daded5bc398d30c1f",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/normalize.ts",
+      "contentHash": "2235c894fd39a174a581a93b46aad1a353bed4ee9ec595b347f01dd21b64b2a8",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts",
+      "contentHash": "6634ed0f09065104891572b68a15601c797039759ef07c51625c748a807286ce",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts",
+      "contentHash": "aaf724159450318c958de64f21532749652ae1748b684f9fee83c69c4a39f3ea",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts",
+      "contentHash": "c31bc35f2ee5a5ffd0d59399bcc1510f959693aa2c48a7bea6be6ba31c548f2e",
+      "sourceRunIds": [
+        "6c4d3596-11cd-46f4-b087-73e156e2565a"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts",
+      "contentHash": "e3c87d4d76f5b3a936bb0178c98474ed03a69d189fecfa9674e44f5d1e361d0d",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts",
+      "contentHash": "9e2771d52f02f64c7b74bba3a887365ba940a3a67332b5dc4069cc72e5874d9f",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts",
+      "contentHash": "f5a6e27660733e70e26adfb050ec2b7c2284ae945492a5bdd22981867cd23079",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+        "b383c385-eb52-47e6-912b-c7cfcda2078f"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts",
+      "contentHash": "15ad6bb01fc85ddc3bd02c3af0b26c0cd4e418c566cdb8552560ea145f1bf2fd",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+        "6c4d3596-11cd-46f4-b087-73e156e2565a",
+        "b383c385-eb52-47e6-912b-c7cfcda2078f",
+        "db095044-987e-4fd6-88e2-b9039cb17b78"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts",
+      "contentHash": "ab11a1e1882674ef5ea05390fb6827efe6a330759678cc5dbb4708324c706df0",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+        "6c4d3596-11cd-46f4-b087-73e156e2565a"
+      ]
+    },
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/test/profiler.test.ts",
+      "contentHash": "a1d53d4b51d430b76abb909fa20522d649493afe0c46732f356faeb28f89ba13",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    }
+  ],
+  "directories": [
+    {
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/normalize.ts",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+        "6c4d3596-11cd-46f4-b087-73e156e2565a",
+        "db095044-987e-4fd6-88e2-b9039cb17b78"
+      ]
+    },
+    {
+      "path": "apps/cli/**/*.test.ts",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "apps/cli/src/**/*.{ts,tsx}",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "packages/**/src/**/*.ts",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "path": "packages/profiler/src/*",
+      "sourceRunIds": [
+        "db095044-987e-4fd6-88e2-b9039cb17b78"
+      ]
+    },
+    {
+      "path": "packages/profiler/src/**/*.ts",
+      "sourceRunIds": [
+        "6c4d3596-11cd-46f4-b087-73e156e2565a",
+        "b383c385-eb52-47e6-912b-c7cfcda2078f"
+      ]
+    },
+    {
+      "path": "packages/profiler/src/redact.ts",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    }
+  ],
+  "searches": [
+    {
+      "pattern": "(profile|runs|analyze|experiment)",
+      "path": "/Users/wira/Documents/rapture/rapture/apps/cli/src",
+      "normalizedPattern": "(profile|runs|analyze|experiment)",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/apps/cli/src",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "pattern": "TRACE_VERSION|RunMetadata|NormalizedOperation|RawEvent|OperationClass",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "normalizedPattern": "TRACE_VERSION|RunMetadata|NormalizedOperation|RawEvent|OperationClass",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7"
+      ]
+    },
+    {
+      "pattern": "byClass\\[|opClass",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts",
+      "normalizedPattern": "byClass\\[|opClass",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "pattern": "export (async )?function (listRuns|loadRunTrace|loadManifest|profileOpenCode|runExperiment|analyzeCrossRun|deriveProfile|formatSingleReport|formatCrossRunReport)",
+      "path": "/Users/wira/Documents/rapture/rapture",
+      "normalizedPattern": "export (async )?function (listRuns|loadRunTrace|loadManifest|profileOpenCode|runExperiment|analyzeCrossRun|deriveProfile|formatSingleReport|formatCrossRunReport)",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "pattern": "export interface RunTrace|interface NormalizedOperation|opClass:",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts",
+      "normalizedPattern": "export interface RunTrace|interface NormalizedOperation|opClass:",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "pattern": "hashTask\\(",
+      "path": "/Users/wira/Documents/rapture/rapture",
+      "normalizedPattern": "hashTask\\(",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "pattern": "main\\(|handleProfile|runs show|analyze --all|experiment run",
+      "path": "/Users/wira/Documents/rapture/rapture/apps/cli",
+      "normalizedPattern": "main\\(|handleProfile|runs show|analyze --all|experiment run",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/apps/cli",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    },
+    {
+      "pattern": "opencode run|sqlite|trace|git status|json event|events",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "normalizedPattern": "opencode run|sqlite|trace|git status|json event|events",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "sourceRunIds": [
+        "6c4d3596-11cd-46f4-b087-73e156e2565a"
+      ]
+    },
+    {
+      "pattern": "privacy|redact|redaction|anonymous|sanit",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "normalizedPattern": "privacy|redact|redaction|anonymous|sanit",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "sourceRunIds": [
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7"
+      ]
+    },
+    {
+      "pattern": "redactString|redactEnv|redactRecord|hashTask",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/test",
+      "normalizedPattern": "redactString|redactEnv|redactRecord|hashTask",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/test",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "pattern": "redact|hash",
+      "path": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "normalizedPattern": "redact|hash",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages/profiler/src",
+      "sourceRunIds": [
+        "31f5a11d-0555-49e3-b280-3256bcc98922"
+      ]
+    },
+    {
+      "pattern": "throw new Error|throw Error|reject\\(",
+      "path": "/Users/wira/Documents/rapture/rapture/packages",
+      "normalizedPattern": "throw new Error|throw Error|reject\\(",
+      "normalizedPath": "/Users/wira/Documents/rapture/rapture/packages",
+      "sourceRunIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc"
+      ]
+    }
+  ],
+  "gitQueries": [],
+  "artifactSizeBytes": 12162,
+  "approxTokens": 3041
+}
