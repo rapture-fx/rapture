@@ -1,0 +1,2711 @@
+{
+  "runIds": [
+    "56d1a767-8b5c-4697-bdf7-ab42cad0d50f",
+    "4f5567bc-79cf-4f6b-bd34-bc6c30d4ce27",
+    "2ff777ce-0576-40ed-b2aa-d570cbfa8e9a",
+    "ebbe1d2a-24d9-4cbb-bd28-faf87b7b350d",
+    "0e99dd03-4e48-4002-97b1-a2f73ab683ee",
+    "fec84025-6230-4ca4-99e3-d775a395336c",
+    "0f915494-a3f5-488e-b178-f7d355d596ee",
+    "a6e4b726-62fa-4661-bd97-c26bb1ab41ac",
+    "ad27ed19-3dae-4761-bbab-31ef71543548",
+    "e799d81a-cfce-4bce-ba28-26b4dbcc4743",
+    "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+    "6c4d3596-11cd-46f4-b087-73e156e2565a",
+    "b383c385-eb52-47e6-912b-c7cfcda2078f",
+    "db095044-987e-4fd6-88e2-b9039cb17b78",
+    "31f5a11d-0555-49e3-b280-3256bcc98922",
+    "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+    "fe396c1c-74cd-4066-a5e8-9a073ca8f4a4",
+    "3bcdad78-6f20-4976-8f7c-d06b82fde86d",
+    "221523d0-e986-4634-81d8-f379c377d9fe",
+    "b1ebb881-3416-4cd5-8c55-dc078a722893",
+    "eaac5c64-e873-4740-a42c-e0e19fdd0e85",
+    "29db084d-dc75-4311-9567-df6b9230a1c0",
+    "580ea6d1-8cce-44c9-bd94-8c6aca4aea78",
+    "a5aec9ab-79af-473c-b611-4b38c288e568"
+  ],
+  "totalOps": 181,
+  "uniqueOpsAcrossRuns": 120,
+  "repeatedOpsAcrossRuns": 61,
+  "crossRunRepeatPct": 33.70165745856354,
+  "deterministicReuseCandidates": 61,
+  "deterministicReusePct": 33.70165745856354,
+  "byClass": {
+    "file_read": {
+      "total": 99,
+      "repeated": 47
+    },
+    "file_write": {
+      "total": 0,
+      "repeated": 0
+    },
+    "file_stat": {
+      "total": 0,
+      "repeated": 0
+    },
+    "directory_list": {
+      "total": 45,
+      "repeated": 14
+    },
+    "search": {
+      "total": 37,
+      "repeated": 0
+    },
+    "git": {
+      "total": 0,
+      "repeated": 0
+    },
+    "shell": {
+      "total": 0,
+      "repeated": 0
+    },
+    "test": {
+      "total": 0,
+      "repeated": 0
+    },
+    "build": {
+      "total": 0,
+      "repeated": 0
+    },
+    "install": {
+      "total": 0,
+      "repeated": 0
+    },
+    "network": {
+      "total": 0,
+      "repeated": 0
+    },
+    "agent_tool": {
+      "total": 0,
+      "repeated": 0
+    },
+    "unknown": {
+      "total": 0,
+      "repeated": 0
+    }
+  },
+  "topRepeatedFiles": [
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts:15ad6bb01fc85ddc3bd02c3af0b26c0cd4e418c566cdb8552560ea145f1bf2fd",
+      "count": 16,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts:ab11a1e1882674ef5ea05390fb6827efe6a330759678cc5dbb4708324c706df0",
+      "count": 8,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts:33ccc244b31667539e5edbdac2c875cdcbfa94efd4b694c9ca2aa91ff21d6161",
+      "count": 6,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts:9e2771d52f02f64c7b74bba3a887365ba940a3a67332b5dc4069cc72e5874d9f",
+      "count": 5,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts:c31bc35f2ee5a5ffd0d59399bcc1510f959693aa2c48a7bea6be6ba31c548f2e",
+      "count": 4,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/hash.ts:1802f709c70e7f1d1fede1ea4b261111ed79ce710234a55b9a00004b05cfc15d",
+      "count": 4,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/hash.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts:f5a6e27660733e70e26adfb050ec2b7c2284ae945492a5bdd22981867cd23079",
+      "count": 3,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/index.ts:3a8100e95936b6db7f92583206de42216728641fcd5f1d2bc0f666ba40d9279f",
+      "count": 3,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/index.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/git.ts:6dc8c83706cbdb3a56a74b3e99b1b5395448e4a493a21a651cec98efa5a84715",
+      "count": 2,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/git.ts"
+      ]
+    },
+    {
+      "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/experiment.ts:58631aae69b1d98e2b84358a2daa5b48e47b775cda9d62c0505664e672c57d28",
+      "count": 2,
+      "paths": [
+        "/Users/wira/Documents/rapture/rapture/packages/profiler/src/experiment.ts"
+      ]
+    }
+  ],
+  "topRepeatedCommands": [],
+  "topRepeatedSearches": [],
+  "topRepeatedTestsBuilds": [],
+  "tokenOverlap": {
+    "totalInput": 333032,
+    "totalOutput": 21968,
+    "totalCacheRead": 771584,
+    "repeatedEstimate": null,
+    "confidence": "low"
+  },
+  "unmeasurablePortion": 0,
+  "perRun": [
+    {
+      "runId": "56d1a767-8b5c-4697-bdf7-ab42cad0d50f",
+      "totalOps": 10,
+      "byClass": {
+        "file_read": 5,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 10,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 5,
+      "uniqueFileReads": 5,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 30732,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 6,
+        "grep": 3,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "D_evolving_related",
+      "taskId": "D5-profiler-wrap-evo"
+    },
+    {
+      "runId": "4f5567bc-79cf-4f6b-bd34-bc6c30d4ce27",
+      "totalOps": 4,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 4,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 36022,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 3,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "D_evolving_related",
+      "taskId": "D4-report-evo"
+    },
+    {
+      "runId": "2ff777ce-0576-40ed-b2aa-d570cbfa8e9a",
+      "totalOps": 4,
+      "byClass": {
+        "file_read": 2,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 4,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 2,
+      "uniqueFileReads": 2,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 26605,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 1,
+        "read": 3
+      },
+      "unknownOps": 0,
+      "cohort": "D_evolving_related",
+      "taskId": "D3-analysis-evo"
+    },
+    {
+      "runId": "ebbe1d2a-24d9-4cbb-bd28-faf87b7b350d",
+      "totalOps": 5,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 1,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 5,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 9050,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 1,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 3,
+        "glob": 1,
+        "grep": 1
+      },
+      "unknownOps": 0,
+      "cohort": "D_evolving_related",
+      "taskId": "D2-redact-evo"
+    },
+    {
+      "runId": "0e99dd03-4e48-4002-97b1-a2f73ab683ee",
+      "totalOps": 1,
+      "byClass": {
+        "file_read": 1,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 0,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 1,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 1,
+      "uniqueFileReads": 1,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 5581,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 1
+      },
+      "unknownOps": 0,
+      "cohort": "D_evolving_related",
+      "taskId": "D1-schema-evo"
+    },
+    {
+      "runId": "fec84025-6230-4ca4-99e3-d775a395336c",
+      "totalOps": 21,
+      "byClass": {
+        "file_read": 15,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 6,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 21,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 15,
+      "uniqueFileReads": 15,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 7520,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 6,
+        "read": 15
+      },
+      "unknownOps": 0,
+      "cohort": "C_unrelated_control",
+      "taskId": "C5-workspace"
+    },
+    {
+      "runId": "0f915494-a3f5-488e-b178-f7d355d596ee",
+      "totalOps": 7,
+      "byClass": {
+        "file_read": 4,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 0,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 7,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 4,
+      "uniqueFileReads": 4,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 11711,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 4,
+        "grep": 3
+      },
+      "unknownOps": 0,
+      "cohort": "C_unrelated_control",
+      "taskId": "C4-kernel-integrity"
+    },
+    {
+      "runId": "a6e4b726-62fa-4661-bd97-c26bb1ab41ac",
+      "totalOps": 2,
+      "byClass": {
+        "file_read": 1,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 2,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 1,
+      "uniqueFileReads": 1,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 699,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 1,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "C_unrelated_control",
+      "taskId": "C3-ci"
+    },
+    {
+      "runId": "ad27ed19-3dae-4761-bbab-31ef71543548",
+      "totalOps": 8,
+      "byClass": {
+        "file_read": 4,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 4,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 7,
+      "repeatedOps": 1,
+      "repeatPct": 12.5,
+      "fileReads": 4,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 1,
+      "bytesRead": 16791,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 4,
+        "read": 4
+      },
+      "unknownOps": 0,
+      "cohort": "C_unrelated_control",
+      "taskId": "C2-reference-scenario"
+    },
+    {
+      "runId": "e799d81a-cfce-4bce-ba28-26b4dbcc4743",
+      "totalOps": 7,
+      "byClass": {
+        "file_read": 4,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 3,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 7,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 4,
+      "uniqueFileReads": 4,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 19031,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 2,
+        "read": 5
+      },
+      "unknownOps": 0,
+      "cohort": "C_unrelated_control",
+      "taskId": "C1-docs"
+    },
+    {
+      "runId": "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+      "totalOps": 19,
+      "byClass": {
+        "file_read": 10,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 3,
+        "search": 6,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 19,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 10,
+      "uniqueFileReads": 10,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 61711,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 6,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 10,
+        "glob": 3,
+        "grep": 6
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B6-cli"
+    },
+    {
+      "runId": "6c4d3596-11cd-46f4-b087-73e156e2565a",
+      "totalOps": 7,
+      "byClass": {
+        "file_read": 4,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 1,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 7,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 4,
+      "uniqueFileReads": 4,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 28287,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 1,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 1,
+        "grep": 1,
+        "read": 5
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B5-profiler-wrap"
+    },
+    {
+      "runId": "b383c385-eb52-47e6-912b-c7cfcda2078f",
+      "totalOps": 4,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 4,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 36022,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 3,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B4-report"
+    },
+    {
+      "runId": "db095044-987e-4fd6-88e2-b9039cb17b78",
+      "totalOps": 4,
+      "byClass": {
+        "file_read": 2,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 4,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 2,
+      "uniqueFileReads": 2,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 26605,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 1,
+        "read": 3
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B3-analysis"
+    },
+    {
+      "runId": "31f5a11d-0555-49e3-b280-3256bcc98922",
+      "totalOps": 9,
+      "byClass": {
+        "file_read": 5,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 9,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 5,
+      "uniqueFileReads": 5,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 18620,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 1,
+        "grep": 3,
+        "read": 5
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B2-redact"
+    },
+    {
+      "runId": "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+      "totalOps": 6,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 2,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 6,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 20756,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 2,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 4,
+        "grep": 2
+      },
+      "unknownOps": 0,
+      "cohort": "B_related_same_state",
+      "taskId": "B1-schema"
+    },
+    {
+      "runId": "fe396c1c-74cd-4066-a5e8-9a073ca8f4a4",
+      "totalOps": 5,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 5,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 9708,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 1,
+        "read": 4
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A2-normalize-analysis"
+    },
+    {
+      "runId": "3bcdad78-6f20-4976-8f7c-d06b82fde86d",
+      "totalOps": 8,
+      "byClass": {
+        "file_read": 2,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 5,
+        "search": 1,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 8,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 2,
+      "uniqueFileReads": 2,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 26605,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 1,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 3,
+        "read": 4,
+        "grep": 1
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A2-normalize-analysis"
+    },
+    {
+      "runId": "221523d0-e986-4634-81d8-f379c377d9fe",
+      "totalOps": 5,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 2,
+        "search": 0,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 5,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 9708,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 0,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 4,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A2-normalize-analysis"
+    },
+    {
+      "runId": "b1ebb881-3416-4cd5-8c55-dc078a722893",
+      "totalOps": 9,
+      "byClass": {
+        "file_read": 5,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 9,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 5,
+      "uniqueFileReads": 5,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 48401,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 5,
+        "grep": 3,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A1-storage-analysis"
+    },
+    {
+      "runId": "eaac5c64-e873-4740-a42c-e0e19fdd0e85",
+      "totalOps": 13,
+      "byClass": {
+        "file_read": 7,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 3,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 13,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 7,
+      "uniqueFileReads": 7,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 41916,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "glob": 3,
+        "read": 7,
+        "grep": 3
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A1-storage-analysis"
+    },
+    {
+      "runId": "29db084d-dc75-4311-9567-df6b9230a1c0",
+      "totalOps": 7,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 7,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 14359,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 3,
+        "glob": 1,
+        "grep": 3
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A1-storage-analysis"
+    },
+    {
+      "runId": "580ea6d1-8cce-44c9-bd94-8c6aca4aea78",
+      "totalOps": 10,
+      "byClass": {
+        "file_read": 4,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 1,
+        "search": 5,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 10,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 4,
+      "uniqueFileReads": 4,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 25883,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 5,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 4,
+        "grep": 5,
+        "glob": 1
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A1-storage-analysis"
+    },
+    {
+      "runId": "a5aec9ab-79af-473c-b611-4b38c288e568",
+      "totalOps": 6,
+      "byClass": {
+        "file_read": 3,
+        "file_write": 0,
+        "file_stat": 0,
+        "directory_list": 0,
+        "search": 3,
+        "git": 0,
+        "shell": 0,
+        "test": 0,
+        "build": 0,
+        "install": 0,
+        "network": 0,
+        "agent_tool": 0,
+        "unknown": 0
+      },
+      "uniqueOps": 6,
+      "repeatedOps": 0,
+      "repeatPct": 0,
+      "fileReads": 3,
+      "uniqueFileReads": 3,
+      "repeatedUnchangedReads": 0,
+      "bytesRead": 12989,
+      "shellCommands": 0,
+      "duplicateShellCommands": 0,
+      "shellReadLike": 0,
+      "searches": 3,
+      "repeatedSearches": 0,
+      "gitOps": 0,
+      "testOps": 0,
+      "repeatedTests": 0,
+      "buildOps": 0,
+      "repeatedBuilds": 0,
+      "toolCallCounts": {
+        "read": 3,
+        "grep": 3
+      },
+      "unknownOps": 0,
+      "cohort": "A_same_task_same_state",
+      "taskId": "A1-storage-analysis"
+    }
+  ],
+  "shellReadLikeTotal": 0,
+  "byCohort": {
+    "D_evolving_related": {
+      "runIds": [
+        "56d1a767-8b5c-4697-bdf7-ab42cad0d50f",
+        "4f5567bc-79cf-4f6b-bd34-bc6c30d4ce27",
+        "2ff777ce-0576-40ed-b2aa-d570cbfa8e9a",
+        "ebbe1d2a-24d9-4cbb-bd28-faf87b7b350d",
+        "0e99dd03-4e48-4002-97b1-a2f73ab683ee"
+      ],
+      "totalOps": 24,
+      "uniqueOpsAcrossRuns": 18,
+      "repeatedOpsAcrossRuns": 6,
+      "crossRunRepeatPct": 25,
+      "deterministicReuseCandidates": 6,
+      "deterministicReusePct": 25,
+      "byClass": {
+        "file_read": {
+          "total": 14,
+          "repeated": 4
+        },
+        "file_write": {
+          "total": 0,
+          "repeated": 0
+        },
+        "file_stat": {
+          "total": 0,
+          "repeated": 0
+        },
+        "directory_list": {
+          "total": 6,
+          "repeated": 2
+        },
+        "search": {
+          "total": 4,
+          "repeated": 0
+        },
+        "git": {
+          "total": 0,
+          "repeated": 0
+        },
+        "shell": {
+          "total": 0,
+          "repeated": 0
+        },
+        "test": {
+          "total": 0,
+          "repeated": 0
+        },
+        "build": {
+          "total": 0,
+          "repeated": 0
+        },
+        "install": {
+          "total": 0,
+          "repeated": 0
+        },
+        "network": {
+          "total": 0,
+          "repeated": 0
+        },
+        "agent_tool": {
+          "total": 0,
+          "repeated": 0
+        },
+        "unknown": {
+          "total": 0,
+          "repeated": 0
+        }
+      },
+      "topRepeatedFiles": [
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts:15ad6bb01fc85ddc3bd02c3af0b26c0cd4e418c566cdb8552560ea145f1bf2fd",
+          "count": 4,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts:33ccc244b31667539e5edbdac2c875cdcbfa94efd4b694c9ca2aa91ff21d6161",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts"
+          ]
+        }
+      ],
+      "topRepeatedCommands": [],
+      "topRepeatedSearches": [],
+      "topRepeatedTestsBuilds": [],
+      "tokenOverlap": {
+        "totalInput": 48904,
+        "totalOutput": 4567,
+        "totalCacheRead": 118272,
+        "repeatedEstimate": null,
+        "confidence": "low"
+      },
+      "unmeasurablePortion": 0,
+      "perRun": [
+        {
+          "runId": "56d1a767-8b5c-4697-bdf7-ab42cad0d50f",
+          "totalOps": 10,
+          "byClass": {
+            "file_read": 5,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 10,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 5,
+          "uniqueFileReads": 5,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 30732,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 6,
+            "grep": 3,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "D_evolving_related",
+          "taskId": "D5-profiler-wrap-evo"
+        },
+        {
+          "runId": "4f5567bc-79cf-4f6b-bd34-bc6c30d4ce27",
+          "totalOps": 4,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 4,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 36022,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 3,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "D_evolving_related",
+          "taskId": "D4-report-evo"
+        },
+        {
+          "runId": "2ff777ce-0576-40ed-b2aa-d570cbfa8e9a",
+          "totalOps": 4,
+          "byClass": {
+            "file_read": 2,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 4,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 2,
+          "uniqueFileReads": 2,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 26605,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 1,
+            "read": 3
+          },
+          "unknownOps": 0,
+          "cohort": "D_evolving_related",
+          "taskId": "D3-analysis-evo"
+        },
+        {
+          "runId": "ebbe1d2a-24d9-4cbb-bd28-faf87b7b350d",
+          "totalOps": 5,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 1,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 5,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 9050,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 1,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 3,
+            "glob": 1,
+            "grep": 1
+          },
+          "unknownOps": 0,
+          "cohort": "D_evolving_related",
+          "taskId": "D2-redact-evo"
+        },
+        {
+          "runId": "0e99dd03-4e48-4002-97b1-a2f73ab683ee",
+          "totalOps": 1,
+          "byClass": {
+            "file_read": 1,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 0,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 1,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 1,
+          "uniqueFileReads": 1,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 5581,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 1
+          },
+          "unknownOps": 0,
+          "cohort": "D_evolving_related",
+          "taskId": "D1-schema-evo"
+        }
+      ],
+      "shellReadLikeTotal": 0,
+      "byCohort": {}
+    },
+    "C_unrelated_control": {
+      "runIds": [
+        "fec84025-6230-4ca4-99e3-d775a395336c",
+        "0f915494-a3f5-488e-b178-f7d355d596ee",
+        "a6e4b726-62fa-4661-bd97-c26bb1ab41ac",
+        "ad27ed19-3dae-4761-bbab-31ef71543548",
+        "e799d81a-cfce-4bce-ba28-26b4dbcc4743"
+      ],
+      "totalOps": 45,
+      "uniqueOpsAcrossRuns": 44,
+      "repeatedOpsAcrossRuns": 1,
+      "crossRunRepeatPct": 2.2222222222222223,
+      "deterministicReuseCandidates": 1,
+      "deterministicReusePct": 2.2222222222222223,
+      "byClass": {
+        "file_read": {
+          "total": 28,
+          "repeated": 1
+        },
+        "file_write": {
+          "total": 0,
+          "repeated": 0
+        },
+        "file_stat": {
+          "total": 0,
+          "repeated": 0
+        },
+        "directory_list": {
+          "total": 14,
+          "repeated": 0
+        },
+        "search": {
+          "total": 3,
+          "repeated": 0
+        },
+        "git": {
+          "total": 0,
+          "repeated": 0
+        },
+        "shell": {
+          "total": 0,
+          "repeated": 0
+        },
+        "test": {
+          "total": 0,
+          "repeated": 0
+        },
+        "build": {
+          "total": 0,
+          "repeated": 0
+        },
+        "install": {
+          "total": 0,
+          "repeated": 0
+        },
+        "network": {
+          "total": 0,
+          "repeated": 0
+        },
+        "agent_tool": {
+          "total": 0,
+          "repeated": 0
+        },
+        "unknown": {
+          "total": 0,
+          "repeated": 0
+        }
+      },
+      "topRepeatedFiles": [
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/core/src/reference/subscription-seat-upgrade.ts:8159e014956eadf0e9daf607c1cae4a1677ef563c2c3683c2337fdbb854aa99f",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/core/src/reference/subscription-seat-upgrade.ts"
+          ]
+        }
+      ],
+      "topRepeatedCommands": [],
+      "topRepeatedSearches": [],
+      "topRepeatedTestsBuilds": [],
+      "tokenOverlap": {
+        "totalInput": 36146,
+        "totalOutput": 3800,
+        "totalCacheRead": 128000,
+        "repeatedEstimate": null,
+        "confidence": "low"
+      },
+      "unmeasurablePortion": 0,
+      "perRun": [
+        {
+          "runId": "fec84025-6230-4ca4-99e3-d775a395336c",
+          "totalOps": 21,
+          "byClass": {
+            "file_read": 15,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 6,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 21,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 15,
+          "uniqueFileReads": 15,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 7520,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 6,
+            "read": 15
+          },
+          "unknownOps": 0,
+          "cohort": "C_unrelated_control",
+          "taskId": "C5-workspace"
+        },
+        {
+          "runId": "0f915494-a3f5-488e-b178-f7d355d596ee",
+          "totalOps": 7,
+          "byClass": {
+            "file_read": 4,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 0,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 7,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 4,
+          "uniqueFileReads": 4,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 11711,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 4,
+            "grep": 3
+          },
+          "unknownOps": 0,
+          "cohort": "C_unrelated_control",
+          "taskId": "C4-kernel-integrity"
+        },
+        {
+          "runId": "a6e4b726-62fa-4661-bd97-c26bb1ab41ac",
+          "totalOps": 2,
+          "byClass": {
+            "file_read": 1,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 2,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 1,
+          "uniqueFileReads": 1,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 699,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 1,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "C_unrelated_control",
+          "taskId": "C3-ci"
+        },
+        {
+          "runId": "ad27ed19-3dae-4761-bbab-31ef71543548",
+          "totalOps": 8,
+          "byClass": {
+            "file_read": 4,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 4,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 7,
+          "repeatedOps": 1,
+          "repeatPct": 12.5,
+          "fileReads": 4,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 1,
+          "bytesRead": 16791,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 4,
+            "read": 4
+          },
+          "unknownOps": 0,
+          "cohort": "C_unrelated_control",
+          "taskId": "C2-reference-scenario"
+        },
+        {
+          "runId": "e799d81a-cfce-4bce-ba28-26b4dbcc4743",
+          "totalOps": 7,
+          "byClass": {
+            "file_read": 4,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 3,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 7,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 4,
+          "uniqueFileReads": 4,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 19031,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 2,
+            "read": 5
+          },
+          "unknownOps": 0,
+          "cohort": "C_unrelated_control",
+          "taskId": "C1-docs"
+        }
+      ],
+      "shellReadLikeTotal": 0,
+      "byCohort": {}
+    },
+    "B_related_same_state": {
+      "runIds": [
+        "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+        "6c4d3596-11cd-46f4-b087-73e156e2565a",
+        "b383c385-eb52-47e6-912b-c7cfcda2078f",
+        "db095044-987e-4fd6-88e2-b9039cb17b78",
+        "31f5a11d-0555-49e3-b280-3256bcc98922",
+        "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7"
+      ],
+      "totalOps": 49,
+      "uniqueOpsAcrossRuns": 39,
+      "repeatedOpsAcrossRuns": 10,
+      "crossRunRepeatPct": 20.408163265306122,
+      "deterministicReuseCandidates": 10,
+      "deterministicReusePct": 20.408163265306122,
+      "byClass": {
+        "file_read": {
+          "total": 27,
+          "repeated": 7
+        },
+        "file_write": {
+          "total": 0,
+          "repeated": 0
+        },
+        "file_stat": {
+          "total": 0,
+          "repeated": 0
+        },
+        "directory_list": {
+          "total": 10,
+          "repeated": 3
+        },
+        "search": {
+          "total": 12,
+          "repeated": 0
+        },
+        "git": {
+          "total": 0,
+          "repeated": 0
+        },
+        "shell": {
+          "total": 0,
+          "repeated": 0
+        },
+        "test": {
+          "total": 0,
+          "repeated": 0
+        },
+        "build": {
+          "total": 0,
+          "repeated": 0
+        },
+        "install": {
+          "total": 0,
+          "repeated": 0
+        },
+        "network": {
+          "total": 0,
+          "repeated": 0
+        },
+        "agent_tool": {
+          "total": 0,
+          "repeated": 0
+        },
+        "unknown": {
+          "total": 0,
+          "repeated": 0
+        }
+      },
+      "topRepeatedFiles": [
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts:15ad6bb01fc85ddc3bd02c3af0b26c0cd4e418c566cdb8552560ea145f1bf2fd",
+          "count": 4,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts:ab11a1e1882674ef5ea05390fb6827efe6a330759678cc5dbb4708324c706df0",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts:f5a6e27660733e70e26adfb050ec2b7c2284ae945492a5bdd22981867cd23079",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/report.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts:33ccc244b31667539e5edbdac2c875cdcbfa94efd4b694c9ca2aa91ff21d6161",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts:9e2771d52f02f64c7b74bba3a887365ba940a3a67332b5dc4069cc72e5874d9f",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts"
+          ]
+        }
+      ],
+      "topRepeatedCommands": [],
+      "topRepeatedSearches": [],
+      "topRepeatedTestsBuilds": [],
+      "tokenOverlap": {
+        "totalInput": 120122,
+        "totalOutput": 6485,
+        "totalCacheRead": 254976,
+        "repeatedEstimate": null,
+        "confidence": "low"
+      },
+      "unmeasurablePortion": 0,
+      "perRun": [
+        {
+          "runId": "628bd724-24b1-4db6-a98a-31ea8f5e60dc",
+          "totalOps": 19,
+          "byClass": {
+            "file_read": 10,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 3,
+            "search": 6,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 19,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 10,
+          "uniqueFileReads": 10,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 61711,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 6,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 10,
+            "glob": 3,
+            "grep": 6
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B6-cli"
+        },
+        {
+          "runId": "6c4d3596-11cd-46f4-b087-73e156e2565a",
+          "totalOps": 7,
+          "byClass": {
+            "file_read": 4,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 1,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 7,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 4,
+          "uniqueFileReads": 4,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 28287,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 1,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 1,
+            "grep": 1,
+            "read": 5
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B5-profiler-wrap"
+        },
+        {
+          "runId": "b383c385-eb52-47e6-912b-c7cfcda2078f",
+          "totalOps": 4,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 4,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 36022,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 3,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B4-report"
+        },
+        {
+          "runId": "db095044-987e-4fd6-88e2-b9039cb17b78",
+          "totalOps": 4,
+          "byClass": {
+            "file_read": 2,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 4,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 2,
+          "uniqueFileReads": 2,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 26605,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 1,
+            "read": 3
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B3-analysis"
+        },
+        {
+          "runId": "31f5a11d-0555-49e3-b280-3256bcc98922",
+          "totalOps": 9,
+          "byClass": {
+            "file_read": 5,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 9,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 5,
+          "uniqueFileReads": 5,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 18620,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 1,
+            "grep": 3,
+            "read": 5
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B2-redact"
+        },
+        {
+          "runId": "2470b972-0c0f-4e2f-a1a2-a7c4e91663b7",
+          "totalOps": 6,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 2,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 6,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 20756,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 2,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 4,
+            "grep": 2
+          },
+          "unknownOps": 0,
+          "cohort": "B_related_same_state",
+          "taskId": "B1-schema"
+        }
+      ],
+      "shellReadLikeTotal": 0,
+      "byCohort": {}
+    },
+    "A_same_task_same_state": {
+      "runIds": [
+        "fe396c1c-74cd-4066-a5e8-9a073ca8f4a4",
+        "3bcdad78-6f20-4976-8f7c-d06b82fde86d",
+        "221523d0-e986-4634-81d8-f379c377d9fe",
+        "b1ebb881-3416-4cd5-8c55-dc078a722893",
+        "eaac5c64-e873-4740-a42c-e0e19fdd0e85",
+        "29db084d-dc75-4311-9567-df6b9230a1c0",
+        "580ea6d1-8cce-44c9-bd94-8c6aca4aea78",
+        "a5aec9ab-79af-473c-b611-4b38c288e568"
+      ],
+      "totalOps": 63,
+      "uniqueOpsAcrossRuns": 42,
+      "repeatedOpsAcrossRuns": 21,
+      "crossRunRepeatPct": 33.33333333333333,
+      "deterministicReuseCandidates": 21,
+      "deterministicReusePct": 33.33333333333333,
+      "byClass": {
+        "file_read": {
+          "total": 30,
+          "repeated": 17
+        },
+        "file_write": {
+          "total": 0,
+          "repeated": 0
+        },
+        "file_stat": {
+          "total": 0,
+          "repeated": 0
+        },
+        "directory_list": {
+          "total": 15,
+          "repeated": 4
+        },
+        "search": {
+          "total": 18,
+          "repeated": 0
+        },
+        "git": {
+          "total": 0,
+          "repeated": 0
+        },
+        "shell": {
+          "total": 0,
+          "repeated": 0
+        },
+        "test": {
+          "total": 0,
+          "repeated": 0
+        },
+        "build": {
+          "total": 0,
+          "repeated": 0
+        },
+        "install": {
+          "total": 0,
+          "repeated": 0
+        },
+        "network": {
+          "total": 0,
+          "repeated": 0
+        },
+        "agent_tool": {
+          "total": 0,
+          "repeated": 0
+        },
+        "unknown": {
+          "total": 0,
+          "repeated": 0
+        }
+      },
+      "topRepeatedFiles": [
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts:15ad6bb01fc85ddc3bd02c3af0b26c0cd4e418c566cdb8552560ea145f1bf2fd",
+          "count": 8,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/schema.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts:ab11a1e1882674ef5ea05390fb6827efe6a330759678cc5dbb4708324c706df0",
+          "count": 5,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/storage.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/index.ts:3a8100e95936b6db7f92583206de42216728641fcd5f1d2bc0f666ba40d9279f",
+          "count": 3,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/index.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/hash.ts:1802f709c70e7f1d1fede1ea4b261111ed79ce710234a55b9a00004b05cfc15d",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/hash.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts:9e2771d52f02f64c7b74bba3a887365ba940a3a67332b5dc4069cc72e5874d9f",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/redact.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts:33ccc244b31667539e5edbdac2c875cdcbfa94efd4b694c9ca2aa91ff21d6161",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/analysis.ts"
+          ]
+        },
+        {
+          "key": "file_read:/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts:c31bc35f2ee5a5ffd0d59399bcc1510f959693aa2c48a7bea6be6ba31c548f2e",
+          "count": 2,
+          "paths": [
+            "/Users/wira/Documents/rapture/rapture/packages/profiler/src/profiler.ts"
+          ]
+        }
+      ],
+      "topRepeatedCommands": [],
+      "topRepeatedSearches": [],
+      "topRepeatedTestsBuilds": [],
+      "tokenOverlap": {
+        "totalInput": 127860,
+        "totalOutput": 7116,
+        "totalCacheRead": 270336,
+        "repeatedEstimate": null,
+        "confidence": "low"
+      },
+      "unmeasurablePortion": 0,
+      "perRun": [
+        {
+          "runId": "fe396c1c-74cd-4066-a5e8-9a073ca8f4a4",
+          "totalOps": 5,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 5,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 9708,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 1,
+            "read": 4
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A2-normalize-analysis"
+        },
+        {
+          "runId": "3bcdad78-6f20-4976-8f7c-d06b82fde86d",
+          "totalOps": 8,
+          "byClass": {
+            "file_read": 2,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 5,
+            "search": 1,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 8,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 2,
+          "uniqueFileReads": 2,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 26605,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 1,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 3,
+            "read": 4,
+            "grep": 1
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A2-normalize-analysis"
+        },
+        {
+          "runId": "221523d0-e986-4634-81d8-f379c377d9fe",
+          "totalOps": 5,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 2,
+            "search": 0,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 5,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 9708,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 0,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 4,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A2-normalize-analysis"
+        },
+        {
+          "runId": "b1ebb881-3416-4cd5-8c55-dc078a722893",
+          "totalOps": 9,
+          "byClass": {
+            "file_read": 5,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 9,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 5,
+          "uniqueFileReads": 5,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 48401,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 5,
+            "grep": 3,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A1-storage-analysis"
+        },
+        {
+          "runId": "eaac5c64-e873-4740-a42c-e0e19fdd0e85",
+          "totalOps": 13,
+          "byClass": {
+            "file_read": 7,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 3,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 13,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 7,
+          "uniqueFileReads": 7,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 41916,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "glob": 3,
+            "read": 7,
+            "grep": 3
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A1-storage-analysis"
+        },
+        {
+          "runId": "29db084d-dc75-4311-9567-df6b9230a1c0",
+          "totalOps": 7,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 7,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 14359,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 3,
+            "glob": 1,
+            "grep": 3
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A1-storage-analysis"
+        },
+        {
+          "runId": "580ea6d1-8cce-44c9-bd94-8c6aca4aea78",
+          "totalOps": 10,
+          "byClass": {
+            "file_read": 4,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 1,
+            "search": 5,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 10,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 4,
+          "uniqueFileReads": 4,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 25883,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 5,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 4,
+            "grep": 5,
+            "glob": 1
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A1-storage-analysis"
+        },
+        {
+          "runId": "a5aec9ab-79af-473c-b611-4b38c288e568",
+          "totalOps": 6,
+          "byClass": {
+            "file_read": 3,
+            "file_write": 0,
+            "file_stat": 0,
+            "directory_list": 0,
+            "search": 3,
+            "git": 0,
+            "shell": 0,
+            "test": 0,
+            "build": 0,
+            "install": 0,
+            "network": 0,
+            "agent_tool": 0,
+            "unknown": 0
+          },
+          "uniqueOps": 6,
+          "repeatedOps": 0,
+          "repeatPct": 0,
+          "fileReads": 3,
+          "uniqueFileReads": 3,
+          "repeatedUnchangedReads": 0,
+          "bytesRead": 12989,
+          "shellCommands": 0,
+          "duplicateShellCommands": 0,
+          "shellReadLike": 0,
+          "searches": 3,
+          "repeatedSearches": 0,
+          "gitOps": 0,
+          "testOps": 0,
+          "repeatedTests": 0,
+          "buildOps": 0,
+          "repeatedBuilds": 0,
+          "toolCallCounts": {
+            "read": 3,
+            "grep": 3
+          },
+          "unknownOps": 0,
+          "cohort": "A_same_task_same_state",
+          "taskId": "A1-storage-analysis"
+        }
+      ],
+      "shellReadLikeTotal": 0,
+      "byCohort": {}
+    }
+  }
+}
