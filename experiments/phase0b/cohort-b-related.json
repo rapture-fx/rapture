@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "agent": "opencode",
+  "mode": "clean-reset",
+  "repository": "/Users/wira/Documents/rapture/rapture",
+  "cohort": "B_related_same_state",
+  "experimentId": "phase0b-2026-08-29",
+  "tasks": [
+    {
+      "id": "B1-schema",
+      "task": "Review packages/profiler/src/schema.ts and document the trace schema version, required fields, operation classes, and privacy guarantees. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "B2-redact",
+      "task": "Inspect packages/profiler/src/redact.ts and explain what secret patterns are redacted, what env keys are treated as secrets, and how task hashing works. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "B3-analysis",
+      "task": "Examine packages/profiler/src/analysis.ts and summarize how per-run profiles and cross-run analyses are computed, including deterministic reuse candidate rules. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "B4-report",
+      "task": "Review packages/profiler/src/report.ts and describe the single-run and cross-run report formats, what metrics are shown, and how signal thresholds are assessed. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "B5-profiler-wrap",
+      "task": "Analyze packages/profiler/src/profiler.ts: explain how it wraps 'opencode run', captures JSON events, enriches via SQLite, handles git state, and stores traces. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "B6-cli",
+      "task": "Inspect the CLI integration in apps/cli/src/cli.ts for profile, runs list/show, analyze, and experiment commands and their error handling. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    }
+  ]
+}

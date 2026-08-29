@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "agent": "opencode",
+  "mode": "clean-reset",
+  "repository": "/Users/wira/Documents/rapture/rapture",
+  "cohort": "C_unrelated_control",
+  "experimentId": "phase0b-2026-08-29",
+  "tasks": [
+    {
+      "id": "C1-docs",
+      "task": "List the top-level documentation files in docs/ and summarize the purpose of each document. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "C2-reference-scenario",
+      "task": "Inspect the reference scenario in packages/core/src/reference/subscription-seat-upgrade.ts and describe its fixture, world lifecycle, and expected state assertions. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "C3-ci",
+      "task": "Review the CI workflow in .github/workflows/ci.yml and explain what checks are run, on what triggers, and what Node version is used. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "C4-kernel-integrity",
+      "task": "Examine the kernel integrity manifest in packages/kernel/src/evidence/integrity.ts and explain how file lists, hashes, and drift detection work. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "C5-workspace",
+      "task": "Summarize the pnpm workspace configuration in pnpm-workspace.yaml, package.json scripts, and the build/typecheck setup across packages. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    }
+  ]
+}

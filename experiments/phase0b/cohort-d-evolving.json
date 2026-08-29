@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "agent": "opencode",
+  "mode": "evolving",
+  "repository": "/Users/wira/Documents/rapture/rapture",
+  "cohort": "D_evolving_related",
+  "experimentId": "phase0b-2026-08-29",
+  "tasks": [
+    {
+      "id": "D1-schema-evo",
+      "task": "Review packages/profiler/src/schema.ts and document the trace schema version, required fields, operation classes, and privacy guarantees. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "D2-redact-evo",
+      "task": "Inspect packages/profiler/src/redact.ts and explain what secret patterns are redacted, what env keys are treated as secrets, and how task hashing works. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "D3-analysis-evo",
+      "task": "Examine packages/profiler/src/analysis.ts and summarize how per-run profiles and cross-run analyses are computed, including deterministic reuse candidate rules. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "D4-report-evo",
+      "task": "Review packages/profiler/src/report.ts and describe the single-run and cross-run report formats, what metrics are shown, and how signal thresholds are assessed. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    },
+    {
+      "id": "D5-profiler-wrap-evo",
+      "task": "Analyze packages/profiler/src/profiler.ts: explain how it wraps 'opencode run', captures JSON events, enriches via SQLite, handles git state, and stores traces. Do not modify files.",
+      "model": "openai/gpt-5.4-mini"
+    }
+  ]
+}

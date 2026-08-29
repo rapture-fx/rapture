@@ -8,7 +8,11 @@ coverage/
 .DS_Store
 /runs/
 /benchmarks/
-/experiments/
 /fixtures/
+# phase0b experiment manifests are committed
+/experiments/*
+!experiments/phase0b
+!experiments/phase0b/**
 .tmp/
 .turbo/
+.rapture/
