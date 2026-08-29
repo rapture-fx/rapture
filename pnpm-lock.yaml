@@ -23,12 +23,21 @@ importers:
 
   apps/cli:
     dependencies:
+      '@rapture/change':
+        specifier: workspace:*
+        version: link:../../packages/change
       '@rapture/core':
         specifier: workspace:*
         version: link:../../packages/core
       '@rapture/profiler':
         specifier: workspace:*
         version: link:../../packages/profiler
+
+  packages/change:
+    dependencies:
+      '@rapture/kernel':
+        specifier: workspace:*
+        version: link:../kernel
 
   packages/core:
     dependencies:

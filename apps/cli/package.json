@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@rapture/core": "workspace:*",
-    "@rapture/profiler": "workspace:*"
+    "@rapture/profiler": "workspace:*",
+    "@rapture/change": "workspace:*"
   }
 }

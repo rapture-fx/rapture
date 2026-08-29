@@ -39,6 +39,11 @@ function usage(): string {
     "  rapture analyze <run-id> [<run-id>...] [--json]",
     "  rapture analyze --all [--json]",
     "  rapture experiment run <manifest> [--no-task-text]",
+    "  rapture change ingest <provider> --file <path> [--repo <repo>]",
+    "  rapture change build",
+    "  rapture change list [--json]",
+    "  rapture change show <change-id> [--json]",
+    "  rapture change trace <identifier> [--json]",
     "",
   ].join("\n");
 }
@@ -189,6 +194,13 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
       io.stderr(`${error instanceof Error ? error.message : String(error)}\n`);
       return 2;
     }
+  }
+
+  if (argv[0] === "change") {
+    const sub = argv[1];
+    const rest = argv.slice(2);
+    const { handleChange } = await import("@rapture/change");
+    return handleChange([sub ?? "", ...rest], io, process.cwd());
   }
 
   io.stderr(usage());
