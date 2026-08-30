@@ -1,5 +1,8 @@
 # Vercel vs Cloudflare Pages — Deploy/Status/Rollback Semantics Comparison
 
+> **HISTORICAL — closed bet.** Closed at `DEPLOYMENT_API_KILL`.
+> Code now lives at `archive/packages/production-change`. See [closed-bets.md](closed-bets.md).
+
 **Date:** 2026-08-30
 **Purpose:** Phase 0 audit before implementing canonical deploy/status/rollback. Do not force commonality where semantics differ.
 
