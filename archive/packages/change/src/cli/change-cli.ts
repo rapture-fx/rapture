@@ -16,7 +16,11 @@ export interface ChangeCliIo {
   readonly stderr: (value: string) => void;
 }
 
-export async function handleChange(argv: readonly string[], io: ChangeCliIo, repoRoot: string): Promise<number> {
+export async function handleChange(
+  argv: readonly string[],
+  io: ChangeCliIo,
+  repoRoot: string,
+): Promise<number> {
   const cmd = argv[0];
   if (cmd === "ingest") {
     return handleIngest(argv.slice(1), io, repoRoot);
@@ -32,7 +36,11 @@ export async function handleChange(argv: readonly string[], io: ChangeCliIo, rep
       io.stdout(`${JSON.stringify(changes, null, 2)}\n`);
     } else {
       if (changes.length === 0) io.stdout("No changes\n");
-      else for (const ch of changes) io.stdout(`${ch.id}\t${ch.pullRequests[0]?.title ?? ch.commits[0]?.message?.slice(0, 60) ?? "unknown"}\t${ch.provenance.sources.length} sources\n`);
+      else
+        for (const ch of changes)
+          io.stdout(
+            `${ch.id}\t${ch.pullRequests[0]?.title ?? ch.commits[0]?.message?.slice(0, 60) ?? "unknown"}\t${ch.provenance.sources.length} sources\n`,
+          );
     }
     return 0;
   }
@@ -74,10 +82,16 @@ export async function handleChange(argv: readonly string[], io: ChangeCliIo, rep
   return 2;
 }
 
-async function handleIngest(argv: readonly string[], io: ChangeCliIo, repoRoot: string): Promise<number> {
+async function handleIngest(
+  argv: readonly string[],
+  io: ChangeCliIo,
+  repoRoot: string,
+): Promise<number> {
   const provider = argv[0];
   if (!provider || !["github", "github_actions", "vercel", "linear", "sentry"].includes(provider)) {
-    io.stderr("usage: rapture change ingest <provider> [--file <path>] [--repo <repo>] [--id <id>]\n");
+    io.stderr(
+      "usage: rapture change ingest <provider> [--file <path>] [--repo <repo>] [--id <id>]\n",
+    );
     return 2;
   }
   const fileIdx = argv.indexOf("--file");
@@ -87,9 +101,14 @@ async function handleIngest(argv: readonly string[], io: ChangeCliIo, repoRoot: 
     const filePath = resolve(argv[fileIdx + 1]!);
     const raw = await readFile(filePath, "utf8");
     data = JSON.parse(raw);
-    externalId = (data as Record<string, unknown>)["id"] as string || (data as Record<string, unknown>)["number"] as string || filePath;
+    externalId =
+      ((data as Record<string, unknown>)["id"] as string) ||
+      ((data as Record<string, unknown>)["number"] as string) ||
+      filePath;
   } else {
-    io.stderr("ingest requires --file <path> in V0 (live API not yet implemented for this provider)\n");
+    io.stderr(
+      "ingest requires --file <path> in V0 (live API not yet implemented for this provider)\n",
+    );
     return 2;
   }
   const repoIdx = argv.indexOf("--repo");
@@ -131,13 +150,20 @@ async function handleBuild(io: ChangeCliIo, repoRoot: string): Promise<number> {
   for (const provider of Object.keys(adapters) as (keyof typeof adapters)[]) {
     const raws = await listRaw(repoRoot, provider);
     for (const raw of raws) {
-      const snapshot = { provider, externalId: raw.externalId, fetchedAt: new Date().toISOString(), data: raw.data };
+      const snapshot = {
+        provider,
+        externalId: raw.externalId,
+        fetchedAt: new Date().toISOString(),
+        data: raw.data,
+      };
       const normalized = adapters[provider].normalize(snapshot as never);
-      if (normalized.pullRequests) (store.pullRequests as unknown[]).push(...normalized.pullRequests);
+      if (normalized.pullRequests)
+        (store.pullRequests as unknown[]).push(...normalized.pullRequests);
       if (normalized.commits) (store.commits as unknown[]).push(...normalized.commits);
       if (normalized.checks) (store.checks as unknown[]).push(...normalized.checks);
       if (normalized.deployments) (store.deployments as unknown[]).push(...normalized.deployments);
-      if (normalized.productionEffects) (store.productionEffects as unknown[]).push(...normalized.productionEffects);
+      if (normalized.productionEffects)
+        (store.productionEffects as unknown[]).push(...normalized.productionEffects);
       if (normalized.intents) (store.intents as unknown[]).push(...normalized.intents);
     }
   }
@@ -153,14 +179,23 @@ async function handleBuild(io: ChangeCliIo, repoRoot: string): Promise<number> {
 function formatChange(ch: import("../schema/change.js").Change): string {
   const lines: string[] = [];
   lines.push(`Change ${ch.id}`);
-  lines.push(`  Intent: ${ch.intent ? `${ch.intent.source}:${ch.intent.externalId} ${ch.intent.title ?? ""}` : "unknown"}`);
-  lines.push(`  PRs: ${ch.pullRequests.map((pr) => `#${pr.number} ${pr.title} (${pr.state})`).join(", ") || "none"}`);
+  lines.push(
+    `  Intent: ${ch.intent ? `${ch.intent.source}:${ch.intent.externalId} ${ch.intent.title ?? ""}` : "unknown"}`,
+  );
+  lines.push(
+    `  PRs: ${ch.pullRequests.map((pr) => `#${pr.number} ${pr.title} (${pr.state})`).join(", ") || "none"}`,
+  );
   lines.push(`  Commits: ${ch.commits.map((c) => c.sha.slice(0, 7)).join(", ") || "none"}`);
   lines.push(`  Checks: ${ch.checks.map((c) => `${c.name}:${c.status}`).join(", ") || "none"}`);
-  lines.push(`  Deployments: ${ch.deployments.map((d) => `${d.provider}:${d.externalId} ${d.environment} ${d.status}`).join(", ") || "none"}`);
-  lines.push(`  Effects: ${ch.productionEffects.map((e) => `${e.provider}:${e.type} ${e.title ?? e.externalId}`).join(", ") || "none"}`);
+  lines.push(
+    `  Deployments: ${ch.deployments.map((d) => `${d.provider}:${d.externalId} ${d.environment} ${d.status}`).join(", ") || "none"}`,
+  );
+  lines.push(
+    `  Effects: ${ch.productionEffects.map((e) => `${e.provider}:${e.type} ${e.title ?? e.externalId}`).join(", ") || "none"}`,
+  );
   lines.push(`  Relationships: ${ch.relationships.length}`);
-  for (const rel of ch.relationships) lines.push(`    ${rel.from} --${rel.type}--> ${rel.to} [${rel.provenance.rule}]`);
+  for (const rel of ch.relationships)
+    lines.push(`    ${rel.from} --${rel.type}--> ${rel.to} [${rel.provenance.rule}]`);
   lines.push(`  Provenance: ${ch.provenance.sources.join(", ")} @ ${ch.provenance.constructedAt}`);
   return lines.join("\n") + "\n";
 }
