@@ -59,6 +59,9 @@ function usage(): string {
     "  rapture production history <service> --env <env> [--json]",
     "  rapture production show <id> [--json]",
     "  rapture production trace <identifier> [--json]",
+    "  rapture deploy <service> --revision <sha> --env <environment> [--json]",
+    "  rapture deployment status <deployment-id> [--json]",
+    "  rapture rollback <service> --env <environment> --to previous [--dry-run] [--json]",
     "",
   ].join("\n");
 }
@@ -223,6 +226,21 @@ export async function main(argv: readonly string[], io: CliIo = processIo): Prom
     const rest = argv.slice(2);
     const { handleProduction } = await import("@rapture/production-change");
     return handleProduction([sub ?? "", ...rest], io, await repoRoot());
+  }
+
+  if (argv[0] === "deploy") {
+    const { handleDeploy } = await import("@rapture/production-change");
+    return handleDeploy(argv.slice(1), io, await repoRoot());
+  }
+
+  if (argv[0] === "deployment" && argv[1] === "status") {
+    const { handleDeploymentStatus } = await import("@rapture/production-change");
+    return handleDeploymentStatus(argv.slice(2), io, await repoRoot());
+  }
+
+  if (argv[0] === "rollback") {
+    const { handleRollback } = await import("@rapture/production-change");
+    return handleRollback(argv.slice(1), io, await repoRoot());
   }
 
   io.stderr(usage());

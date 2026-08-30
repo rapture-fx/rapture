@@ -5,8 +5,19 @@ import type { DeploymentRecord } from "../adapters/contracts.js";
 
 export interface ProductionStore {
   readonly deployments: readonly DeploymentRecord[];
-  readonly sentryReleases?: readonly { externalId: string; commitSha: string | null; firstSeen: string | null; lastSeen: string | null }[];
-  readonly sentryIssues?: readonly { externalId: string; title: string | null; firstSeen: string | null; lastSeen: string | null; releaseVersion: string | null }[];
+  readonly sentryReleases?: readonly {
+    externalId: string;
+    commitSha: string | null;
+    firstSeen: string | null;
+    lastSeen: string | null;
+  }[];
+  readonly sentryIssues?: readonly {
+    externalId: string;
+    title: string | null;
+    firstSeen: string | null;
+    lastSeen: string | null;
+    releaseVersion: string | null;
+  }[];
 }
 
 function normalizeStatus(status: string): ProductionChange["deployment"]["status"] {
@@ -15,7 +26,9 @@ function normalizeStatus(status: string): ProductionChange["deployment"]["status
   if (s === "building") return "building";
   if (s === "deploying") return "deploying";
   if (s === "ready" || s === "succeeded" || s === "success") return "ready";
-  if (s === "failed" || s === "error") return "failed";
+  // Cloudflare Pages reports "Failure"; without this it fell through to "unknown",
+  // hiding a failed deployment behind an inconclusive status.
+  if (s === "failed" || s === "error" || s === "failure") return "failed";
   if (s === "cancelled" || s === "canceled") return "cancelled";
   return "unknown";
 }
@@ -97,7 +110,10 @@ export function buildProductionChanges(store: ProductionStore): readonly Product
           }
         }
         for (const issue of store.sentryIssues ?? []) {
-          if (issue.releaseVersion && issue.releaseVersion.toLowerCase() === commitSha.toLowerCase()) {
+          if (
+            issue.releaseVersion &&
+            issue.releaseVersion.toLowerCase() === commitSha.toLowerCase()
+          ) {
             runtimeObservations.push({
               provider: "sentry",
               type: "issue",
@@ -125,7 +141,11 @@ export function buildProductionChanges(store: ProductionStore): readonly Product
           pullRequest: null,
         },
         artifact: {
-          type: dep.artifactDigest ? "container" : dep.artifactExternalId ? "deployment_artifact" : "unknown",
+          type: dep.artifactDigest
+            ? "container"
+            : dep.artifactExternalId
+              ? "deployment_artifact"
+              : "unknown",
           digest: dep.artifactDigest,
           externalId: dep.artifactExternalId,
         },
@@ -137,7 +157,17 @@ export function buildProductionChanges(store: ProductionStore): readonly Product
           completedAt: dep.completedAt,
         },
         transition: {
-          previousProductionChangeId: prevSuccessful ? productionChangeId(prevSuccessful.serviceId, prevSuccessful.environment, prevSuccessful.artifactDigest ?? prevSuccessful.commitSha ?? prevSuccessful.externalId) : null,
+          // The id key MUST match how a record's own id is derived above
+          // (productionChangeId(serviceId, envName, dep.externalId)). Deriving it
+          // from artifactDigest/commitSha instead produces an id that matches no
+          // emitted record, leaving every transition link dangling.
+          previousProductionChangeId: prevSuccessful
+            ? productionChangeId(
+                prevSuccessful.serviceId,
+                prevSuccessful.environment,
+                prevSuccessful.externalId,
+              )
+            : null,
           previousCommitSha: prevSuccessful?.commitSha ?? prev?.commitSha ?? null,
           resultingCommitSha: commitSha,
         },

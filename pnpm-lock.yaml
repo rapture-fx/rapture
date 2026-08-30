@@ -62,6 +62,9 @@ importers:
       '@rapture/kernel':
         specifier: workspace:*
         version: link:../kernel
+      execa:
+        specifier: ^9.6.0
+        version: 9.6.1
 
   packages/profiler:
     dependencies:

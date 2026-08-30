@@ -9,3 +9,6 @@ export * from "./api/production.js";
 export * from "./joins/production-builder.js";
 export * from "./consumer.js";
 export { handleProduction } from "./cli/production-cli.js";
+export * from "./deployment/types.js";
+export * from "./deployment/provider.js";
+export { handleDeploy, handleDeploymentStatus, handleRollback } from "./deployment/cli.js";
