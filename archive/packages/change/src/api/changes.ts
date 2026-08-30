@@ -22,7 +22,11 @@ export function createChangeApi(repoRoot: string, customDir?: string): ChangeApi
       if (!changeId) return null;
       return loadChange(repoRoot, changeId, customDir);
     },
-    async findByPullRequest(provider: string, repository: string, number: number): Promise<Change | null> {
+    async findByPullRequest(
+      provider: string,
+      repository: string,
+      number: number,
+    ): Promise<Change | null> {
       if (provider !== "github") return null;
       const idx = await loadIndex(repoRoot, customDir);
       const key = `${repository}#${number}`;
