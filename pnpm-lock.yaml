@@ -23,24 +23,35 @@ importers:
 
   apps/cli:
     dependencies:
-      '@rapture/change':
-        specifier: workspace:*
-        version: link:../../packages/change
       '@rapture/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@rapture/production-change':
-        specifier: workspace:*
-        version: link:../../packages/production-change
-      '@rapture/profiler':
-        specifier: workspace:*
-        version: link:../../packages/profiler
 
-  packages/change:
+  archive/packages/change:
     dependencies:
       '@rapture/kernel':
         specifier: workspace:*
-        version: link:../kernel
+        version: link:../../../packages/kernel
+
+  archive/packages/production-change:
+    dependencies:
+      '@rapture/kernel':
+        specifier: workspace:*
+        version: link:../../../packages/kernel
+      execa:
+        specifier: ^9.6.0
+        version: 9.6.1
+
+  archive/packages/profiler:
+    dependencies:
+      '@rapture/kernel':
+        specifier: workspace:*
+        version: link:../../../packages/kernel
+      execa:
+        specifier: ^9.6.0
+        version: 9.6.1
+
+  archive/packages/verification-surface: {}
 
   packages/core:
     dependencies:
@@ -56,24 +67,6 @@ importers:
       p-limit:
         specifier: ^7.1.0
         version: 7.3.1
-
-  packages/production-change:
-    dependencies:
-      '@rapture/kernel':
-        specifier: workspace:*
-        version: link:../kernel
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.1
-
-  packages/profiler:
-    dependencies:
-      '@rapture/kernel':
-        specifier: workspace:*
-        version: link:../kernel
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.1
 
 packages:
 
