@@ -1,5 +1,8 @@
 # ProductionChange Canonical Runtime Identity — Architecture Note
 
+> **HISTORICAL — closed bet.** Closed at `PRODUCTION_CHANGE_BLOCKED`.
+> Code now lives at `archive/packages/production-change`. See [closed-bets.md](closed-bets.md).
+
 **Date:** 2026-08-29
 **Status:** Pre-implementation
 **Goal:** Validate whether a narrow `ProductionChange` primitive (current/previous deployment, source commit, artifact, environment) collapses cleanly across Vercel/Kubernetes/Cloudflare + Sentry + GitHub.
