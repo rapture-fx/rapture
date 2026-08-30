@@ -77,3 +77,18 @@ The reference world cannot connect to production: it has no network adapter or c
 Each run creates a fresh store and drops its state in `disposeOrReset()`. Cleanup failure changes
 the whole result to ERROR, even if business expectations had passed. Failure messages pass
 through the retained secret redactor before entering results or CLI output.
+
+## Closed bets
+
+Five product hypotheses were built on top of these primitives and tested against
+real data between 2026-08-28 and 2026-08-30: the agent compute profiler, the
+Software Change API, ProductionChange, the Deployment API, and
+verification-surface detection. All five are closed.
+
+Their code is archived under `archive/packages/*` and their verdicts, evidence,
+and do-not-revive conditions are recorded in [closed-bets.md](closed-bets.md).
+
+The relevant architectural fact is that **none of them required the kernel to
+change**. Each reused hashing, redaction, safe artifact paths, and the durable
+journal as-is. The product layers were falsified; the primitives underneath them
+were not.
