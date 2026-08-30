@@ -60,7 +60,9 @@ export async function generateArtifactFromPrior(
 ): Promise<{ artifactPath: string; jsonPath: string; mdPath: string }> {
   const runs = await listRuns(repoRoot);
   // use Phase 0B related traces as source: those with cohort B_related_same_state and tree matching
-  const relevant = runs.filter((r) => r.cohort === "B_related_same_state" && r.repoBefore.tree === treeHash);
+  const relevant = runs.filter(
+    (r) => r.cohort === "B_related_same_state" && r.repoBefore.tree === treeHash,
+  );
   if (relevant.length === 0) throw new Error("no prior traces for artifact generation");
   const traces: RunTrace[] = [];
   for (const r of relevant) {
@@ -75,7 +77,11 @@ export async function generateArtifactFromPrior(
   return { artifactPath: mdPath, jsonPath, mdPath };
 }
 
-export function buildPrompt(task: string, artifactPath: string | null, condition: "CONTROL_NORMAL" | "TREATMENT_WORKING_SET"): string {
+export function buildPrompt(
+  task: string,
+  artifactPath: string | null,
+  condition: "CONTROL_NORMAL" | "TREATMENT_WORKING_SET",
+): string {
   if (condition === "CONTROL_NORMAL") return task;
   if (!artifactPath) return task;
   return `${task}
@@ -98,15 +104,27 @@ export async function runPairedExperiment(
   const treeState = await getRepoState(repoRoot);
   if (treeState.tree !== config.baseTree) {
     // For Phase 0C, allow tree drift due to added experiment files, but log
-    console.log(`Note: base tree mismatch current ${treeState.tree} vs ${config.baseTree} (using current)`);
+    console.log(
+      `Note: base tree mismatch current ${treeState.tree} vs ${config.baseTree} (using current)`,
+    );
   }
 
   // Build all entries
   const entries: RunOrderEntry[] = [];
   for (const task of config.tasks) {
     for (let rep = 1; rep <= config.repsPerCondition; rep++) {
-      entries.push({ taskId: task.id, condition: "CONTROL_NORMAL", repetition: rep, artifactPath: null });
-      entries.push({ taskId: task.id, condition: "TREATMENT_WORKING_SET", repetition: rep, artifactPath });
+      entries.push({
+        taskId: task.id,
+        condition: "CONTROL_NORMAL",
+        repetition: rep,
+        artifactPath: null,
+      });
+      entries.push({
+        taskId: task.id,
+        condition: "TREATMENT_WORKING_SET",
+        repetition: rep,
+        artifactPath,
+      });
     }
   }
 
@@ -131,7 +149,10 @@ export async function runPairedExperiment(
       extraOpenCodeArgs: [],
       model: config.model,
       agent: null,
-      cohort: entry.condition === "CONTROL_NORMAL" ? `control-${entry.taskId}` : `treatment-${entry.taskId}`,
+      cohort:
+        entry.condition === "CONTROL_NORMAL"
+          ? `control-${entry.taskId}`
+          : `treatment-${entry.taskId}`,
       taskId: entry.taskId,
       experimentId: config.experimentId,
     });
@@ -140,7 +161,10 @@ export async function runPairedExperiment(
 
   // Persist order after all runs to survive clean-reset deletions
   await mkdir(join(repoRoot, "experiments/phase0c"), { recursive: true });
-  await writeFile(join(repoRoot, "experiments/phase0c/run-order.json"), JSON.stringify({ seed: config.seed, order }, null, 2));
+  await writeFile(
+    join(repoRoot, "experiments/phase0c/run-order.json"),
+    JSON.stringify({ seed: config.seed, order }, null, 2),
+  );
 
   return { order, results };
 }
