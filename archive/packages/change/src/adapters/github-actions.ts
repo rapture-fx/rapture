@@ -46,7 +46,10 @@ export const githubActionsAdapter: ProviderAdapter = {
   normalize(raw: RawSnapshot): NormalizedRecords {
     const data = raw.data as Record<string, unknown>;
     // Single run
-    if (typeof data["head_sha"] === "string" && (typeof data["id"] === "number" || typeof data["id"] === "string")) {
+    if (
+      typeof data["head_sha"] === "string" &&
+      (typeof data["id"] === "number" || typeof data["id"] === "string")
+    ) {
       const check = normalizeCheck(data as unknown as GitHubActionsRunRaw);
       return { checks: [check] };
     }
