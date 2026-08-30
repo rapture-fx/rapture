@@ -64,8 +64,14 @@ export function pairedDeltas(pairs: readonly PairedRun[]): readonly PairedDelta[
     const opsT = t ? t.operations.length : null;
     const fileC = c ? c.operations.filter((o) => o.opClass === "file_read").length : null;
     const fileT = t ? t.operations.filter((o) => o.opClass === "file_read").length : null;
-    const uniqueC = c ? new Set(c.operations.filter((o) => o.opClass === "file_read").map((o) => o.identityKey)).size : null;
-    const uniqueT = t ? new Set(t.operations.filter((o) => o.opClass === "file_read").map((o) => o.identityKey)).size : null;
+    const uniqueC = c
+      ? new Set(c.operations.filter((o) => o.opClass === "file_read").map((o) => o.identityKey))
+          .size
+      : null;
+    const uniqueT = t
+      ? new Set(t.operations.filter((o) => o.opClass === "file_read").map((o) => o.identityKey))
+          .size
+      : null;
     const searchC = c ? c.operations.filter((o) => o.opClass === "search").length : null;
     const searchT = t ? t.operations.filter((o) => o.opClass === "search").length : null;
     return {
@@ -77,7 +83,10 @@ export function pairedDeltas(pairs: readonly PairedRun[]): readonly PairedDelta[
       successTreatment: t ? t.metadata.status === "completed" && t.metadata.exitCode === 0 : null,
       durationControl: c?.metadata.durationMs ?? null,
       durationTreatment: t?.metadata.durationMs ?? null,
-      durationDeltaMs: c?.metadata.durationMs != null && t?.metadata.durationMs != null ? (t?.metadata.durationMs ?? 0) - (c?.metadata.durationMs ?? 0) : null,
+      durationDeltaMs:
+        c?.metadata.durationMs != null && t?.metadata.durationMs != null
+          ? (t?.metadata.durationMs ?? 0) - (c?.metadata.durationMs ?? 0)
+          : null,
       durationDeltaPct: deltaPct(c?.metadata.durationMs ?? null, t?.metadata.durationMs ?? null),
       inputControl: inputC,
       inputTreatment: inputT,
@@ -114,7 +123,9 @@ export interface AggregatePaired {
 
 export function aggregatePaired(deltas: readonly PairedDelta[]): AggregatePaired {
   function median(values: (number | null)[]): number | null {
-    const vals = values.filter((v): v is number => v !== null && !Number.isNaN(v)).sort((a, b) => a - b);
+    const vals = values
+      .filter((v): v is number => v !== null && !Number.isNaN(v))
+      .sort((a, b) => a - b);
     if (vals.length === 0) return null;
     const mid = Math.floor(vals.length / 2);
     if (vals.length % 2 === 1) return vals[mid] ?? null;
@@ -125,19 +136,31 @@ export function aggregatePaired(deltas: readonly PairedDelta[]): AggregatePaired
     if (vals.length === 0) return null;
     return vals.reduce((a, b) => a + b, 0) / vals.length;
   }
-  const filePct = deltas.map((d) => (d.fileReadsControl !== null && d.fileReadsControl !== 0 && d.fileReadsDelta !== null ? (d.fileReadsDelta / d.fileReadsControl) * 100 : null));
+  const filePct = deltas.map((d) =>
+    d.fileReadsControl !== null && d.fileReadsControl !== 0 && d.fileReadsDelta !== null
+      ? (d.fileReadsDelta / d.fileReadsControl) * 100
+      : null,
+  );
   const opsPct = deltas.map((d) => d.opsDeltaPct);
   const uncachedPct = deltas.map((d) => d.uncachedDeltaPct);
   const durPct = deltas.map((d) => d.durationDeltaPct);
-  const successC = deltas.filter((d) => d.successControl !== null).map((d) => (d.successControl ? 1 : 0));
-  const successT = deltas.filter((d) => d.successTreatment !== null).map((d) => (d.successTreatment ? 1 : 0));
+  const successC = deltas
+    .filter((d) => d.successControl !== null)
+    .map((d) => (d.successControl ? 1 : 0));
+  const successT = deltas
+    .filter((d) => d.successTreatment !== null)
+    .map((d) => (d.successTreatment ? 1 : 0));
   return {
     medianFileReadsDeltaPct: median(filePct),
     medianOpsDeltaPct: median(opsPct),
     medianUncachedDeltaPct: median(uncachedPct),
     medianDurationDeltaPct: median(durPct),
     meanFileReadsDeltaPct: mean(filePct),
-    successControlRate: successC.length ? (successC as number[]).reduce((a: number, b: number) => a + b, 0) / successC.length : null,
-    successTreatmentRate: successT.length ? (successT as number[]).reduce((a: number, b: number) => a + b, 0) / successT.length : null,
+    successControlRate: successC.length
+      ? (successC as number[]).reduce((a: number, b: number) => a + b, 0) / successC.length
+      : null,
+    successTreatmentRate: successT.length
+      ? (successT as number[]).reduce((a: number, b: number) => a + b, 0) / successT.length
+      : null,
   };
 }
