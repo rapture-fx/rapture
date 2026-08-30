@@ -1,6 +1,8 @@
 {
   "name": "@rapture/change",
   "version": "0.1.0",
+  "private": true,
+  "description": "HISTORICAL (SOFTWARE_CHANGE_API_RETHINK) - closed bet, see docs/closed-bets.md",
   "type": "module",
   "exports": {
     ".": {
