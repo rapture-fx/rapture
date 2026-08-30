@@ -306,7 +306,8 @@ export function analyzeCrossRun(traces: readonly RunTrace[]): CrossRunAnalysis {
   const unmeasurablePortion = totalOps === 0 ? 0 : (unknownTotal / totalOps) * 100;
 
   let shellReadLikeTotal = 0;
-  for (const t of traces) for (const op of t.operations) if (isShellReadLike(op)) shellReadLikeTotal++;
+  for (const t of traces)
+    for (const op of t.operations) if (isShellReadLike(op)) shellReadLikeTotal++;
 
   // cohort grouping
   const byCohort: Record<string, CrossRunAnalysis> = {};
@@ -333,7 +334,7 @@ export function analyzeCrossRun(traces: readonly RunTrace[]): CrossRunAnalysis {
         deterministicReuseCandidates: 0,
         deterministicReusePct: 0,
         byClass: Object.fromEntries(
-          ALL_CLASSES.map((c) => [c, { total: (p?.byClass[c] ?? 0), repeated: 0 }]),
+          ALL_CLASSES.map((c) => [c, { total: p?.byClass[c] ?? 0, repeated: 0 }]),
         ) as CrossRunAnalysis["byClass"],
         topRepeatedFiles: [],
         topRepeatedCommands: [],
@@ -348,7 +349,10 @@ export function analyzeCrossRun(traces: readonly RunTrace[]): CrossRunAnalysis {
         },
         unmeasurablePortion: 0,
         perRun: p ? [p] : [],
-        shellReadLikeTotal: group.reduce((acc, g) => acc + g.operations.filter(isShellReadLike).length, 0),
+        shellReadLikeTotal: group.reduce(
+          (acc, g) => acc + g.operations.filter(isShellReadLike).length,
+          0,
+        ),
         byCohort: {},
       };
     } else {
@@ -401,7 +405,8 @@ function analyzeCrossRunInner(traces: readonly RunTrace[]): CrossRunAnalysis {
       const sample = keyToOps.get(key)?.[0];
       if (sample && isDeterministicReusable(sample)) deterministicReuseCandidates += count - 1;
     }
-  const deterministicReusePct = totalOps === 0 ? 0 : (deterministicReuseCandidates / totalOps) * 100;
+  const deterministicReusePct =
+    totalOps === 0 ? 0 : (deterministicReuseCandidates / totalOps) * 100;
   const byClass = Object.fromEntries(
     ALL_CLASSES.map((c) => [c, { total: 0, repeated: 0 }]),
   ) as Record<OperationClass, { total: number; repeated: number }>;
@@ -428,7 +433,8 @@ function analyzeCrossRunInner(traces: readonly RunTrace[]): CrossRunAnalysis {
   const cmdAgg = new Map<string, number>();
   for (const t of traces)
     for (const op of t.operations)
-      if (op.normalizedCommand) cmdAgg.set(op.normalizedCommand, (cmdAgg.get(op.normalizedCommand) ?? 0) + 1);
+      if (op.normalizedCommand)
+        cmdAgg.set(op.normalizedCommand, (cmdAgg.get(op.normalizedCommand) ?? 0) + 1);
   const topRepeatedCommands = [...cmdAgg.entries()]
     .filter(([, c]) => c > 1)
     .sort((a, b) => b[1] - a[1])
@@ -486,7 +492,8 @@ function analyzeCrossRunInner(traces: readonly RunTrace[]): CrossRunAnalysis {
   const unknownTotal = byClass["unknown"]?.total ?? 0;
   const unmeasurablePortion = totalOps === 0 ? 0 : (unknownTotal / totalOps) * 100;
   let shellReadLikeTotal = 0;
-  for (const t of traces) for (const op of t.operations) if (isShellReadLike(op)) shellReadLikeTotal++;
+  for (const t of traces)
+    for (const op of t.operations) if (isShellReadLike(op)) shellReadLikeTotal++;
   return {
     runIds: traces.map((t) => t.metadata.runId),
     totalOps,
