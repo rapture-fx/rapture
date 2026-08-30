@@ -101,8 +101,10 @@ async function updateIndex(repoRoot: string, change: Change, customDir?: string)
   idx.byId[change.id] = change.id;
   for (const c of change.commits) idx.byCommit[c.sha] = change.id;
   for (const pr of change.pullRequests) idx.byPr[`${pr.repository}#${pr.number}`] = change.id;
-  for (const dep of change.deployments) idx.byDeployment[`${dep.provider}:${dep.externalId}`] = change.id;
-  if (change.intent?.externalId) idx.byIntent[`${change.intent.source}:${change.intent.externalId}`] = change.id;
+  for (const dep of change.deployments)
+    idx.byDeployment[`${dep.provider}:${dep.externalId}`] = change.id;
+  if (change.intent?.externalId)
+    idx.byIntent[`${change.intent.source}:${change.intent.externalId}`] = change.id;
 
   await mkdir(root, { recursive: true });
   await writeFile(indexPath, `${JSON.stringify(idx, null, 2)}\n`, "utf8");
