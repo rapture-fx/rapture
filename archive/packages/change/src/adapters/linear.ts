@@ -27,7 +27,7 @@ export function normalizeLinearIssue(raw: LinearIssueRaw): Intent {
 
 export function extractLinearId(text: string): string | null {
   const match = text.match(/\b([A-Z]+-\d+)\b/);
-  return match ? match[1] ?? null : null;
+  return match ? (match[1] ?? null) : null;
 }
 
 export const linearAdapter: ProviderAdapter = {
