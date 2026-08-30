@@ -1,5 +1,14 @@
 import { SCHEMA_VERSION } from "../schema/version.js";
-import type { Change, Commit, PullRequest, Check, Deployment, ProductionEffect, Intent, Relationship } from "../schema/change.js";
+import type {
+  Change,
+  Commit,
+  PullRequest,
+  Check,
+  Deployment,
+  ProductionEffect,
+  Intent,
+  Relationship,
+} from "../schema/change.js";
 import { changeIdFromSha, changeIdFromPr } from "../schema/change.js";
 import { JOIN_RULES, provenance } from "./rules.js";
 import { extractLinearId } from "../adapters/linear.js";
