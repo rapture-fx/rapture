@@ -20,3 +20,6 @@ coverage/
 .tmp/
 .turbo/
 .rapture/
+
+# Claude Code personal settings (project settings.json is shared)
+.claude/settings.local.json
