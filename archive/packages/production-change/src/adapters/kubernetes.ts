@@ -50,14 +50,18 @@ export const kubernetesAdapter: ProviderAdapter = {
   normalize(raw: RawDeploymentSnapshot): DeploymentRecord | null {
     const data = raw.data as Record<string, unknown>;
     const metadata = (data["metadata"] as Record<string, unknown>) ?? {};
-    if (typeof metadata["name"] !== "string" || typeof metadata["namespace"] !== "string") return null;
+    if (typeof metadata["name"] !== "string" || typeof metadata["namespace"] !== "string")
+      return null;
     const md = data as unknown as KubernetesDeploymentRaw;
     const serviceId = `k8s:${md.metadata.namespace}/${md.metadata.name}`;
     const serviceName = md.metadata.name;
     const container = md.spec.template.spec.containers[0];
     const digest = extractDigest(container?.imageID, container?.image ?? "");
     const commitSha = extractCommitFromImage(container?.image ?? "");
-    const status = md.status?.conditions?.find((c) => c.type === "Available")?.status === "True" ? "ready" : "unknown";
+    const status =
+      md.status?.conditions?.find((c) => c.type === "Available")?.status === "True"
+        ? "ready"
+        : "unknown";
     return {
       provider: "kubernetes",
       externalId: md.metadata.uid,
