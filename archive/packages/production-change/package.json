@@ -1,6 +1,8 @@
 {
   "name": "@rapture/production-change",
   "version": "0.1.0",
+  "private": true,
+  "description": "HISTORICAL (PRODUCTION_CHANGE_BLOCKED / DEPLOYMENT_API_KILL) - closed bet, see docs/closed-bets.md",
   "type": "module",
   "exports": {
     ".": {
