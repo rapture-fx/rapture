@@ -5,7 +5,14 @@ export { ensureCleanReset, getAgentVersion, getHead, getRepoState } from "./git.
 export { sha256FileHex, sha256Hex } from "./hash.js";
 export type { ExpandedTask, ExperimentManifest, ExperimentMode, ManifestTask } from "./manifest.js";
 export { expandManifest, loadManifest, validateManifest } from "./manifest.js";
-export { isDeterministicReusable, isShellReadLike, normalizeRawEvents, normalizeSingle, tryParseBashSearch, tryParseBashListing } from "./normalize.js";
+export {
+  isDeterministicReusable,
+  isShellReadLike,
+  normalizeRawEvents,
+  normalizeSingle,
+  tryParseBashSearch,
+  tryParseBashListing,
+} from "./normalize.js";
 export * from "./artifact.js";
 export * from "./pairedAnalysis.js";
 export * from "./pairedExperiment.js";
