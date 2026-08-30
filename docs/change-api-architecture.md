@@ -1,5 +1,8 @@
 # Rapture Software Change API V0 — Architecture Note
 
+> **HISTORICAL — closed bet.** Closed at `SOFTWARE_CHANGE_API_RETHINK`.
+> Code now lives at `archive/packages/change`. See [closed-bets.md](closed-bets.md).
+
 **Date:** 2026-08-29
 **Status:** Pre-implementation, Phase 0 audit
 **Goal:** Smallest real V0 that proves/disproves canonical Change object across GitHub, Actions, Vercel, Sentry, Linear.
