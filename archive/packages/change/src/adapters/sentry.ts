@@ -58,7 +58,11 @@ export const sentryAdapter: ProviderAdapter = {
       const eff = normalizeSentryRelease(data as unknown as SentryReleaseRaw);
       return { productionEffects: [eff] };
     }
-    if (typeof data["id"] === "string" && typeof data["title"] === "string" && typeof data["firstSeen"] === "string") {
+    if (
+      typeof data["id"] === "string" &&
+      typeof data["title"] === "string" &&
+      typeof data["firstSeen"] === "string"
+    ) {
       const eff = normalizeSentryIssue(data as unknown as SentryIssueRaw);
       return { productionEffects: [eff] };
     }
