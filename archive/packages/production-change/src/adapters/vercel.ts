@@ -59,8 +59,16 @@ export const vercelAdapter: ProviderAdapter = {
       environment: normalizeEnv(d.target),
       providerEnvironmentId: d.target,
       status: normalizeStatus(d.state),
-      startedAt: d.createdAt ? new Date(typeof d.createdAt === "number" ? d.createdAt : Date.parse(d.createdAt as string)).toISOString() : null,
-      completedAt: d.createdAt ? new Date(typeof d.createdAt === "number" ? d.createdAt : Date.parse(d.createdAt as string)).toISOString() : null,
+      startedAt: d.createdAt
+        ? new Date(
+            typeof d.createdAt === "number" ? d.createdAt : Date.parse(d.createdAt as string),
+          ).toISOString()
+        : null,
+      completedAt: d.createdAt
+        ? new Date(
+            typeof d.createdAt === "number" ? d.createdAt : Date.parse(d.createdAt as string),
+          ).toISOString()
+        : null,
       commitSha: sha && /^[0-9a-f]{7,40}$/i.test(sha) ? sha : null,
       branch,
       repository: repo,
