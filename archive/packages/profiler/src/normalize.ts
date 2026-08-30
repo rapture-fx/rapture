@@ -57,7 +57,20 @@ export function tryParseBashSearch(command: string): MechanicalSearch | null {
   // skip flags
   let idx = 1;
   // flags that take an argument: -g, --glob, -t, --type, etc. For conservative correctness, known flag-arg pairs:
-  const flagWithArg = new Set(["-g", "--glob", "-t", "--type", "--type-add", "-A", "-B", "-C", "--after-context", "--before-context", "-m", "--max-count"]);
+  const flagWithArg = new Set([
+    "-g",
+    "--glob",
+    "-t",
+    "--type",
+    "--type-add",
+    "-A",
+    "-B",
+    "-C",
+    "--after-context",
+    "--before-context",
+    "-m",
+    "--max-count",
+  ]);
   while (idx < tokens.length) {
     const tok = tokens[idx] ?? "";
     if (tok.startsWith("-")) {
@@ -256,16 +269,21 @@ export function normalizeSingle(ev: RawEvent, ctx: NormalizeContext): Normalized
   // Opencode db parts: {type:"tool", tool:"read", state:{input,output,...}}
   // JSON stream: {type:"tool_use", part:{type:"tool", tool:"read", state:{...}}}
   // Also: {type:"tool_use", timestamp, sessionID, part:{...}}
-  const toolDirect = (data["tool"] as string | undefined) ?? (data["name"] as string | undefined) ?? null;
+  const toolDirect =
+    (data["tool"] as string | undefined) ?? (data["name"] as string | undefined) ?? null;
   const part = data["part"] as Record<string, unknown> | undefined;
   const toolFromPart = part
     ? ((part["tool"] as string | undefined) ?? (part["name"] as string | undefined) ?? null)
     : null;
   const tool = toolDirect ?? toolFromPart ?? null;
-  const typeField = (data["type"] as string | undefined) ?? (part?.["type"] as string | undefined) ?? ev.type;
+  const typeField =
+    (data["type"] as string | undefined) ?? (part?.["type"] as string | undefined) ?? ev.type;
 
   // Extract state/input
-  const rawState = (data["state"] as Record<string, unknown> | undefined) ?? part?.["state"] as Record<string, unknown> | undefined ?? data;
+  const rawState =
+    (data["state"] as Record<string, unknown> | undefined) ??
+    (part?.["state"] as Record<string, unknown> | undefined) ??
+    data;
   const state = (rawState as Record<string, unknown> | undefined) ?? data;
   // state may be inside part.state
   const effectiveState = (part?.["state"] as Record<string, unknown> | undefined) ?? state;
@@ -280,10 +298,22 @@ export function normalizeSingle(ev: RawEvent, ctx: NormalizeContext): Normalized
     (state?.["output"] as string | undefined) ??
     (data["output"] as string | undefined) ??
     null;
-  const status = (effectiveState?.["status"] as string | undefined) ?? (state?.["status"] as string | undefined) ?? null;
+  const status =
+    (effectiveState?.["status"] as string | undefined) ??
+    (state?.["status"] as string | undefined) ??
+    null;
 
   if (tool) {
-    return normalizeToolCall(ev, tool, typeField, input, output, effectiveState ?? state, status, ctx);
+    return normalizeToolCall(
+      ev,
+      tool,
+      typeField,
+      input,
+      output,
+      effectiveState ?? state,
+      status,
+      ctx,
+    );
   }
 
   // Non-tool events (text, reasoning, step-finish)
