@@ -39,7 +39,11 @@ export function normalizeDeployment(raw: VercelDeploymentRaw): Deployment {
     environment: mapEnv(raw.target, raw.source),
     commitSha: sha,
     status: raw.state,
-    deployedAt: raw.createdAt ? new Date(typeof raw.createdAt === "number" ? raw.createdAt : Date.parse(raw.createdAt as string)).toISOString() : null,
+    deployedAt: raw.createdAt
+      ? new Date(
+          typeof raw.createdAt === "number" ? raw.createdAt : Date.parse(raw.createdAt as string),
+        ).toISOString()
+      : null,
     url: raw.url ? `https://${raw.url}` : null,
   };
 }
