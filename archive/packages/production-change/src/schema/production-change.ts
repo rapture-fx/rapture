@@ -25,7 +25,14 @@ export interface ProductionChange {
   readonly deployment: {
     readonly provider: string;
     readonly externalId: string;
-    readonly status: "queued" | "building" | "deploying" | "ready" | "failed" | "cancelled" | "unknown";
+    readonly status:
+      | "queued"
+      | "building"
+      | "deploying"
+      | "ready"
+      | "failed"
+      | "cancelled"
+      | "unknown";
     readonly startedAt: string | null;
     readonly completedAt: string | null;
   };
