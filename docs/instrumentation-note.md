@@ -1,5 +1,8 @@
 # Instrumentation Note — Phase 0 Profiler
 
+> **HISTORICAL — closed bet.** Part of the agent-compute line, closed at `PHASE_0D_KILL`.
+> See [closed-bets.md](closed-bets.md).
+
 Date: 2026-08-29
 Scope: Rapture Phase 0 Agent Compute Profiler for OpenCode
 
