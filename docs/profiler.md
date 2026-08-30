@@ -1,5 +1,8 @@
 # Rapture Agent Compute Profiler (Phase 0)
 
+> **HISTORICAL — closed bet.** The agent-compute line was closed at `PHASE_0D_KILL`.
+> Code now lives at `archive/packages/profiler`. See [closed-bets.md](closed-bets.md).
+
 Local-first, deterministic profiler for OpenCode tasks. It measures repeated computation before any optimization is attempted.
 
 ## CLI
