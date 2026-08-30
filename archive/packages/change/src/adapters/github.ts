@@ -60,12 +60,14 @@ export const githubAdapter: ProviderAdapter = {
     const data = raw.data as Record<string, unknown>;
     // Heuristic: if data has "number" and "html_url" it's a PR, if has "sha" and "commit" it's a commit
     if (typeof data["number"] === "number" && typeof data["html_url"] === "string") {
-      const repo = (data["repository"] as string) || (raw.externalId.split("#")[0] ?? "unknown/unknown");
+      const repo =
+        (data["repository"] as string) || (raw.externalId.split("#")[0] ?? "unknown/unknown");
       const pr = normalizePr(repo, data as unknown as GitHubPrRaw);
       return { pullRequests: [pr] };
     }
     if (typeof data["sha"] === "string" && typeof data["commit"] === "object") {
-      const repo = (data["repository"] as string) || (raw.externalId.split("/")[0] ?? "unknown/unknown");
+      const repo =
+        (data["repository"] as string) || (raw.externalId.split("/")[0] ?? "unknown/unknown");
       const commit = normalizeCommit(repo, data as unknown as GitHubCommitRaw);
       return { commits: [commit] };
     }
