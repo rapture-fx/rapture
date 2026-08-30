@@ -35,8 +35,6 @@ export interface WorkingSetArtifact {
   readonly approxTokens: number;
 }
 
-
-
 function normalizePattern(p: string): string {
   // remove surrounding quotes, trim, collapse whitespace
   let s = p.trim();
@@ -74,8 +72,20 @@ export function generateWorkingSetArtifact(
 
   const fileMap = new Map<string, { contentHash: string; sourceRunIds: Set<string> }>();
   const dirMap = new Map<string, Set<string>>();
-  const searchMap = new Map<string, { pattern: string; path: string | null; normalizedPattern: string; normalizedPath: string | null; sourceRunIds: Set<string> }>();
-  const gitMap = new Map<string, { command: string; normalizedCommand: string; sourceRunIds: Set<string> }>();
+  const searchMap = new Map<
+    string,
+    {
+      pattern: string;
+      path: string | null;
+      normalizedPattern: string;
+      normalizedPath: string | null;
+      sourceRunIds: Set<string>;
+    }
+  >();
+  const gitMap = new Map<
+    string,
+    { command: string; normalizedCommand: string; sourceRunIds: Set<string> }
+  >();
 
   for (const trace of traces) {
     const runId = trace.metadata.runId;
@@ -104,7 +114,13 @@ export function generateWorkingSetArtifact(
         const key = `${normPat}:${normPath ?? ""}`;
         let entry = searchMap.get(key);
         if (!entry) {
-          entry = { pattern: op.searchPattern, path: op.searchPath, normalizedPattern: normPat, normalizedPath: normPath, sourceRunIds: new Set() };
+          entry = {
+            pattern: op.searchPattern,
+            path: op.searchPath,
+            normalizedPattern: normPat,
+            normalizedPath: normPath,
+            sourceRunIds: new Set(),
+          };
           searchMap.set(key, entry);
         }
         entry.sourceRunIds.add(runId);
@@ -112,7 +128,11 @@ export function generateWorkingSetArtifact(
         const key = op.normalizedCommand;
         let entry = gitMap.get(key);
         if (!entry) {
-          entry = { command: op.command ?? op.normalizedCommand, normalizedCommand: op.normalizedCommand, sourceRunIds: new Set() };
+          entry = {
+            command: op.command ?? op.normalizedCommand,
+            normalizedCommand: op.normalizedCommand,
+            sourceRunIds: new Set(),
+          };
           gitMap.set(key, entry);
         }
         entry.sourceRunIds.add(runId);
@@ -124,9 +144,15 @@ export function generateWorkingSetArtifact(
   const files: WorkingSetArtifact["files"] = [...fileMap.entries()]
     .map(([key, v]) => {
       const [path] = key.split(":");
-      return { path: path ?? "", contentHash: v.contentHash, sourceRunIds: [...v.sourceRunIds].sort() };
+      return {
+        path: path ?? "",
+        contentHash: v.contentHash,
+        sourceRunIds: [...v.sourceRunIds].sort(),
+      };
     })
-    .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : a.contentHash < b.contentHash ? -1 : 1));
+    .sort((a, b) =>
+      a.path < b.path ? -1 : a.path > b.path ? 1 : a.contentHash < b.contentHash ? -1 : 1,
+    );
 
   const directories: WorkingSetArtifact["directories"] = [...dirMap.entries()]
     .map(([path, set]) => ({ path, sourceRunIds: [...set].sort() }))
@@ -140,7 +166,15 @@ export function generateWorkingSetArtifact(
       normalizedPath: v.normalizedPath,
       sourceRunIds: [...v.sourceRunIds].sort(),
     }))
-    .sort((a, b) => (a.normalizedPattern < b.normalizedPattern ? -1 : a.normalizedPattern > b.normalizedPattern ? 1 : (a.normalizedPath ?? "") < (b.normalizedPath ?? "") ? -1 : 1));
+    .sort((a, b) =>
+      a.normalizedPattern < b.normalizedPattern
+        ? -1
+        : a.normalizedPattern > b.normalizedPattern
+          ? 1
+          : (a.normalizedPath ?? "") < (b.normalizedPath ?? "")
+            ? -1
+            : 1,
+    );
 
   const gitQueries: WorkingSetArtifact["gitQueries"] = [...gitMap.values()]
     .map((v) => ({
@@ -182,7 +216,9 @@ export function artifactToMarkdown(artifact: WorkingSetArtifact): string {
   if (artifact.files.length > 0) {
     lines.push("## Files previously read (exact path + content hash)");
     for (const f of artifact.files) {
-      lines.push(`- \`${f.path}\` hash \`${f.contentHash.slice(0, 12)}\` from ${f.sourceRunIds.length} runs`);
+      lines.push(
+        `- \`${f.path}\` hash \`${f.contentHash.slice(0, 12)}\` from ${f.sourceRunIds.length} runs`,
+      );
     }
     lines.push("");
   }
@@ -208,7 +244,9 @@ export function artifactToMarkdown(artifact: WorkingSetArtifact): string {
     }
     lines.push("");
   }
-  lines.push("_This artifact contains deterministic repository facts only. Verify any fact before relying on it._");
+  lines.push(
+    "_This artifact contains deterministic repository facts only. Verify any fact before relying on it._",
+  );
   return lines.join("\n");
 }
 
@@ -225,7 +263,10 @@ export async function writeArtifact(
   return { jsonPath, mdPath };
 }
 
-export function isArtifactCompatible(artifact: WorkingSetArtifact, treeHash: string | null): boolean {
+export function isArtifactCompatible(
+  artifact: WorkingSetArtifact,
+  treeHash: string | null,
+): boolean {
   if (!artifact.repositoryTreeHash || !treeHash) return false;
   return artifact.repositoryTreeHash === treeHash;
 }
