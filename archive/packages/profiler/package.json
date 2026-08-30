@@ -1,6 +1,8 @@
 {
   "name": "@rapture/profiler",
   "version": "0.1.0",
+  "private": true,
+  "description": "HISTORICAL (PHASE_0D_KILL) - closed bet, see docs/closed-bets.md",
   "type": "module",
   "exports": {
     ".": {
