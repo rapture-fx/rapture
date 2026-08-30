@@ -74,7 +74,11 @@ export async function saveProductionChange(
   return path;
 }
 
-async function updateIndex(repoRoot: string, pc: ProductionChange, customDir?: string): Promise<void> {
+async function updateIndex(
+  repoRoot: string,
+  pc: ProductionChange,
+  customDir?: string,
+): Promise<void> {
   const root = prodRoot(repoRoot, customDir);
   const indexPath = join(root, "index.json");
   let index: Record<string, unknown> = {};
