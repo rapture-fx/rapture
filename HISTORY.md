@@ -28,3 +28,22 @@ workflow, observes state, reports focused expected-versus-actual differences, an
 This is a hard product reset with preserved Git history, not a compatibility release. The first
 implementation contains exactly one local subscription seat-upgrade scenario and no platform
 surface beyond what that scenario requires.
+
+## Product bets, closed
+
+Between 2026-08-28 and 2026-08-30 five product hypotheses were built on the
+retained kernel and tested against real data: agent compute profiling, the
+Software Change API, ProductionChange, the Deployment API, and
+verification-surface detection.
+
+All five are closed — four by evidence (`PHASE_0D_KILL`,
+`SOFTWARE_CHANGE_API_RETHINK`, `DEPLOYMENT_API_KILL`,
+`VERIFICATION_SURFACE_KILL`) and one by an honest `PRODUCTION_CHANGE_BLOCKED`
+after four attempts to find a second real runtime provider failed.
+
+Unlike the `v1.0` transitions above, this was not a hard reset and nothing was
+frozen to a tag: the code was moved to `archive/packages/*` in the working tree,
+where it remains buildable and tested. See `docs/closed-bets.md` for each bet's
+thesis, verdict, evidence, and do-not-revive condition.
+
+No new product direction was opened in its place.
