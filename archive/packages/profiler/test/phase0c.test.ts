@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { generateWorkingSetArtifact, isArtifactCompatible, validateNoLeakage } from "../src/artifact.js";
+import {
+  generateWorkingSetArtifact,
+  isArtifactCompatible,
+  validateNoLeakage,
+} from "../src/artifact.js";
 import { tryParseBashSearch, tryParseBashListing } from "../src/normalize.js";
 import { computeUncached, pairedDeltas, aggregatePaired } from "../src/pairedAnalysis.js";
 import { seededShuffle } from "../src/pairedExperiment.js";
@@ -25,10 +29,33 @@ function makeTrace(runId: string, tree: string, ops: RunTrace["operations"]): Ru
       durationMs: 1000,
       exitCode: 0,
       status: "completed",
-      repoBefore: { head: "h1", tree, branch: "main", dirty: false, statusPorcelain: "", untrackedCount: 0, modifiedCount: 0 },
-      repoAfter: { head: "h1", tree, branch: "main", dirty: false, statusPorcelain: "", untrackedCount: 0, modifiedCount: 0 },
+      repoBefore: {
+        head: "h1",
+        tree,
+        branch: "main",
+        dirty: false,
+        statusPorcelain: "",
+        untrackedCount: 0,
+        modifiedCount: 0,
+      },
+      repoAfter: {
+        head: "h1",
+        tree,
+        branch: "main",
+        dirty: false,
+        statusPorcelain: "",
+        untrackedCount: 0,
+        modifiedCount: 0,
+      },
       opencodeSessionId: null,
-      tokenUsage: { input: 1000, output: 100, reasoning: 0, cacheRead: 400, cacheWrite: 0, cost: 0 },
+      tokenUsage: {
+        input: 1000,
+        output: 100,
+        reasoning: 0,
+        cacheRead: 400,
+        cacheWrite: 0,
+        cost: 0,
+      },
       incompleteReason: null,
       cohort: "test",
       taskId: "t1",
@@ -66,7 +93,10 @@ function makeFileRead(path: string, hash: string, tree: string): RunTrace["opera
 describe("Working Set Artifact", () => {
   it("determinism: same traces produce same artifact", () => {
     const tree = "tree1";
-    const t1 = makeTrace("r1", tree, [makeFileRead("a.ts", "hash1", tree), makeFileRead("b.ts", "hash2", tree)]);
+    const t1 = makeTrace("r1", tree, [
+      makeFileRead("a.ts", "hash1", tree),
+      makeFileRead("b.ts", "hash2", tree),
+    ]);
     const t2 = makeTrace("r2", tree, [makeFileRead("a.ts", "hash1", tree)]);
     const a1 = generateWorkingSetArtifact([t1, t2], "profiler", tree);
     const a2 = generateWorkingSetArtifact([t2, t1], "profiler", tree); // different order input
@@ -195,12 +225,39 @@ describe("Paired analysis and token accounting", () => {
 
   it("paired deltas compute correctly", () => {
     const tree = "t";
-    const control = makeTrace("c1", tree, [makeFileRead("a.ts", "h1", tree), makeFileRead("b.ts", "h2", tree)]);
-    // treatment has one fewer read
-    const treatment = makeTrace("t1", tree, [makeFileRead("a.ts", "h1", tree)]);
-    control.metadata.tokenUsage = { input: 1000, output: 100, reasoning: 0, cacheRead: 300, cacheWrite: 0, cost: 0 };
-    treatment.metadata.tokenUsage = { input: 1200, output: 100, reasoning: 0, cacheRead: 400, cacheWrite: 0, cost: 0 };
-    // need to set durationMs
+    const baseControl = makeTrace("c1", tree, [
+      makeFileRead("a.ts", "h1", tree),
+      makeFileRead("b.ts", "h2", tree),
+    ]);
+    const baseTreatment = makeTrace("t1", tree, [makeFileRead("a.ts", "h1", tree)]);
+    const control: RunTrace = {
+      ...baseControl,
+      metadata: {
+        ...baseControl.metadata,
+        tokenUsage: {
+          input: 1000,
+          output: 100,
+          reasoning: 0,
+          cacheRead: 300,
+          cacheWrite: 0,
+          cost: 0,
+        },
+      },
+    };
+    const treatment: RunTrace = {
+      ...baseTreatment,
+      metadata: {
+        ...baseTreatment.metadata,
+        tokenUsage: {
+          input: 1200,
+          output: 100,
+          reasoning: 0,
+          cacheRead: 400,
+          cacheWrite: 0,
+          cost: 0,
+        },
+      },
+    };
     const deltas = pairedDeltas([{ taskId: "PC1", repetition: 1, control, treatment }]);
     expect(deltas[0]?.fileReadsDelta).toBe(-1);
     expect(deltas[0]?.uncachedControl).toBe(700);
@@ -257,7 +314,9 @@ describe("Validation result persistence", () => {
     ]);
     // simple validator logic similar to experiment
     const isReadOnlySuccess = (trace: RunTrace): boolean =>
-      trace.metadata.status === "completed" && trace.operations.every((o) => o.opClass !== "file_write") && trace.operations.some((o) => o.opClass === "file_read");
+      trace.metadata.status === "completed" &&
+      trace.operations.every((o) => o.opClass !== "file_write") &&
+      trace.operations.some((o) => o.opClass === "file_read");
     expect(isReadOnlySuccess(good)).toBe(true);
     expect(isReadOnlySuccess(bad)).toBe(false);
   });
