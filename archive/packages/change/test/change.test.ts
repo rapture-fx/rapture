@@ -11,7 +11,7 @@ import { linearAdapter, extractLinearId } from "../src/adapters/linear.js";
 import { sentryAdapter } from "../src/adapters/sentry.js";
 import { buildChanges } from "../src/joins/builder.js";
 import { JOIN_RULES } from "../src/joins/rules.js";
-import { saveRaw, saveCanonical, listChanges, loadChange, changeRoot } from "../src/store/storage.js";
+import { saveCanonical, listChanges, loadChange } from "../src/store/storage.js";
 import { createChangeApi } from "../src/api/changes.js";
 
 describe("Canonical schema", () => {
@@ -64,8 +64,8 @@ describe("Canonical schema", () => {
       head: { sha: "sha1" },
       base: { repo: { full_name: "owner/repo" } },
     });
-    expect((pr as Record<string, unknown>)["merged_at"]).toBeUndefined();
-    expect((pr as Record<string, unknown>)["html_url"]).toBeUndefined();
+    expect((pr as unknown as Record<string, unknown>)["merged_at"]).toBeUndefined();
+    expect((pr as unknown as Record<string, unknown>)["html_url"]).toBeUndefined();
     expect(pr.url).toBe("https://example.com");
   });
 });
@@ -229,7 +229,9 @@ describe("Deterministic joins", () => {
     expect(changes.length).toBe(1);
     expect(changes[0]?.commits[0]?.sha).toBe("abc123");
     expect(changes[0]?.pullRequests[0]?.number).toBe(1);
-    expect(changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.PR_COMMIT)).toBe(true);
+    expect(changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.PR_COMMIT)).toBe(
+      true,
+    );
   });
 
   it("Check head SHA ↔ Commit SHA", () => {
@@ -256,7 +258,9 @@ describe("Deterministic joins", () => {
       intents: [],
     });
     expect(changes[0]?.checks[0]?.commitSha).toBe("abc123");
-    expect(changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.CHECK_COMMIT)).toBe(true);
+    expect(
+      changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.CHECK_COMMIT),
+    ).toBe(true);
   });
 
   it("Deployment commit SHA ↔ Commit SHA", () => {
@@ -282,7 +286,9 @@ describe("Deterministic joins", () => {
       intents: [],
     });
     expect(changes[0]?.deployments[0]?.commitSha).toBe("abc123");
-    expect(changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.DEPLOYMENT_COMMIT)).toBe(true);
+    expect(
+      changes[0]?.relationships.some((r) => r.provenance.rule === JOIN_RULES.DEPLOYMENT_COMMIT),
+    ).toBe(true);
   });
 
   it("Linear intent via PR title", () => {
@@ -343,7 +349,9 @@ describe("Deterministic joins", () => {
       productionEffects: [eff],
       intents: [],
     });
-    expect(changes[0]?.productionEffects[0]?.externalId).toBe("abc123def456abc123def456abc123def456abcd");
+    expect(changes[0]?.productionEffects[0]?.externalId).toBe(
+      "abc123def456abc123def456abc123def456abcd",
+    );
   });
 
   it("does not join on close timestamps", () => {
@@ -482,7 +490,11 @@ describe("Storage and API", () => {
       deployments: [],
       productionEffects: [],
       relationships: [],
-      provenance: { sources: ["commit_abc123"], constructedAt: new Date().toISOString(), schemaVersion: "1" },
+      provenance: {
+        sources: ["commit_abc123"],
+        constructedAt: new Date().toISOString(),
+        schemaVersion: "1",
+      },
     };
     const { saveCanonical, loadChange, listChanges } = await import("../src/store/storage.js");
     await saveCanonical(tmp, change);
