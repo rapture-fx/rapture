@@ -1,4 +1,12 @@
-import type { Artifact, Check, Commit, Deployment, Intent, ProductionEffect, PullRequest } from "../schema/change.js";
+import type {
+  Artifact,
+  Check,
+  Commit,
+  Deployment,
+  Intent,
+  ProductionEffect,
+  PullRequest,
+} from "../schema/change.js";
 
 export type ProviderId = "github" | "github_actions" | "vercel" | "sentry" | "linear";
 
