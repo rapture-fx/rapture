@@ -4,7 +4,11 @@ import type { ProductionChange } from "../schema/production-change.js";
 export interface ProductionApi {
   get(id: string): Promise<ProductionChange | null>;
   current(service: string, environment: string): Promise<ProductionChange | null>;
-  history(service: string, environment: string, options?: { limit?: number; since?: string; until?: string }): Promise<readonly ProductionChange[]>;
+  history(
+    service: string,
+    environment: string,
+    options?: { limit?: number; since?: string; until?: string },
+  ): Promise<readonly ProductionChange[]>;
   findByCommit(sha: string): Promise<readonly ProductionChange[]>;
   findByDeployment(provider: string, externalId: string): Promise<ProductionChange | null>;
   trace(identifier: string): Promise<ProductionChange | null>;
@@ -18,18 +22,32 @@ export function createProductionApi(repoRoot: string, customDir?: string): Produ
     },
     async current(service: string, environment: string): Promise<ProductionChange | null> {
       const all = await listProductionChanges(repoRoot, customDir);
-      const filtered = all.filter((pc) => pc.service.id === service || pc.service.name === service).filter((pc) => pc.environment.name === environment);
+      const filtered = all
+        .filter((pc) => pc.service.id === service || pc.service.name === service)
+        .filter((pc) => pc.environment.name === environment);
       if (filtered.length === 0) return null;
       // Latest by completedAt
-      filtered.sort((a, b) => (b.deployment.completedAt ?? "").localeCompare(a.deployment.completedAt ?? ""));
+      filtered.sort((a, b) =>
+        (b.deployment.completedAt ?? "").localeCompare(a.deployment.completedAt ?? ""),
+      );
       return filtered[0] ?? null;
     },
-    async history(service: string, environment: string, options?: { limit?: number; since?: string; until?: string }): Promise<readonly ProductionChange[]> {
+    async history(
+      service: string,
+      environment: string,
+      options?: { limit?: number; since?: string; until?: string },
+    ): Promise<readonly ProductionChange[]> {
       const all = await listProductionChanges(repoRoot, customDir);
-      let filtered = all.filter((pc) => pc.service.id === service || pc.service.name === service).filter((pc) => pc.environment.name === environment);
-      if (options?.since) filtered = filtered.filter((pc) => (pc.deployment.completedAt ?? "") >= options.since!);
-      if (options?.until) filtered = filtered.filter((pc) => (pc.deployment.completedAt ?? "") <= options.until!);
-      filtered.sort((a, b) => (a.deployment.completedAt ?? "").localeCompare(b.deployment.completedAt ?? ""));
+      let filtered = all
+        .filter((pc) => pc.service.id === service || pc.service.name === service)
+        .filter((pc) => pc.environment.name === environment);
+      if (options?.since)
+        filtered = filtered.filter((pc) => (pc.deployment.completedAt ?? "") >= options.since!);
+      if (options?.until)
+        filtered = filtered.filter((pc) => (pc.deployment.completedAt ?? "") <= options.until!);
+      filtered.sort((a, b) =>
+        (a.deployment.completedAt ?? "").localeCompare(b.deployment.completedAt ?? ""),
+      );
       if (options?.limit) filtered = filtered.slice(-options.limit);
       return filtered;
     },
@@ -55,7 +73,12 @@ export function createProductionApi(repoRoot: string, customDir?: string): Produ
         // try short
         const all = await listProductionChanges(repoRoot, customDir);
         for (const pc of all) {
-          if (pc.source.commitSha && (pc.source.commitSha.startsWith(identifier) || identifier.startsWith(pc.source.commitSha))) return pc;
+          if (
+            pc.source.commitSha &&
+            (pc.source.commitSha.startsWith(identifier) ||
+              identifier.startsWith(pc.source.commitSha))
+          )
+            return pc;
         }
       }
       // Try deployment id
